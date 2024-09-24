@@ -10,7 +10,7 @@ For more information, check the [wiki](https://github.com/McGill-ECSE321-Fall202
 | Cher Li       | Cher-Li         |
 | Cleo Tang     | plain-noodle-expert |
 | Nara Yun      | NaraYun0614     |
-**| Content Cell  | Content Cell    |**
+| Content Cell  | Content Cell    |
 
 
 # Project scope
