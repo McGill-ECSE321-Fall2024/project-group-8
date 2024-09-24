@@ -9,6 +9,7 @@ For more information, check the [wiki](https://github.com/McGill-ECSE321-Fall202
 | ------------- | -------------   |
 | Cher Li       | Cher-Li         |
 | Content Cell  | Content Cell    |
+| Nara Yun      | NaraYun0614     |
 
 # Project scope
 The scope of this project is to create an online game website, allowing the owner and employees to manage the shop and allowing customers to purchase games. 
