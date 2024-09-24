@@ -8,8 +8,10 @@ For more information, check the [wiki](https://github.com/McGill-ECSE321-Fall202
 | Names         | Github Username |
 | ------------- | -------------   |
 | Cher Li       | Cher-Li         |
-| Content Cell  | Content Cell    |
+| Cleo Tang     | plain-noodle-expert |
 | Nara Yun      | NaraYun0614     |
+| Content Cell  | Content Cell    |
+
 
 # Project scope
 The scope of this project is to create an online game website, allowing the owner and employees to manage the shop and allowing customers to purchase games. 
