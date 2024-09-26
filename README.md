@@ -12,6 +12,7 @@ For more information, check the [wiki](https://github.com/McGill-ECSE321-Fall202
 | Nara Yun      | NaraYun0614     |
 | Sijing Gu     | MRJ-G           |
 | Diane Teo     | dianeteo        |
+| Ang Li        | Neilllllt       |
 
 
 # Project scope
