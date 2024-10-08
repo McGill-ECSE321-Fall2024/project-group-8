@@ -1,10 +1,11 @@
 package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
-
+import jakarta.persistence.*;
 
 
 // line 53 "model.ump"
 // line 156 "model.ump"
+@Entity
 public class Category
 {
 
@@ -13,20 +14,27 @@ public class Category
   //------------------------
 
   //Category Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int categoryId;
+
   private String name;
+
   private String description;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Category() {
 
+  }
   public Category(int aCategoryId, String aName, String aDescription)
   {
     categoryId = aCategoryId;
     name = aName;
     description = aDescription;
   }
+
 
   //------------------------
   // INTERFACE
