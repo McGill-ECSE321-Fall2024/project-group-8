@@ -9,12 +9,14 @@ import jakarta.persistence.*;
 @Entity
 public class Game
 {
-  @Id
+
   //------------------------
   // ENUMERATIONS
   //------------------------
-
   public enum GameStatus { Onsale, Available, Archived }
+
+
+  @Id
 
   //------------------------
   // MEMBER VARIABLES
