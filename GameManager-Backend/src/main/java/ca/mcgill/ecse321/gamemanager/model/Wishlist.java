@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 
 import java.util.*;
 
@@ -21,16 +22,20 @@ public class Wishlist
   private int wishlistId;
   @OneToOne
   private Customer customer;
-
+  @OneToMany
   private List<Game> wishlist;
-  @OneToOne
+  
   //Wishlist Associations
+  @OneToOne
   private Customer owns;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  @SuppressWarnings("unused")
+  protected Wishlist() {
+  }
+  
   public Wishlist(int aWishlistId, Customer aCustomer, Customer aOwns)
   {
     wishlistId = aWishlistId;
