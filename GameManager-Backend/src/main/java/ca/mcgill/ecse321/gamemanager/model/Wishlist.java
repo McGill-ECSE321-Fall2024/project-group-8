@@ -1,11 +1,14 @@
 package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 import java.util.*;
 
 // line 85 "model.ump"
 // line 167 "model.ump"
+@Entity
 public class Wishlist
 {
 
@@ -14,10 +17,13 @@ public class Wishlist
   //------------------------
 
   //Wishlist Attributes
+  @Id
   private int wishlistId;
+  @OneToOne
   private Customer customer;
-  private List<Game> wishlist;
 
+  private List<Game> wishlist;
+  @OneToOne
   //Wishlist Associations
   private Customer owns;
 
