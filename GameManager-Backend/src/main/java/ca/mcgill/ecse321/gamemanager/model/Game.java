@@ -2,12 +2,14 @@ package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 
 
+import jakarta.persistence.*;
 
 // line 40 "model.ump"
 // line 162 "model.ump"
+@Entity
 public class Game
 {
-
+  @Id
   //------------------------
   // ENUMERATIONS
   //------------------------
@@ -29,6 +31,8 @@ public class Game
   private GameStatus gameStatus;
 
   //Game Associations
+  @EmbeddedId //composite primary key
+
   private Request request;
 
   //------------------------
@@ -42,7 +46,7 @@ public class Game
     description = aDescription;
     genre = aGenre;
     price = aPrice;
-    category = aCategory;
+    category =  aCategory;
     stock = aStock;
     gameStatus = aGameStatus;
     if (aRequest == null || aRequest.getGame() != null)
@@ -112,7 +116,7 @@ public class Game
   public boolean setCategory(Category aCategory)
   {
     boolean wasSet = false;
-    category = aCategory;
+    Category category = aCategory;
     wasSet = true;
     return wasSet;
   }
@@ -207,7 +211,7 @@ public class Game
   //------------------------
   
   // line 48 "model.ump"
-  game <-> * Category categories ;
+ //game <-> * Category categories ;
 
   
 }

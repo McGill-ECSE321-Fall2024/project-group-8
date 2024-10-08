@@ -87,7 +87,7 @@ public class Category
   //------------------------
   
   // line 58 "model.ump"
-  * categories <-> * Game games ;
+  //* categories <-> * Game games ;
 
   
 }
