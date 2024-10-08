@@ -82,7 +82,7 @@ public class Category
   public void delete()
   {}
 
-
+@Override
   public String toString()
   {
     return super.toString() + "["+
