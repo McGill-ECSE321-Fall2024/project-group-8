@@ -2,11 +2,16 @@ package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 import java.util.*;
 import java.sql.Date;
 
 // line 17 "model.ump"
 // line 119 "model.ump"
+@Entity
 public class Customer extends PersonRole
 {
 
@@ -14,6 +19,8 @@ public class Customer extends PersonRole
   // ENUMERATIONS
   //------------------------
 
+  @Id
+  private int id;
   public enum OrderStatus { ShoppingCart, Bought }
 
   //------------------------
@@ -23,11 +30,13 @@ public class Customer extends PersonRole
   //Customer Associations
   private Wishlist wishlist;
   private List<Review> reviews;
+  @OneToMany
   private List<Order> orders;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
 
   public Customer(int aId, Wishlist aWishlist)
   {

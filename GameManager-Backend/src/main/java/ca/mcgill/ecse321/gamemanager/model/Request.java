@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
-
+import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus;
 
 
 // line 95 "model.ump"

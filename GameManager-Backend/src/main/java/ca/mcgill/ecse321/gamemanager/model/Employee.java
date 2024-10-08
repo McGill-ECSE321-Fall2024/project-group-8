@@ -72,10 +72,6 @@ public class Employee extends PersonRole
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Request addRequest(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame)
-  {
-    return new Request(aRequestType, aRequestStatus, aGame, this);
-  }
 
   public boolean addRequest(Request aRequest)
   {

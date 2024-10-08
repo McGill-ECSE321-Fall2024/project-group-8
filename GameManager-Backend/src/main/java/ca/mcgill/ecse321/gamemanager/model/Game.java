@@ -1,6 +1,4 @@
 package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
-
 
 
 // line 40 "model.ump"
@@ -52,7 +50,7 @@ public class Game
     request = aRequest;
   }
 
-  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, RequestType aRequestTypeForRequest, RequestStatus aRequestStatusForRequest, Employee aEmployeeForRequest)
+  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, Request.RequestType aRequestTypeForRequest, Request.RequestStatus aRequestStatusForRequest, Employee aEmployeeForRequest)
   {
     gameId = aGameId;
     title = aTitle;
@@ -205,9 +203,5 @@ public class Game
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
-  
-  // line 48 "model.ump"
-  game <-> * Category categories ;
-
   
 }
