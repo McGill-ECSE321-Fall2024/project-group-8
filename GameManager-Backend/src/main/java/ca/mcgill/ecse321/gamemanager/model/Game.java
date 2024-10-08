@@ -23,6 +23,7 @@ public class Game
   //------------------------
 
   //Game Attributes
+  @GeneratedValue
   private int gameId;
   private String title;
   private String description;
@@ -34,6 +35,7 @@ public class Game
 
   //Game Associations
   @EmbeddedId //composite primary key
+  @OneToOne
 
   private Request request;
 
