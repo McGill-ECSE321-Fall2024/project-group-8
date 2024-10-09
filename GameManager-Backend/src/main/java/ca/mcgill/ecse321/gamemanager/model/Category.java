@@ -93,9 +93,6 @@ public class Category
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
-  
-  // line 58 "model.ump"
-  //* categories <-> * Game games ;
 
   
 }
