@@ -2,10 +2,15 @@ package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.sql.Date;
 
 // line 61 "model.ump"
 // line 151 "model.ump"
+@Entity
 public class Review
 {
 
@@ -14,12 +19,19 @@ public class Review
   //------------------------
 
   //Review Attributes
+  @Id
+  @GeneratedValue
   private int reviewId;
   private Customer customer;
   private Game game;
   private int rating;
   private String description;
   private Date date;
+
+
+  protected Review(){
+
+  }
 
   //------------------------
   // CONSTRUCTOR
@@ -120,7 +132,7 @@ public class Review
   public void delete()
   {}
 
-
+  @Override
   public String toString()
   {
     return super.toString() + "["+
