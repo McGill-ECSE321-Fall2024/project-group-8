@@ -12,8 +12,6 @@ import jakarta.persistence.*;
 // line 144 "model.ump"
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "game_id"}))
-// to ensure one customer can only have one review for each purchased game
 public class Order
 {
 
@@ -37,6 +35,11 @@ public class Order
 
   //Order Associations
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(
+          name = "order_game",
+          joinColumns = @JoinColumn(name = "oder_id"),
+          inverseJoinColumns = @JoinColumn(name = "game_id")
+  )
   private List<Game> games;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(

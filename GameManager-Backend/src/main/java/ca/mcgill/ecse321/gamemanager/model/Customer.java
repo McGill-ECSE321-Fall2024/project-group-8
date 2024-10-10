@@ -29,9 +29,9 @@ public class Customer extends Person
           fetch = FetchType.LAZY
   )
   private Wishlist wishlist;
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Order> orders;
 
   //------------------------

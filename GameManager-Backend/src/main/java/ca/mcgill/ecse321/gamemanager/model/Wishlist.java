@@ -21,7 +21,12 @@ public class Wishlist
   private int wishlistId;
 
   //Wishlist Associations
-  @OneToMany
+  @ManyToMany
+//  @JoinTable(
+//          name = "wishlist_game",  // Name of the join table
+//          joinColumns = @JoinColumn(name = "wishlist_id"),  // Foreign key for Wishlist in join table
+//          inverseJoinColumns = @JoinColumn(name = "game_id")  // Foreign key for Game in join table
+//  )
   private List<Game> games;
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "customer_email")

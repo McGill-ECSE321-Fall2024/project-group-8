@@ -22,6 +22,11 @@ public class Category
 
   //Category Associations
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//  @JoinTable(
+//          name = "category_game",
+//          joinColumns = @JoinColumn(name = "category_name"),
+//          inverseJoinColumns = @JoinColumn(name = "game_id")
+//  )
   private List<Game> games;
 
   //------------------------

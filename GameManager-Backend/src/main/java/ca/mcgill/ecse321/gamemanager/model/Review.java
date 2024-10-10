@@ -9,6 +9,8 @@ import java.sql.Date;
 // line 49 "model.ump"
 // line 138 "model.ump"
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "game_id"}))
+// to ensure one customer can only have one review for each purchased game
 public class Review
 {
 
@@ -26,6 +28,10 @@ public class Review
 
   //Review Associations
   @ManyToOne
+  @JoinColumn(
+          name = "game_id",
+          foreignKey = @ForeignKey(name = "GAME_ID_FK")
+  )
   private Game game;
   @ManyToOne
   @JoinColumn(
