@@ -1,33 +1,16 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+package ca.mcgill.ecse321.gamemanager.model;
 
-import java.util.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import java.util.List;
 
-@Entity 
-public class Employee extends PersonRole {
+import ca.mcgill.ecse321.gamemanager.model.Request.RequestStatus;
+import ca.mcgill.ecse321.gamemanager.model.Request.RequestType;
 
-    //------------------------
-    // ENUMERATIONS
-    //------------------------
+@Entity
+public class Employee extends Person {
 
-    public enum RequestType {
-        Addition, Remove
-    }
-
-    public enum RequestStatus {
-        Approved, Pending, Denied
-    }
-
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
-
-    // Employee Associations
-    @OneToMany
-    private List<Request> requests = new ArrayList<>();
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Request> requests;
 
     //------------------------
     // CONSTRUCTOR
@@ -38,9 +21,8 @@ public class Employee extends PersonRole {
         super();
     }
 
-    public Employee(int aId) {
-        super(aId);
-        requests = new ArrayList<>();
+    public Employee(String password, String name, String email) {
+        super(password, name, email);
     }
 
     //------------------------
@@ -48,233 +30,38 @@ public class Employee extends PersonRole {
     //------------------------
 
     public List<Request> getRequests() {
-        return Collections.unmodifiableList(requests);
+        return requests;
     }
 
-    public boolean addRequest(Request aRequest) {
-        if (requests.contains(aRequest)) {
-            return false;
-        }
-        Employee existingEmployee = aRequest.getEmployee();
-        boolean isNewEmployee = existingEmployee != null && !this.equals(existingEmployee);
-        if (isNewEmployee) {
-            aRequest.setEmployee(this); // Ensure the request is linked back to this employee
-        }
-        requests.add(aRequest);
-        return true;
-    }
-
-    public boolean removeRequest(Request aRequest) {
-        if (!this.equals(aRequest.getEmployee())) {
-            requests.remove(aRequest);
-            return true;
-        }
-        return false;
-    }
-
-    //------------------------
-    // ADDITIONAL METHODS
-    //------------------------
-
-    public Request addRequest(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame) {
-        Request newRequest = new Request(aRequestType, aRequestStatus, aGame, this);
+    public Request addRequest(RequestType requestType, RequestStatus requestStatus, Game game) {
+        Request newRequest = new Request(requestType, requestStatus, game, this);
         this.requests.add(newRequest);
         return newRequest;
     }
 
-    public boolean addRequestAt(Request aRequest, int index) {
-        if (addRequest(aRequest)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfRequests()) {
-                index = numberOfRequests() - 1;
-            }
-            requests.remove(aRequest);
-            requests.add(index, aRequest);
+    public boolean addRequest(Request request) {
+        if (requests.contains(request)) {
+            return false;
+        }
+        requests.add(request);
+        return true;
+    }
+
+    public boolean removeRequest(Request request) {
+        if (requests.contains(request)) {
+            requests.remove(request);
             return true;
         }
         return false;
-    }
-
-    public boolean addOrMoveRequestAt(Request aRequest, int index) {
-        if (requests.contains(aRequest)) {
-            requests.remove(aRequest);
-            requests.add(index, aRequest);
-            return true;
-        } else {
-            return addRequestAt(aRequest, index);
-        }
-    }
-
-    public int numberOfRequests() {
-        return requests.size();
-    }
-
-    public boolean hasRequests() {
-        return !requests.isEmpty();
-    }
-
-    public int indexOfRequest(Request aRequest) {
-        return requests.indexOf(aRequest);
     }
 
     //------------------------
     // DELETE METHOD
     //------------------------
 
+    @Override
     public void delete() {
-        for (int i = requests.size(); i > 0; i--) {
-            Request aRequest = requests.get(i - 1);
-            aRequest.delete();
-        }
+        requests.clear();
         super.delete();
     }
 }
-
-// // line 25 "model.ump"
-// // line 130 "model.ump"
-// public class Employee extends PersonRole
-// {
-
-//   //------------------------
-//   // ENUMERATIONS
-//   //------------------------
-
-//   public enum RequestType { Addition, Remove }
-//   public enum RequestStatus { Approved, Pending, Denied }
-
-//   //------------------------
-//   // MEMBER VARIABLES
-//   //------------------------
-
-//   //Employee Associations
-//   private List<Request> requests;
-
-//   //------------------------
-//   // CONSTRUCTOR
-//   //------------------------
-
-//   public Employee(int aId)
-//   {
-//     super(aId);
-//     requests = new ArrayList<Request>();
-//   }
-
-//   //------------------------
-//   // INTERFACE
-//   //------------------------
-//   /* Code from template association_GetMany */
-//   public Request getRequest(int index)
-//   {
-//     Request aRequest = requests.get(index);
-//     return aRequest;
-//   }
-
-//   public List<Request> getRequests()
-//   {
-//     List<Request> newRequests = Collections.unmodifiableList(requests);
-//     return newRequests;
-//   }
-
-//   public int numberOfRequests()
-//   {
-//     int number = requests.size();
-//     return number;
-//   }
-
-//   public boolean hasRequests()
-//   {
-//     boolean has = requests.size() > 0;
-//     return has;
-//   }
-
-//   public int indexOfRequest(Request aRequest)
-//   {
-//     int index = requests.indexOf(aRequest);
-//     return index;
-//   }
-//   /* Code from template association_MinimumNumberOfMethod */
-//   public static int minimumNumberOfRequests()
-//   {
-//     return 0;
-//   }
-//   /* Code from template association_AddManyToOne */
-//   public Request addRequest(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame)
-//   {
-//     return new Request(aRequestType, aRequestStatus, aGame, this);
-//   }
-
-//   public boolean addRequest(Request aRequest)
-//   {
-//     boolean wasAdded = false;
-//     if (requests.contains(aRequest)) { return false; }
-//     Employee existingEmployee = aRequest.getEmployee();
-//     boolean isNewEmployee = existingEmployee != null && !this.equals(existingEmployee);
-//     if (isNewEmployee)
-//     {
-//       aRequest.setEmployee(this);
-//     }
-//     else
-//     {
-//       requests.add(aRequest);
-//     }
-//     wasAdded = true;
-//     return wasAdded;
-//   }
-
-//   public boolean removeRequest(Request aRequest)
-//   {
-//     boolean wasRemoved = false;
-//     //Unable to remove aRequest, as it must always have a employee
-//     if (!this.equals(aRequest.getEmployee()))
-//     {
-//       requests.remove(aRequest);
-//       wasRemoved = true;
-//     }
-//     return wasRemoved;
-//   }
-//   /* Code from template association_AddIndexControlFunctions */
-//   public boolean addRequestAt(Request aRequest, int index)
-//   {  
-//     boolean wasAdded = false;
-//     if(addRequest(aRequest))
-//     {
-//       if(index < 0 ) { index = 0; }
-//       if(index > numberOfRequests()) { index = numberOfRequests() - 1; }
-//       requests.remove(aRequest);
-//       requests.add(index, aRequest);
-//       wasAdded = true;
-//     }
-//     return wasAdded;
-//   }
-
-//   public boolean addOrMoveRequestAt(Request aRequest, int index)
-//   {
-//     boolean wasAdded = false;
-//     if(requests.contains(aRequest))
-//     {
-//       if(index < 0 ) { index = 0; }
-//       if(index > numberOfRequests()) { index = numberOfRequests() - 1; }
-//       requests.remove(aRequest);
-//       requests.add(index, aRequest);
-//       wasAdded = true;
-//     } 
-//     else 
-//     {
-//       wasAdded = addRequestAt(aRequest, index);
-//     }
-//     return wasAdded;
-//   }
-
-//   public void delete()
-//   {
-//     for(int i=requests.size(); i > 0; i--)
-//     {
-//       Request aRequest = requests.get(i - 1);
-//       aRequest.delete();
-//     }
-//     super.delete();
-//   }
-
-// }

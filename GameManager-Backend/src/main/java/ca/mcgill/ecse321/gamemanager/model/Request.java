@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus;
-
+import jakarta.persistence.*;
 
 // line 95 "model.ump"
 // line 172 "model.ump"
@@ -22,8 +22,13 @@ public class Request
   private RequestType requestType;
   private RequestStatus requestStatus;
 
-  //Request Associations
+  //Request association
+  @OneToOne
+  @JoinColumn(name = "game_id", nullable = false)
   private Game game;
+
+  @ManyToOne
+  @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 
   //------------------------

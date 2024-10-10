@@ -1,200 +1,202 @@
 package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 
-
 import jakarta.persistence.*;
+import java.util.List;
 
-// line 40 "model.ump"
-// line 162 "model.ump"
 @Entity
-public class Game
-{
+public class Game {
 
   //------------------------
   // ENUMERATIONS
   //------------------------
-  public enum GameStatus { Onsale, Available, Archived }
-
-
-  @Id
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Game Attributes
-  @GeneratedValue
-  private int gameId;
-  private String title;
-  private String description;
-  private String genre;
-  private double price;
-  private Category category;
-  private int stock;
-  private GameStatus gameStatus;
-
-  //Game Associations
-  @EmbeddedId //composite primary key
-  @OneToOne
-
-  private Request request;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, Request aRequest)
-  {
-    gameId = aGameId;
-    title = aTitle;
-    description = aDescription;
-    genre = aGenre;
-    price = aPrice;
-    category =  aCategory;
-    stock = aStock;
-    gameStatus = aGameStatus;
-    if (aRequest == null || aRequest.getGame() != null)
-    {
-      throw new RuntimeException("Unable to create Game due to aRequest. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    public enum GameStatus { 
+        Onsale, Available, Archived 
     }
-    request = aRequest;
-  }
 
-  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, RequestType aRequestTypeForRequest, RequestStatus aRequestStatusForRequest, Employee aEmployeeForRequest)
-  {
-    gameId = aGameId;
-    title = aTitle;
-    description = aDescription;
-    genre = aGenre;
-    price = aPrice;
-    category = aCategory;
-    stock = aStock;
-    gameStatus = aGameStatus;
-    request = new Request(aRequestTypeForRequest, aRequestStatusForRequest, this, aEmployeeForRequest);
-  }
+    //------------------------
+    // MEMBER VARIABLES
+    //------------------------
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+    //Game Attributes
+    @Id
+    @GeneratedValue
+    private int gameId;
+    private String title;
+    private String description;
+    private String genre;
+    private double price;
 
-  public boolean setGameId(int aGameId)
-  {
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    private int stock;
+    private GameStatus gameStatus;
+
+    //Game Associations
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    private Request request;
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    //------------------------
+    // CONSTRUCTOR
+    //------------------------
+
+    public Game(int gameId, String title, String description, String genre, double price, Category category, int stock, GameStatus gameStatus, Request request) {
+        this.gameId = gameId;
+        this.title = title;
+        this.description = description;
+        this.genre = genre;
+        this.price = price;
+        this.category = category;
+        this.stock = stock;
+        this.gameStatus = gameStatus;
+        if (request == null || request.getGame() != null) {
+            throw new RuntimeException("Unable to create Game due to aRequest.");
+        }
+        this.request = request;
+    }
+
+    public Game(int gameId, String title, String description, String genre, double price, Category category, int stock, GameStatus gameStatus, Request.RequestType requestType, Request.RequestStatus requestStatus, Employee employee) {
+        this.gameId = gameId;
+        this.title = title;
+        this.description = description;
+        this.genre = genre;
+        this.price = price;
+        this.category = category;
+        this.stock = stock;
+        this.gameStatus = gameStatus;
+        this.request = new Request(requestType, requestStatus, this, employee);
+    }
+
+    //------------------------
+    // INTERFACE
+    //------------------------
+
+    public boolean setGameId(int aGameId)
+    {
     boolean wasSet = false;
     gameId = aGameId;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setTitle(String aTitle)
-  {
+    public boolean setTitle(String aTitle)
+    {
     boolean wasSet = false;
     title = aTitle;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setDescription(String aDescription)
-  {
+    public boolean setDescription(String aDescription)
+    {
     boolean wasSet = false;
     description = aDescription;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setGenre(String aGenre)
-  {
+    public boolean setGenre(String aGenre)
+    {
     boolean wasSet = false;
     genre = aGenre;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setPrice(double aPrice)
-  {
+    public boolean setPrice(double aPrice)
+    {
     boolean wasSet = false;
     price = aPrice;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setCategory(Category aCategory)
-  {
+    public boolean setCategory(Category aCategory)
+    {
     boolean wasSet = false;
     Category category = aCategory;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setStock(int aStock)
-  {
+    public boolean setStock(int aStock)
+    {
     boolean wasSet = false;
     stock = aStock;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public boolean setGameStatus(GameStatus aGameStatus)
-  {
+    public boolean setGameStatus(GameStatus aGameStatus)
+    {
     boolean wasSet = false;
     gameStatus = aGameStatus;
     wasSet = true;
     return wasSet;
-  }
+    }
 
-  public int getGameId()
-  {
+    public int getGameId()
+    {
     return gameId;
-  }
+    }
 
-  public String getTitle()
-  {
+    public String getTitle()
+    {
     return title;
-  }
+    }
 
-  public String getDescription()
-  {
+    public String getDescription()
+    {
     return description;
-  }
+    }
 
-  public String getGenre()
-  {
+    public String getGenre()
+    {
     return genre;
-  }
+    }
 
-  public double getPrice()
-  {
+    public double getPrice()
+    {
     return price;
-  }
+    }
 
-  public Category getCategory()
-  {
+    public Category getCategory()
+    {
     return category;
-  }
+    }
 
-  public int getStock()
-  {
+    public int getStock()
+    {
     return stock;
-  }
+    }
 
-  public GameStatus getGameStatus()
-  {
+    public GameStatus getGameStatus()
+    {
     return gameStatus;
-  }
-  /* Code from template association_GetOne */
-  public Request getRequest()
-  {
+    }
+    /* Code from template association_GetOne */
+    public Request getRequest()
+    {
     return request;
-  }
+    }
 
-  public void delete()
-  {
+    public void delete()
+    {
     Request existingRequest = request;
     request = null;
     if (existingRequest != null)
     {
-      existingRequest.delete();
+        existingRequest.delete();
     }
-  }
+    }
 
 
   public String toString()
@@ -216,6 +218,4 @@ public class Game
   
   // line 48 "model.ump"
  //game <-> * Category categories ;
-
-  
 }

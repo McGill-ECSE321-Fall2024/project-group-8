@@ -3,73 +3,74 @@ package ca.mcgill.ecse321.gamemanager.model;
 import java.util.*;
 import java.sql.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
-public class Order
-{
-  @Id
-  @GeneratedValue
-  private int orderId;
-  public enum OrderStatus { ShoppingCart, Bought }
-  @ManyToOne
-  private Customer customer;
-  private OrderStatus orderStatus;
-  private List<Game> order;
-  private double totalPrice;
-  private Date date;
+public class Order {
+    @Id
+    @GeneratedValue
+    private int orderId;
 
-  protected Order() {
+    public enum OrderStatus { ShoppingCart, Bought }
 
-  }
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-  public Order(int OrderId, Customer Customer, OrderStatus OrderStatus, double TotalPrice, Date Date)
-  {
-    this.orderId = OrderId;
-    this.customer = Customer;
-    this.orderStatus = OrderStatus;
-    this.order = new ArrayList<Game>();
-    this.totalPrice = TotalPrice;
-    this.date = Date;
-  }
+    private OrderStatus orderStatus;
 
-  public int getOrderId()
-  {
-    return orderId;
-  }
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+    private List<Game> games;
 
-  public Customer getCustomer()
-  {
-    return customer;
-  }
+    private double totalPrice;
+    private Date date;
 
-  public OrderStatus getOrderStatus()
-  {
-    return orderStatus;
-  }
+    protected Order() {
+    }
 
-  public Game getOrder(int index)
-  {
-    Game aOrder = order.get(index);
-    return aOrder;
-  }
+    public Order(int OrderId, Customer Customer, OrderStatus OrderStatus, double TotalPrice, Date Date)
+    {
+        this.orderId = OrderId;
+        this.customer = Customer;
+        this.orderStatus = OrderStatus;
+        this.totalPrice = TotalPrice;
+        this.date = Date;
+    }
 
-  public Game[] getOrder()
-  {
-    Game[] newOrder = order.toArray(new Game[order.size()]);
-    return newOrder;
-  }
+    public int getOrderId()
+    {
+        return orderId;
+    }
 
-  public double getTotalPrice()
-  {
-    return totalPrice;
-  }
+    public Customer getCustomer()
+    {
+        return customer;
+    }
 
-  public Date getDate()
-  {
-    return date;
-  }
+    public OrderStatus getOrderStatus()
+    {
+        return orderStatus;
+    }
+
+    public Game getOrder(int index)
+    {
+        Game aOrder = games.get(index);
+        return aOrder;
+    }
+
+    public Game[] getOrder()
+    {
+        Game[] newOrder = games.toArray(new Game[games.size()]);
+        return newOrder;
+    }
+
+    public double getTotalPrice()
+    {
+        return totalPrice;
+    }
+
+    public Date getDate()
+    {
+        return date;
+}
 }
