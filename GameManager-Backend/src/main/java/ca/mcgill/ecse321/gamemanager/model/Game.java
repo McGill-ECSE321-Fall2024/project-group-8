@@ -29,13 +29,13 @@ public class Game
   private String description;
   private String genre;
   private double price;
+  @ManyToMany
   private Category category;
   private int stock;
   private GameStatus gameStatus;
 
   //Game Associations
-  @EmbeddedId //composite primary key
-  @OneToOne
+  @Embedded//composite primary key
 
   private Request request;
 
@@ -60,7 +60,7 @@ public class Game
     request = aRequest;
   }
 
-  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, RequestType aRequestTypeForRequest, RequestStatus aRequestStatusForRequest, Employee aEmployeeForRequest)
+  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, Category.RequestType aRequestTypeForRequest, Category.RequestStatus aRequestStatusForRequest, Employee aEmployeeForRequest)
   {
     gameId = aGameId;
     title = aTitle;
