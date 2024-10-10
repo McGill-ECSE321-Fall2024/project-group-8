@@ -1,10 +1,15 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+package ca.mcgill.ecse321.gamemanager.model;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 // line 2 "model.ump"
-// line 107 "model.ump"
+// line 90 "model.ump"
+@MappedSuperclass
 public class Person
 {
 
@@ -15,24 +20,21 @@ public class Person
   //Person Attributes
   private String password;
   private String name;
+  @Id
+  @Column(unique = true, nullable = false)
   private String email;
-
-  //Person Associations
-  private PersonRole isARole;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  @SuppressWarnings("unused")
+  protected Person(){}
 
-  public Person(String aPassword, String aName, String aEmail, PersonRole aIsARole)
+  public Person(String aPassword, String aName, String aEmail)
   {
     password = aPassword;
     name = aName;
     email = aEmail;
-    if (!setIsARole(aIsARole))
-    {
-      throw new RuntimeException("Unable to create Person due to aIsARole. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -77,27 +79,9 @@ public class Person
   {
     return email;
   }
-  /* Code from template association_GetOne */
-  public PersonRole getIsARole()
-  {
-    return isARole;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setIsARole(PersonRole aNewIsARole)
-  {
-    boolean wasSet = false;
-    if (aNewIsARole != null)
-    {
-      isARole = aNewIsARole;
-      wasSet = true;
-    }
-    return wasSet;
-  }
 
   public void delete()
-  {
-    isARole = null;
-  }
+  {}
 
 
   public String toString()
@@ -105,7 +89,6 @@ public class Person
     return super.toString() + "["+
             "password" + ":" + getPassword()+ "," +
             "name" + ":" + getName()+ "," +
-            "email" + ":" + getEmail()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "isARole = "+(getIsARole()!=null?Integer.toHexString(System.identityHashCode(getIsARole())):"null");
+            "email" + ":" + getEmail()+ "]";
   }
 }

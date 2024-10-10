@@ -1,12 +1,18 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+package ca.mcgill.ecse321.gamemanager.model;
 
 
 import java.util.*;
 
-// line 31 "model.ump"
-// line 137 "model.ump"
-public class Owner extends PersonRole
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
+// line 23 "model.ump"
+// line 116 "model.ump"
+@Entity
+public class Owner extends Person
 {
 
   //------------------------
@@ -21,18 +27,22 @@ public class Owner extends PersonRole
   //------------------------
 
   //Owner Associations
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Category> categories;
-  private List<Request> requests;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Request> handledRequests;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  @SuppressWarnings("unused")
+  protected Owner(){}
 
-  public Owner(int aId)
+  public Owner(String aPassword, String aName, String aEmail)
   {
-    super(aId);
+    super(aPassword, aName, aEmail);
     categories = new ArrayList<Category>();
-    requests = new ArrayList<Request>();
+    handledRequests = new ArrayList<Request>();
   }
 
   //------------------------
@@ -69,33 +79,33 @@ public class Owner extends PersonRole
     return index;
   }
   /* Code from template association_GetMany */
-  public Request getRequest(int index)
+  public Request getHandledRequest(int index)
   {
-    Request aRequest = requests.get(index);
-    return aRequest;
+    Request aHandledRequest = handledRequests.get(index);
+    return aHandledRequest;
   }
 
-  public List<Request> getRequests()
+  public List<Request> getHandledRequests()
   {
-    List<Request> newRequests = Collections.unmodifiableList(requests);
-    return newRequests;
+    List<Request> newHandledRequests = Collections.unmodifiableList(handledRequests);
+    return newHandledRequests;
   }
 
-  public int numberOfRequests()
+  public int numberOfHandledRequests()
   {
-    int number = requests.size();
+    int number = handledRequests.size();
     return number;
   }
 
-  public boolean hasRequests()
+  public boolean hasHandledRequests()
   {
-    boolean has = requests.size() > 0;
+    boolean has = handledRequests.size() > 0;
     return has;
   }
 
-  public int indexOfRequest(Request aRequest)
+  public int indexOfHandledRequest(Request aHandledRequest)
   {
-    int index = requests.indexOf(aRequest);
+    int index = handledRequests.indexOf(aHandledRequest);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
@@ -125,7 +135,7 @@ public class Owner extends PersonRole
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addCategoryAt(Category aCategory, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addCategory(aCategory))
     {
@@ -148,67 +158,67 @@ public class Owner extends PersonRole
       categories.remove(aCategory);
       categories.add(index, aCategory);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addCategoryAt(aCategory, index);
     }
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfRequests()
+  public static int minimumNumberOfHandledRequests()
   {
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addRequest(Request aRequest)
+  public boolean addHandledRequest(Request aHandledRequest)
   {
     boolean wasAdded = false;
-    if (requests.contains(aRequest)) { return false; }
-    requests.add(aRequest);
+    if (handledRequests.contains(aHandledRequest)) { return false; }
+    handledRequests.add(aHandledRequest);
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeRequest(Request aRequest)
+  public boolean removeHandledRequest(Request aHandledRequest)
   {
     boolean wasRemoved = false;
-    if (requests.contains(aRequest))
+    if (handledRequests.contains(aHandledRequest))
     {
-      requests.remove(aRequest);
+      handledRequests.remove(aHandledRequest);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addRequestAt(Request aRequest, int index)
-  {  
+  public boolean addHandledRequestAt(Request aHandledRequest, int index)
+  {
     boolean wasAdded = false;
-    if(addRequest(aRequest))
+    if(addHandledRequest(aHandledRequest))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfRequests()) { index = numberOfRequests() - 1; }
-      requests.remove(aRequest);
-      requests.add(index, aRequest);
+      if(index > numberOfHandledRequests()) { index = numberOfHandledRequests() - 1; }
+      handledRequests.remove(aHandledRequest);
+      handledRequests.add(index, aHandledRequest);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveRequestAt(Request aRequest, int index)
+  public boolean addOrMoveHandledRequestAt(Request aHandledRequest, int index)
   {
     boolean wasAdded = false;
-    if(requests.contains(aRequest))
+    if(handledRequests.contains(aHandledRequest))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfRequests()) { index = numberOfRequests() - 1; }
-      requests.remove(aRequest);
-      requests.add(index, aRequest);
+      if(index > numberOfHandledRequests()) { index = numberOfHandledRequests() - 1; }
+      handledRequests.remove(aHandledRequest);
+      handledRequests.add(index, aHandledRequest);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
-      wasAdded = addRequestAt(aRequest, index);
+      wasAdded = addHandledRequestAt(aHandledRequest, index);
     }
     return wasAdded;
   }
@@ -216,8 +226,10 @@ public class Owner extends PersonRole
   public void delete()
   {
     categories.clear();
-    requests.clear();
+    handledRequests.clear();
     super.delete();
   }
 
 }
+
+

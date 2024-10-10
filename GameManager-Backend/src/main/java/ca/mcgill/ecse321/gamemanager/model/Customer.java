@@ -1,38 +1,49 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+package ca.mcgill.ecse321.gamemanager.model;
 
+import jakarta.persistence.*;
 
 import java.util.*;
 import java.sql.Date;
 
-// line 17 "model.ump"
-// line 119 "model.ump"
-public class Customer extends PersonRole
+// line 9 "model.ump"
+// line 97 "model.ump"
+@Entity
+public class Customer extends Person
 {
 
   //------------------------
   // ENUMERATIONS
   //------------------------
 
-  public enum OrderStatus { ShoppingCart, Bought }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
   //Customer Associations
+  @OneToOne(
+          mappedBy = "customer",
+          cascade = CascadeType.ALL,
+          orphanRemoval = true,
+          fetch = FetchType.LAZY
+  )
   private Wishlist wishlist;
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Order> orders;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  @SuppressWarnings("unused")
+  protected Customer(){}
 
-  public Customer(int aId, Wishlist aWishlist)
+  public Customer(String aPassword, String aName, String aEmail, Wishlist aWishlist)
   {
-    super(aId);
-    if (aWishlist == null || aWishlist.getOwns() != null)
+    super(aPassword, aName, aEmail);
+    if (aWishlist == null || aWishlist.getCustomer() != null)
     {
       throw new RuntimeException("Unable to create Customer due to aWishlist. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
@@ -41,10 +52,10 @@ public class Customer extends PersonRole
     orders = new ArrayList<Order>();
   }
 
-  public Customer(int aId, int aWishlistIdForWishlist, Customer aCustomerForWishlist)
+  public Customer(String aPassword, String aName, String aEmail, int aWishlistIdForWishlist)
   {
-    super(aId);
-    wishlist = new Wishlist(aWishlistIdForWishlist, aCustomerForWishlist, this);
+    super(aPassword, aName, aEmail);
+    wishlist = new Wishlist(aWishlistIdForWishlist, this);
     reviews = new ArrayList<Review>();
     orders = new ArrayList<Order>();
   }
@@ -122,12 +133,26 @@ public class Customer extends PersonRole
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
+  /* Code from template association_AddManyToOne */
+  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame)
+  {
+    return new Review(aReviewId, aRating, aDescription, aDate, aGame, this);
+  }
+
   public boolean addReview(Review aReview)
   {
     boolean wasAdded = false;
     if (reviews.contains(aReview)) { return false; }
-    reviews.add(aReview);
+    Customer existingReviewer = aReview.getReviewer();
+    boolean isNewReviewer = existingReviewer != null && !this.equals(existingReviewer);
+    if (isNewReviewer)
+    {
+      aReview.setReviewer(this);
+    }
+    else
+    {
+      reviews.add(aReview);
+    }
     wasAdded = true;
     return wasAdded;
   }
@@ -135,7 +160,8 @@ public class Customer extends PersonRole
   public boolean removeReview(Review aReview)
   {
     boolean wasRemoved = false;
-    if (reviews.contains(aReview))
+    //Unable to remove aReview, as it must always have a reviewer
+    if (!this.equals(aReview.getReviewer()))
     {
       reviews.remove(aReview);
       wasRemoved = true;
@@ -144,7 +170,7 @@ public class Customer extends PersonRole
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addReviewAt(Review aReview, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addReview(aReview))
     {
@@ -167,8 +193,8 @@ public class Customer extends PersonRole
       reviews.remove(aReview);
       reviews.add(index, aReview);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addReviewAt(aReview, index);
     }
@@ -179,12 +205,26 @@ public class Customer extends PersonRole
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
+  /* Code from template association_AddManyToOne */
+  public Order addOrder(int aOrderId, Order.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
+  {
+    return new Order(aOrderId, aOrderStatus, aTotalPrice, aDate, this);
+  }
+
   public boolean addOrder(Order aOrder)
   {
     boolean wasAdded = false;
     if (orders.contains(aOrder)) { return false; }
-    orders.add(aOrder);
+    Customer existingBuyer = aOrder.getBuyer();
+    boolean isNewBuyer = existingBuyer != null && !this.equals(existingBuyer);
+    if (isNewBuyer)
+    {
+      aOrder.setBuyer(this);
+    }
+    else
+    {
+      orders.add(aOrder);
+    }
     wasAdded = true;
     return wasAdded;
   }
@@ -192,7 +232,8 @@ public class Customer extends PersonRole
   public boolean removeOrder(Order aOrder)
   {
     boolean wasRemoved = false;
-    if (orders.contains(aOrder))
+    //Unable to remove aOrder, as it must always have a buyer
+    if (!this.equals(aOrder.getBuyer()))
     {
       orders.remove(aOrder);
       wasRemoved = true;
@@ -201,7 +242,7 @@ public class Customer extends PersonRole
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addOrderAt(Order aOrder, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addOrder(aOrder))
     {
@@ -224,8 +265,8 @@ public class Customer extends PersonRole
       orders.remove(aOrder);
       orders.add(index, aOrder);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addOrderAt(aOrder, index);
     }
@@ -240,9 +281,23 @@ public class Customer extends PersonRole
     {
       existingWishlist.delete();
     }
-    reviews.clear();
-    orders.clear();
+    while (reviews.size() > 0)
+    {
+      Review aReview = reviews.get(reviews.size() - 1);
+      aReview.delete();
+      reviews.remove(aReview);
+    }
+
+    while (orders.size() > 0)
+    {
+      Order aOrder = orders.get(orders.size() - 1);
+      aOrder.delete();
+      orders.remove(aOrder);
+    }
+
     super.delete();
   }
 
 }
+
+

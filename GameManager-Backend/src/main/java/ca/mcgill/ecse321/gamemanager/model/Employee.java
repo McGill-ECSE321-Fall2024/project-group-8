@@ -1,35 +1,35 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
-
+package ca.mcgill.ecse321.gamemanager.model;
 
 import java.util.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
-// line 25 "model.ump"
-// line 130 "model.ump"
-public class Employee extends PersonRole
+
+// line 17 "model.ump"
+// line 107 "model.ump"
+@Entity
+public class Employee extends Person
 {
-
-  //------------------------
-  // ENUMERATIONS
-  //------------------------
-
-  public enum RequestType { Addition, Remove }
-  public enum RequestStatus { Approved, Pending, Denied }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Employee Associations
+  @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Request> requests;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Employee(int aId)
+  @SuppressWarnings("unused")
+  protected Employee(){}
+  public Employee(String aPassword, String aName, String aEmail)
   {
-    super(aId);
+    super(aPassword, aName, aEmail);
     requests = new ArrayList<Request>();
   }
 
@@ -72,9 +72,9 @@ public class Employee extends PersonRole
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Request addRequest(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame)
+  public Request addRequest(int aRequestId, Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, Game aGame)
   {
-    return new Request(aRequestType, aRequestStatus, aGame, this);
+    return new Request(aRequestId, aRequestType, aRequestStatus, aGame, this);
   }
 
   public boolean addRequest(Request aRequest)
@@ -108,7 +108,7 @@ public class Employee extends PersonRole
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addRequestAt(Request aRequest, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addRequest(aRequest))
     {
@@ -131,8 +131,8 @@ public class Employee extends PersonRole
       requests.remove(aRequest);
       requests.add(index, aRequest);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addRequestAt(aRequest, index);
     }
@@ -150,3 +150,5 @@ public class Employee extends PersonRole
   }
 
 }
+
+

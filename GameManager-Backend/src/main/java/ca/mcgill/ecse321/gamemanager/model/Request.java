@@ -1,10 +1,12 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+package ca.mcgill.ecse321.gamemanager.model;
 
+import jakarta.persistence.*;
 
-
-// line 95 "model.ump"
-// line 172 "model.ump"
+// line 78 "model.ump"
+// line 153 "model.ump"
+@Entity
 public class Request
 {
 
@@ -20,38 +22,42 @@ public class Request
   //------------------------
 
   //Request Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int requestId;
   private RequestType requestType;
   private RequestStatus requestStatus;
 
   //Request Associations
+  @ManyToOne
+  @JoinColumn(
+        name = "game_id",
+        foreignKey = @ForeignKey(name = "GAME_ID_FK")
+  )
   private Game game;
+  @ManyToOne
+  @JoinColumn(
+          name = "employee_email",
+          foreignKey = @ForeignKey(name = "EMPLOYEE_EMAIL_FK")
+  )
   private Employee employee;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  @SuppressWarnings("unused")
+  protected Request(){}
 
-  public Request(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
+  public Request(int aRequestId, RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
   {
+    requestId = aRequestId;
     requestType = aRequestType;
     requestStatus = aRequestStatus;
-    if (aGame == null || aGame.getRequest() != null)
+    boolean didAddGame = setGame(aGame);
+    if (!didAddGame)
     {
-      throw new RuntimeException("Unable to create Request due to aGame. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create request due to game. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    game = aGame;
-    boolean didAddEmployee = setEmployee(aEmployee);
-    if (!didAddEmployee)
-    {
-      throw new RuntimeException("Unable to create request due to employee. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
-
-  public Request(RequestType aRequestType, RequestStatus aRequestStatus, int aGameIdForGame, String aTitleForGame, String aDescriptionForGame, String aGenreForGame, double aPriceForGame, Category aCategoryForGame, int aStockForGame, GameStatus aGameStatusForGame, Employee aEmployee)
-  {
-    requestType = aRequestType;
-    requestStatus = aRequestStatus;
-    game = new Game(aGameIdForGame, aTitleForGame, aDescriptionForGame, aGenreForGame, aPriceForGame, aCategoryForGame, aStockForGame, aGameStatusForGame, this);
     boolean didAddEmployee = setEmployee(aEmployee);
     if (!didAddEmployee)
     {
@@ -62,6 +68,14 @@ public class Request
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setRequestId(int aRequestId)
+  {
+    boolean wasSet = false;
+    requestId = aRequestId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setRequestType(RequestType aRequestType)
   {
@@ -77,6 +91,11 @@ public class Request
     requestStatus = aRequestStatus;
     wasSet = true;
     return wasSet;
+  }
+
+  public int getRequestId()
+  {
+    return requestId;
   }
 
   public RequestType getRequestType()
@@ -97,6 +116,25 @@ public class Request
   public Employee getEmployee()
   {
     return employee;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setGame(Game aGame)
+  {
+    boolean wasSet = false;
+    if (aGame == null)
+    {
+      return wasSet;
+    }
+
+    Game existingGame = game;
+    game = aGame;
+    if (existingGame != null && !existingGame.equals(aGame))
+    {
+      existingGame.removeRequest(this);
+    }
+    game.addRequest(this);
+    wasSet = true;
+    return wasSet;
   }
   /* Code from template association_SetOneToMany */
   public boolean setEmployee(Employee aEmployee)
@@ -120,11 +158,11 @@ public class Request
 
   public void delete()
   {
-    Game existingGame = game;
-    game = null;
-    if (existingGame != null)
+    Game placeholderGame = game;
+    this.game = null;
+    if(placeholderGame != null)
     {
-      existingGame.delete();
+      placeholderGame.removeRequest(this);
     }
     Employee placeholderEmployee = employee;
     this.employee = null;
@@ -137,10 +175,13 @@ public class Request
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "requestId" + ":" + getRequestId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "requestType" + "=" + (getRequestType() != null ? !getRequestType().equals(this)  ? getRequestType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "requestStatus" + "=" + (getRequestStatus() != null ? !getRequestStatus().equals(this)  ? getRequestStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "employee = "+(getEmployee()!=null?Integer.toHexString(System.identityHashCode(getEmployee())):"null");
   }
 }
+
+
