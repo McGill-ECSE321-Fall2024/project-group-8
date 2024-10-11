@@ -134,9 +134,9 @@ public class Customer extends Person
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame)
+  public Review addReview(int aRating, String aDescription, Date aDate, Game aGame)
   {
-    return new Review(aReviewId, aRating, aDescription, aDate, aGame, this);
+    return new Review(aRating, aDescription, aDate, aGame, this);
   }
 
   public boolean addReview(Review aReview)
@@ -206,9 +206,9 @@ public class Customer extends Person
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Order addOrder(int aOrderId, Order.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
+  public Order addOrder(Order.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
   {
-    return new Order(aOrderId, aOrderStatus, aTotalPrice, aDate, this);
+    return new Order(aOrderStatus, aTotalPrice, aDate, this);
   }
 
   public boolean addOrder(Order aOrder)

@@ -48,9 +48,9 @@ public class Request
   @SuppressWarnings("unused")
   protected Request(){}
 
-  public Request(int aRequestId, RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
+  public Request(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
   {
-    requestId = aRequestId;
+    //requestId = aRequestId;
     requestType = aRequestType;
     requestStatus = aRequestStatus;
     boolean didAddGame = setGame(aGame);
