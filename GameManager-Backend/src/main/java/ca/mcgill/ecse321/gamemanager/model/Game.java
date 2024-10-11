@@ -43,9 +43,13 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
+<<<<<<< Updated upstream
   public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, Request aRequest)
+=======
+  public Game(String aTitle, String aDescription, double aPrice, int aStock, GameStatus aGameStatus)
+>>>>>>> Stashed changes
   {
-    gameId = aGameId;
+
     title = aTitle;
     description = aDescription;
     genre = aGenre;
