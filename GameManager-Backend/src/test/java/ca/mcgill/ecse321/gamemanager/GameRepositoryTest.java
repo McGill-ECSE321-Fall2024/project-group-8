@@ -37,8 +37,8 @@ public class GameRepositoryTest {
         double price = 19.99;
         int stock = 999;
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
-        Category categories = new Category("FPS","FirstPersonShootingGame")
-        Review reviews = new Review(1234,5,"Good game, take my money", LocalDate.now(), new Game(), Customer())
+        Category categories = new Category("FPS","FirstPersonShootingGame");
+        //Review reviews = new Review(1234,5,"Good game, take my money", LocalDate.now(), new Game(), Customer())
 
 
 
