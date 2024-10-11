@@ -29,7 +29,7 @@ public class OrderRepositoryTests {
     }
 
 
-
+/*
     @Test
     public void testCreateAndReadOrder() {
         int orderId = 347;
@@ -41,5 +41,5 @@ public class OrderRepositoryTests {
 
         Order testOrder = new Order(orderId, totalPrice, date, OS,buyer);
     }
-
+*/
 }

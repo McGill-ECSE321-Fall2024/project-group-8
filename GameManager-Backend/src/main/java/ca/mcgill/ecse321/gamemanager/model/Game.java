@@ -45,7 +45,7 @@ public class Game
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Game(){}
+  public Game(){}
 
   public Game(int aGameId, String aTitle, String aDescription, double aPrice, int aStock, GameStatus aGameStatus)
   {
