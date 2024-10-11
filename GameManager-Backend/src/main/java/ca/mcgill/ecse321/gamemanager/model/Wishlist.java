@@ -1,14 +1,13 @@
-package ca.mcgill.ecse321.gamemanager.model;/*PLEASE DO NOT EDIT THIS CODE*/
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.OneToMany;
+package ca.mcgill.ecse321.gamemanager.model;
 
 import java.util.*;
 
-// line 85 "model.ump"
-// line 167 "model.ump"
+import jakarta.persistence.*;
+
+// line 69 "model.ump"
+// line 148 "model.ump"
 @Entity
 public class Wishlist
 {
@@ -20,40 +19,36 @@ public class Wishlist
   //Wishlist Attributes
   @Id
   private int wishlistId;
-  @OneToOne
-  private Customer customer;
-  @OneToMany
-  private List<Game> wishlist;
-  
+
   //Wishlist Associations
-  @OneToOne
-  private Customer owns;
+  @ManyToMany
+  private List<Game> games;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_email")
+  private Customer customer;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Wishlist() {
-  }
-  
-  public Wishlist(int aWishlistId, Customer aCustomer, Customer aOwns)
+  protected Wishlist(){}
+
+  public Wishlist(int aWishlistId, Customer aCustomer)
   {
     wishlistId = aWishlistId;
-    customer = aCustomer;
-    wishlist = new ArrayList<Game>();
-    if (aOwns == null || aOwns.getWishlist() != null)
+    games = new ArrayList<Game>();
+    if (aCustomer == null || aCustomer.getWishlist() != null)
     {
-      throw new RuntimeException("Unable to create Wishlist due to aOwns. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Wishlist due to aCustomer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    owns = aOwns;
+    customer = aCustomer;
   }
 
-  public Wishlist(int aWishlistId, Customer aCustomer, int aIdForOwns)
+  public Wishlist(int aWishlistId, String aPasswordForCustomer, String aNameForCustomer, String aEmailForCustomer)
   {
     wishlistId = aWishlistId;
-    customer = aCustomer;
-    wishlist = new ArrayList<Game>();
-    owns = new Customer(aIdForOwns, this);
+    games = new ArrayList<Game>();
+    customer = new Customer(aPasswordForCustomer, aNameForCustomer, aEmailForCustomer, this);
   }
 
   //------------------------
@@ -68,80 +63,111 @@ public class Wishlist
     return wasSet;
   }
 
-  public boolean setCustomer(Customer aCustomer)
-  {
-    boolean wasSet = false;
-    customer = aCustomer;
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template attribute_SetMany */
-  public boolean addWishlist(Game aWishlist)
-  {
-    boolean wasAdded = false;
-    wasAdded = wishlist.add(aWishlist);
-    return wasAdded;
-  }
-
-  public boolean removeWishlist(Game aWishlist)
-  {
-    boolean wasRemoved = false;
-    wasRemoved = wishlist.remove(aWishlist);
-    return wasRemoved;
-  }
-
   public int getWishlistId()
   {
     return wishlistId;
   }
+  /* Code from template association_GetMany */
+  public Game getGame(int index)
+  {
+    Game aGame = games.get(index);
+    return aGame;
+  }
 
+  public List<Game> getGames()
+  {
+    List<Game> newGames = Collections.unmodifiableList(games);
+    return newGames;
+  }
+
+  public int numberOfGames()
+  {
+    int number = games.size();
+    return number;
+  }
+
+  public boolean hasGames()
+  {
+    boolean has = games.size() > 0;
+    return has;
+  }
+
+  public int indexOfGame(Game aGame)
+  {
+    int index = games.indexOf(aGame);
+    return index;
+  }
+  /* Code from template association_GetOne */
   public Customer getCustomer()
   {
     return customer;
   }
-  /* Code from template attribute_GetMany */
-  public Game getWishlist(int index)
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfGames()
   {
-    Game aWishlist = wishlist.get(index);
-    return aWishlist;
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addGame(Game aGame)
+  {
+    boolean wasAdded = false;
+    if (games.contains(aGame)) { return false; }
+    games.add(aGame);
+    wasAdded = true;
+    return wasAdded;
   }
 
-  public Game[] getWishlist()
+  public boolean removeGame(Game aGame)
   {
-    Game[] newWishlist = wishlist.toArray(new Game[wishlist.size()]);
-    return newWishlist;
+    boolean wasRemoved = false;
+    if (games.contains(aGame))
+    {
+      games.remove(aGame);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addGameAt(Game aGame, int index)
+  {
+    boolean wasAdded = false;
+    if(addGame(aGame))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
+      wasAdded = true;
+    }
+    return wasAdded;
   }
 
-  public int numberOfWishlist()
+  public boolean addOrMoveGameAt(Game aGame, int index)
   {
-    int number = wishlist.size();
-    return number;
-  }
-
-  public boolean hasWishlist()
-  {
-    boolean has = wishlist.size() > 0;
-    return has;
-  }
-
-  public int indexOfWishlist(Game aWishlist)
-  {
-    int index = wishlist.indexOf(aWishlist);
-    return index;
-  }
-  /* Code from template association_GetOne */
-  public Customer getOwns()
-  {
-    return owns;
+    boolean wasAdded = false;
+    if(games.contains(aGame))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = addGameAt(aGame, index);
+    }
+    return wasAdded;
   }
 
   public void delete()
   {
-    Customer existingOwns = owns;
-    owns = null;
-    if (existingOwns != null)
+    games.clear();
+    Customer existingCustomer = customer;
+    customer = null;
+    if (existingCustomer != null)
     {
-      existingOwns.delete();
+      existingCustomer.delete();
     }
   }
 
@@ -150,7 +176,8 @@ public class Wishlist
   {
     return super.toString() + "["+
             "wishlistId" + ":" + getWishlistId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "customer" + "=" + (getCustomer() != null ? !getCustomer().equals(this)  ? getCustomer().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "owns = "+(getOwns()!=null?Integer.toHexString(System.identityHashCode(getOwns())):"null");
+            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");
   }
 }
+
+
