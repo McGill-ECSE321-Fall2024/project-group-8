@@ -4,10 +4,7 @@ package ca.mcgill.ecse321.gamemanager.model;
 
 
 import java.util.*;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 // line 23 "model.ump"
 // line 116 "model.ump"

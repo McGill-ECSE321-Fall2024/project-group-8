@@ -23,6 +23,7 @@ public class Wishlist
   //Wishlist Associations
   @ManyToMany
   private List<Game> games;
+
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "customer_email")
   private Customer customer;
@@ -31,7 +32,8 @@ public class Wishlist
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Wishlist(){}
+  protected Wishlist() {
+  }
 
   public Wishlist(int aWishlistId, Customer aCustomer)
   {

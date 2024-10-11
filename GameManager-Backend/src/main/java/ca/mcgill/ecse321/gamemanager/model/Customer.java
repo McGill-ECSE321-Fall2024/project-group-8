@@ -32,13 +32,15 @@ public class Customer extends Person
   @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
   @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Order> orders;
+  private List<PurchaseOrder> orders;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Customer(){}
+  protected Customer() {
+    super();
+  }
 
   public Customer(String aPassword, String aName, String aEmail, Wishlist aWishlist)
   {
@@ -49,7 +51,7 @@ public class Customer extends Person
     }
     wishlist = aWishlist;
     reviews = new ArrayList<Review>();
-    orders = new ArrayList<Order>();
+    orders = new ArrayList<PurchaseOrder>();
   }
 
   public Customer(String aPassword, String aName, String aEmail, int aWishlistIdForWishlist)
@@ -57,7 +59,7 @@ public class Customer extends Person
     super(aPassword, aName, aEmail);
     wishlist = new Wishlist(aWishlistIdForWishlist, this);
     reviews = new ArrayList<Review>();
-    orders = new ArrayList<Order>();
+    orders = new ArrayList<PurchaseOrder>();
   }
 
   //------------------------
@@ -99,15 +101,15 @@ public class Customer extends Person
     return index;
   }
   /* Code from template association_GetMany */
-  public Order getOrder(int index)
+  public PurchaseOrder getOrder(int index)
   {
-    Order aOrder = orders.get(index);
+    PurchaseOrder aOrder = orders.get(index);
     return aOrder;
   }
 
-  public List<Order> getOrders()
+  public List<PurchaseOrder> getOrders()
   {
-    List<Order> newOrders = Collections.unmodifiableList(orders);
+    List<PurchaseOrder> newOrders = Collections.unmodifiableList(orders);
     return newOrders;
   }
 
@@ -123,7 +125,7 @@ public class Customer extends Person
     return has;
   }
 
-  public int indexOfOrder(Order aOrder)
+  public int indexOfOrder(PurchaseOrder aOrder)
   {
     int index = orders.indexOf(aOrder);
     return index;
@@ -206,12 +208,12 @@ public class Customer extends Person
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Order addOrder(int aOrderId, Order.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
+  public PurchaseOrder addOrder(int aOrderId, PurchaseOrder.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
   {
-    return new Order(aOrderId, aOrderStatus, aTotalPrice, aDate, this);
+    return new PurchaseOrder(aOrderId, aOrderStatus, aTotalPrice, aDate, this);
   }
 
-  public boolean addOrder(Order aOrder)
+  public boolean addOrder(PurchaseOrder aOrder)
   {
     boolean wasAdded = false;
     if (orders.contains(aOrder)) { return false; }
@@ -229,7 +231,7 @@ public class Customer extends Person
     return wasAdded;
   }
 
-  public boolean removeOrder(Order aOrder)
+  public boolean removeOrder(PurchaseOrder aOrder)
   {
     boolean wasRemoved = false;
     //Unable to remove aOrder, as it must always have a buyer
@@ -241,7 +243,7 @@ public class Customer extends Person
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addOrderAt(Order aOrder, int index)
+  public boolean addOrderAt(PurchaseOrder aOrder, int index)
   {
     boolean wasAdded = false;
     if(addOrder(aOrder))
@@ -255,7 +257,7 @@ public class Customer extends Person
     return wasAdded;
   }
 
-  public boolean addOrMoveOrderAt(Order aOrder, int index)
+  public boolean addOrMoveOrderAt(PurchaseOrder aOrder, int index)
   {
     boolean wasAdded = false;
     if(orders.contains(aOrder))
@@ -290,7 +292,7 @@ public class Customer extends Person
 
     while (orders.size() > 0)
     {
-      Order aOrder = orders.get(orders.size() - 1);
+      PurchaseOrder aOrder = orders.get(orders.size() - 1);
       aOrder.delete();
       orders.remove(aOrder);
     }

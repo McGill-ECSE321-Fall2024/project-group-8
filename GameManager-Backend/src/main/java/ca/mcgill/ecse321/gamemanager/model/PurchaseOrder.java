@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 // line 144 "model.ump"
 
 @Entity
-public class Order
+public class PurchaseOrder
 {
 
   //------------------------
@@ -52,9 +52,9 @@ public class Order
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Order(){}
+  protected PurchaseOrder(){}
 
-  public Order(int aOrderId, OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
+  public PurchaseOrder(int aOrderId, OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
   {
     orderId = aOrderId;
     orderStatus = aOrderStatus;
