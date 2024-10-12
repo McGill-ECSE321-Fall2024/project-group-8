@@ -28,7 +28,7 @@ public class Category
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Category(){}
+  public Category(){}
   public Category(String aName, String aDescription)
   {
     name = aName;

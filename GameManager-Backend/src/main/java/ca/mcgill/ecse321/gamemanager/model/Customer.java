@@ -40,7 +40,7 @@ public class Customer extends Person
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Customer() {
+  public Customer() {
     super();
   }
 
