@@ -12,8 +12,7 @@ import jakarta.persistence.*;
 // line 144 "model.ump"
 
 @Entity
-@Table(name = "purchase_order")
-public class PurchaseOrder
+public class Order
 {
 
   //------------------------
@@ -35,9 +34,13 @@ public class PurchaseOrder
   private Date date;
 
   //Order Associations
-  @OneToMany(mappedBy = "purchaseOrder", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<GameCopy> gameCopies = new ArrayList<>();
-
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(
+          name = "order_game",
+          joinColumns = @JoinColumn(name = "oder_id"),
+          inverseJoinColumns = @JoinColumn(name = "game_id")
+  )
+  private List<Game> games;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
         name = "customer_email",
@@ -49,15 +52,20 @@ public class PurchaseOrder
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected PurchaseOrder(){}
+  protected Order(){}
 
-  public PurchaseOrder(int aOrderId, OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
+  public Order(OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
   {
-    orderId = aOrderId;
+    //orderId = aOrderId;
     orderStatus = aOrderStatus;
     totalPrice = aTotalPrice;
     date = aDate;
-    gameCopies = new ArrayList<GameCopy>();
+    games = new ArrayList<Game>();
+    boolean didAddBuyer = setBuyer(aBuyer);
+    if (!didAddBuyer)
+    {
+      throw new RuntimeException("Unable to create order due to buyer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -101,11 +109,6 @@ public class PurchaseOrder
     return orderId;
   }
 
-  public Customer getCustomer()
-  {
-    return buyer;
-  }
-
   public OrderStatus getOrderStatus()
   {
     return orderStatus;
@@ -121,96 +124,126 @@ public class PurchaseOrder
     return date;
   }
   /* Code from template association_GetMany */
-  public GameCopy getGameCopy(int index)
+  public Game getGame(int index)
   {
-    GameCopy aGameCopy = gameCopies.get(index);
-    return aGameCopy;
+    Game aGame = games.get(index);
+    return aGame;
   }
 
-  public List<GameCopy> getGameCopies()
+  public List<Game> getGames()
   {
-    List<GameCopy> newGameCopies = Collections.unmodifiableList(gameCopies);
-    return newGameCopies;
+    List<Game> newGames = Collections.unmodifiableList(games);
+    return newGames;
   }
 
-  public int numberOfGameCopies()
+  public int numberOfGames()
   {
-    int number = gameCopies.size();
+    int number = games.size();
     return number;
   }
 
-  public boolean hasGameCopies()
+  public boolean hasGames()
   {
-    boolean has = gameCopies.size() > 0;
+    boolean has = games.size() > 0;
     return has;
   }
 
-  public int indexOfGameCopy(GameCopy aGameCopy)
+  public int indexOfGame(Game aGame)
   {
-    int index = gameCopies.indexOf(aGameCopy);
+    int index = games.indexOf(aGame);
     return index;
   }
+  /* Code from template association_GetOne */
+  public Customer getBuyer()
+  {
+    return buyer;
+  }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGameCopies()
+  public static int minimumNumberOfGames()
   {
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addGameCopy(GameCopy aGameCopy)
+  public boolean addGame(Game aGame)
   {
     boolean wasAdded = false;
-    if (gameCopies.contains(aGameCopy)) { return false; }
-    gameCopies.add(aGameCopy);
+    if (games.contains(aGame)) { return false; }
+    games.add(aGame);
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeGameCopy(GameCopy aGameCopy)
+  public boolean removeGame(Game aGame)
   {
     boolean wasRemoved = false;
-    if (gameCopies.contains(aGameCopy))
+    if (games.contains(aGame))
     {
-      gameCopies.remove(aGameCopy);
+      games.remove(aGame);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameCopyAt(GameCopy aGameCopy, int index)
-  {  
+  public boolean addGameAt(Game aGame, int index)
+  {
     boolean wasAdded = false;
-    if(addGameCopy(aGameCopy))
+    if(addGame(aGame))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
-      gameCopies.remove(aGameCopy);
-      gameCopies.add(index, aGameCopy);
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveGameCopyAt(GameCopy aGameCopy, int index)
+  public boolean addOrMoveGameAt(Game aGame, int index)
   {
     boolean wasAdded = false;
-    if(gameCopies.contains(aGameCopy))
+    if(games.contains(aGame))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
-      gameCopies.remove(aGameCopy);
-      gameCopies.add(index, aGameCopy);
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
-      wasAdded = addGameCopyAt(aGameCopy, index);
+      wasAdded = addGameAt(aGame, index);
     }
     return wasAdded;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setBuyer(Customer aBuyer)
+  {
+    boolean wasSet = false;
+    if (aBuyer == null)
+    {
+      return wasSet;
+    }
+
+    Customer existingBuyer = buyer;
+    buyer = aBuyer;
+    if (existingBuyer != null && !existingBuyer.equals(aBuyer))
+    {
+      existingBuyer.removeOrder(this);
+    }
+    buyer.addOrder(this);
+    wasSet = true;
+    return wasSet;
   }
 
   public void delete()
   {
-    gameCopies.clear();
+    games.clear();
+    Customer placeholderBuyer = buyer;
+    this.buyer = null;
+    if(placeholderBuyer != null)
+    {
+      placeholderBuyer.removeOrder(this);
+    }
   }
 
 
@@ -219,9 +252,9 @@ public class PurchaseOrder
     return super.toString() + "["+
             "orderId" + ":" + getOrderId()+ "," +
             "totalPrice" + ":" + getTotalPrice()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "buyer" + "=" + (getCustomer() != null ? !getCustomer().equals(this)  ? getCustomer().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "orderStatus" + "=" + (getOrderStatus() != null ? !getOrderStatus().equals(this)  ? getOrderStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
+            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "buyer = "+(getBuyer()!=null?Integer.toHexString(System.identityHashCode(getBuyer())):"null");
   }
 }
 

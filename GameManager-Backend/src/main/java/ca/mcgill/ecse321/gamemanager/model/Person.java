@@ -20,7 +20,6 @@ public class Person
   //Person Attributes
   private String password;
   private String name;
-  
   @Id
   @Column(unique = true, nullable = false)
   private String email;

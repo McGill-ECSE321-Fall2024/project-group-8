@@ -2,68 +2,70 @@
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
-import jakarta.persistence.*;
 import java.util.*;
 
-// line 42 "model.ump"
-// line 131 "model.ump"
+import jakarta.persistence.*;
+
+// line 69 "model.ump"
+// line 148 "model.ump"
 @Entity
-public class Category
+public class Wishlist
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Category Attributes
+  //Wishlist Attributes
   @Id
-  private String name;
-  private String description;
+  private int wishlistId;
 
-  //Category Associations
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  //Wishlist Associations
+  @ManyToMany
   private List<Game> games;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_email")
+  private Customer customer;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Category(){}
-  public Category(String aName, String aDescription)
+  protected Wishlist(){}
+
+  public Wishlist(int aWishlistId, Customer aCustomer)
   {
-    name = aName;
-    description = aDescription;
+    wishlistId = aWishlistId;
     games = new ArrayList<Game>();
+    if (aCustomer == null || aCustomer.getWishlist() != null)
+    {
+      throw new RuntimeException("Unable to create Wishlist due to aCustomer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    customer = aCustomer;
+  }
+
+  public Wishlist(int aWishlistId, String aPasswordForCustomer, String aNameForCustomer, String aEmailForCustomer)
+  {
+    wishlistId = aWishlistId;
+    games = new ArrayList<Game>();
+    customer = new Customer(aPasswordForCustomer, aNameForCustomer, aEmailForCustomer, this);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setName(String aName)
+  public boolean setWishlistId(int aWishlistId)
   {
     boolean wasSet = false;
-    name = aName;
+    wishlistId = aWishlistId;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setDescription(String aDescription)
+  public int getWishlistId()
   {
-    boolean wasSet = false;
-    description = aDescription;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public String getName()
-  {
-    return name;
-  }
-
-  public String getDescription()
-  {
-    return description;
+    return wishlistId;
   }
   /* Code from template association_GetMany */
   public Game getGame(int index)
@@ -95,53 +97,33 @@ public class Category
     int index = games.indexOf(aGame);
     return index;
   }
+  /* Code from template association_GetOne */
+  public Customer getCustomer()
+  {
+    return customer;
+  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfGames()
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addGame(Game aGame)
   {
     boolean wasAdded = false;
     if (games.contains(aGame)) { return false; }
     games.add(aGame);
-    if (aGame.indexOfCategory(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aGame.addCategory(this);
-      if (!wasAdded)
-      {
-        games.remove(aGame);
-      }
-    }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeGame(Game aGame)
   {
     boolean wasRemoved = false;
-    if (!games.contains(aGame))
+    if (games.contains(aGame))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = games.indexOf(aGame);
-    games.remove(oldIndex);
-    if (aGame.indexOfCategory(this) == -1)
-    {
+      games.remove(aGame);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aGame.removeCategory(this);
-      if (!wasRemoved)
-      {
-        games.add(oldIndex,aGame);
-      }
     }
     return wasRemoved;
   }
@@ -180,11 +162,12 @@ public class Category
 
   public void delete()
   {
-    ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
     games.clear();
-    for(Game aGame : copyOfGames)
+    Customer existingCustomer = customer;
+    customer = null;
+    if (existingCustomer != null)
     {
-      aGame.removeCategory(this);
+      existingCustomer.delete();
     }
   }
 
@@ -192,8 +175,8 @@ public class Category
   public String toString()
   {
     return super.toString() + "["+
-            "name" + ":" + getName()+ "," +
-            "description" + ":" + getDescription()+ "]";
+            "wishlistId" + ":" + getWishlistId()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");
   }
 }
 
