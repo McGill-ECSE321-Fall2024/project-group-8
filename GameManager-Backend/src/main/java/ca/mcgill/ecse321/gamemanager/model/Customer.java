@@ -5,11 +5,6 @@ package ca.mcgill.ecse321.gamemanager.model;
 import jakarta.persistence.*;
 
 import java.util.*;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-
 import java.sql.Date;
 
 // line 9 "model.ump"
@@ -62,12 +57,29 @@ public class Customer extends Person
     return aReview;
   }
 
+  public List<Review> getReviews()
+  {
+    List<Review> newReviews = Collections.unmodifiableList(reviews);
+    return newReviews;
+  }
+
+  public int numberOfReviews()
+  {
+    int number = reviews.size();
+    return number;
+  }
+
+  public boolean hasReviews()
+  {
+    boolean has = reviews.size() > 0;
+    return has;
+  }
+
   public int indexOfReview(Review aReview)
   {
     int index = reviews.indexOf(aReview);
     return index;
   }
-  
   /* Code from template association_GetMany */
   public PurchaseOrder getPurchaseOrder(int index)
   {
@@ -153,38 +165,38 @@ public class Customer extends Person
     }
     return wasRemoved;
   }
-//   /* Code from template association_AddIndexControlFunctions */
-//   public boolean addReviewAt(Review aReview, int index)
-//   {  
-//     boolean wasAdded = false;
-//     if(addReview(aReview))
-//     {
-//       if(index < 0 ) { index = 0; }
-//       if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
-//       reviews.remove(aReview);
-//       reviews.add(index, aReview);
-//       wasAdded = true;
-//     }
-//     return wasAdded;
-//   }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addReviewAt(Review aReview, int index)
+  {  
+    boolean wasAdded = false;
+    if(addReview(aReview))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
+      reviews.remove(aReview);
+      reviews.add(index, aReview);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
 
-//   public boolean addOrMoveReviewAt(Review aReview, int index)
-//   {
-//     boolean wasAdded = false;
-//     if(reviews.contains(aReview))
-//     {
-//       if(index < 0 ) { index = 0; }
-//       if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
-//       reviews.remove(aReview);
-//       reviews.add(index, aReview);
-//       wasAdded = true;
-//     } 
-//     else 
-//     {
-//       wasAdded = addReviewAt(aReview, index);
-//     }
-//     return wasAdded;
-//   }
+  public boolean addOrMoveReviewAt(Review aReview, int index)
+  {
+    boolean wasAdded = false;
+    if(reviews.contains(aReview))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
+      reviews.remove(aReview);
+      reviews.add(index, aReview);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addReviewAt(aReview, index);
+    }
+    return wasAdded;
+  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfOrders()
   {

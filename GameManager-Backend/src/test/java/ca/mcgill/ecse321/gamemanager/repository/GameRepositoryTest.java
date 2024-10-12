@@ -35,9 +35,9 @@ public class GameRepositoryTest {
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
         Request aRequest = new Request( 12345, Request.RequestType.Addition, Request.RequestStatus.Approved, 1234, new Employee("12345","Ang" ,"n@gmail.com"));
         Game game_val = new Game( GameId, title,description,  price, acategory,
-        GameStatus, aRequest);
+        GameStatus);
         game_val = repo.save(game_val);
-        Game game_valFromDb = repo.findGameByGameId(game_val.getGameId());
+        Game game_valFromDb = repo.findByGameId(game_val.getGameId());
 
 
         assertNotNull(game_valFromDb);

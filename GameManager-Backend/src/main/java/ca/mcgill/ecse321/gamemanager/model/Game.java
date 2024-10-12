@@ -34,7 +34,7 @@ public class Game
   private GameStatus gameStatus;
 
   //Game Associations
-  @ManyToMany(mappedBy = "games")
+  @OneToMany (mappedBy = "games")
   private List<Category> categories;
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
