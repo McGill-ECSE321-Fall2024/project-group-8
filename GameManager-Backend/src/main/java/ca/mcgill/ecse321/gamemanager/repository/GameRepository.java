@@ -1,13 +1,9 @@
 package ca.mcgill.ecse321.gamemanager.repository;
 
+import ca.mcgill.ecse321.gamemanager.model.Game;
 import org.springframework.data.repository.CrudRepository;
 
-import ca.mcgill.ecse321.gamemanager.model.Game;
-
 public interface GameRepository extends CrudRepository<Game, Integer> {
-    public Game findGameById(int id);
+
+    public Game findByGameId(int id);
 }
-
-
-
-

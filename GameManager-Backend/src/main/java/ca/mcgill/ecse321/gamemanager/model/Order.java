@@ -54,9 +54,9 @@ public class Order
   @SuppressWarnings("unused")
   protected Order(){}
 
-  public Order(int aOrderId, OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
+  public Order(OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
   {
-    orderId = aOrderId;
+    //orderId = aOrderId;
     orderStatus = aOrderStatus;
     totalPrice = aTotalPrice;
     date = aDate;

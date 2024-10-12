@@ -30,76 +30,34 @@ public class Game
   private String title;
   private String description;
   private double price;
-<<<<<<< Updated upstream
-  @ManyToMany
-  private Category category;
-=======
->>>>>>> Stashed changes
   private int stock;
   private GameStatus gameStatus;
 
   //Game Associations
-<<<<<<< Updated upstream
-  @Embedded//composite primary key
-
-  private Request request;
-=======
   @ManyToMany(mappedBy = "games")
   private List<Category> categories;
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Request> requests;
->>>>>>> Stashed changes
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Game(){}
+  public Game(){}
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, Request aRequest)
-=======
   public Game(String aTitle, String aDescription, double aPrice, int aStock, GameStatus aGameStatus)
->>>>>>> Stashed changes
   {
-
-=======
-  public Game( String aTitle, String aDescription, double aPrice, int aStock, GameStatus aGameStatus)
-  {
-    
->>>>>>> Stashed changes
+    //gameId = aGameId;
     title = aTitle;
     description = aDescription;
     price = aPrice;
     stock = aStock;
     gameStatus = aGameStatus;
-<<<<<<< Updated upstream
-    if (aRequest == null || aRequest.getGame() != null)
-    {
-      throw new RuntimeException("Unable to create Game due to aRequest. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    request = aRequest;
-  }
-
-  public Game(int aGameId, String aTitle, String aDescription, String aGenre, double aPrice, Category aCategory, int aStock, GameStatus aGameStatus, Category.RequestType aRequestTypeForRequest, Category.RequestStatus aRequestStatusForRequest, Employee aEmployeeForRequest)
-  {
-    gameId = aGameId;
-    title = aTitle;
-    description = aDescription;
-    genre = aGenre;
-    price = aPrice;
-    category = aCategory;
-    stock = aStock;
-    gameStatus = aGameStatus;
-    request = new Request(aRequestTypeForRequest, aRequestStatusForRequest, this, aEmployeeForRequest);
-=======
     categories = new ArrayList<Category>();
     reviews = new ArrayList<Review>();
     requests = new ArrayList<Request>();
->>>>>>> Stashed changes
   }
 
   //------------------------
@@ -361,9 +319,9 @@ public class Game
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Customer aReviewer)
+  public Review addReview(int aRating, String aDescription, Date aDate, Customer aReviewer)
   {
-    return new Review(aReviewId, aRating, aDescription, aDate, this, aReviewer);
+    return new Review(aRating, aDescription, aDate, this, aReviewer);
   }
 
   public boolean addReview(Review aReview)
@@ -433,9 +391,9 @@ public class Game
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Request addRequest(int aRequestId, Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, Employee aEmployee)
+  public Request addRequest(Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, Employee aEmployee)
   {
-    return new Request(aRequestId, aRequestType, aRequestStatus, this, aEmployee);
+    return new Request(aRequestType, aRequestStatus, this, aEmployee);
   }
 
   public boolean addRequest(Request aRequest)
