@@ -21,7 +21,6 @@ public class CategoryRepositoryTests {
     @AfterEach
     public void clearDatabase(){ repo.deleteAll();}
 
-
     @Test
     public void testCreateAndReadCategory() {
 
@@ -36,9 +35,6 @@ public class CategoryRepositoryTests {
         assertNotNull(CategoryFromDB);
         assertEquals(name, CategoryFromDB.getName());
         assertEquals(description, CategoryFromDB.getDescription());
-
-
-
     }
 
 }

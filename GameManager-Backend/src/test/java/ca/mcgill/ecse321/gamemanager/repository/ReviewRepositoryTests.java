@@ -5,7 +5,6 @@ import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Review;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Review;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

@@ -24,7 +24,6 @@ public class EmployeeRepositoryTests {
         employeeRepo.deleteAll();
     }
 
-
     @Test
     public void testCreateAndReadOwner() {
         String name = "OwnerName";
@@ -41,7 +40,5 @@ public class EmployeeRepositoryTests {
         assertEquals(name, employeeFromDB.getName());
         assertEquals(password, employeeFromDB.getPassword());
         assertEquals(email, employeeFromDB.getEmail());
-
-
     }
 }
