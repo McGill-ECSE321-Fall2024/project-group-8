@@ -47,7 +47,7 @@ public class Game
   @SuppressWarnings("unused")
   public Game(){}
 
-  public Game( int aGameId, String aTitle, String aDescription, double aPrice, int aStock, GameStatus aGameStatus)
+  public Game(int aGameId ,String aTitle, String aDescription, double aPrice, int aStock, GameStatus aGameStatus)
   {
     gameId = aGameId;
     title = aTitle;
@@ -319,9 +319,9 @@ public class Game
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Customer aReviewer)
+  public Review addReview(int aRating, String aDescription, Date aDate, Customer aReviewer)
   {
-    return new Review(aReviewId, aRating, aDescription, aDate, this, aReviewer);
+    return new Review(aRating, aDescription, aDate, this, aReviewer);
   }
 
   public boolean addReview(Review aReview)
@@ -391,9 +391,9 @@ public class Game
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Request addRequest(int aRequestId, Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, Employee aEmployee)
+  public Request addRequest(Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, Employee aEmployee)
   {
-    return new Request(aRequestId, aRequestType, aRequestStatus, this, aEmployee);
+    return new Request(aRequestType, aRequestStatus, this, aEmployee);
   }
 
   public boolean addRequest(Request aRequest)
@@ -492,7 +492,5 @@ public class Game
             "  " + "gameStatus" + "=" + (getGameStatus() != null ? !getGameStatus().equals(this)  ? getGameStatus().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
-
 
 
