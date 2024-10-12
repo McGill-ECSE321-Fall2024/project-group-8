@@ -22,17 +22,14 @@ public class Customer extends Person
   // MEMBER VARIABLES
   //------------------------
   //Customer Associations
-  @OneToOne(
-          mappedBy = "customer",
-          cascade = CascadeType.ALL,
-          orphanRemoval = true,
-          fetch = FetchType.LAZY
-  )
-  private Wishlist wishlist;
   @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
+
   @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<PurchaseOrder> orders;
+  private List<PurchaseOrder> purchaseOrders;
+
+  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<GameCopy> gameCopies;
 
   //------------------------
   // CONSTRUCTOR
@@ -42,34 +39,17 @@ public class Customer extends Person
     super();
   }
 
-  public Customer(String aPassword, String aName, String aEmail, Wishlist aWishlist)
+  public Customer(String aPassword, String aName, String aEmail)
   {
     super(aPassword, aName, aEmail);
-    if (aWishlist == null || aWishlist.getCustomer() != null)
-    {
-      throw new RuntimeException("Unable to create Customer due to aWishlist. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    wishlist = aWishlist;
     reviews = new ArrayList<Review>();
-    orders = new ArrayList<PurchaseOrder>();
-  }
-
-  public Customer(String aPassword, String aName, String aEmail, int aWishlistIdForWishlist)
-  {
-    super(aPassword, aName, aEmail);
-    wishlist = new Wishlist(aWishlistIdForWishlist, this);
-    reviews = new ArrayList<Review>();
-    orders = new ArrayList<PurchaseOrder>();
+    purchaseOrders = new ArrayList<PurchaseOrder>();
+    gameCopies = new ArrayList<GameCopy>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
-  public Wishlist getWishlist()
-  {
-    return wishlist;
-  }
   /* Code from template association_GetMany */
   public Review getReview(int index)
   {
@@ -101,33 +81,63 @@ public class Customer extends Person
     return index;
   }
   /* Code from template association_GetMany */
-  public PurchaseOrder getOrder(int index)
+  public PurchaseOrder getPurchaseOrder(int index)
   {
-    PurchaseOrder aOrder = orders.get(index);
+    PurchaseOrder aOrder = purchaseOrders.get(index);
     return aOrder;
   }
 
   public List<PurchaseOrder> getOrders()
   {
-    List<PurchaseOrder> newOrders = Collections.unmodifiableList(orders);
+    List<PurchaseOrder> newOrders = Collections.unmodifiableList(purchaseOrders);
     return newOrders;
   }
 
   public int numberOfOrders()
   {
-    int number = orders.size();
+    int number = purchaseOrders.size();
     return number;
   }
 
   public boolean hasOrders()
   {
-    boolean has = orders.size() > 0;
+    boolean has = purchaseOrders.size() > 0;
     return has;
   }
 
   public int indexOfOrder(PurchaseOrder aOrder)
   {
-    int index = orders.indexOf(aOrder);
+    int index = purchaseOrders.indexOf(aOrder);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public GameCopy getGameCopy(int index)
+  {
+    GameCopy aGameCopy = gameCopies.get(index);
+    return aGameCopy;
+  }
+
+  public List<GameCopy> getGameCopies()
+  {
+    List<GameCopy> newGameCopies = Collections.unmodifiableList(gameCopies);
+    return newGameCopies;
+  }
+
+  public int numberOfGameCopies()
+  {
+    int number = gameCopies.size();
+    return number;
+  }
+
+  public boolean hasGameCopies()
+  {
+    boolean has = gameCopies.size() > 0;
+    return has;
+  }
+
+  public int indexOfGameCopy(GameCopy aGameCopy)
+  {
+    int index = gameCopies.indexOf(aGameCopy);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
@@ -135,26 +145,12 @@ public class Customer extends Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame)
-  {
-    return new Review(aReviewId, aRating, aDescription, aDate, aGame, this);
-  }
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addReview(Review aReview)
   {
     boolean wasAdded = false;
     if (reviews.contains(aReview)) { return false; }
-    Customer existingReviewer = aReview.getReviewer();
-    boolean isNewReviewer = existingReviewer != null && !this.equals(existingReviewer);
-    if (isNewReviewer)
-    {
-      aReview.setReviewer(this);
-    }
-    else
-    {
-      reviews.add(aReview);
-    }
+    reviews.add(aReview);
     wasAdded = true;
     return wasAdded;
   }
@@ -162,8 +158,7 @@ public class Customer extends Person
   public boolean removeReview(Review aReview)
   {
     boolean wasRemoved = false;
-    //Unable to remove aReview, as it must always have a reviewer
-    if (!this.equals(aReview.getReviewer()))
+    if (reviews.contains(aReview))
     {
       reviews.remove(aReview);
       wasRemoved = true;
@@ -172,7 +167,7 @@ public class Customer extends Person
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addReviewAt(Review aReview, int index)
-  {
+  {  
     boolean wasAdded = false;
     if(addReview(aReview))
     {
@@ -195,8 +190,8 @@ public class Customer extends Person
       reviews.remove(aReview);
       reviews.add(index, aReview);
       wasAdded = true;
-    }
-    else
+    } 
+    else 
     {
       wasAdded = addReviewAt(aReview, index);
     }
@@ -207,26 +202,12 @@ public class Customer extends Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public PurchaseOrder addOrder(int aOrderId, PurchaseOrder.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
-  {
-    return new PurchaseOrder(aOrderId, aOrderStatus, aTotalPrice, aDate, this);
-  }
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addOrder(PurchaseOrder aOrder)
   {
     boolean wasAdded = false;
-    if (orders.contains(aOrder)) { return false; }
-    Customer existingBuyer = aOrder.getBuyer();
-    boolean isNewBuyer = existingBuyer != null && !this.equals(existingBuyer);
-    if (isNewBuyer)
-    {
-      aOrder.setBuyer(this);
-    }
-    else
-    {
-      orders.add(aOrder);
-    }
+    if (purchaseOrders.contains(aOrder)) { return false; }
+    purchaseOrders.add(aOrder);
     wasAdded = true;
     return wasAdded;
   }
@@ -234,24 +215,23 @@ public class Customer extends Person
   public boolean removeOrder(PurchaseOrder aOrder)
   {
     boolean wasRemoved = false;
-    //Unable to remove aOrder, as it must always have a buyer
-    if (!this.equals(aOrder.getBuyer()))
+    if (purchaseOrders.contains(aOrder))
     {
-      orders.remove(aOrder);
+        purchaseOrders.remove(aOrder);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addOrderAt(PurchaseOrder aOrder, int index)
-  {
+  {  
     boolean wasAdded = false;
     if(addOrder(aOrder))
     {
       if(index < 0 ) { index = 0; }
       if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
-      orders.remove(aOrder);
-      orders.add(index, aOrder);
+      purchaseOrders.remove(aOrder);
+      purchaseOrders.add(index, aOrder);
       wasAdded = true;
     }
     return wasAdded;
@@ -260,46 +240,83 @@ public class Customer extends Person
   public boolean addOrMoveOrderAt(PurchaseOrder aOrder, int index)
   {
     boolean wasAdded = false;
-    if(orders.contains(aOrder))
+    if(purchaseOrders.contains(aOrder))
     {
       if(index < 0 ) { index = 0; }
       if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
-      orders.remove(aOrder);
-      orders.add(index, aOrder);
+      purchaseOrders.remove(aOrder);
+      purchaseOrders.add(index, aOrder);
       wasAdded = true;
-    }
-    else
+    } 
+    else 
     {
       wasAdded = addOrderAt(aOrder, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfGameCopies()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addGameCopy(GameCopy aGameCopy)
+  {
+    boolean wasAdded = false;
+    if (gameCopies.contains(aGameCopy)) { return false; }
+    gameCopies.add(aGameCopy);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeGameCopy(GameCopy aGameCopy)
+  {
+    boolean wasRemoved = false;
+    if (gameCopies.contains(aGameCopy))
+    {
+      gameCopies.remove(aGameCopy);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addGameCopyAt(GameCopy aGameCopy, int index)
+  {  
+    boolean wasAdded = false;
+    if(addGameCopy(aGameCopy))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
+      gameCopies.remove(aGameCopy);
+      gameCopies.add(index, aGameCopy);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveGameCopyAt(GameCopy aGameCopy, int index)
+  {
+    boolean wasAdded = false;
+    if(gameCopies.contains(aGameCopy))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
+      gameCopies.remove(aGameCopy);
+      gameCopies.add(index, aGameCopy);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addGameCopyAt(aGameCopy, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-    Wishlist existingWishlist = wishlist;
-    wishlist = null;
-    if (existingWishlist != null)
-    {
-      existingWishlist.delete();
-    }
-    while (reviews.size() > 0)
-    {
-      Review aReview = reviews.get(reviews.size() - 1);
-      aReview.delete();
-      reviews.remove(aReview);
-    }
-
-    while (orders.size() > 0)
-    {
-      PurchaseOrder aOrder = orders.get(orders.size() - 1);
-      aOrder.delete();
-      orders.remove(aOrder);
-    }
-
+    reviews.clear();
+    purchaseOrders.clear();
+    gameCopies.clear();
     super.delete();
   }
-
 }
-
-
