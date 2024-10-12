@@ -16,8 +16,10 @@ public class Game
     this.category = category;
   }
 
+
   public void removeRequest(Request request) {
   }
+
 
   //------------------------
   // ENUMERATIONS

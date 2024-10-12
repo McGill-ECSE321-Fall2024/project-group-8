@@ -1,3 +1,4 @@
+
 package ca.mcgill.ecse321.gamemanager.repository;
 
 
@@ -23,7 +24,6 @@ public class OwnerRepositoryTests {
         ownerRepo.deleteAll();
     }
 
-
     @Test
     public void testCreateAndReadOwner() {
         String name = "OwnerName";
@@ -33,13 +33,12 @@ public class OwnerRepositoryTests {
         Owner testOwner = new Owner(password, name, email);
 
         ownerRepo.save(testOwner);
-        Owner ownerFromDB = ownerRepo.findByEmail(email);
+        Owner ownerFromDB = ownerRepo.findOwnerByEmail(email);
 
         assertNotNull(ownerFromDB);
         assertEquals(name, ownerFromDB.getName());
         assertEquals(password, ownerFromDB.getPassword());
         assertEquals(email, ownerFromDB.getEmail());
-
-
     }
 }
+
