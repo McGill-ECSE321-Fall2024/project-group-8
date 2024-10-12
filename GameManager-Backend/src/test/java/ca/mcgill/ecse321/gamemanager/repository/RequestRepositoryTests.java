@@ -44,10 +44,7 @@ public class RequestRepositoryTests {
         game = gameRepository.save(game);
 
         // Initialize Employee
-        Employee employee = new Employee();
-        employee.setEmail("employee@test.com");
-        employee.setName("Test Employee");
-        employee.setPassword("employee123");
+        Employee employee = new Employee("employee123","Test Employee","employee@test.com");
         employee = employeeRepository.save(employee);
 
         // Initialize Request
