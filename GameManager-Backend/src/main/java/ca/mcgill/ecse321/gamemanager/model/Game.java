@@ -234,6 +234,40 @@ public class Game
     return wasAdded;
   }
 
+  public Review addReview(int aRating, String aDescription, Date aDate, Customer aReviewer)
+  {
+    return new Review(aRating, aDescription, aDate, this, aReviewer);
+  }
+
+  public boolean addReview(Review aReview)
+  {
+    boolean wasAdded = false;
+    if (reviews.contains(aReview)) { return false; }
+    Game existingGame = aReview.getGame();
+    boolean isNewGame = existingGame != null && !this.equals(existingGame);
+    if (isNewGame)
+    {
+      aReview.setGame(this);
+    }
+    else
+    {
+      reviews.add(aReview);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeReview(Review aReview)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aReview, as it must always have a game
+    if (!this.equals(aReview.getGame()))
+    {
+      reviews.remove(aReview);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
   public void delete()
   {
     for(int i=reviews.size(); i > 0; i--)

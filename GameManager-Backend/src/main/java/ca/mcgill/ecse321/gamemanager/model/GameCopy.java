@@ -33,22 +33,11 @@ public class GameCopy
   // CONSTRUCTOR
   //------------------------
 
-  public GameCopy(int aGameCopyId)
-  {
-    gameCopyId = aGameCopyId;
-  }
+  public GameCopy() {}
 
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setGameCopyId(int aGameCopyId)
-  {
-    boolean wasSet = false;
-    gameCopyId = aGameCopyId;
-    wasSet = true;
-    return wasSet;
-  }
 
   public int getGameCopyId()
   {

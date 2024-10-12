@@ -43,41 +43,24 @@ public class ReviewRepositoryTests {
     @Test
     public void testCreateAndLoadReview() {
         // Initialize Category
-//        Category category = new Category();
-//        category.setName("Test Category");
-//        category.setDescription("A category for testing");
-//        category = categoryRepository.save(category);
         Category category = new Category("FPS","First Person Shooting Game");
+        // save Category
+        category = categoryRepository.save(category);
 
         // Initialize Game
-        String tiltle = "Test Game";
-        String description = "A great game";
-        double price = 59.99;
-        Game.GameStatus status = Game.GameStatus.InStock;
-        Game game = new Game(tiltle, description, price, category, status);
-
-        // Add a GameCopy to initialize stock (derived from gameCopies list)
-        GameCopy gameCopy = new GameCopy(1);
-        game.addGameCopy(gameCopy);
+        Game game = new Game("Test Game", "A great game", 59.99, category, Game.GameStatus.InStock);
+        // Save Game
         game = gameRepository.save(game);
 
         // Initialize Customer
-        Customer customer = new Customer();
-        customer.setName("Test Customer");
-        customer.setPassword("password123");
-        customer.setEmail("test@customer.com");
-
+        Customer customer = new Customer("password123", "Test Customer", "Test Customer");
+        // Save Customer
         customer = customerRepository.save(customer);
 
         // Initialize Review
-        Review review = new Review();
-        review.setRating(5);
-        review.setDescription("Excellent game!");
-        review.setDate(Date.valueOf("2024-01-01"));
-        review.setGame(game);
-        review.setReviewer(customer);
-
-        // Save the Review
+        Date date = Date.valueOf("2024-01-01");
+        Review review = new Review(5, "Excellent game!", date, game, customer);
+        // Save
         review = reviewRepository.save(review);
 
         // Fetch Review from Database

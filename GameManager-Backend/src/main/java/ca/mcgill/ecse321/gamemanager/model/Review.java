@@ -47,9 +47,8 @@ public class Review
   @SuppressWarnings("unused")
   public Review(){}
 
-  public Review(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame, Customer aReviewer)
+  public Review(int aRating, String aDescription, Date aDate, Game aGame, Customer aReviewer)
   {
-    reviewId = aReviewId;
     rating = aRating;
     description = aDescription;
     date = aDate;
