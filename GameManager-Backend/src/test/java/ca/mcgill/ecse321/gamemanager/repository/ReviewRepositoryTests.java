@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,23 +43,22 @@ public class ReviewRepositoryTests {
     @Test
     public void testCreateAndLoadReview() {
         // Initialize Category
-        Category category = new Category();
-        category.setName("Test Category");
-        category.setDescription("A category for testing");
-        category = categoryRepository.save(category);
+//        Category category = new Category();
+//        category.setName("Test Category");
+//        category.setDescription("A category for testing");
+//        category = categoryRepository.save(category);
+        Category category = new Category("FPS","First Person Shooting Game");
 
         // Initialize Game
-        Game game = new Game();
-        game.setTitle("Test Game");
-        game.setDescription("A great game");
-        game.setPrice(59.99);
-        game.setCategory(category);
-        game.setGameStatus(Game.GameStatus.InStock);
+        String tiltle = "Test Game";
+        String description = "A great game";
+        double price = 59.99;
+        Game.GameStatus status = Game.GameStatus.InStock;
+        Game game = new Game(tiltle, description, price, category, status);
 
         // Add a GameCopy to initialize stock (derived from gameCopies list)
         GameCopy gameCopy = new GameCopy(1);
         game.addGameCopy(gameCopy);
-
         game = gameRepository.save(game);
 
         // Initialize Customer

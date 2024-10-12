@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.repository;
 
 import ca.mcgill.ecse321.gamemanager.model.Employee;
+import ca.mcgill.ecse321.gamemanager.model.Request;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,10 +29,7 @@ public class RequestRepositoryTests {
         String employeeEmail = "employeeEmail";
 
         Employee testEmployee = new Employee(employeePassword, employeeName, employeeEmail);
-
-
-
-
+       // Request request = new Request();
     }
 
 

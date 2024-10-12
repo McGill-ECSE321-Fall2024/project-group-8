@@ -12,9 +12,9 @@ import java.sql.Date;
 @Entity
 public class Game
 {
-  public void setCategory(Category category) {
-    this.category = category;
-  }
+//  public void setCategory(Category category) {
+//    this.category = category;
+//  }
 
   //------------------------
   // ENUMERATIONS
@@ -56,20 +56,14 @@ public class Game
   public Game() {
   }
 
-  public Game(int aGameId, String aTitle, String aDescription, double aPrice, Category aCategory, GameStatus aGameStatus, Request aRequest)
+  public Game(String aTitle, String aDescription, double aPrice, Category aCategory, GameStatus aGameStatus)
   {
-    gameId = aGameId;
     title = aTitle;
     description = aDescription;
     price = aPrice;
     category = aCategory;
     gameStatus = aGameStatus;
     gameCopies = new ArrayList<GameCopy>();
-    if (aRequest == null || aRequest.getGame() != null)
-    {
-      throw new RuntimeException("Unable to create Game due to aRequest. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    requests = new ArrayList<Request>();
   }
 
   //------------------------
@@ -179,36 +173,6 @@ public class Game
   public int indexOfGameCopy(GameCopy aGameCopy)
   {
     int index = gameCopies.indexOf(aGameCopy);
-    return index;
-  }
-  /* Code from template association_GetOne */
-  public Request getRequest(int index)
-  {
-    Request aRequest = requests.get(index);
-    return aRequest;
-  }
-
-  public List<Request> getRequests()
-  {
-    List<Request> newRequests = Collections.unmodifiableList(requests);
-    return newRequests;
-  }
-
-  public int numberOfRequests()
-  {
-    int number = requests.size();
-    return number;
-  }
-
-  public boolean hasRequests()
-  {
-    boolean has = requests.size() > 0;
-    return has;
-  }
-
-  public int indexOfRequest(Request aRequest)
-  {
-    int index = requests.indexOf(aRequest);
     return index;
   }
 
