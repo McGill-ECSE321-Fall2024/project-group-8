@@ -27,6 +27,7 @@ public class Request
   private int requestId;
   private RequestType requestType;
   private RequestStatus requestStatus;
+  private int gameId;
 
   //Request Associations
   @ManyToOne
@@ -48,16 +49,12 @@ public class Request
   @SuppressWarnings("unused")
   protected Request(){}
 
-  public Request(RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
+  public Request(RequestType aRequestType, RequestStatus aRequestStatus, int GameID, Employee aEmployee)
   {
     //requestId = aRequestId;
     requestType = aRequestType;
     requestStatus = aRequestStatus;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create request due to game. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    gameId = GameID;
     boolean didAddEmployee = setEmployee(aEmployee);
     if (!didAddEmployee)
     {
@@ -118,7 +115,7 @@ public class Request
     return employee;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setGame(Game aGame)
+  /*public boolean setGame(Game aGame)
   {
     boolean wasSet = false;
     if (aGame == null)
@@ -135,7 +132,7 @@ public class Request
     game.addRequest(this);
     wasSet = true;
     return wasSet;
-  }
+  }*/
   /* Code from template association_SetOneToMany */
   public boolean setEmployee(Employee aEmployee)
   {
