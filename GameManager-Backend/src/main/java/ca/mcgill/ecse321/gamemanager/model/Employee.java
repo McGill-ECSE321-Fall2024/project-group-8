@@ -26,7 +26,7 @@ public class Employee extends Person
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Employee(){}
+  public Employee(){}
   public Employee(String aPassword, String aName, String aEmail)
   {
     super(aPassword, aName, aEmail);

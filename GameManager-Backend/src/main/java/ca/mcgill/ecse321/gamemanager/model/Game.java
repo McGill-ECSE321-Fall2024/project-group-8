@@ -208,7 +208,7 @@ public class Game
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addGameCopyAt(GameCopy aGameCopy, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addGameCopy(aGameCopy))
     {
@@ -235,7 +235,7 @@ public class Game
       gameCopies.add(index, aGameCopy);
       wasAdded = true;
     }
-    else 
+    else
     {
       wasAdded = addGameCopyAt(aGameCopy, index);
     }
@@ -301,7 +301,5 @@ public class Game
             "stock" + ":" + getStock()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "category" + "=" + (getCategory() != null ? !getCategory().equals(this)  ? getCategory().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "gameStatus" + "=" + (getGameStatus() != null ? !getGameStatus().equals(this)  ? getGameStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator");
-  } 
+  }
 }
-
-
