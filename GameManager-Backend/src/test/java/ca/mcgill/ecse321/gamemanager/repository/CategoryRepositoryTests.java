@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.gamemanager.repository;
 
-
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +20,6 @@ public class CategoryRepositoryTests {
     @AfterEach
     public void clearDatabase(){ repo.deleteAll();}
 
-
     @Test
     public void testCreateAndReadCategory() {
 
@@ -36,9 +34,6 @@ public class CategoryRepositoryTests {
         assertNotNull(CategoryFromDB);
         assertEquals(name, CategoryFromDB.getName());
         assertEquals(description, CategoryFromDB.getDescription());
-
-
-
     }
 
 }

@@ -12,6 +12,9 @@ import java.sql.Date;
 @Entity
 public class Game
 {
+  public void setCategory(Category category) {
+    this.category = category;
+  }
 
   //------------------------
   // ENUMERATIONS
@@ -50,7 +53,7 @@ public class Game
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Game() {
+  public Game() {
   }
 
   public Game(int aGameId, String aTitle, String aDescription, double aPrice, Category aCategory, GameStatus aGameStatus, Request aRequest)
