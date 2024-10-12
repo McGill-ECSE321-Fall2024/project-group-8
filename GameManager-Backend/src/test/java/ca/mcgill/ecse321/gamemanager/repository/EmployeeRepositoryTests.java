@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.repository;
 
-
 import ca.mcgill.ecse321.gamemanager.model.Employee;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,15 +24,15 @@ public class EmployeeRepositoryTests {
 
     @Test
     public void testCreateAndReadOwner() {
-        String name = "OwnerName";
-        String password = "OwnerPassword";
-        String email = "OwnerEmail";
+        String name = "EmployeeName";
+        String password = "EmployeePassword";
+        String email = "EmployeeEmail";
 
         Employee testEmployee = new Employee(password, name, email);
 
         //testEmployee = employeeRepo.save(testEmployee);
         employeeRepo.save(testEmployee);
-        Employee employeeFromDB = employeeRepo.findByEmail(email);
+        Employee employeeFromDB = employeeRepo.findEmployeeByEmail(email);
 
         assertNotNull(employeeFromDB);
         assertEquals(name, employeeFromDB.getName());
