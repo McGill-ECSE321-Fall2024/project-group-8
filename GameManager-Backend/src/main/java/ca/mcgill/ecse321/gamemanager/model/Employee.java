@@ -72,9 +72,9 @@ public class Employee extends Person
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Request addRequest(int aRequestId, Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, Game aGame)
+  public Request addRequest(int aRequestId, Request.RequestType aRequestType, Request.RequestStatus aRequestStatus, int aGameId)
   {
-    return new Request(aRequestId, aRequestType, aRequestStatus, aGame, this);
+    return new Request(aRequestId, aRequestType, aRequestStatus, aGameId, this);
   }
 
   public boolean addRequest(Request aRequest)

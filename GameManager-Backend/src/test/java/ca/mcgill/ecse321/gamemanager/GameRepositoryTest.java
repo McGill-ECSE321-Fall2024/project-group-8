@@ -32,13 +32,17 @@ public class GameRepositoryTest {
     @Test
     public void testCreateAndReadGame()
     {
+        int GameId = 12345 ;
         String title = "Valorant";
         String description = "An fps game made by Riot";
         double price = 19.99;
         Category acategory = new Category("FPS","First Person Shooting Game");
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
-        Request aRequest = new Request( )
-
+        Request aRequest = new Request( 12345, Request.RequestType.Addition, Request.RequestStatus.Approved, 1234, new Employee("12345","Ang" ,"n@gmail.com"));
+        Game game_val = new Game( GameId, title,description,  price, acategory,
+        GameStatus, aRequest);
+        game_val = repo.save(game_val);
+        Game game_valFromDb = repo.findGameByGameId(game_val.getGameId());
 
 
 

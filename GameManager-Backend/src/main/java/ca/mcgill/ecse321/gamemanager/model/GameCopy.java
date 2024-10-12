@@ -36,6 +36,7 @@ public class GameCopy
   public GameCopy(int aGameCopyId)
   {
     gameCopyId = aGameCopyId;
+
   }
 
   //------------------------

@@ -27,6 +27,7 @@ public class Request
   private int requestId;
   private RequestType requestType;
   private RequestStatus requestStatus;
+  private int gameID;
 
   //Request Associations
   @ManyToOne
@@ -49,11 +50,13 @@ public class Request
   @SuppressWarnings("unused")
   protected Request(){}
 
-  public Request(int aRequestId, RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
+  public Request(int aRequestId, RequestType aRequestType, RequestStatus aRequestStatus, int gameId , Employee aEmployee)
   {
     requestId = aRequestId;
     requestType = aRequestType;
     requestStatus = aRequestStatus;
+    gameID = gameId;
+
   }
 
   //------------------------
@@ -65,6 +68,7 @@ public class Request
     boolean wasSet = false;
     requestId = aRequestId;
     wasSet = true;
+
     return wasSet;
   }
 
@@ -99,9 +103,10 @@ public class Request
     return requestStatus;
   }
   /* Code from template association_GetOne */
-  public Game getGame()
+  public int getGameId()
   {
-    return game;
+
+    return gameID;
   }
   /* Code from template association_GetOne */
   public Employee getEmployee()

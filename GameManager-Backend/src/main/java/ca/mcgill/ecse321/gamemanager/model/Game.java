@@ -62,7 +62,7 @@ public class Game
     category = aCategory;
     gameStatus = aGameStatus;
     gameCopies = new ArrayList<GameCopy>();
-    if (aRequest == null || aRequest.getGame() != null)
+    if (aRequest == null )
     {
       throw new RuntimeException("Unable to create Game due to aRequest. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
@@ -113,7 +113,7 @@ public class Game
     return wasSet;
   }
 
-  public int getGameId()
+  public  int getGameId()
   {
     return gameId;
   }
