@@ -54,6 +54,9 @@ public class Game
   //------------------------
   @SuppressWarnings("unused")
   public Game() {
+    gameCopies = new ArrayList<>();  // Initialize lists
+    reviews = new ArrayList<>();
+    requests = new ArrayList<>();
   }
 
   public Game(String aTitle, String aDescription, double aPrice, Category aCategory, GameStatus aGameStatus)
@@ -65,6 +68,8 @@ public class Game
     gameStatus = aGameStatus;
     gameCopies = new ArrayList<GameCopy>();
   }
+
+
 
   //------------------------
   // INTERFACE
