@@ -35,6 +35,7 @@ public class Request
         foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
   private Game game;
+  
   @ManyToOne
   @JoinColumn(
           name = "employee_email",
@@ -53,16 +54,6 @@ public class Request
     requestId = aRequestId;
     requestType = aRequestType;
     requestStatus = aRequestStatus;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create request due to game. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddEmployee = setEmployee(aEmployee);
-    if (!didAddEmployee)
-    {
-      throw new RuntimeException("Unable to create request due to employee. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -117,25 +108,7 @@ public class Request
   {
     return employee;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setGame(Game aGame)
-  {
-    boolean wasSet = false;
-    if (aGame == null)
-    {
-      return wasSet;
-    }
 
-    Game existingGame = game;
-    game = aGame;
-    if (existingGame != null && !existingGame.equals(aGame))
-    {
-      existingGame.removeRequest(this);
-    }
-    game.addRequest(this);
-    wasSet = true;
-    return wasSet;
-  }
   /* Code from template association_SetOneToMany */
   public boolean setEmployee(Employee aEmployee)
   {
@@ -156,21 +129,7 @@ public class Request
     return wasSet;
   }
 
-  public void delete()
-  {
-    Game placeholderGame = game;
-    this.game = null;
-    if(placeholderGame != null)
-    {
-      placeholderGame.removeRequest(this);
-    }
-    Employee placeholderEmployee = employee;
-    this.employee = null;
-    if(placeholderEmployee != null)
-    {
-      placeholderEmployee.removeRequest(this);
-    }
-  }
+  public void delete() {}
 
 
   public String toString()
@@ -183,5 +142,3 @@ public class Request
             "  " + "employee = "+(getEmployee()!=null?Integer.toHexString(System.identityHashCode(getEmployee())):"null");
   }
 }
-
-
