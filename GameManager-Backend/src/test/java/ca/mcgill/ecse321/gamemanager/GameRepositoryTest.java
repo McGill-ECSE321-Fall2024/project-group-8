@@ -35,10 +35,10 @@ public class GameRepositoryTest {
         String title = "Valorant";
         String description = "An fps game made by Riot";
         double price = 19.99;
-        int stock = 999;
+        Category acategory = new Category("FPS","First Person Shooting Game");
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
-        Category categories = new Category("FPS","FirstPersonShootingGame");
-        //Review reviews = new Review(1234,5,"Good game, take my money", LocalDate.now(), new Game(), Customer())
+        Request aRequest = new Request( )
+
 
 
 
