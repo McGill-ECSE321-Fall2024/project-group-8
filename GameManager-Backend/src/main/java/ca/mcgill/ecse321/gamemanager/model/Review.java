@@ -33,9 +33,10 @@ public class Review
           foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
   private Game game;
+  
   @ManyToOne
   @JoinColumn(
-        name = "customer_email",
+        name = "customer_id",
         foreignKey = @ForeignKey(name = "CUSTOMER_EMAIL_FK")
   )
   private Customer reviewer;
@@ -129,25 +130,15 @@ public class Review
   {
     return reviewer;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setGame(Game aGame)
   {
     boolean wasSet = false;
-    if (aGame == null)
-    {
-      return wasSet;
-    }
-
-    Game existingGame = game;
     game = aGame;
-    if (existingGame != null && !existingGame.equals(aGame))
-    {
-      existingGame.removeReview(this);
-    }
-    game.addReview(this);
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setReviewer(Customer aReviewer)
   {
@@ -168,22 +159,7 @@ public class Review
     return wasSet;
   }
 
-  public void delete()
-  {
-    Game placeholderGame = game;
-    this.game = null;
-    if(placeholderGame != null)
-    {
-      placeholderGame.removeReview(this);
-    }
-    Customer placeholderReviewer = reviewer;
-    this.reviewer = null;
-    if(placeholderReviewer != null)
-    {
-      placeholderReviewer.removeReview(this);
-    }
-  }
-
+  public void delete() {}
 
   public String toString()
   {
