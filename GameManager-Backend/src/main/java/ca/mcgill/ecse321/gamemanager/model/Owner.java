@@ -2,12 +2,8 @@
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
-
 import java.util.*;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 // line 23 "model.ump"
 // line 116 "model.ump"
@@ -29,6 +25,7 @@ public class Owner extends Person
   //Owner Associations
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Category> categories;
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Request> handledRequests;
 

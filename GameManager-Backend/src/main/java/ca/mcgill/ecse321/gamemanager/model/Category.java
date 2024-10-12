@@ -11,6 +11,10 @@ import java.util.*;
 public class Category
 {
 
+  //Category Associations
+  @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  private List<Game> games = new ArrayList<>();
+
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -19,10 +23,6 @@ public class Category
   @Id
   private String name;
   private String description;
-
-  //Category Associations
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<Game> games;
 
   //------------------------
   // CONSTRUCTOR
@@ -95,98 +95,8 @@ public class Category
     int index = games.indexOf(aGame);
     return index;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGames()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addGame(Game aGame)
-  {
-    boolean wasAdded = false;
-    if (games.contains(aGame)) { return false; }
-    games.add(aGame);
-    if (aGame.indexOfCategory(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aGame.addCategory(this);
-      if (!wasAdded)
-      {
-        games.remove(aGame);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeGame(Game aGame)
-  {
-    boolean wasRemoved = false;
-    if (!games.contains(aGame))
-    {
-      return wasRemoved;
-    }
 
-    int oldIndex = games.indexOf(aGame);
-    games.remove(oldIndex);
-    if (aGame.indexOfCategory(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aGame.removeCategory(this);
-      if (!wasRemoved)
-      {
-        games.add(oldIndex,aGame);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameAt(Game aGame, int index)
-  {
-    boolean wasAdded = false;
-    if(addGame(aGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-      games.remove(aGame);
-      games.add(index, aGame);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveGameAt(Game aGame, int index)
-  {
-    boolean wasAdded = false;
-    if(games.contains(aGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-      games.remove(aGame);
-      games.add(index, aGame);
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = addGameAt(aGame, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
-    games.clear();
-    for(Game aGame : copyOfGames)
-    {
-      aGame.removeCategory(this);
-    }
-  }
+  public void delete() {}
 
 
   public String toString()
