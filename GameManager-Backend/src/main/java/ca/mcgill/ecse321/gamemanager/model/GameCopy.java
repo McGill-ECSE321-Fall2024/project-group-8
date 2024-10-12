@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 // line 54 "model.ump"
 // line 166 "model.ump"
 @Entity
-public class GameCopy
+public class GameCopy extends Game
 {
 
   //------------------------
@@ -36,6 +36,10 @@ public class GameCopy
   public GameCopy(int aGameCopyId)
   {
     gameCopyId = aGameCopyId;
+
+  }
+
+  public GameCopy() {
 
   }
 
