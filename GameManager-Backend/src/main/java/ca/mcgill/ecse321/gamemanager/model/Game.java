@@ -219,14 +219,17 @@ public class Game
   public boolean addOrMoveGameCopyAt(GameCopy aGameCopy, int index)
   {
     boolean wasAdded = false;
-    if(gameCopies.contains(aGameCopy))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
+    if(gameCopies.contains(aGameCopy)) {
+      if (index < 0) {
+        index = 0;
+      }
+      if (index > numberOfGameCopies()) {
+        index = numberOfGameCopies() - 1;
+      }
       gameCopies.remove(aGameCopy);
       gameCopies.add(index, aGameCopy);
       wasAdded = true;
-    } 
+    }
     else 
     {
       wasAdded = addGameCopyAt(aGameCopy, index);
