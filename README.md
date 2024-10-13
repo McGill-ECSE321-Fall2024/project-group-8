@@ -21,12 +21,12 @@ The scope of this project is to create an online game website, allowing the owne
 # Overview table
 | Names         | Team roles | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | 
 | ------------- | -------------   |-------------|-------------|-------------|-------------|
-| Cher Li       |          |||||
-| Cleo Tang     |  |||||
-| Nara Yun      |      |||||
-| Sijing Gu     |           |||||
-| Diane Teo     |         |||||
-| Ang Li        |        |||||
+| Cher Li       | Software Developer         |||||
+| Cleo Tang     | Software Developer |||||
+| Nara Yun      | Software Developer     |||||
+| Sijing Gu     | Software Developer          |||||
+| Diane Teo     | Software Developer        |||||
+| Ang Li        | Software Developer       |||||
 
 # Sprint efforts
 | Names         | Contributions |
