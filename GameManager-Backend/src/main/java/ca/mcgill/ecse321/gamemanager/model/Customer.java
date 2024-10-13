@@ -8,9 +8,7 @@ import java.util.*;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
-import java.sql.Date;
 
 // line 9 "model.ump"
 // line 97 "model.ump"
