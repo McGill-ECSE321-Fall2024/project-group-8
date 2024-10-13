@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 // line 54 "model.ump"
 // line 166 "model.ump"
 @Entity
-public class GameCopy
+public class GameCopy extends Game
 {
 
   //------------------------
