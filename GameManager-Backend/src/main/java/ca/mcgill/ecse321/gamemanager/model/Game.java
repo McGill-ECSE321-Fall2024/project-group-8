@@ -29,7 +29,7 @@ public class Game
   //Game Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int gameId;
+  private int gameId; //let system automatically generate a gameID
   private String title;
   private String description;
   private double price;
@@ -54,7 +54,7 @@ public class Game
   //------------------------
   @SuppressWarnings("unused")
   public Game() {
-    gameCopies = new ArrayList<>();  // Initialize lists
+    gameCopies = new ArrayList<>();  // Initialize lists, game will have may copies
     reviews = new ArrayList<>();
     requests = new ArrayList<>();
   }
