@@ -28,14 +28,14 @@ The scope of this project is to create an online game website, allowing the owne
 | Diane Teo     | Software Developer        |||||
 | Ang Li        | Software Developer       |||||
 
+We also had other minor roles such as software lead and documentation manager, but software developer is the most important role to all of us. We also only included software developer because we wanted to keep our roles flexible. This way, everyone could learn and help with various parts of the project, especially with the topics they're interested in. 
+
 # Sprint efforts
 | Names         | Contributions |
 | ------------- | -------------   |
-| Cher Li       |          |
+| Cher Li       | Requirements, Detailed Use Cases, Class Diagram draft, created github issues, Add JPA annotations for PurchaseOrder, Spring Boot and Postgre set up, Persistence layer test, Project Report Wiki           |
 | Cleo Tang     | Requirements, Detailed Use Cases, Add JPA annotations for Cutomer, Employee, Owner, Review, Request, CRUD, Persistence layer tests,README.md, Creation & Testing of ReviewRepositoryTest |
 | Nara Yun      |Requirements, Detailed Use Cases, Add JPA annotations for Category, CRUD, Persistence layer tests, Create Repository, Gradle, Spring Setups, README.md, Meeting Planning / minutes, Creation & Testing of ReviewRepositoryTest, RequestRepositoryTest, PurchaseOrderRepositoryTest.
 | Sijing Gu     | Requirements, Detailed Use Cases, Use case diagram for customers, first version of Domain Model Relationship, create and complete most findby methods, create and complete tests for employee, owner and category, further debugging |
 | Diane Teo     | Requirements, Detailed Use Cases, Use Case Diagram, Domain Model Relationships, Generation of code from UML, JPA Notations for Person, Customer, Employee, Owner classes,, Remodelling Domain Model to remove ManyToMany relationships, Creation & Testing of CRUD Repositories |
 | Ang Li        | Requirements, Detailed Use Cases, JPA Notations for Game, add game copy to avoid ManyToMany relationships, create and complete tests for gamerepository , gamecopyrepository  |
-
-^ just add what you did, ex. Domain Model, Requirements, Detailed Use Cases, Add JPA annotations, CRUD, Persistence layer tests, Create Repository, Gradle, Spring Setups, UML code generation, Create issues and milestones, README.md, Create Google Docs & Google Calendar, Meeting Planning / minutes, Build System, Project Report
