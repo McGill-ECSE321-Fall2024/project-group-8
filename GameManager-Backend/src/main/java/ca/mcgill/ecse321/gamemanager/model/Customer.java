@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 
 import java.util.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.OneToMany;
 
 
 // line 9 "model.ump"
