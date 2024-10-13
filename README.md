@@ -34,7 +34,7 @@ The scope of this project is to create an online game website, allowing the owne
 | Cher Li       |          |
 | Cleo Tang     | Requirements, Detailed Use Cases, Add JPA annotations for Cutomer, Employee, Owner, Review, Request, CRUD, Persistence layer tests,README.md, Meeting Planning / minutes, Creation & Testing of ReviewRepositoryTest |
 | Nara Yun      |Requirements, Detailed Use Cases, Add JPA annotations for Category, CRUD, Persistence layer tests, Create Repository, Gradle, Spring Setups, README.md, Meeting Planning / minutes, Creation & Testing of ReviewRepositoryTest
-| Sijing Gu     |            |
+| Sijing Gu     | Requirements, Detailed Use Cases, Use case diagram for customers, first version of Domain Model Relationship, create and complete most findby methods, create and complete tests for employee, owner and category, further debugging |
 | Diane Teo     | Requirements, Detailed Use Cases, Use Case Diagram, Domain Model Relationships, Generation of code from UML, JPA Notations for Person, Customer, Employee, Owner classes,, Remodelling Domain Model to remove ManyToMany relationships, Creation & Testing of CRUD Repositories |
 | Ang Li        |        |
 
