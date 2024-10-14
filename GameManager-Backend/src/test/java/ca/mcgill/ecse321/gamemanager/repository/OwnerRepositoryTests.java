@@ -25,15 +25,20 @@ public class OwnerRepositoryTests {
 
     @Test
     public void testCreateAndReadOwner() {
+        // create owner
         String name = "OwnerName";
         String password = "OwnerPassword";
         String email = "OwnerEmail";
 
         Owner testOwner = new Owner(password, name, email);
 
+        // save owner in database
         ownerRepo.save(testOwner);
+
+        // retrieve from DB
         Owner ownerFromDB = ownerRepo.findOwnerByEmail(email);
 
+        // assertions
         assertNotNull(ownerFromDB);
         assertEquals(name, ownerFromDB.getName());
         assertEquals(password, ownerFromDB.getPassword());

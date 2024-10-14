@@ -23,12 +23,14 @@ public class GameCopyRepositoryTests {
 
     @Test
     public void testCreateAndReadGameValCopy() {
-
+        // create game copy
         GameCopy game_val_copy = new GameCopy();
         game_val_copy = repo.save(game_val_copy);
+
+        // retrieve game copy
         GameCopy game_val_copyFromDb = repo.findGameCopyByGameCopyId(game_val_copy.getGameCopyId());
 
-
+        // assertions
         assertNotNull(game_val_copyFromDb);
         assertEquals(game_val_copy.getGameCopyId(), game_val_copyFromDb.getGameCopyId());
 

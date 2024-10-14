@@ -24,6 +24,7 @@ public class EmployeeRepositoryTests {
 
     @Test
     public void testCreateAndReadOwner() {
+        // create employee
         String name = "EmployeeName";
         String password = "EmployeePassword";
         String email = "EmployeeEmail";
@@ -31,9 +32,11 @@ public class EmployeeRepositoryTests {
         Employee testEmployee = new Employee(password, name, email);
 
         //testEmployee = employeeRepo.save(testEmployee);
+        // save employee then retrieve from DB
         employeeRepo.save(testEmployee);
         Employee employeeFromDB = employeeRepo.findEmployeeByEmail(email);
 
+        // assertions
         assertNotNull(employeeFromDB);
         assertEquals(name, employeeFromDB.getName());
         assertEquals(password, employeeFromDB.getPassword());

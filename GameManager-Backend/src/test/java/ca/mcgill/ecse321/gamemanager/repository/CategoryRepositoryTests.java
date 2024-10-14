@@ -22,14 +22,17 @@ public class CategoryRepositoryTests {
     @Test
     public void testCreateAndReadCategory() {
 
+        // creating a new category
         String name = "Test Category";
         String description = "Test Description";
 
         Category jTestCategory = new Category(name, description);
 
+        // saving and retrieving from the database
         jTestCategory = repo.save(jTestCategory);
         Category CategoryFromDB = repo.findCategoryByName(jTestCategory.getName());
 
+        // assertions
         assertNotNull(CategoryFromDB);
         assertEquals(name, CategoryFromDB.getName());
         assertEquals(description, CategoryFromDB.getDescription());
