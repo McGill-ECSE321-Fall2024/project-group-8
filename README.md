@@ -19,14 +19,14 @@ For more information, check the [wiki](https://github.com/McGill-ECSE321-Fall202
 The scope of this project is to create an online game website, allowing the owner and employees to manage the shop and allowing customers to purchase games. Other goals are to learn how to design the software to fulfill given requirements, manipulate information in a database, and further teamwork communication skills.
 
 # Overview table
-| Names         | Team roles | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | 
-| ------------- | -------------   |-------------|-------------|-------------|-------------|
-| Cher Li       | Software Developer         |||||
-| Cleo Tang     | Software Developer |||||
-| Nara Yun      | Software Developer     |||||
-| Sijing Gu     | Software Developer          |||||
-| Diane Teo     | Software Developer        |||||
-| Ang Li        | Software Developer       |||||
+| Names         | Team roles | Sprint 1 | Sprint 2 | Sprint 3 | 
+| ------------- | -------------   |-------------|-------------|-------------|
+| Cher Li       | Software Developer | 35 |||
+| Cleo Tang     | Software Developer | 32 |||
+| Nara Yun      | Software Developer | 32 |||
+| Sijing Gu     | Software Developer | 35 |||
+| Diane Teo     | Software Developer | 38 |||
+| Ang Li        | Software Developer | 34 |||
 
 We also had other minor roles such as software lead and documentation manager, but software developer is the most important role to all of us. We also only included software developer because we wanted to keep our roles flexible. This way, everyone could learn and help with various parts of the project, especially with the topics they're interested in. 
 
