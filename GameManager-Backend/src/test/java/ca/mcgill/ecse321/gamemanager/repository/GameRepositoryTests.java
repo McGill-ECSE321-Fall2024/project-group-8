@@ -32,21 +32,25 @@ public class GameRepositoryTests {
 
     @Test
     public void testCreateAndReadGameVal() {
-
-
+        // create and save category
         Category acategory = new Category("FPS", "First Person Shooting Game");
         acategory = categoryRepo.save(acategory);
 
+        // create game
         String title = "Valorant";
         String description = "An fps game made by Riot";
         double price = 19.99;
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
 
         Game game_val = new Game(title, description, price, acategory, GameStatus);
+
+        // save game
         game_val = gameRepo.save(game_val);
+
+        // retrieve game
         Game game_valFromDb = gameRepo.findByGameId(game_val.getGameId());
 
-
+        // assertions
         assertNotNull(game_valFromDb);
         assertEquals(title, game_valFromDb.getTitle());
         // Similar to:

@@ -27,6 +27,7 @@ public class CustomerRepositoryTests {
         Customer customer = new Customer("password123", "John Doe", "john@example.com");
         Customer savedCustomer = customerRepository.save(customer);
 
+        // assertions of created customer
         assertNotNull(savedCustomer.getEmail());
         assertEquals("John Doe", savedCustomer.getName());
         assertEquals("john@example.com", savedCustomer.getEmail());
@@ -40,6 +41,7 @@ public class CustomerRepositoryTests {
 
         Customer retrievedCustomer = customerRepository.findCustomerByEmail(savedCustomer.getEmail());
 
+        // assertions of customer retrieved from database
         assertNotNull(retrievedCustomer);
         assertEquals("Jane Doe", retrievedCustomer.getName());
         assertEquals("jane@example.com", retrievedCustomer.getEmail());
