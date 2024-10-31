@@ -21,6 +21,7 @@ public class Category
 
   //Category Attributes
   @Id
+  private int categoryId;
   private String name;
   private String description;
 
@@ -29,8 +30,9 @@ public class Category
   //------------------------
   @SuppressWarnings("unused")
   public Category(){}
-  public Category(String aName, String aDescription)
+  public Category(int aCategoryId,String aName, String aDescription)
   {
+    categoryId = aCategoryId;
     name = aName;
     description = aDescription;
     games = new ArrayList<Game>();
@@ -40,6 +42,13 @@ public class Category
   // INTERFACE
   //------------------------
 
+  public boolean setCategoryId(int aCategoryId)
+  {
+    boolean wasSet = false;
+    categoryId = aCategoryId;
+    wasSet = true;
+    return wasSet;
+  }
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -54,6 +63,10 @@ public class Category
     description = aDescription;
     wasSet = true;
     return wasSet;
+  }
+  public int getCategoryId()
+  {
+    return categoryId;
   }
 
   public String getName()
@@ -102,6 +115,7 @@ public class Category
   public String toString()
   {
     return super.toString() + "["+
+            "categoryId" + ":" + getCategoryId()+ "," +
             "name" + ":" + getName()+ "," +
             "description" + ":" + getDescription()+ "]";
   }

@@ -23,8 +23,8 @@ public class Owner extends Person
   //------------------------
 
   //Owner Associations
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Category> categories;
+//  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//  private List<Category> categories;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Request> handledRequests;
@@ -38,7 +38,7 @@ public class Owner extends Person
   public Owner(String aPassword, String aName, String aEmail)
   {
     super(aPassword, aName, aEmail);
-    categories = new ArrayList<Category>();
+//    categories = new ArrayList<Category>();
     handledRequests = new ArrayList<Request>();
   }
 
@@ -46,35 +46,35 @@ public class Owner extends Person
   // INTERFACE
   //------------------------
   /* Code from template association_GetMany */
-  public Category getCategory(int index)
-  {
-    Category aCategory = categories.get(index);
-    return aCategory;
-  }
-
-  public List<Category> getCategories()
-  {
-    List<Category> newCategories = Collections.unmodifiableList(categories);
-    return newCategories;
-  }
-
-  public int numberOfCategories()
-  {
-    int number = categories.size();
-    return number;
-  }
-
-  public boolean hasCategories()
-  {
-    boolean has = categories.size() > 0;
-    return has;
-  }
-
-  public int indexOfCategory(Category aCategory)
-  {
-    int index = categories.indexOf(aCategory);
-    return index;
-  }
+//  public Category getCategory(int index)
+//  {
+//    Category aCategory = categories.get(index);
+//    return aCategory;
+//  }
+//
+//  public List<Category> getCategories()
+//  {
+//    List<Category> newCategories = Collections.unmodifiableList(categories);
+//    return newCategories;
+//  }
+//
+//  public int numberOfCategories()
+//  {
+//    int number = categories.size();
+//    return number;
+//  }
+//
+//  public boolean hasCategories()
+//  {
+//    boolean has = categories.size() > 0;
+//    return has;
+//  }
+//
+//  public int indexOfCategory(Category aCategory)
+//  {
+//    int index = categories.indexOf(aCategory);
+//    return index;
+//  }
   /* Code from template association_GetMany */
   public Request getHandledRequest(int index)
   {
@@ -111,57 +111,57 @@ public class Owner extends Person
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addCategory(Category aCategory)
-  {
-    boolean wasAdded = false;
-    if (categories.contains(aCategory)) { return false; }
-    categories.add(aCategory);
-    wasAdded = true;
-    return wasAdded;
-  }
+//  public boolean addCategory(Category aCategory)
+//  {
+//    boolean wasAdded = false;
+//    if (categories.contains(aCategory)) { return false; }
+//    categories.add(aCategory);
+//    wasAdded = true;
+//    return wasAdded;
+//  }
 
-  public boolean removeCategory(Category aCategory)
-  {
-    boolean wasRemoved = false;
-    if (categories.contains(aCategory))
-    {
-      categories.remove(aCategory);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addCategoryAt(Category aCategory, int index)
-  {
-    boolean wasAdded = false;
-    if(addCategory(aCategory))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
-      categories.remove(aCategory);
-      categories.add(index, aCategory);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveCategoryAt(Category aCategory, int index)
-  {
-    boolean wasAdded = false;
-    if(categories.contains(aCategory))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
-      categories.remove(aCategory);
-      categories.add(index, aCategory);
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = addCategoryAt(aCategory, index);
-    }
-    return wasAdded;
-  }
+//  public boolean removeCategory(Category aCategory)
+//  {
+//    boolean wasRemoved = false;
+//    if (categories.contains(aCategory))
+//    {
+//      categories.remove(aCategory);
+//      wasRemoved = true;
+//    }
+//    return wasRemoved;
+//  }
+//  /* Code from template association_AddIndexControlFunctions */
+//  public boolean addCategoryAt(Category aCategory, int index)
+//  {
+//    boolean wasAdded = false;
+//    if(addCategory(aCategory))
+//    {
+//      if(index < 0 ) { index = 0; }
+//      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
+//      categories.remove(aCategory);
+//      categories.add(index, aCategory);
+//      wasAdded = true;
+//    }
+//    return wasAdded;
+//  }
+//
+//  public boolean addOrMoveCategoryAt(Category aCategory, int index)
+//  {
+//    boolean wasAdded = false;
+//    if(categories.contains(aCategory))
+//    {
+//      if(index < 0 ) { index = 0; }
+//      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
+//      categories.remove(aCategory);
+//      categories.add(index, aCategory);
+//      wasAdded = true;
+//    }
+//    else
+//    {
+//      wasAdded = addCategoryAt(aCategory, index);
+//    }
+//    return wasAdded;
+//  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfHandledRequests()
   {
@@ -222,7 +222,7 @@ public class Owner extends Person
 
   public void delete()
   {
-    categories.clear();
+//    categories.clear();
     handledRequests.clear();
     super.delete();
   }

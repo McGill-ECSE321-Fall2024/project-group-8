@@ -32,7 +32,9 @@ public class Game
   private int gameId; //let system automatically generate a gameID
   private String title;
   private String description;
+  private String genre;
   private double price;
+  private int stock;
   private GameStatus gameStatus;
 
   //Game Associations
@@ -54,16 +56,18 @@ public class Game
   //------------------------
   @SuppressWarnings("unused")
   public Game() {
-    gameCopies = new ArrayList<>();  // Initialize lists, game will have may copies
+    gameCopies = new ArrayList<>();  // Initialize lists, game will have many copies
     reviews = new ArrayList<>();
     requests = new ArrayList<>();
   }
 
-  public Game(String aTitle, String aDescription, double aPrice, Category aCategory, GameStatus aGameStatus)
+  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Category aCategory, GameStatus aGameStatus)
   {
     title = aTitle;
     description = aDescription;
+    genre = aGenre;
     price = aPrice;
+    stock = aStock;
     category = aCategory;
     gameStatus = aGameStatus;
     gameCopies = new ArrayList<GameCopy>();
@@ -99,10 +103,25 @@ public class Game
     return wasSet;
   }
 
+  public boolean setGenre(String aGenre){
+    boolean wasSet = false;
+    genre = aGenre;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setPrice(double aPrice)
   {
     boolean wasSet = false;
     price = aPrice;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setStock(int aStock)
+  {
+    boolean wasSet = false;
+    stock = aStock;
     wasSet = true;
     return wasSet;
   }
@@ -130,6 +149,11 @@ public class Game
     return description;
   }
 
+  public String getGenre()
+  {
+    return genre;
+  }
+
   public double getPrice()
   {
     return price;
@@ -140,9 +164,14 @@ public class Game
     return category;
   }
 
+//  public int getStock()
+//  {
+//    return gameCopies.size();
+//  }
+
   public int getStock()
   {
-    return gameCopies.size();
+    return stock;
   }
 
   public GameStatus getGameStatus()
@@ -297,6 +326,7 @@ public class Game
             "gameId" + ":" + getGameId()+ "," +
             "title" + ":" + getTitle()+ "," +
             "description" + ":" + getDescription()+ "," +
+            "genre" + ":" + getGenre()+ "," +
             "price" + ":" + getPrice()+ "," +
             "stock" + ":" + getStock()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "category" + "=" + (getCategory() != null ? !getCategory().equals(this)  ? getCategory().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +

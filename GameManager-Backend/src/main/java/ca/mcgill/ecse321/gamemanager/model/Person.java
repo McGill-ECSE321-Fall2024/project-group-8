@@ -10,7 +10,7 @@ import jakarta.persistence.MappedSuperclass;
 // line 2 "model.ump"
 // line 90 "model.ump"
 @MappedSuperclass
-public class Person
+public abstract class Person
 {
 
   //------------------------
