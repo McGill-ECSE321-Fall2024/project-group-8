@@ -33,7 +33,7 @@ public class GameRepositoryTests {
     @Test
     public void testCreateAndReadGameVal() {
         // create and save category
-        Category acategory = new Category("FPS", "First Person Shooting Game");
+        Category acategory = new Category(1, "FPS", "First Person Shooting Game");
         acategory = categoryRepo.save(acategory);
 
         // create game
@@ -41,8 +41,10 @@ public class GameRepositoryTests {
         String description = "An fps game made by Riot";
         double price = 19.99;
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
+        String genre = "Tactical shooter";
+        int stock = 3;
 
-        Game game_val = new Game(title, description, price, acategory, GameStatus);
+        Game game_val = new Game(title, description, genre, price, stock, acategory, GameStatus);
 
         // save game
         game_val = gameRepo.save(game_val);
