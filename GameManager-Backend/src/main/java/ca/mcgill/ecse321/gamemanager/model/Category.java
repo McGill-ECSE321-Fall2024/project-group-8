@@ -1,15 +1,14 @@
 package ca.mcgill.ecse321.gamemanager.model;
-
-import jakarta.persistence.*;
-
-
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 
 
-
+import java.util.*;
+import jakarta.persistence.*;
 // line 38 "model.ump"
 // line 127 "model.ump"
+
 @Entity
 public class Category
 {
@@ -20,29 +19,25 @@ public class Category
 
   //Category Attributes
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int categoryId;
   private String name;
   private String description;
 
   //Category Associations
   @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private Game game;
+  private List<Game> games;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
   public Category(){}
-  public Category(String aName, String aDescription, Game aGame)
+  public Category(String aName, String aDescription)
   {
     name = aName;
     description = aDescription;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create category due to game. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    games = new ArrayList<Game>();
   }
 
   //------------------------
@@ -87,38 +82,126 @@ public class Category
   {
     return description;
   }
-  /* Code from template association_GetOne */
-  public Game getGame()
+  /* Code from template association_GetMany */
+  public Game getGame(int index)
   {
-    return game;
+    Game aGame = games.get(index);
+    return aGame;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setGame(Game aGame)
+
+  public List<Game> getGames()
   {
-    boolean wasSet = false;
-    if (aGame == null)
+    List<Game> newGames = Collections.unmodifiableList(games);
+    return newGames;
+  }
+
+  public int numberOfGames()
+  {
+    int number = games.size();
+    return number;
+  }
+
+  public boolean hasGames()
+  {
+    boolean has = games.size() > 0;
+    return has;
+  }
+
+  public int indexOfGame(Game aGame)
+  {
+    int index = games.indexOf(aGame);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfGames()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToManyMethod */
+  public boolean addGame(Game aGame)
+  {
+    boolean wasAdded = false;
+    if (games.contains(aGame)) { return false; }
+    games.add(aGame);
+    if (aGame.indexOfCategory(this) != -1)
     {
-      return wasSet;
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aGame.addCategory(this);
+      if (!wasAdded)
+      {
+        games.remove(aGame);
+      }
+    }
+    return wasAdded;
+  }
+  /* Code from template association_RemoveMany */
+  public boolean removeGame(Game aGame)
+  {
+    boolean wasRemoved = false;
+    if (!games.contains(aGame))
+    {
+      return wasRemoved;
     }
 
-    Game existingGame = game;
-    game = aGame;
-    if (existingGame != null && !existingGame.equals(aGame))
+    int oldIndex = games.indexOf(aGame);
+    games.remove(oldIndex);
+    if (aGame.indexOfCategory(this) == -1)
     {
-      existingGame.removeCategory(this);
+      wasRemoved = true;
     }
-    game.addCategory(this);
-    wasSet = true;
-    return wasSet;
+    else
+    {
+      wasRemoved = aGame.removeCategory(this);
+      if (!wasRemoved)
+      {
+        games.add(oldIndex,aGame);
+      }
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addGameAt(Game aGame, int index)
+  {  
+    boolean wasAdded = false;
+    if(addGame(aGame))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveGameAt(Game aGame, int index)
+  {
+    boolean wasAdded = false;
+    if(games.contains(aGame))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addGameAt(aGame, index);
+    }
+    return wasAdded;
   }
 
   public void delete()
   {
-    Game placeholderGame = game;
-    this.game = null;
-    if(placeholderGame != null)
+    ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
+    games.clear();
+    for(Game aGame : copyOfGames)
     {
-      placeholderGame.removeCategory(this);
+      aGame.removeCategory(this);
     }
   }
 
@@ -128,15 +211,8 @@ public class Category
     return super.toString() + "["+
             "categoryId" + ":" + getCategoryId()+ "," +
             "name" + ":" + getName()+ "," +
-            "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
-  }  
-  //------------------------
-  // DEVELOPER CODE - PROVIDED AS-IS
-  //------------------------
-  
-  // line 45 "model.ump"
-  //categories <-> * Game games ;
-
-  
+            "description" + ":" + getDescription()+ "]";
+  }
 }
+
+

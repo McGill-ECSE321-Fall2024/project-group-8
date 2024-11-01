@@ -31,7 +31,7 @@ public class Owner extends Person
   //------------------------
 
   @SuppressWarnings("unused")
-  protected Owner(){}
+  public Owner(){}
 
   public Owner(String aPassword, String aName, String aEmail)
   {

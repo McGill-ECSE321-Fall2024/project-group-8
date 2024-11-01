@@ -46,7 +46,7 @@ public class Game
 
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<GameCopy> gameCopies;
-  
+
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Category> categories;
 
@@ -452,38 +452,49 @@ public class Game
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public Category addCategory(int aCategoryId, String aName, String aDescription)
-  {
-    return new Category(aName, aDescription, this);
-  }
-
+  /* Code from template association_AddManyToManyMethod */
   public boolean addCategory(Category aCategory)
   {
     boolean wasAdded = false;
     if (categories.contains(aCategory)) { return false; }
-    Game existingGame = aCategory.getGame();
-    boolean isNewGame = existingGame != null && !this.equals(existingGame);
-    if (isNewGame)
+    categories.add(aCategory);
+    if (aCategory.indexOfGame(this) != -1)
     {
-      aCategory.setGame(this);
+      wasAdded = true;
     }
     else
     {
-      categories.add(aCategory);
+      wasAdded = aCategory.addGame(this);
+      if (!wasAdded)
+      {
+        categories.remove(aCategory);
+      }
     }
-    wasAdded = true;
     return wasAdded;
   }
 
+  /* Code from template association_RemoveMany */
   public boolean removeCategory(Category aCategory)
   {
     boolean wasRemoved = false;
-    //Unable to remove aCategory, as it must always have a game
-    if (!this.equals(aCategory.getGame()))
+    if (!categories.contains(aCategory))
     {
-      categories.remove(aCategory);
+      return wasRemoved;
+    }
+
+    int oldIndex = categories.indexOf(aCategory);
+    categories.remove(oldIndex);
+    if (aCategory.indexOfGame(this) == -1)
+    {
       wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aCategory.removeGame(this);
+      if (!wasRemoved)
+      {
+        categories.add(oldIndex,aCategory);
+      }
     }
     return wasRemoved;
   }
