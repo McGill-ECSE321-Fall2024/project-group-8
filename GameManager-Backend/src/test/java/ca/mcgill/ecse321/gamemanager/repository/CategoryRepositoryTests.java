@@ -26,7 +26,7 @@ public class CategoryRepositoryTests {
         String name = "Test Category";
         String description = "Test Description";
 
-        Category jTestCategory = new Category(1, name, description);
+        Category jTestCategory = new Category(name, description);
 
         // saving and retrieving from the database
         jTestCategory = repo.save(jTestCategory);

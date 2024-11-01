@@ -1,12 +1,12 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
+
 
 import java.util.*;
 import jakarta.persistence.*;
-
-// line 23 "model.ump"
-// line 116 "model.ump"
+// line 25 "model.ump"
+// line 115 "model.ump"
 @Entity
 public class Owner extends Person
 {
@@ -15,218 +15,144 @@ public class Owner extends Person
   // ENUMERATIONS
   //------------------------
 
-  public enum RequestType { Addition, Remove }
-  public enum RequestStatus { Approved, Pending, Denied }
+  public enum GameStatus { Onsale, Available, Archived }
+  public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Owner Associations
-//  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//  private List<Category> categories;
-
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Request> handledRequests;
+  private List<Game> games;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
   @SuppressWarnings("unused")
   protected Owner(){}
 
   public Owner(String aPassword, String aName, String aEmail)
   {
     super(aPassword, aName, aEmail);
-//    categories = new ArrayList<Category>();
-    handledRequests = new ArrayList<Request>();
+    games = new ArrayList<Game>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
   /* Code from template association_GetMany */
-//  public Category getCategory(int index)
-//  {
-//    Category aCategory = categories.get(index);
-//    return aCategory;
-//  }
-//
-//  public List<Category> getCategories()
-//  {
-//    List<Category> newCategories = Collections.unmodifiableList(categories);
-//    return newCategories;
-//  }
-//
-//  public int numberOfCategories()
-//  {
-//    int number = categories.size();
-//    return number;
-//  }
-//
-//  public boolean hasCategories()
-//  {
-//    boolean has = categories.size() > 0;
-//    return has;
-//  }
-//
-//  public int indexOfCategory(Category aCategory)
-//  {
-//    int index = categories.indexOf(aCategory);
-//    return index;
-//  }
-  /* Code from template association_GetMany */
-  public Request getHandledRequest(int index)
+  public Game getGame(int index)
   {
-    Request aHandledRequest = handledRequests.get(index);
-    return aHandledRequest;
+    Game aGame = games.get(index);
+    return aGame;
   }
 
-  public List<Request> getHandledRequests()
+  public List<Game> getGames()
   {
-    List<Request> newHandledRequests = Collections.unmodifiableList(handledRequests);
-    return newHandledRequests;
+    List<Game> newGames = Collections.unmodifiableList(games);
+    return newGames;
   }
 
-  public int numberOfHandledRequests()
+  public int numberOfGames()
   {
-    int number = handledRequests.size();
+    int number = games.size();
     return number;
   }
 
-  public boolean hasHandledRequests()
+  public boolean hasGames()
   {
-    boolean has = handledRequests.size() > 0;
+    boolean has = games.size() > 0;
     return has;
   }
 
-  public int indexOfHandledRequest(Request aHandledRequest)
+  public int indexOfGame(Game aGame)
   {
-    int index = handledRequests.indexOf(aHandledRequest);
+    int index = games.indexOf(aGame);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfCategories()
+  public static int minimumNumberOfGames()
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
-//  public boolean addCategory(Category aCategory)
-//  {
-//    boolean wasAdded = false;
-//    if (categories.contains(aCategory)) { return false; }
-//    categories.add(aCategory);
-//    wasAdded = true;
-//    return wasAdded;
-//  }
+  /* Code from template association_AddManyToOne */
+  public Game addGame(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus)
+  {
+    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, this);
+  }
 
-//  public boolean removeCategory(Category aCategory)
-//  {
-//    boolean wasRemoved = false;
-//    if (categories.contains(aCategory))
-//    {
-//      categories.remove(aCategory);
-//      wasRemoved = true;
-//    }
-//    return wasRemoved;
-//  }
-//  /* Code from template association_AddIndexControlFunctions */
-//  public boolean addCategoryAt(Category aCategory, int index)
-//  {
-//    boolean wasAdded = false;
-//    if(addCategory(aCategory))
-//    {
-//      if(index < 0 ) { index = 0; }
-//      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
-//      categories.remove(aCategory);
-//      categories.add(index, aCategory);
-//      wasAdded = true;
-//    }
-//    return wasAdded;
-//  }
-//
-//  public boolean addOrMoveCategoryAt(Category aCategory, int index)
-//  {
-//    boolean wasAdded = false;
-//    if(categories.contains(aCategory))
-//    {
-//      if(index < 0 ) { index = 0; }
-//      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
-//      categories.remove(aCategory);
-//      categories.add(index, aCategory);
-//      wasAdded = true;
-//    }
-//    else
-//    {
-//      wasAdded = addCategoryAt(aCategory, index);
-//    }
-//    return wasAdded;
-//  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfHandledRequests()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addHandledRequest(Request aHandledRequest)
+  public boolean addGame(Game aGame)
   {
     boolean wasAdded = false;
-    if (handledRequests.contains(aHandledRequest)) { return false; }
-    handledRequests.add(aHandledRequest);
+    if (games.contains(aGame)) { return false; }
+    Owner existingOwner = aGame.getOwner();
+    boolean isNewOwner = existingOwner != null && !this.equals(existingOwner);
+    if (isNewOwner)
+    {
+      aGame.setOwner(this);
+    }
+    else
+    {
+      games.add(aGame);
+    }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeHandledRequest(Request aHandledRequest)
+  public boolean removeGame(Game aGame)
   {
     boolean wasRemoved = false;
-    if (handledRequests.contains(aHandledRequest))
+    //Unable to remove aGame, as it must always have a owner
+    if (!this.equals(aGame.getOwner()))
     {
-      handledRequests.remove(aHandledRequest);
+      games.remove(aGame);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addHandledRequestAt(Request aHandledRequest, int index)
-  {
+  public boolean addGameAt(Game aGame, int index)
+  {  
     boolean wasAdded = false;
-    if(addHandledRequest(aHandledRequest))
+    if(addGame(aGame))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfHandledRequests()) { index = numberOfHandledRequests() - 1; }
-      handledRequests.remove(aHandledRequest);
-      handledRequests.add(index, aHandledRequest);
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveHandledRequestAt(Request aHandledRequest, int index)
+  public boolean addOrMoveGameAt(Game aGame, int index)
   {
     boolean wasAdded = false;
-    if(handledRequests.contains(aHandledRequest))
+    if(games.contains(aGame))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfHandledRequests()) { index = numberOfHandledRequests() - 1; }
-      handledRequests.remove(aHandledRequest);
-      handledRequests.add(index, aHandledRequest);
+      if(index > numberOfGames()) { index = numberOfGames() - 1; }
+      games.remove(aGame);
+      games.add(index, aGame);
       wasAdded = true;
-    }
-    else
+    } 
+    else 
     {
-      wasAdded = addHandledRequestAt(aHandledRequest, index);
+      wasAdded = addGameAt(aGame, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-//    categories.clear();
-    handledRequests.clear();
+    for(int i=games.size(); i > 0; i--)
+    {
+      Game aGame = games.get(i - 1);
+      aGame.delete();
+    }
     super.delete();
   }
 
 }
-
-

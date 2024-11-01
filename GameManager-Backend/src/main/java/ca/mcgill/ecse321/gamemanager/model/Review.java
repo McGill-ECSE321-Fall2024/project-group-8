@@ -1,16 +1,14 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 
-import jakarta.persistence.*;
 
 import java.sql.Date;
-
-// line 49 "model.ump"
-// line 138 "model.ump"
+import jakarta.persistence.*;
+// line 48 "model.ump"
+// line 122 "model.ump"
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "game_id"}))
-// to ensure one customer can only have one review for each purchased game
 public class Review
 {
 
@@ -32,22 +30,15 @@ public class Review
           name = "game_id",
           foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
-  public Game game;
-
-  @ManyToOne
-  @JoinColumn(
-        name = "customer_id",
-        foreignKey = @ForeignKey(name = "CUSTOMER_EMAIL_FK")
-  )
-  private Customer reviewer;
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
   @SuppressWarnings("unused")
   public Review(){}
-
-  public Review(int aRating, String aDescription, Date aDate, Game aGame, Customer aReviewer)
+  public Review(int aRating, String aDescription, Date aDate, Game aGame)
   {
     rating = aRating;
     description = aDescription;
@@ -56,11 +47,6 @@ public class Review
     if (!didAddGame)
     {
       throw new RuntimeException("Unable to create review due to game. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddReviewer = setReviewer(aReviewer);
-    if (!didAddReviewer)
-    {
-      throw new RuntimeException("Unable to create review due to reviewer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -124,41 +110,36 @@ public class Review
   {
     return game;
   }
-  /* Code from template association_GetOnes */
-  public Customer getReviewer()
-  {
-    return reviewer;
-  }
-
+  /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
   {
     boolean wasSet = false;
-    game = aGame;
-    wasSet = true;
-    return wasSet;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setReviewer(Customer aReviewer)
-  {
-    boolean wasSet = false;
-    if (aReviewer == null)
+    if (aGame == null)
     {
       return wasSet;
     }
 
-    Customer existingReviewer = reviewer;
-    reviewer = aReviewer;
-    if (existingReviewer != null && !existingReviewer.equals(aReviewer))
+    Game existingGame = game;
+    game = aGame;
+    if (existingGame != null && !existingGame.equals(aGame))
     {
-      existingReviewer.removeReview(this);
+      existingGame.removeReview(this);
     }
-    reviewer.addReview(this);
+    game.addReview(this);
     wasSet = true;
     return wasSet;
   }
 
-  public void delete() {}
+  public void delete()
+  {
+    Game placeholderGame = game;
+    this.game = null;
+    if(placeholderGame != null)
+    {
+      placeholderGame.removeReview(this);
+    }
+  }
+
 
   public String toString()
   {
@@ -167,9 +148,6 @@ public class Review
             "rating" + ":" + getRating()+ "," +
             "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "reviewer = "+(getReviewer()!=null?Integer.toHexString(System.identityHashCode(getReviewer())):"null");
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 }
-
-

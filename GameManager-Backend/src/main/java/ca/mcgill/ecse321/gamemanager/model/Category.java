@@ -1,19 +1,18 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
 import jakarta.persistence.*;
-import java.util.*;
 
-// line 42 "model.ump"
-// line 131 "model.ump"
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
+
+
+
+// line 38 "model.ump"
+// line 127 "model.ump"
 @Entity
 public class Category
 {
-
-  //Category Associations
-  @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<Game> games = new ArrayList<>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -21,21 +20,29 @@ public class Category
 
   //Category Attributes
   @Id
+  @GeneratedValue
   private int categoryId;
   private String name;
   private String description;
+
+  //Category Associations
+  @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
   public Category(){}
-  public Category(int aCategoryId,String aName, String aDescription)
+  public Category(String aName, String aDescription, Game aGame)
   {
-    categoryId = aCategoryId;
     name = aName;
     description = aDescription;
-    games = new ArrayList<Game>();
+    boolean didAddGame = setGame(aGame);
+    if (!didAddGame)
+    {
+      throw new RuntimeException("Unable to create category due to game. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -49,6 +56,7 @@ public class Category
     wasSet = true;
     return wasSet;
   }
+
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -64,6 +72,7 @@ public class Category
     wasSet = true;
     return wasSet;
   }
+
   public int getCategoryId()
   {
     return categoryId;
@@ -78,38 +87,40 @@ public class Category
   {
     return description;
   }
-  /* Code from template association_GetMany */
-  public Game getGame(int index)
+  /* Code from template association_GetOne */
+  public Game getGame()
   {
-    Game aGame = games.get(index);
-    return aGame;
+    return game;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setGame(Game aGame)
+  {
+    boolean wasSet = false;
+    if (aGame == null)
+    {
+      return wasSet;
+    }
+
+    Game existingGame = game;
+    game = aGame;
+    if (existingGame != null && !existingGame.equals(aGame))
+    {
+      existingGame.removeCategory(this);
+    }
+    game.addCategory(this);
+    wasSet = true;
+    return wasSet;
   }
 
-  public List<Game> getGames()
+  public void delete()
   {
-    List<Game> newGames = Collections.unmodifiableList(games);
-    return newGames;
+    Game placeholderGame = game;
+    this.game = null;
+    if(placeholderGame != null)
+    {
+      placeholderGame.removeCategory(this);
+    }
   }
-
-  public int numberOfGames()
-  {
-    int number = games.size();
-    return number;
-  }
-
-  public boolean hasGames()
-  {
-    boolean has = games.size() > 0;
-    return has;
-  }
-
-  public int indexOfGame(Game aGame)
-  {
-    int index = games.indexOf(aGame);
-    return index;
-  }
-
-  public void delete() {}
 
 
   public String toString()
@@ -117,8 +128,15 @@ public class Category
     return super.toString() + "["+
             "categoryId" + ":" + getCategoryId()+ "," +
             "name" + ":" + getName()+ "," +
-            "description" + ":" + getDescription()+ "]";
-  }
+            "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 45 "model.ump"
+  //categories <-> * Game games ;
+
+  
 }
-
-

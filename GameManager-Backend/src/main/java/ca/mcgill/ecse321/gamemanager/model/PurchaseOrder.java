@@ -1,16 +1,13 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 
 
 import java.sql.Date;
 import java.util.*;
-
 import jakarta.persistence.*;
-
-// line 60 "model.ump"
-// line 144 "model.ump"
-
+// line 58 "model.ump"
+// line 148 "model.ump"
 @Entity
 @Table(name = "purchase_order")
 public class PurchaseOrder
@@ -20,13 +17,13 @@ public class PurchaseOrder
   // ENUMERATIONS
   //------------------------
 
-  public enum OrderStatus { ShoppingCart, Delivered }
+  public enum OrderStatus { ShoppingCart, Bought }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Order Attributes
+  //PurchaseOrder Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int orderId;
@@ -34,9 +31,9 @@ public class PurchaseOrder
   private double totalPrice;
   private Date date;
 
-  //Order Associations
+  //PurchaseOrder Associations
   @OneToMany(mappedBy = "purchaseOrder", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<GameCopy> gameCopies = new ArrayList<>();
+  private List<GameCopy> gameCopies;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
@@ -45,19 +42,19 @@ public class PurchaseOrder
   )
   private Customer buyer;
 
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
   protected PurchaseOrder(){}
 
-  public PurchaseOrder(OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
+  public PurchaseOrder(OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
   {
     orderStatus = aOrderStatus;
     totalPrice = aTotalPrice;
     date = aDate;
     gameCopies = new ArrayList<GameCopy>();
-    buyer = aBuyer;
   }
 
   //------------------------
@@ -99,11 +96,6 @@ public class PurchaseOrder
   public int getOrderId()
   {
     return orderId;
-  }
-
-  public Customer getCustomer()
-  {
-    return buyer;
   }
 
   public OrderStatus getOrderStatus()
@@ -219,10 +211,7 @@ public class PurchaseOrder
     return super.toString() + "["+
             "orderId" + ":" + getOrderId()+ "," +
             "totalPrice" + ":" + getTotalPrice()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "buyer" + "=" + (getCustomer() != null ? !getCustomer().equals(this)  ? getCustomer().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "orderStatus" + "=" + (getOrderStatus() != null ? !getOrderStatus().equals(this)  ? getOrderStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
-
