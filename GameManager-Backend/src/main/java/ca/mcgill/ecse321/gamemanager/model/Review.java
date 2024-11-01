@@ -32,6 +32,13 @@ public class Review
   )
   private Game game;
 
+  @ManyToOne
+  @JoinColumn(
+        name = "customer_id",
+        foreignKey = @ForeignKey(name = "CUSTOMER_EMAIL_FK")
+  )
+  private Customer reviewer;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------

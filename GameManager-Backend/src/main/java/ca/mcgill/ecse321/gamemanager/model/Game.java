@@ -47,7 +47,12 @@ public class Game
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<GameCopy> gameCopies;
 
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+  @ManyToMany
+    @JoinTable(
+        name = "Category_Game",
+        joinColumns = @JoinColumn(name = "game_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
   private List<Category> categories;
 
   //------------------------

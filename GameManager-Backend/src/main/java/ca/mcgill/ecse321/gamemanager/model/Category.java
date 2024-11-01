@@ -25,7 +25,7 @@ public class Category
   private String description;
 
   //Category Associations
-  @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(mappedBy = "categories")
   private List<Game> games;
 
   //------------------------
