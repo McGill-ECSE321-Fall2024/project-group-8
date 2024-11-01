@@ -39,10 +39,15 @@ public class Game
   //Game Associations
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
+
+  @ManyToOne
+  @JoinColumn(name = "owner_email", foreignKey = @ForeignKey(name = "OWNER_EMAIL_FK"))
   private Owner owner;
 
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<GameCopy> gameCopies;
+  
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Category> categories;
 
   //------------------------
