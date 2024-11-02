@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 
 // line 11 "model.ump"
 // line 98 "model.ump"
+@Entity
 public class Customer extends Person
 {
 
