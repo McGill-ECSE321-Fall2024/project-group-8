@@ -38,10 +38,20 @@ public class Game
 
   //Game Associations
   private List<Review> reviews;
+  @ManyToOne
+  @JoinColumn(
+          name = "owner_email",
+          foreignKey = @ForeignKey(name = "OWNER_EMAIL_FK")
+  )
   private Owner owner;
   private Customer Wishlist;
   private Customer cart;
   private List<GameCopy> gameCopies;
+  @ManyToOne
+  @JoinColumn(
+          name = "category_id",
+          foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")
+  )
   private Category category;
 
   //------------------------

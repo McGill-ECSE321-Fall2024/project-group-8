@@ -25,7 +25,17 @@ public class Review
   private Date date;
 
   //Review Associations
+  @ManyToOne
+  @JoinColumn(
+          name = "Customer_id",
+          foreignKey = @ForeignKey(name = "CUSTOMER_ID_FK")
+  )
   private Customer created;
+  @ManyToOne
+  @JoinColumn(
+          name = "game_id",
+          foreignKey = @ForeignKey(name = "GAME_ID_FK")
+  )
   private Game game;
 
   //------------------------

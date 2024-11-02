@@ -20,7 +20,17 @@ public class GameCopy
   private int gameCopyId;
 
   //GameCopy Associations
+  @ManyToOne
+  @JoinColumn(
+          name = "game_id",
+          foreignKey = @ForeignKey(name = "GAME_ID_FK")
+  )
   private Game game;
+  @ManyToOne
+  @JoinColumn(
+          name = "order_id",
+          foreignKey = @ForeignKey(name = "ORDER_ID_FK")
+  )
   private PurchaseOrder purchaseOrder;
 
   //------------------------

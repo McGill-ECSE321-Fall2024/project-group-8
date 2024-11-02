@@ -28,7 +28,9 @@ public class Customer extends Person
   //Customer Associations
   private List<Review> reviews;
   private List<PurchaseOrder> purchaseOrders;
+  @OneToMany(mappedBy = "wishList", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Game> inWishlist;
+  @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Game> inCart;
 
   //------------------------

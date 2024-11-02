@@ -23,7 +23,7 @@ public class Owner extends Person
   //------------------------
 
   //Owner Associations
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Game> games;
 
   //------------------------

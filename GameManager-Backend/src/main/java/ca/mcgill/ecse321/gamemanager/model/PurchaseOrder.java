@@ -33,6 +33,11 @@ public class PurchaseOrder
 
   //PurchaseOrder Associations
   private List<GameCopy> gameCopies;
+  @ManyToOne
+  @JoinColumn(
+          name = "Customer_email",
+          foreignKey = @ForeignKey(name = "CUSTOMER_EMAIL_FK")
+  )
   private Customer created;
 
   //------------------------
