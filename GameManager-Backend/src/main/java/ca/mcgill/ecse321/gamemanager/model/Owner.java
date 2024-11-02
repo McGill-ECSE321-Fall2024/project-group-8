@@ -1,12 +1,12 @@
-package ca.mcgill.ecse321.gamemanager.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
-
+package ca.mcgill.ecse321.gamemanager.model;
 
 import java.util.*;
 import jakarta.persistence.*;
-// line 25 "model.ump"
-// line 115 "model.ump"
+
+// line 26 "model.ump"
+// line 118 "model.ump"
 @Entity
 public class Owner extends Person
 {
@@ -23,13 +23,12 @@ public class Owner extends Person
   //------------------------
 
   //Owner Associations
-  //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Game> games;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
   @SuppressWarnings("unused")
   public Owner(){}
 
@@ -77,26 +76,12 @@ public class Owner extends Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public Game addGame(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus,Category aCategory)
-  {
-    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, this, aCategory);
-  }
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addGame(Game aGame)
   {
     boolean wasAdded = false;
     if (games.contains(aGame)) { return false; }
-    Owner existingOwner = aGame.getOwner();
-    boolean isNewOwner = existingOwner != null && !this.equals(existingOwner);
-    if (isNewOwner)
-    {
-      aGame.setOwner(this);
-    }
-    else
-    {
-      games.add(aGame);
-    }
+    games.add(aGame);
     wasAdded = true;
     return wasAdded;
   }
@@ -104,8 +89,7 @@ public class Owner extends Person
   public boolean removeGame(Game aGame)
   {
     boolean wasRemoved = false;
-    //Unable to remove aGame, as it must always have a owner
-    if (!this.equals(aGame.getOwner()))
+    if (games.contains(aGame))
     {
       games.remove(aGame);
       wasRemoved = true;
@@ -147,11 +131,7 @@ public class Owner extends Person
 
   public void delete()
   {
-    for(int i=games.size(); i > 0; i--)
-    {
-      Game aGame = games.get(i - 1);
-      aGame.delete();
-    }
+    games.clear();
     super.delete();
   }
 

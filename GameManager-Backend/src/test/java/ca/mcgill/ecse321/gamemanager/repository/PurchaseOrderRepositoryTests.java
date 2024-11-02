@@ -43,7 +43,7 @@ public class PurchaseOrderRepositoryTests {
         double price = 34.23;
         Date date = Date.valueOf("2024-10-10");
 
-        PurchaseOrder test1 = new PurchaseOrder(status, price, date,customer);
+        PurchaseOrder test1 = new PurchaseOrder(status, price, date);
 
         // Save order in the database
         test1 = repo.save(test1);

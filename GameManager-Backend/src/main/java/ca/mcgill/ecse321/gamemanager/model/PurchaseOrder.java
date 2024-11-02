@@ -1,7 +1,6 @@
-package ca.mcgill.ecse321.gamemanager.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
-
+package ca.mcgill.ecse321.gamemanager.model;
 
 import java.sql.Date;
 import java.util.*;
@@ -32,13 +31,8 @@ public class PurchaseOrder
   private Date date;
 
   //PurchaseOrder Associations
+  @OneToMany(mappedBy = "purchaseOrder", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<GameCopy> gameCopies;
-  @ManyToOne
-  @JoinColumn(
-          name = "Customer_email",
-          foreignKey = @ForeignKey(name = "CUSTOMER_EMAIL_FK")
-  )
-  private Customer created;
 
   //------------------------
   // CONSTRUCTOR
@@ -46,17 +40,12 @@ public class PurchaseOrder
   @SuppressWarnings("unused")
   protected PurchaseOrder(){}
 
-  public PurchaseOrder(OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aCreated)
+  public PurchaseOrder(OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
   {
     orderStatus = aOrderStatus;
     totalPrice = aTotalPrice;
     date = aDate;
     gameCopies = new ArrayList<GameCopy>();
-    boolean didAddCreated = setCreated(aCreated);
-    if (!didAddCreated)
-    {
-      throw new RuntimeException("Unable to create purchaseOrder due to created. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -144,36 +133,17 @@ public class PurchaseOrder
     int index = gameCopies.indexOf(aGameCopy);
     return index;
   }
-  /* Code from template association_GetOne */
-  public Customer getCreated()
-  {
-    return created;
-  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfGameCopies()
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public GameCopy addGameCopy(Game aGame)
-  {
-    return new GameCopy(aGame);
-  }
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addGameCopy(GameCopy aGameCopy)
   {
     boolean wasAdded = false;
     if (gameCopies.contains(aGameCopy)) { return false; }
-    PurchaseOrder existingPurchaseOrder = aGameCopy.getPurchaseOrder();
-    boolean isNewPurchaseOrder = existingPurchaseOrder != null && !this.equals(existingPurchaseOrder);
-    if (isNewPurchaseOrder)
-    {
-      aGameCopy.setPurchaseOrder(this);
-    }
-    else
-    {
-      gameCopies.add(aGameCopy);
-    }
+    gameCopies.add(aGameCopy);
     wasAdded = true;
     return wasAdded;
   }
@@ -181,8 +151,7 @@ public class PurchaseOrder
   public boolean removeGameCopy(GameCopy aGameCopy)
   {
     boolean wasRemoved = false;
-    //Unable to remove aGameCopy, as it must always have a purchaseOrder
-    if (!this.equals(aGameCopy.getPurchaseOrder()))
+    if (gameCopies.contains(aGameCopy))
     {
       gameCopies.remove(aGameCopy);
       wasRemoved = true;
@@ -221,39 +190,10 @@ public class PurchaseOrder
     }
     return wasAdded;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setCreated(Customer aCreated)
-  {
-    boolean wasSet = false;
-    if (aCreated == null)
-    {
-      return wasSet;
-    }
-
-    Customer existingCreated = created;
-    created = aCreated;
-    if (existingCreated != null && !existingCreated.equals(aCreated))
-    {
-      existingCreated.removePurchaseOrder(this);
-    }
-    created.addPurchaseOrder(this);
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
-    for(int i=gameCopies.size(); i > 0; i--)
-    {
-      GameCopy aGameCopy = gameCopies.get(i - 1);
-      aGameCopy.delete();
-    }
-    Customer placeholderCreated = created;
-    this.created = null;
-    if(placeholderCreated != null)
-    {
-      placeholderCreated.removePurchaseOrder(this);
-    }
+    gameCopies.clear();
   }
 
 
@@ -263,7 +203,6 @@ public class PurchaseOrder
             "orderId" + ":" + getOrderId()+ "," +
             "totalPrice" + ":" + getTotalPrice()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "orderStatus" + "=" + (getOrderStatus() != null ? !getOrderStatus().equals(this)  ? getOrderStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "created = "+(getCreated()!=null?Integer.toHexString(System.identityHashCode(getCreated())):"null");
+            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }

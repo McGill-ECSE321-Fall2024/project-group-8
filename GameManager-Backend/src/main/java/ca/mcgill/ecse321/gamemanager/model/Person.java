@@ -1,12 +1,14 @@
-package ca.mcgill.ecse321.gamemanager.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
+package ca.mcgill.ecse321.gamemanager.model;
 
 
 import java.util.*;
 import jakarta.persistence.*;
-// line 3 "model.ump"
-// line 91 "model.ump"
+
+
+// line 4 "model.ump"
+// line 92 "model.ump"
 @MappedSuperclass
 public abstract class Person
 {
@@ -24,7 +26,6 @@ public abstract class Person
   //Person Attributes
   private String password;
   private String name;
-
   @Id
   @Column(unique = true, nullable = false)
   private String email;
@@ -32,10 +33,8 @@ public abstract class Person
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
   @SuppressWarnings("unused")
   protected Person(){}
-
   public Person(String aPassword, String aName, String aEmail)
   {
     password = aPassword;

@@ -45,9 +45,9 @@ public class GameRepositoryTests {
         String genre = "Tactical shooter";
         int stock = 3;
         Owner aOwner = new Owner();
-        RequestStatus aRequestStatus = RequestStatus.Approved;
+        Game.RequestStatus aRequestStatus = Game.RequestStatus.Approved;
 
-        Game game_val = new Game(title, description, genre, price, stock, aGameStatus, aRequestStatus, aOwner,acategory);
+        Game game_val = new Game(title, description, genre, price, stock, aGameStatus, aRequestStatus, acategory);
 
         // save game
         game_val = gameRepo.save(game_val);
