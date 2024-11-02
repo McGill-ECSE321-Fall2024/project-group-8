@@ -19,22 +19,16 @@ public class Customer extends Person
 
   public enum GameStatus { Onsale, Available, Archived }
   public enum OrderStatus { ShoppingCart, Bought }
+  public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Customer Associations
-  @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
-
-  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PurchaseOrder> purchaseOrders;
-
-  @OneToMany(mappedBy = "WishList Owner", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Game> inWishList;
-
-  @OneToMany(mappedBy = "cartOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Game> inWishlist;
   private List<Game> inCart;
 
   //------------------------
@@ -51,7 +45,7 @@ public class Customer extends Person
     super(aPassword, aName, aEmail);
     reviews = new ArrayList<Review>();
     purchaseOrders = new ArrayList<PurchaseOrder>();
-    inWishList = new ArrayList<Game>();
+    inWishlist = new ArrayList<Game>();
     inCart = new ArrayList<Game>();
   }
 
@@ -121,31 +115,31 @@ public class Customer extends Person
   /* Code from template association_GetMany */
   public Game getInWishlist(int index)
   {
-    Game aInWishlist = inWishList.get(index);
+    Game aInWishlist = inWishlist.get(index);
     return aInWishlist;
   }
 
   public List<Game> getInWishlist()
   {
-    List<Game> newInWishlist = Collections.unmodifiableList(inWishList);
+    List<Game> newInWishlist = Collections.unmodifiableList(inWishlist);
     return newInWishlist;
   }
 
   public int numberOfInWishlist()
   {
-    int number = inWishList.size();
+    int number = inWishlist.size();
     return number;
   }
 
   public boolean hasInWishlist()
   {
-    boolean has = inWishList.size() > 0;
+    boolean has = inWishlist.size() > 0;
     return has;
   }
 
   public int indexOfInWishlist(Game aInWishlist)
   {
-    int index = inWishList.indexOf(aInWishlist);
+    int index = inWishlist.indexOf(aInWishlist);
     return index;
   }
   /* Code from template association_GetMany */
@@ -183,12 +177,26 @@ public class Customer extends Person
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
+  /* Code from template association_AddManyToOne */
+  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame)
+  {
+    return new Review(aReviewId, aRating, aDescription, aDate, this, aGame);
+  }
+
   public boolean addReview(Review aReview)
   {
     boolean wasAdded = false;
     if (reviews.contains(aReview)) { return false; }
-    reviews.add(aReview);
+    Customer existingCreated = aReview.getCreated();
+    boolean isNewCreated = existingCreated != null && !this.equals(existingCreated);
+    if (isNewCreated)
+    {
+      aReview.setCreated(this);
+    }
+    else
+    {
+      reviews.add(aReview);
+    }
     wasAdded = true;
     return wasAdded;
   }
@@ -196,7 +204,8 @@ public class Customer extends Person
   public boolean removeReview(Review aReview)
   {
     boolean wasRemoved = false;
-    if (reviews.contains(aReview))
+    //Unable to remove aReview, as it must always have a created
+    if (!this.equals(aReview.getCreated()))
     {
       reviews.remove(aReview);
       wasRemoved = true;
@@ -240,12 +249,26 @@ public class Customer extends Person
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
+  /* Code from template association_AddManyToOne */
+  public PurchaseOrder addPurchaseOrder(PurchaseOrder.OrderStatus aOrderStatus, double aTotalPrice, Date aDate)
+  {
+    return new PurchaseOrder(aOrderStatus, aTotalPrice, aDate, this);
+  }
+
   public boolean addPurchaseOrder(PurchaseOrder aPurchaseOrder)
   {
     boolean wasAdded = false;
     if (purchaseOrders.contains(aPurchaseOrder)) { return false; }
-    purchaseOrders.add(aPurchaseOrder);
+    Customer existingCreated = aPurchaseOrder.getCreated();
+    boolean isNewCreated = existingCreated != null && !this.equals(existingCreated);
+    if (isNewCreated)
+    {
+      aPurchaseOrder.setCreated(this);
+    }
+    else
+    {
+      purchaseOrders.add(aPurchaseOrder);
+    }
     wasAdded = true;
     return wasAdded;
   }
@@ -253,7 +276,8 @@ public class Customer extends Person
   public boolean removePurchaseOrder(PurchaseOrder aPurchaseOrder)
   {
     boolean wasRemoved = false;
-    if (purchaseOrders.contains(aPurchaseOrder))
+    //Unable to remove aPurchaseOrder, as it must always have a created
+    if (!this.equals(aPurchaseOrder.getCreated()))
     {
       purchaseOrders.remove(aPurchaseOrder);
       wasRemoved = true;
@@ -297,12 +321,26 @@ public class Customer extends Person
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
+  /* Code from template association_AddManyToOne */
+  public Game addInWishlist(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Owner aOwner, Category aCategory)
+  {
+    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, aOwner,aCategory);
+  }
+
   public boolean addInWishlist(Game aInWishlist)
   {
     boolean wasAdded = false;
-    if (inWishList.contains(aInWishlist)) { return false; }
-    inWishList.add(aInWishlist);
+    if (inWishlist.contains(aInWishlist)) { return false; }
+    Customer existingWishlist = aInWishlist.getWishlist();
+    boolean isNewWishlist = existingWishlist != null && !this.equals(existingWishlist);
+    if (isNewWishlist)
+    {
+      aInWishlist.setWishlist(this);
+    }
+    else
+    {
+      inWishlist.add(aInWishlist);
+    }
     wasAdded = true;
     return wasAdded;
   }
@@ -310,9 +348,10 @@ public class Customer extends Person
   public boolean removeInWishlist(Game aInWishlist)
   {
     boolean wasRemoved = false;
-    if (inWishList.contains(aInWishlist))
+    //Unable to remove aInWishlist, as it must always have a Wishlist
+    if (!this.equals(aInWishlist.getWishlist()))
     {
-      inWishList.remove(aInWishlist);
+      inWishlist.remove(aInWishlist);
       wasRemoved = true;
     }
     return wasRemoved;
@@ -325,8 +364,8 @@ public class Customer extends Person
     {
       if(index < 0 ) { index = 0; }
       if(index > numberOfInWishlist()) { index = numberOfInWishlist() - 1; }
-      inWishList.remove(aInWishlist);
-      inWishList.add(index, aInWishlist);
+      inWishlist.remove(aInWishlist);
+      inWishlist.add(index, aInWishlist);
       wasAdded = true;
     }
     return wasAdded;
@@ -335,12 +374,12 @@ public class Customer extends Person
   public boolean addOrMoveInWishlistAt(Game aInWishlist, int index)
   {
     boolean wasAdded = false;
-    if(inWishList.contains(aInWishlist))
+    if(inWishlist.contains(aInWishlist))
     {
       if(index < 0 ) { index = 0; }
       if(index > numberOfInWishlist()) { index = numberOfInWishlist() - 1; }
-      inWishList.remove(aInWishlist);
-      inWishList.add(index, aInWishlist);
+      inWishlist.remove(aInWishlist);
+      inWishlist.add(index, aInWishlist);
       wasAdded = true;
     } 
     else 
@@ -354,12 +393,26 @@ public class Customer extends Person
   {
     return 0;
   }
-  /* Code from template association_AddUnidirectionalMany */
+  /* Code from template association_AddManyToOne */
+  public Game addInCart(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Owner aOwner, Category aCategory)
+  {
+    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, aOwner, aCategory);
+  }
+
   public boolean addInCart(Game aInCart)
   {
     boolean wasAdded = false;
     if (inCart.contains(aInCart)) { return false; }
-    inCart.add(aInCart);
+    Customer existingCart = aInCart.getCart();
+    boolean isNewCart = existingCart != null && !this.equals(existingCart);
+    if (isNewCart)
+    {
+      aInCart.setCart(this);
+    }
+    else
+    {
+      inCart.add(aInCart);
+    }
     wasAdded = true;
     return wasAdded;
   }
@@ -367,7 +420,8 @@ public class Customer extends Person
   public boolean removeInCart(Game aInCart)
   {
     boolean wasRemoved = false;
-    if (inCart.contains(aInCart))
+    //Unable to remove aInCart, as it must always have a cart
+    if (!this.equals(aInCart.getCart()))
     {
       inCart.remove(aInCart);
       wasRemoved = true;
@@ -409,10 +463,26 @@ public class Customer extends Person
 
   public void delete()
   {
-    reviews.clear();
-    purchaseOrders.clear();
-    inWishList.clear();
-    inCart.clear();
+    for(int i=reviews.size(); i > 0; i--)
+    {
+      Review aReview = reviews.get(i - 1);
+      aReview.delete();
+    }
+    for(int i=purchaseOrders.size(); i > 0; i--)
+    {
+      PurchaseOrder aPurchaseOrder = purchaseOrders.get(i - 1);
+      aPurchaseOrder.delete();
+    }
+    for(int i=inWishlist.size(); i > 0; i--)
+    {
+      Game aInWishlist = inWishlist.get(i - 1);
+      aInWishlist.delete();
+    }
+    for(int i=inCart.size(); i > 0; i--)
+    {
+      Game aInCart = inCart.get(i - 1);
+      aInCart.delete();
+    }
     super.delete();
   }
 

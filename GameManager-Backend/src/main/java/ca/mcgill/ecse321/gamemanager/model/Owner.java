@@ -78,9 +78,9 @@ public class Owner extends Person
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus)
+  public Game addGame(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus,Category aCategory)
   {
-    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, this);
+    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, this, aCategory);
   }
 
   public boolean addGame(Game aGame)

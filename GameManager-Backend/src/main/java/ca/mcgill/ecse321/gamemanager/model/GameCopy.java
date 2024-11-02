@@ -20,14 +20,7 @@ public class GameCopy
   private int gameCopyId;
 
   //GameCopy Associations
-
-
-  @ManyToOne
-  @JoinColumn(name = "game_id", foreignKey = @ForeignKey(name = "GAME_ID_FK"))
   private Game game;
-
-  @ManyToOne
-  @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "ORDER_ID_FK"))
   private PurchaseOrder purchaseOrder;
 
   //------------------------
@@ -66,6 +59,11 @@ public class GameCopy
   {
     return game;
   }
+  /* Code from template association_GetOne */
+  public PurchaseOrder getPurchaseOrder()
+  {
+    return purchaseOrder;
+  }
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
   {
@@ -85,6 +83,25 @@ public class GameCopy
     wasSet = true;
     return wasSet;
   }
+  /* Code from template association_SetOneToMany */
+  public boolean setPurchaseOrder(PurchaseOrder aPurchaseOrder)
+  {
+    boolean wasSet = false;
+    if (aPurchaseOrder == null)
+    {
+      return wasSet;
+    }
+
+    PurchaseOrder existingPurchaseOrder = purchaseOrder;
+    purchaseOrder = aPurchaseOrder;
+    if (existingPurchaseOrder != null && !existingPurchaseOrder.equals(aPurchaseOrder))
+    {
+      existingPurchaseOrder.removeGameCopy(this);
+    }
+    purchaseOrder.addGameCopy(this);
+    wasSet = true;
+    return wasSet;
+  }
 
   public void delete()
   {
@@ -94,6 +111,12 @@ public class GameCopy
     {
       placeholderGame.removeGameCopy(this);
     }
+    PurchaseOrder placeholderPurchaseOrder = purchaseOrder;
+    this.purchaseOrder = null;
+    if(placeholderPurchaseOrder != null)
+    {
+      placeholderPurchaseOrder.removeGameCopy(this);
+    }
   }
 
 
@@ -101,6 +124,7 @@ public class GameCopy
   {
     return super.toString() + "["+
             "gameCopyId" + ":" + getGameCopyId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "purchaseOrder = "+(getPurchaseOrder()!=null?Integer.toHexString(System.identityHashCode(getPurchaseOrder())):"null");
   }
 }

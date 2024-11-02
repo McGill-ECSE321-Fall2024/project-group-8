@@ -37,23 +37,12 @@ public class Game
   private RequestStatus requestStatus;
 
   //Game Associations
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
-
-  @ManyToOne
-  @JoinColumn(name = "owner_email", foreignKey = @ForeignKey(name = "OWNER_EMAIL_FK"))
   private Owner owner;
-
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Customer Wishlist;
+  private Customer cart;
   private List<GameCopy> gameCopies;
-
-  @ManyToMany
-    @JoinTable(
-        name = "Category_Game",
-        joinColumns = @JoinColumn(name = "game_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-  private List<Category> categories;
+  private Category category;
 
   //------------------------
   // CONSTRUCTOR
@@ -63,13 +52,11 @@ public class Game
   public Game() {
     gameCopies = new ArrayList<>();  // Initialize lists, game will have many copies
     reviews = new ArrayList<>();
-    categories = new ArrayList<>();
   }
 
 
-  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, GameStatus aGameStatus, RequestStatus aRequestStatus, Owner aOwner)
+  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, GameStatus aGameStatus, RequestStatus aRequestStatus, Owner aOwner, Category aCategory)
   {
-    
     title = aTitle;
     description = aDescription;
     genre = aGenre;
@@ -84,7 +71,11 @@ public class Game
       throw new RuntimeException("Unable to create game due to owner. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     gameCopies = new ArrayList<GameCopy>();
-    categories = new ArrayList<Category>();
+    boolean didAddCategory = setCategory(aCategory);
+    if (!didAddCategory)
+    {
+      throw new RuntimeException("Unable to create game due to category. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -229,6 +220,16 @@ public class Game
   {
     return owner;
   }
+  /* Code from template association_GetOne */
+  public Customer getWishlist()
+  {
+    return Wishlist;
+  }
+  /* Code from template association_GetOne */
+  public Customer getCart()
+  {
+    return cart;
+  }
   /* Code from template association_GetMany */
   public GameCopy getGameCopy(int index)
   {
@@ -259,35 +260,10 @@ public class Game
     int index = gameCopies.indexOf(aGameCopy);
     return index;
   }
-  /* Code from template association_GetMany */
-  public Category getCategory(int index)
+  /* Code from template association_GetOne */
+  public Category getCategory()
   {
-    Category aCategory = categories.get(index);
-    return aCategory;
-  }
-
-  public List<Category> getCategories()
-  {
-    List<Category> newCategories = Collections.unmodifiableList(categories);
-    return newCategories;
-  }
-
-  public int numberOfCategories()
-  {
-    int number = categories.size();
-    return number;
-  }
-
-  public boolean hasCategories()
-  {
-    boolean has = categories.size() > 0;
-    return has;
-  }
-
-  public int indexOfCategory(Category aCategory)
-  {
-    int index = categories.indexOf(aCategory);
-    return index;
+    return category;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfReviews()
@@ -295,9 +271,9 @@ public class Game
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Review addReview(int aRating, String aDescription, Date aDate)
+  public Review addReview(int aReviewId, int aRating, String aDescription, Date aDate, Customer aCreated)
   {
-    return new Review(aRating, aDescription, aDate, this);
+    return new Review(aReviewId, aRating, aDescription, aDate, aCreated, this);
   }
 
   public boolean addReview(Review aReview)
@@ -380,13 +356,51 @@ public class Game
     wasSet = true;
     return wasSet;
   }
+  /* Code from template association_SetOneToMany */
+  public boolean setWishlist(Customer aWishlist)
+  {
+    boolean wasSet = false;
+    if (aWishlist == null)
+    {
+      return wasSet;
+    }
+
+    Customer existingWishlist = Wishlist;
+    Wishlist = aWishlist;
+    if (existingWishlist != null && !existingWishlist.equals(aWishlist))
+    {
+      existingWishlist.removeInWishlist(this);
+    }
+    Wishlist.addInWishlist(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setCart(Customer aCart)
+  {
+    boolean wasSet = false;
+    if (aCart == null)
+    {
+      return wasSet;
+    }
+
+    Customer existingCart = cart;
+    cart = aCart;
+    if (existingCart != null && !existingCart.equals(aCart))
+    {
+      existingCart.removeInCart(this);
+    }
+    cart.addInCart(this);
+    wasSet = true;
+    return wasSet;
+  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfGameCopies()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameCopy addGameCopy(int aGameCopyId)
+  public GameCopy addGameCopy(int aGameCopyId, PurchaseOrder aPurchaseOrder)
   {
     return new GameCopy(this);
   }
@@ -452,88 +466,24 @@ public class Game
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfCategories()
+  /* Code from template association_SetOneToMany */
+  public boolean setCategory(Category aCategory)
   {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addCategory(Category aCategory)
-  {
-    boolean wasAdded = false;
-    if (categories.contains(aCategory)) { return false; }
-    categories.add(aCategory);
-    if (aCategory.indexOfGame(this) != -1)
+    boolean wasSet = false;
+    if (aCategory == null)
     {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aCategory.addGame(this);
-      if (!wasAdded)
-      {
-        categories.remove(aCategory);
-      }
-    }
-    return wasAdded;
-  }
-
-  /* Code from template association_RemoveMany */
-  public boolean removeCategory(Category aCategory)
-  {
-    boolean wasRemoved = false;
-    if (!categories.contains(aCategory))
-    {
-      return wasRemoved;
+      return wasSet;
     }
 
-    int oldIndex = categories.indexOf(aCategory);
-    categories.remove(oldIndex);
-    if (aCategory.indexOfGame(this) == -1)
+    Category existingCategory = category;
+    category = aCategory;
+    if (existingCategory != null && !existingCategory.equals(aCategory))
     {
-      wasRemoved = true;
+      existingCategory.removeGame(this);
     }
-    else
-    {
-      wasRemoved = aCategory.removeGame(this);
-      if (!wasRemoved)
-      {
-        categories.add(oldIndex,aCategory);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addCategoryAt(Category aCategory, int index)
-  {  
-    boolean wasAdded = false;
-    if(addCategory(aCategory))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
-      categories.remove(aCategory);
-      categories.add(index, aCategory);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveCategoryAt(Category aCategory, int index)
-  {
-    boolean wasAdded = false;
-    if(categories.contains(aCategory))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfCategories()) { index = numberOfCategories() - 1; }
-      categories.remove(aCategory);
-      categories.add(index, aCategory);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addCategoryAt(aCategory, index);
-    }
-    return wasAdded;
+    category.addGame(this);
+    wasSet = true;
+    return wasSet;
   }
 
   public void delete()
@@ -549,15 +499,28 @@ public class Game
     {
       placeholderOwner.removeGame(this);
     }
+    Customer placeholderWishlist = Wishlist;
+    this.Wishlist = null;
+    if(placeholderWishlist != null)
+    {
+      placeholderWishlist.removeInWishlist(this);
+    }
+    Customer placeholderCart = cart;
+    this.cart = null;
+    if(placeholderCart != null)
+    {
+      placeholderCart.removeInCart(this);
+    }
     for(int i=gameCopies.size(); i > 0; i--)
     {
       GameCopy aGameCopy = gameCopies.get(i - 1);
       aGameCopy.delete();
     }
-    for(int i=categories.size(); i > 0; i--)
+    Category placeholderCategory = category;
+    this.category = null;
+    if(placeholderCategory != null)
     {
-      Category aCategory = categories.get(i - 1);
-      aCategory.delete();
+      placeholderCategory.removeGame(this);
     }
   }
 
@@ -572,7 +535,10 @@ public class Game
             "price" + ":" + getPrice()+ "," +
             "stock" + ":" + getStock()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "gameStatus" + "=" + (getGameStatus() != null ? !getGameStatus().equals(this)  ? getGameStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "RequestStatus" + "=" + (getRequestStatus() != null ? !getRequestStatus().equals(this)  ? getRequestStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "owner = "+(getOwner()!=null?Integer.toHexString(System.identityHashCode(getOwner())):"null");
+            "  " + "requestStatus" + "=" + (getRequestStatus() != null ? !getRequestStatus().equals(this)  ? getRequestStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "owner = "+(getOwner()!=null?Integer.toHexString(System.identityHashCode(getOwner())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "Wishlist = "+(getWishlist()!=null?Integer.toHexString(System.identityHashCode(getWishlist())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "cart = "+(getCart()!=null?Integer.toHexString(System.identityHashCode(getCart())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "category = "+(getCategory()!=null?Integer.toHexString(System.identityHashCode(getCategory())):"null");
   }
 }

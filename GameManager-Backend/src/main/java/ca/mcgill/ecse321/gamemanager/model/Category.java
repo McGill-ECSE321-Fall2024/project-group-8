@@ -5,12 +5,20 @@ package ca.mcgill.ecse321.gamemanager.model;
 
 import java.util.*;
 import jakarta.persistence.*;
+
 // line 38 "model.ump"
 // line 127 "model.ump"
 
 @Entity
 public class Category
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum GameStatus { Onsale, Available, Archived }
+  public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
   // MEMBER VARIABLES
@@ -24,7 +32,6 @@ public class Category
   private String description;
 
   //Category Associations
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Game> games;
 
   //------------------------
@@ -116,48 +123,38 @@ public class Category
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddManyToOne */
+  public Game addGame(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Owner aOwner)
+  {
+    return new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, aOwner, this);
+  }
+
   public boolean addGame(Game aGame)
   {
     boolean wasAdded = false;
     if (games.contains(aGame)) { return false; }
-    games.add(aGame);
-    if (aGame.indexOfCategory(this) != -1)
+    Category existingCategory = aGame.getCategory();
+    boolean isNewCategory = existingCategory != null && !this.equals(existingCategory);
+    if (isNewCategory)
     {
-      wasAdded = true;
+      aGame.setCategory(this);
     }
     else
     {
-      wasAdded = aGame.addCategory(this);
-      if (!wasAdded)
-      {
-        games.remove(aGame);
-      }
+      games.add(aGame);
     }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeGame(Game aGame)
   {
     boolean wasRemoved = false;
-    if (!games.contains(aGame))
+    //Unable to remove aGame, as it must always have a category
+    if (!this.equals(aGame.getCategory()))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = games.indexOf(aGame);
-    games.remove(oldIndex);
-    if (aGame.indexOfCategory(this) == -1)
-    {
+      games.remove(aGame);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aGame.removeCategory(this);
-      if (!wasRemoved)
-      {
-        games.add(oldIndex,aGame);
-      }
     }
     return wasRemoved;
   }
@@ -196,11 +193,10 @@ public class Category
 
   public void delete()
   {
-    ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
-    games.clear();
-    for(Game aGame : copyOfGames)
+    for(int i=games.size(); i > 0; i--)
     {
-      aGame.removeCategory(this);
+      Game aGame = games.get(i - 1);
+      aGame.delete();
     }
   }
 
@@ -213,5 +209,3 @@ public class Category
             "description" + ":" + getDescription()+ "]";
   }
 }
-
-
