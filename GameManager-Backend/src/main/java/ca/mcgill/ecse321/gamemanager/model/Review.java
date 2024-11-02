@@ -30,18 +30,28 @@ public class Review
           foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
   private Game game;
+  @ManyToOne
+  @JoinColumn(
+          name = "customer_id",
+          foreignKey = @ForeignKey(name = "CUSTOMER_ID_FK")
+  )
+  private Customer created;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
   public Review(){}
-  public Review(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame)
+  public Review(int aReviewId, int aRating, String aDescription, Date aDate, Customer aCreated, Game aGame)
   {
     reviewId = aReviewId;
     rating = aRating;
     description = aDescription;
     date = aDate;
+    if (!setCreated(aCreated))
+    {
+      throw new RuntimeException("Unable to create Review due to aCreated. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
     if (!setGame(aGame))
     {
       throw new RuntimeException("Unable to create Review due to aGame. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
@@ -104,9 +114,25 @@ public class Review
     return date;
   }
   /* Code from template association_GetOne */
+  public Customer getCreated()
+  {
+    return created;
+  }
+  /* Code from template association_GetOne */
   public Game getGame()
   {
     return game;
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setCreated(Customer aNewCreated)
+  {
+    boolean wasSet = false;
+    if (aNewCreated != null)
+    {
+      created = aNewCreated;
+      wasSet = true;
+    }
+    return wasSet;
   }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setGame(Game aNewGame)
@@ -122,6 +148,7 @@ public class Review
 
   public void delete()
   {
+    created = null;
     game = null;
   }
 
@@ -133,6 +160,7 @@ public class Review
             "rating" + ":" + getRating()+ "," +
             "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "created = "+(getCreated()!=null?Integer.toHexString(System.identityHashCode(getCreated())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 }

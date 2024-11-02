@@ -25,8 +25,6 @@ public class Customer extends Person
   //------------------------
 
   //Customer Associations
-  @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Review> reviews;
   @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PurchaseOrder> purchaseOrders;
   @OneToMany(mappedBy = "wishListOwner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -44,7 +42,6 @@ public class Customer extends Person
   public Customer(String aPassword, String aName, String aEmail)
   {
     super(aPassword, aName, aEmail);
-    reviews = new ArrayList<Review>();
     purchaseOrders = new ArrayList<PurchaseOrder>();
     inWishlist = new ArrayList<Game>();
     inCart = new ArrayList<Game>();
@@ -53,36 +50,6 @@ public class Customer extends Person
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetMany */
-  public Review getReview(int index)
-  {
-    Review aReview = reviews.get(index);
-    return aReview;
-  }
-
-  public List<Review> getReviews()
-  {
-    List<Review> newReviews = Collections.unmodifiableList(reviews);
-    return newReviews;
-  }
-
-  public int numberOfReviews()
-  {
-    int number = reviews.size();
-    return number;
-  }
-
-  public boolean hasReviews()
-  {
-    boolean has = reviews.size() > 0;
-    return has;
-  }
-
-  public int indexOfReview(Review aReview)
-  {
-    int index = reviews.indexOf(aReview);
-    return index;
-  }
   /* Code from template association_GetMany */
   public PurchaseOrder getPurchaseOrder(int index)
   {
@@ -174,63 +141,6 @@ public class Customer extends Person
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfReviews()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addReview(Review aReview)
-  {
-    boolean wasAdded = false;
-    if (reviews.contains(aReview)) { return false; }
-    reviews.add(aReview);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeReview(Review aReview)
-  {
-    boolean wasRemoved = false;
-    if (reviews.contains(aReview))
-    {
-      reviews.remove(aReview);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addReviewAt(Review aReview, int index)
-  {  
-    boolean wasAdded = false;
-    if(addReview(aReview))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
-      reviews.remove(aReview);
-      reviews.add(index, aReview);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveReviewAt(Review aReview, int index)
-  {
-    boolean wasAdded = false;
-    if(reviews.contains(aReview))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
-      reviews.remove(aReview);
-      reviews.add(index, aReview);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addReviewAt(aReview, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPurchaseOrders()
   {
     return 0;
@@ -257,7 +167,7 @@ public class Customer extends Person
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addPurchaseOrderAt(PurchaseOrder aPurchaseOrder, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addPurchaseOrder(aPurchaseOrder))
     {
@@ -280,8 +190,8 @@ public class Customer extends Person
       purchaseOrders.remove(aPurchaseOrder);
       purchaseOrders.add(index, aPurchaseOrder);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addPurchaseOrderAt(aPurchaseOrder, index);
     }
@@ -314,7 +224,7 @@ public class Customer extends Person
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addInWishlistAt(Game aInWishlist, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addInWishlist(aInWishlist))
     {
@@ -337,8 +247,8 @@ public class Customer extends Person
       inWishlist.remove(aInWishlist);
       inWishlist.add(index, aInWishlist);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addInWishlistAt(aInWishlist, index);
     }
@@ -371,7 +281,7 @@ public class Customer extends Person
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addInCartAt(Game aInCart, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addInCart(aInCart))
     {
@@ -394,8 +304,8 @@ public class Customer extends Person
       inCart.remove(aInCart);
       inCart.add(index, aInCart);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addInCartAt(aInCart, index);
     }
@@ -404,7 +314,6 @@ public class Customer extends Person
 
   public void delete()
   {
-    reviews.clear();
     purchaseOrders.clear();
     inWishlist.clear();
     inCart.clear();

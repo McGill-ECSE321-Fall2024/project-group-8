@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="+ CustomerRepository, WishlistRepository,&#10;WishlistRepositoryTests">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/GameCopy.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/GameCopy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Owner.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Owner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/PurchaseOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/PurchaseOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/Review.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/repository/GameRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/repository/GameRepositoryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/repository/PurchaseOrderRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/repository/PurchaseOrderRepositoryTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="+ CustomerRepository, WishlistRepository,&#10;WishlistRepositoryTests" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -134,7 +121,7 @@
       <workItem from="1728346841813" duration="77000" />
       <workItem from="1728346922172" duration="95000" />
       <workItem from="1728703706158" duration="348000" />
-      <workItem from="1730565994181" duration="4300000" />
+      <workItem from="1730565994181" duration="4713000" />
     </task>
     <servers />
   </component>
