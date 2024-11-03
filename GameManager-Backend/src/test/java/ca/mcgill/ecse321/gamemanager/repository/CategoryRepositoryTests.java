@@ -30,7 +30,7 @@ public class CategoryRepositoryTests {
 
         // saving and retrieving from the database
         jTestCategory = repo.save(jTestCategory);
-        Category CategoryFromDB = repo.findCategoryByName(jTestCategory.getName());
+        Category CategoryFromDB = repo.findCategoryByCategoryId(jTestCategory.getCategoryId());
 
         // assertions
         assertNotNull(CategoryFromDB);
