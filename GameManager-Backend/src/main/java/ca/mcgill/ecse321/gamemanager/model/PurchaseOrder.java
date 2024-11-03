@@ -51,13 +51,13 @@ public class PurchaseOrder
   @SuppressWarnings("unused")
   protected PurchaseOrder(){}
 
-  public PurchaseOrder(int aOrderId, OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
+  public PurchaseOrder(OrderStatus aOrderStatus, double aTotalPrice, Date aDate, Customer aBuyer)
   {
-    orderId = aOrderId;
     orderStatus = aOrderStatus;
     totalPrice = aTotalPrice;
     date = aDate;
     gameCopies = new ArrayList<GameCopy>();
+    buyer = aBuyer;
   }
 
   //------------------------
@@ -224,5 +224,3 @@ public class PurchaseOrder
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
-

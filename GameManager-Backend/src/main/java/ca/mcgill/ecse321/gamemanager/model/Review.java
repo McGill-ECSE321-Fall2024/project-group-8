@@ -32,8 +32,8 @@ public class Review
           name = "game_id",
           foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
-  private Game game;
-  
+  public Game game;
+
   @ManyToOne
   @JoinColumn(
         name = "customer_id",
@@ -45,11 +45,10 @@ public class Review
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Review(){}
+  public Review(){}
 
-  public Review(int aReviewId, int aRating, String aDescription, Date aDate, Game aGame, Customer aReviewer)
+  public Review(int aRating, String aDescription, Date aDate, Game aGame, Customer aReviewer)
   {
-    reviewId = aReviewId;
     rating = aRating;
     description = aDescription;
     date = aDate;
@@ -125,7 +124,7 @@ public class Review
   {
     return game;
   }
-  /* Code from template association_GetOne */
+  /* Code from template association_GetOnes */
   public Customer getReviewer()
   {
     return reviewer;
@@ -172,5 +171,4 @@ public class Review
             "  " + "reviewer = "+(getReviewer()!=null?Integer.toHexString(System.identityHashCode(getReviewer())):"null");
   }
 }
-
 

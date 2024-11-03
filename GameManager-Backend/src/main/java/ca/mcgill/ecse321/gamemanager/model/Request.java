@@ -9,6 +9,9 @@ import jakarta.persistence.*;
 @Entity
 public class Request
 {
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
   //------------------------
   // ENUMERATIONS
@@ -31,11 +34,11 @@ public class Request
   //Request Associations
   @ManyToOne
   @JoinColumn(
-        name = "game_id",
-        foreignKey = @ForeignKey(name = "GAME_ID_FK")
+          name = "game_id",
+          foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
   private Game game;
-  
+
   @ManyToOne
   @JoinColumn(
           name = "employee_email",
@@ -47,7 +50,7 @@ public class Request
   // CONSTRUCTOR
   //------------------------
   @SuppressWarnings("unused")
-  protected Request(){}
+  public Request(){}
 
   public Request(int aRequestId, RequestType aRequestType, RequestStatus aRequestStatus, Game aGame, Employee aEmployee)
   {
