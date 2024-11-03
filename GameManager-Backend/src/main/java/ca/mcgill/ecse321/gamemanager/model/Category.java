@@ -21,6 +21,9 @@ public class Category
 
   //Category Attributes
   @Id
+  @GeneratedValue
+  @Column(name = "category_id")
+  private Integer id;  // Primary key for Category
   private String name;
   private String description;
 
@@ -54,6 +57,10 @@ public class Category
     description = aDescription;
     wasSet = true;
     return wasSet;
+  }
+
+  public Integer getId() {
+    return id;
   }
 
   public String getName()
@@ -102,9 +109,9 @@ public class Category
   public String toString()
   {
     return super.toString() + "["+
+            "id" + ":" + getId() + "," +
             "name" + ":" + getName()+ "," +
             "description" + ":" + getDescription()+ "]";
   }
 }
-
 

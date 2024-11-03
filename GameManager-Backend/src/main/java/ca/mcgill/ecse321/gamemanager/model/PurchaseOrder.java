@@ -224,5 +224,3 @@ public class PurchaseOrder
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
-

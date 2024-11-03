@@ -41,8 +41,10 @@ public class GameRepositoryTests {
         String description = "An fps game made by Riot";
         double price = 19.99;
         Game.GameStatus GameStatus = Game.GameStatus.InStock;
+        String genre = "Tactical shooter";
+        int stock = 3;
 
-        Game game_val = new Game(title, description, price, acategory, GameStatus);
+        Game game_val = new Game(title, description, genre, price, stock, acategory, GameStatus);
 
         // save game
         game_val = gameRepo.save(game_val);
@@ -65,7 +67,5 @@ public class GameRepositoryTests {
         //assertEquals(aRequest, game_valFromDb.getRequest(0));
         //assertTrue(game_valFromDb instanceof GameCopy, "The game should have copy.");
         //assertEquals(game_val.getGameId(), ((GameCopy) game_valFromDb).getGameId());
-
-
     }
 }

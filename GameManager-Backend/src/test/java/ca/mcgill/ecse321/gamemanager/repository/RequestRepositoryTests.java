@@ -40,7 +40,7 @@ public class RequestRepositoryTests {
         category = categoryRepository.save(category);
 
         // Initialize Game
-        Game game = new Game("Test Game", "An awesome RPG", 49.99, category, Game.GameStatus.InStock);
+        Game game = new Game("Test Game", "An awesome RPG", "RPG", 49.99, 3, category, Game.GameStatus.InStock);
         game = gameRepository.save(game);
 
         // Initialize Employee

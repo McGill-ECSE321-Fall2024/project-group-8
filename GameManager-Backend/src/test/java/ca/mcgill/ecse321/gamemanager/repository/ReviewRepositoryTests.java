@@ -46,7 +46,7 @@ public class ReviewRepositoryTests {
         category = categoryRepository.save(category);
 
         // Initialize Game
-        Game game = new Game("Test Game", "A great game", 59.99, category, Game.GameStatus.InStock);
+        Game game = new Game("Test Game", "A great game", "genre", 59.99, 3, category, Game.GameStatus.InStock);
         // Save Game
         game = gameRepository.save(game);
 
