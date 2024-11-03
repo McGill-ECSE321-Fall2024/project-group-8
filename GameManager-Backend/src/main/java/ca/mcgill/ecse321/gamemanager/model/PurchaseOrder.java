@@ -31,7 +31,8 @@ public class PurchaseOrder
   private Date date;
 
   //PurchaseOrder Associations
-  @OneToMany(mappedBy = "purchaseOrder", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "purchaseOrder")
   private List<GameCopy> gameCopies;
 
   //------------------------

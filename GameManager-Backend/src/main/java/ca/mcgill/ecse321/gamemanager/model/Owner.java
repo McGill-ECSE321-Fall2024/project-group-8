@@ -24,6 +24,7 @@ public class Owner extends Person
 
   //Owner Associations
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "all_game_id")
   private List<Game> games;
 
   //------------------------

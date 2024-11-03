@@ -26,13 +26,13 @@ public class Review
   //Review Associations
   @ManyToOne
   @JoinColumn(
-          name = "game_id",
+          name = "rGame_id",
           foreignKey = @ForeignKey(name = "GAME_ID_FK")
   )
   private Game game;
   @ManyToOne
   @JoinColumn(
-          name = "customer_id",
+          name = "rCustomer_id",
           foreignKey = @ForeignKey(name = "CUSTOMER_ID_FK")
   )
   private Customer created;

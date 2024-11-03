@@ -36,7 +36,7 @@ public class Game
 
   //Game Associations
   @ManyToOne
-  @JoinColumn(name = "games", foreignKey = @ForeignKey(name = "CATEGORY_NAME_FK")) // Add this line to specify the foreign key column in the Game table
+  @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")) // Add this line to specify the foreign key column in the Game table
   private Category category;
 
   //------------------------

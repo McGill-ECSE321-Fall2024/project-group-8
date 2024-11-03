@@ -25,11 +25,14 @@ public class Customer extends Person
   //------------------------
 
   //Customer Associations
-  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "buyer_id") // Foreign key in PurchaseOrder referencing Buyer
   private List<PurchaseOrder> purchaseOrders;
-  @OneToMany(mappedBy = "wishListOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "wishListOwner")
   private List<Game> inWishlist;
-  @OneToMany(mappedBy = "cartOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "cartOwner")
   private List<Game> inCart;
 
   //------------------------
