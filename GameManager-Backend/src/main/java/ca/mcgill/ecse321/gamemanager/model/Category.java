@@ -22,10 +22,12 @@ public class Category
   private String name;
   private String description;
 
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Game> games = new ArrayList<>();
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  @SuppressWarnings("unused")
+
   public Category(){}
   public Category(String aName, String aDescription)
   {
@@ -80,6 +82,20 @@ public class Category
   public void delete()
   {}
 
+  public List<Game> getGames() {
+    return games;
+  }
+
+  // Methods to manage the bi-directional relationship with Game
+  public void addGame(Game game) {
+    games.add(game);
+    game.setCategory(this);
+  }
+
+  public void removeGame(Game game) {
+    games.remove(game);
+    game.setCategory(null);
+  }
 
   public String toString()
   {
