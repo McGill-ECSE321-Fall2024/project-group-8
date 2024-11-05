@@ -1,19 +1,15 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
 import jakarta.persistence.*;
 import java.util.*;
 
-// line 42 "model.ump"
-// line 131 "model.ump"
+// line 39 "model.ump"
+// line 149 "model.ump"
 @Entity
 public class Category
 {
-
-  //Category Associations
-  @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<Game> games = new ArrayList<>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -21,27 +17,36 @@ public class Category
 
   //Category Attributes
   @Id
-  @GeneratedValue
-  @Column(name = "category_id")
-  private Integer id;  // Primary key for Category
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int categoryId;
   private String name;
   private String description;
 
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Game> games = new ArrayList<>();
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  @SuppressWarnings("unused")
+
   public Category(){}
   public Category(String aName, String aDescription)
   {
+
     name = aName;
     description = aDescription;
-    games = new ArrayList<Game>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setCategoryId(int aCategoryId)
+  {
+    boolean wasSet = false;
+    categoryId = aCategoryId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setName(String aName)
   {
@@ -59,8 +64,9 @@ public class Category
     return wasSet;
   }
 
-  public Integer getId() {
-    return id;
+  public int getCategoryId()
+  {
+    return categoryId;
   }
 
   public String getName()
@@ -72,46 +78,30 @@ public class Category
   {
     return description;
   }
-  /* Code from template association_GetMany */
-  public Game getGame(int index)
-  {
-    Game aGame = games.get(index);
-    return aGame;
+
+  public void delete()
+  {}
+
+  public List<Game> getGames() {
+    return games;
   }
 
-  public List<Game> getGames()
-  {
-    List<Game> newGames = Collections.unmodifiableList(games);
-    return newGames;
+  // Methods to manage the bi-directional relationship with Game
+  public void addGame(Game game) {
+    games.add(game);
+    game.setCategory(this);
   }
 
-  public int numberOfGames()
-  {
-    int number = games.size();
-    return number;
+  public void removeGame(Game game) {
+    games.remove(game);
+    game.setCategory(null);
   }
-
-  public boolean hasGames()
-  {
-    boolean has = games.size() > 0;
-    return has;
-  }
-
-  public int indexOfGame(Game aGame)
-  {
-    int index = games.indexOf(aGame);
-    return index;
-  }
-
-  public void delete() {}
-
 
   public String toString()
   {
     return super.toString() + "["+
-            "id" + ":" + getId() + "," +
+            "categoryId" + ":" + getCategoryId()+ "," +
             "name" + ":" + getName()+ "," +
             "description" + ":" + getDescription()+ "]";
   }
 }
-

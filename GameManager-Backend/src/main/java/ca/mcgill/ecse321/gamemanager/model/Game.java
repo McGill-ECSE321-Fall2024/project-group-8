@@ -1,26 +1,22 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
 import jakarta.persistence.*;
-
 import java.util.*;
-import java.sql.Date;
 
-// line 32 "model.ump"
-// line 127 "model.ump"
+// line 72 "model.ump"
+// line 136 "model.ump"
 @Entity
 public class Game
 {
-//  public void setCategory(Category category) {
-//    this.category = category;
-//  }
 
   //------------------------
   // ENUMERATIONS
   //------------------------
 
-  public enum GameStatus { OnSale, InStock, OutOfStock, Archived }
+  public enum GameStatus { Onsale, Available, Archived }
+  public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
   // MEMBER VARIABLES
@@ -29,51 +25,42 @@ public class Game
   //Game Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int gameId; //let system automatically generate a gameID
+  private int gameId;
   private String title;
   private String description;
   private String genre;
   private double price;
   private int stock;
   private GameStatus gameStatus;
+  private RequestStatus requestStatus;
 
   //Game Associations
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<GameCopy> gameCopies;
-
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Review> reviews;
-
   @ManyToOne
-  @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")) // Add this line to specify the foreign key column in the Game table
+  @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")) // Add this line to specify the foreign key column in the Game table
   private Category category;
-
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Request> requests;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
   @SuppressWarnings("unused")
   public Game() {
-    gameCopies = new ArrayList<>();  // Initialize lists, game will have many copies
-    reviews = new ArrayList<>();
-    requests = new ArrayList<>();
   }
-
-  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Category aCategory, GameStatus aGameStatus)
+  
+  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, GameStatus aGameStatus, RequestStatus aRequestStatus, Category aCategory)
   {
     title = aTitle;
     description = aDescription;
     genre = aGenre;
     price = aPrice;
     stock = aStock;
-    category = aCategory;
     gameStatus = aGameStatus;
-    gameCopies = new ArrayList<GameCopy>();
+    requestStatus = aRequestStatus;
+    if (!setCategory(aCategory))
+    {
+      throw new RuntimeException("Unable to create Game due to aCategory. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
-
-
 
   //------------------------
   // INTERFACE
@@ -103,7 +90,8 @@ public class Game
     return wasSet;
   }
 
-  public boolean setGenre(String aGenre){
+  public boolean setGenre(String aGenre)
+  {
     boolean wasSet = false;
     genre = aGenre;
     wasSet = true;
@@ -134,6 +122,14 @@ public class Game
     return wasSet;
   }
 
+  public boolean setRequestStatus(RequestStatus aRequestStatus)
+  {
+    boolean wasSet = false;
+    requestStatus = aRequestStatus;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getGameId()
   {
     return gameId;
@@ -159,16 +155,6 @@ public class Game
     return price;
   }
 
-  public Category getCategory()
-  {
-    return category;
-  }
-
-//  public int getStock()
-//  {
-//    return gameCopies.size();
-//  }
-
   public int getStock()
   {
     return stock;
@@ -179,146 +165,33 @@ public class Game
     return gameStatus;
   }
 
-  /* Code from template association_GetMany */
-  public GameCopy getGameCopy(int index)
+  public RequestStatus getRequestStatus()
   {
-    GameCopy aGameCopy = gameCopies.get(index);
-    return aGameCopy;
+    return requestStatus;
   }
-
-  public List<GameCopy> getGameCopies()
+  /* Code from template association_GetOne */
+  public Category getCategory()
   {
-    List<GameCopy> newGameCopies = Collections.unmodifiableList(gameCopies);
-    return newGameCopies;
+    return category;
   }
-
-  public int numberOfGameCopies()
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setCategory(Category aNewCategory)
   {
-    int number = gameCopies.size();
-    return number;
-  }
-
-  public boolean hasGameCopies()
-  {
-    boolean has = gameCopies.size() > 0;
-    return has;
-  }
-
-  public int indexOfGameCopy(GameCopy aGameCopy)
-  {
-    int index = gameCopies.indexOf(aGameCopy);
-    return index;
-  }
-
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGameCopies()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addGameCopy(GameCopy aGameCopy)
-  {
-    boolean wasAdded = false;
-    if (gameCopies.contains(aGameCopy)) { return false; }
-    gameCopies.add(aGameCopy);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeGameCopy(GameCopy aGameCopy)
-  {
-    boolean wasRemoved = false;
-    if (gameCopies.contains(aGameCopy))
+    boolean wasSet = false;
+    if (aNewCategory != null)
     {
-      gameCopies.remove(aGameCopy);
-      wasRemoved = true;
+      category = aNewCategory;
+      wasSet = true;
     }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameCopyAt(GameCopy aGameCopy, int index)
-  {
-    boolean wasAdded = false;
-    if(addGameCopy(aGameCopy))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
-      gameCopies.remove(aGameCopy);
-      gameCopies.add(index, aGameCopy);
-      wasAdded = true;
-    }
-    return wasAdded;
+    return wasSet;
   }
 
-  public boolean addOrMoveGameCopyAt(GameCopy aGameCopy, int index)
-  {
-    boolean wasAdded = false;
-    if(gameCopies.contains(aGameCopy)) {
-      if (index < 0) {
-        index = 0;
-      }
-      if (index > numberOfGameCopies()) {
-        index = numberOfGameCopies() - 1;
-      }
-      gameCopies.remove(aGameCopy);
-      gameCopies.add(index, aGameCopy);
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = addGameCopyAt(aGameCopy, index);
-    }
-    return wasAdded;
-  }
-
-  public Review addReview(int aRating, String aDescription, Date aDate, Customer aReviewer)
-  {
-    return new Review(aRating, aDescription, aDate, this, aReviewer);
-  }
-
-  public boolean addReview(Review aReview)
-  {
-    boolean wasAdded = false;
-    if (reviews.contains(aReview)) { return false; }
-    Game existingGame = aReview.getGame();
-    boolean isNewGame = existingGame != null && !this.equals(existingGame);
-    if (isNewGame)
-    {
-      aReview.setGame(this);
-    }
-    else
-    {
-      reviews.add(aReview);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeReview(Review aReview)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aReview, as it must always have a game
-    if (!this.equals(aReview.getGame()))
-    {
-      reviews.remove(aReview);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
   public void delete()
   {
-    for(int i=reviews.size(); i > 0; i--)
-    {
-      Review aReview = reviews.get(i - 1);
-      aReview.delete();
-    }
-    while (requests.size() > 0)
-    {
-      Request aRequest = requests.get(requests.size() - 1);
-      aRequest.delete();
-      requests.remove(aRequest);
-    }
+    category = null;
   }
+
+
 
   public String toString()
   {
@@ -329,7 +202,8 @@ public class Game
             "genre" + ":" + getGenre()+ "," +
             "price" + ":" + getPrice()+ "," +
             "stock" + ":" + getStock()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "category" + "=" + (getCategory() != null ? !getCategory().equals(this)  ? getCategory().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "gameStatus" + "=" + (getGameStatus() != null ? !getGameStatus().equals(this)  ? getGameStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator");
+            "  " + "gameStatus" + "=" + (getGameStatus() != null ? !getGameStatus().equals(this)  ? getGameStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "requestStatus" + "=" + (getRequestStatus() != null ? !getRequestStatus().equals(this)  ? getRequestStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "category = "+(getCategory()!=null?Integer.toHexString(System.identityHashCode(getCategory())):"null");
   }
 }

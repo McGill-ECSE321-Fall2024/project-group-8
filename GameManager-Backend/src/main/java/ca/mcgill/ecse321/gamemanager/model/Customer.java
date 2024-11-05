@@ -1,17 +1,13 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
+/*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
+import java.util.*;
+import java.sql.Date;
 import jakarta.persistence.*;
 
-import java.util.*;
-
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.OneToMany;
-
-
-// line 9 "model.ump"
-// line 97 "model.ump"
+// line 12 "model.ump"
+// line 99 "model.ump"
 @Entity
 public class Customer extends Person
 {
@@ -20,19 +16,24 @@ public class Customer extends Person
   // ENUMERATIONS
   //------------------------
 
+  public enum GameStatus { Onsale, Available, Archived }
+  public enum OrderStatus { ShoppingCart, Bought }
+  public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
   //Customer Associations
-  @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Review> reviews;
-
-  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "buyer_id") // Foreign key in PurchaseOrder referencing Buyer
   private List<PurchaseOrder> purchaseOrders;
-
-  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<GameCopy> gameCopies;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "wishListOwner")
+  private List<Game> inWishlist;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "cartOwner")
+  private List<Game> inCart;
 
   //------------------------
   // CONSTRUCTOR
@@ -41,268 +42,285 @@ public class Customer extends Person
   public Customer() {
     super();
   }
-
   public Customer(String aPassword, String aName, String aEmail)
   {
     super(aPassword, aName, aEmail);
-    reviews = new ArrayList<Review>();
     purchaseOrders = new ArrayList<PurchaseOrder>();
-    gameCopies = new ArrayList<GameCopy>();
+    inWishlist = new ArrayList<Game>();
+    inCart = new ArrayList<Game>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
   /* Code from template association_GetMany */
-  public Review getReview(int index)
-  {
-    Review aReview = reviews.get(index);
-    return aReview;
-  }
-
-  public int indexOfReview(Review aReview)
-  {
-    int index = reviews.indexOf(aReview);
-    return index;
-  }
-  
-  /* Code from template association_GetMany */
   public PurchaseOrder getPurchaseOrder(int index)
   {
-    PurchaseOrder aOrder = purchaseOrders.get(index);
-    return aOrder;
+    PurchaseOrder aPurchaseOrder = purchaseOrders.get(index);
+    return aPurchaseOrder;
   }
 
-  public List<PurchaseOrder> getOrders()
+  public List<PurchaseOrder> getPurchaseOrders()
   {
-    List<PurchaseOrder> newOrders = Collections.unmodifiableList(purchaseOrders);
-    return newOrders;
+    List<PurchaseOrder> newPurchaseOrders = Collections.unmodifiableList(purchaseOrders);
+    return newPurchaseOrders;
   }
 
-  public int numberOfOrders()
+  public int numberOfPurchaseOrders()
   {
     int number = purchaseOrders.size();
     return number;
   }
 
-  public boolean hasOrders()
+  public boolean hasPurchaseOrders()
   {
     boolean has = purchaseOrders.size() > 0;
     return has;
   }
 
-  public int indexOfOrder(PurchaseOrder aOrder)
+  public int indexOfPurchaseOrder(PurchaseOrder aPurchaseOrder)
   {
-    int index = purchaseOrders.indexOf(aOrder);
+    int index = purchaseOrders.indexOf(aPurchaseOrder);
     return index;
   }
   /* Code from template association_GetMany */
-  public GameCopy getGameCopy(int index)
+  public Game getInWishlist(int index)
   {
-    GameCopy aGameCopy = gameCopies.get(index);
-    return aGameCopy;
+    Game aInWishlist = inWishlist.get(index);
+    return aInWishlist;
   }
 
-  public List<GameCopy> getGameCopies()
+  public List<Game> getInWishlist()
   {
-    List<GameCopy> newGameCopies = Collections.unmodifiableList(gameCopies);
-    return newGameCopies;
+    List<Game> newInWishlist = Collections.unmodifiableList(inWishlist);
+    return newInWishlist;
   }
 
-  public int numberOfGameCopies()
+  public int numberOfInWishlist()
   {
-    int number = gameCopies.size();
+    int number = inWishlist.size();
     return number;
   }
 
-  public boolean hasGameCopies()
+  public boolean hasInWishlist()
   {
-    boolean has = gameCopies.size() > 0;
+    boolean has = inWishlist.size() > 0;
     return has;
   }
 
-  public int indexOfGameCopy(GameCopy aGameCopy)
+  public int indexOfInWishlist(Game aInWishlist)
   {
-    int index = gameCopies.indexOf(aGameCopy);
+    int index = inWishlist.indexOf(aInWishlist);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Game getInCart(int index)
+  {
+    Game aInCart = inCart.get(index);
+    return aInCart;
+  }
+
+  public List<Game> getInCart()
+  {
+    List<Game> newInCart = Collections.unmodifiableList(inCart);
+    return newInCart;
+  }
+
+  public int numberOfInCart()
+  {
+    int number = inCart.size();
+    return number;
+  }
+
+  public boolean hasInCart()
+  {
+    boolean has = inCart.size() > 0;
+    return has;
+  }
+
+  public int indexOfInCart(Game aInCart)
+  {
+    int index = inCart.indexOf(aInCart);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfReviews()
+  public static int minimumNumberOfPurchaseOrders()
   {
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addReview(Review aReview)
+  public boolean addPurchaseOrder(PurchaseOrder aPurchaseOrder)
   {
     boolean wasAdded = false;
-    if (reviews.contains(aReview)) { return false; }
-    reviews.add(aReview);
+    if (purchaseOrders.contains(aPurchaseOrder)) { return false; }
+    purchaseOrders.add(aPurchaseOrder);
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeReview(Review aReview)
+  public boolean removePurchaseOrder(PurchaseOrder aPurchaseOrder)
   {
     boolean wasRemoved = false;
-    if (reviews.contains(aReview))
+    if (purchaseOrders.contains(aPurchaseOrder))
     {
-      reviews.remove(aReview);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-//   /* Code from template association_AddIndexControlFunctions */
-//   public boolean addReviewAt(Review aReview, int index)
-//   {  
-//     boolean wasAdded = false;
-//     if(addReview(aReview))
-//     {
-//       if(index < 0 ) { index = 0; }
-//       if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
-//       reviews.remove(aReview);
-//       reviews.add(index, aReview);
-//       wasAdded = true;
-//     }
-//     return wasAdded;
-//   }
-
-//   public boolean addOrMoveReviewAt(Review aReview, int index)
-//   {
-//     boolean wasAdded = false;
-//     if(reviews.contains(aReview))
-//     {
-//       if(index < 0 ) { index = 0; }
-//       if(index > numberOfReviews()) { index = numberOfReviews() - 1; }
-//       reviews.remove(aReview);
-//       reviews.add(index, aReview);
-//       wasAdded = true;
-//     } 
-//     else 
-//     {
-//       wasAdded = addReviewAt(aReview, index);
-//     }
-//     return wasAdded;
-//   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfOrders()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addOrder(PurchaseOrder aOrder)
-  {
-    boolean wasAdded = false;
-    if (purchaseOrders.contains(aOrder)) { return false; }
-    purchaseOrders.add(aOrder);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeOrder(PurchaseOrder aOrder)
-  {
-    boolean wasRemoved = false;
-    if (purchaseOrders.contains(aOrder))
-    {
-        purchaseOrders.remove(aOrder);
+      purchaseOrders.remove(aPurchaseOrder);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addOrderAt(PurchaseOrder aOrder, int index)
-  {  
+  public boolean addPurchaseOrderAt(PurchaseOrder aPurchaseOrder, int index)
+  {
     boolean wasAdded = false;
-    if(addOrder(aOrder))
+    if(addPurchaseOrder(aPurchaseOrder))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
-      purchaseOrders.remove(aOrder);
-      purchaseOrders.add(index, aOrder);
+      if(index > numberOfPurchaseOrders()) { index = numberOfPurchaseOrders() - 1; }
+      purchaseOrders.remove(aPurchaseOrder);
+      purchaseOrders.add(index, aPurchaseOrder);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveOrderAt(PurchaseOrder aOrder, int index)
+  public boolean addOrMovePurchaseOrderAt(PurchaseOrder aPurchaseOrder, int index)
   {
     boolean wasAdded = false;
-    if(purchaseOrders.contains(aOrder))
+    if(purchaseOrders.contains(aPurchaseOrder))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
-      purchaseOrders.remove(aOrder);
-      purchaseOrders.add(index, aOrder);
+      if(index > numberOfPurchaseOrders()) { index = numberOfPurchaseOrders() - 1; }
+      purchaseOrders.remove(aPurchaseOrder);
+      purchaseOrders.add(index, aPurchaseOrder);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
-      wasAdded = addOrderAt(aOrder, index);
+      wasAdded = addPurchaseOrderAt(aPurchaseOrder, index);
     }
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGameCopies()
+  public static int minimumNumberOfInWishlist()
   {
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addGameCopy(GameCopy aGameCopy)
+  public boolean addInWishlist(Game aInWishlist)
   {
     boolean wasAdded = false;
-    if (gameCopies.contains(aGameCopy)) { return false; }
-    gameCopies.add(aGameCopy);
+    if (inWishlist.contains(aInWishlist)) { return false; }
+    inWishlist.add(aInWishlist);
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeGameCopy(GameCopy aGameCopy)
+  public boolean removeInWishlist(Game aInWishlist)
   {
     boolean wasRemoved = false;
-    if (gameCopies.contains(aGameCopy))
+    if (inWishlist.contains(aInWishlist))
     {
-      gameCopies.remove(aGameCopy);
+      inWishlist.remove(aInWishlist);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameCopyAt(GameCopy aGameCopy, int index)
-  {  
+  public boolean addInWishlistAt(Game aInWishlist, int index)
+  {
     boolean wasAdded = false;
-    if(addGameCopy(aGameCopy))
+    if(addInWishlist(aInWishlist))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
-      gameCopies.remove(aGameCopy);
-      gameCopies.add(index, aGameCopy);
+      if(index > numberOfInWishlist()) { index = numberOfInWishlist() - 1; }
+      inWishlist.remove(aInWishlist);
+      inWishlist.add(index, aInWishlist);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveGameCopyAt(GameCopy aGameCopy, int index)
+  public boolean addOrMoveInWishlistAt(Game aInWishlist, int index)
   {
     boolean wasAdded = false;
-    if(gameCopies.contains(aGameCopy))
+    if(inWishlist.contains(aInWishlist))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfGameCopies()) { index = numberOfGameCopies() - 1; }
-      gameCopies.remove(aGameCopy);
-      gameCopies.add(index, aGameCopy);
+      if(index > numberOfInWishlist()) { index = numberOfInWishlist() - 1; }
+      inWishlist.remove(aInWishlist);
+      inWishlist.add(index, aInWishlist);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
-      wasAdded = addGameCopyAt(aGameCopy, index);
+      wasAdded = addInWishlistAt(aInWishlist, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfInCart()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addInCart(Game aInCart)
+  {
+    boolean wasAdded = false;
+    if (inCart.contains(aInCart)) { return false; }
+    inCart.add(aInCart);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeInCart(Game aInCart)
+  {
+    boolean wasRemoved = false;
+    if (inCart.contains(aInCart))
+    {
+      inCart.remove(aInCart);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addInCartAt(Game aInCart, int index)
+  {
+    boolean wasAdded = false;
+    if(addInCart(aInCart))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfInCart()) { index = numberOfInCart() - 1; }
+      inCart.remove(aInCart);
+      inCart.add(index, aInCart);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveInCartAt(Game aInCart, int index)
+  {
+    boolean wasAdded = false;
+    if(inCart.contains(aInCart))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfInCart()) { index = numberOfInCart() - 1; }
+      inCart.remove(aInCart);
+      inCart.add(index, aInCart);
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = addInCartAt(aInCart, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-    reviews.clear();
     purchaseOrders.clear();
-    gameCopies.clear();
+    inWishlist.clear();
+    inCart.clear();
     super.delete();
   }
+
 }
