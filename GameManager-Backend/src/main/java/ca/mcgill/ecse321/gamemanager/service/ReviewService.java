@@ -4,6 +4,7 @@ package ca.mcgill.ecse321.gamemanager.service;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Review;
+import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
 import ca.mcgill.ecse321.gamemanager.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Transactional
     public Review createReview(int rating, String description, Customer customer, Game game) {
@@ -44,19 +49,41 @@ public class ReviewService {
     }
 
     @Transactional
+    public void deleteReview(int id) {
+        Review review = reviewRepository.findReviewByReviewId(id);
+        if (review == null) {
+            throw new IllegalArgumentException("Review not found");
+        }
+        reviewRepository.delete(review);
+    }
+
+
+
     public Review findReviewById(int id) {
         Review review = reviewRepository.findReviewByReviewId(id);
         if (review == null) {
+            // TODO: maybe create a new exception type
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("There is no event with ID %d.", id));
+                    String.format("There is no review with ID %d.", id));
         }
         return review;
     }
 
-    @Transactional
+
     public Iterable<Review> findAllReviews() {
         return reviewRepository.findAll();
     }
 
+
+    public Iterable<Review> findReviewsByCustomerEmail(String customerEmail) {
+        Customer customer = customerRepository.findCustomerByEmail(customerEmail);
+        Iterable<Review> review = reviewRepository.findReviewByCreated(customer);
+        if (review == null) {
+            // TODO: maybe create a new exception type
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("There is no review from customer %s.", customerEmail));
+        }
+        return review;
+    }
 
 }
