@@ -16,7 +16,7 @@ public class GameController {
     private GameService gameService;
     @GetMapping("/game/{id}")
     public GameDto findByGameId(@PathVariable int id) {
-        Game game = GameService.findByGameId(id);
+        Game game = gameService.findByGameId(id);
         return new GameDto(game);
     }
     @PostMapping("/game")

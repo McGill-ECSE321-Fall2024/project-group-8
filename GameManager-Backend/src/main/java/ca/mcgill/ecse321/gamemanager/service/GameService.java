@@ -14,8 +14,8 @@ import jakarta.transaction.Transactional;
 @Service
 public class GameService {
         @Autowired
-        private static GameRepository gameRepo;
-        public static Game findByGameId(int id){
+        private  GameRepository gameRepo;
+        public  Game findByGameId(int id){
             Game game= gameRepo.findByGameId(id);
             if (game ==null){
                 throw new IllegalArgumentException("There is no game with ID " + id + ".");
