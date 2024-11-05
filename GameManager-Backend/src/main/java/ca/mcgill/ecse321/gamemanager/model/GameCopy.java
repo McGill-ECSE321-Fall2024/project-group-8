@@ -31,24 +31,15 @@ public class GameCopy
 
   public GameCopy(Game aGame)
   {
-
     if (!setGame(aGame))
     {
-      throw new RuntimeException("Unable to create GameCopy due to aGame. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create GameCopy due to aGame of null type.");
     }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setGameCopyId(int aGameCopyId)
-  {
-    boolean wasSet = false;
-    gameCopyId = aGameCopyId;
-    wasSet = true;
-    return wasSet;
-  }
 
   public int getGameCopyId()
   {
@@ -66,6 +57,7 @@ public class GameCopy
     if (aNewGame != null)
     {
       game = aNewGame;
+
       wasSet = true;
     }
     return wasSet;
