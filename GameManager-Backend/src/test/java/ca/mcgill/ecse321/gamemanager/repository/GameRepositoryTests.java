@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus;
-
 
 @SpringBootTest
 public class GameRepositoryTests {
