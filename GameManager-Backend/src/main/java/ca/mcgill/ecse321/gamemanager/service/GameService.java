@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 public class GameService {
         @Autowired
         private static GameRepository gameRepo;
+
         public static Game findByGameId(int id){
             Game game= gameRepo.findByGameId(id);
             if (game ==null){
@@ -29,5 +30,37 @@ public class GameService {
             Game gameToCreate = new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus,  aRequestStatus, aCategory);
             return gameRepo.save(gameToCreate);
         }
+
+        @Transactional
+        public Game updateGame(int id, String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Category aCategory) {
+            Game game = gameRepo.findByGameId(id);
+            if (game ==null){
+                throw new IllegalArgumentException("There is no game with ID " + id + ".");
+            }
+            //Date now = Date.valueOf(LocalDate.now());
+            game.setTitle(aTitle);
+            game.setDescription(aDescription);
+            game.setGenre(aGenre);
+            game.setPrice(aPrice);
+            game.setStock(aStock);
+            game.setGameStatus(aGameStatus);
+            game.setRequestStatus(aRequestStatus);
+            game.setCategory(aCategory);
+            return gameRepo.save(game);
+        }
+        @Transactional
+        public void deleteGame(int id) {
+            Game game = gameRepo.findByGameId(id);
+            if (game ==null){
+                throw new IllegalArgumentException("There is no game with ID " + id + ".");
+            }
+            gameRepo.delete(game);
+        }
+
+        public Iterable<Game> findAllGames() {
+            return gameRepo.findAll();
+        }
+
+
 
 }
