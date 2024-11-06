@@ -17,26 +17,25 @@ public class CategoryRepositoryTests {
 
     @BeforeEach
     @AfterEach
-    public void clearDatabase() {
-        repo.deleteAll();
-    }
+    public void clearDatabase(){ repo.deleteAll();}
 
     @Test
     public void testCreateAndReadCategory() {
-        // Initialize test data
+
+        // creating a new category
         String name = "Test Category";
         String description = "Test Description";
 
-        // Save Category
-        Category testCategory = new Category(name, description);
-        testCategory = repo.save(testCategory);
+        Category jTestCategory = new Category(name, description);
 
-        // Retrieve Category by ID
-        Category categoryFromDb = repo.findCategoryById(testCategory.getId());  // Updated method name and ID getter
+        // saving and retrieving from the database
+        jTestCategory = repo.save(jTestCategory);
+        Category CategoryFromDB = repo.findCategoryByCategoryId(jTestCategory.getCategoryId());
 
-        // Assertions
-        assertNotNull(categoryFromDb);
-        assertEquals(name, categoryFromDb.getName());
-        assertEquals(description, categoryFromDb.getDescription());
+        // assertions
+        assertNotNull(CategoryFromDB);
+        assertEquals(name, CategoryFromDB.getName());
+        assertEquals(description, CategoryFromDB.getDescription());
     }
+
 }
