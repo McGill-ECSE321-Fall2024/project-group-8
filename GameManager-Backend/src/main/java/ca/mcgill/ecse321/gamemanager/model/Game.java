@@ -2,9 +2,9 @@
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
-
 import jakarta.persistence.*;
 import java.util.*;
+
 // line 72 "model.ump"
 // line 136 "model.ump"
 @Entity
