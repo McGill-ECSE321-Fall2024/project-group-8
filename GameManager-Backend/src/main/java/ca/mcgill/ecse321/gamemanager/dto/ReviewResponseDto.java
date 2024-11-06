@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 
+import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Review;
 
@@ -12,18 +13,11 @@ public class ReviewResponseDto {
     private String description;
     private LocalDate creationDate;
     private String gameTitle;
+    private String reviewerEmail;
 
     @SuppressWarnings("unused")
     private ReviewResponseDto() {}
 
-    /*public ReviewResponseDto(int reviewId, int rating, String description, String gameTitle) {
-        this.reviewId = reviewId;
-        this.rating = rating;
-        this.description = description;
-        this.gameTitle = gameTitle;
-    }
-
-     */
     public ReviewResponseDto(Review review) {
         this.reviewId = review.getReviewId();
         this.rating = review.getRating();
@@ -31,6 +25,8 @@ public class ReviewResponseDto {
         Game game = review.getGame();
         this.gameTitle = game.getTitle();
         this.creationDate = review.getDate().toLocalDate();
+        Customer customer = review.getCreated();
+        this.reviewerEmail = customer.getEmail();
     }
     public int getReviewId() {
         return reviewId;
@@ -46,6 +42,9 @@ public class ReviewResponseDto {
     }
     public String getGameTitle() {
         return gameTitle;
+    }
+    public String getReviewerEmail() {
+        return reviewerEmail;
     }
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
@@ -65,6 +64,9 @@ public class ReviewResponseDto {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public void setReviewerEmail(String reviewerEmail) {
+        this.reviewerEmail = reviewerEmail;
     }
 
 
