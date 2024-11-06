@@ -27,7 +27,7 @@ public class ReviewController {
         return new ReviewResponseDto(createdReview);
     }
 
-    @PutMapping("/reviews/update/{rId}")
+    @PutMapping("/reviews/{rId}")
     public ReviewResponseDto updateReview(@PathVariable int rId ,@RequestBody ReviewRequestDto reviewRequestDto) {
         int rating = reviewRequestDto.getRating();
         String description = reviewRequestDto.getDescription();
@@ -38,7 +38,7 @@ public class ReviewController {
 
 
 
-    @GetMapping("/reviews/all")
+    @GetMapping("/reviews")
     public List<ReviewResponseDto> getAllReviews() {
         Iterable<Review> reviews = reviewService.findAllReviews();
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
@@ -54,7 +54,7 @@ public class ReviewController {
         return new ReviewResponseDto(review);
     }
 
-    @GetMapping("/reviews/{gId}")
+    @GetMapping("/games/{gId}/reviews")
     public List<ReviewResponseDto> getReviewByGameId(@PathVariable int gId) {
         List<Review> reviews = reviewService.findReviewsByGameId(gId);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
@@ -64,7 +64,7 @@ public class ReviewController {
         return reviewResponseDtos;
     }
 
-    @GetMapping("/reviews/{cEmail}")
+    @GetMapping("/customers/{cEmail}/reviews")
     public List<ReviewResponseDto> getReviewByEmail(@PathVariable String cEmail) {
         List<Review> reviews = reviewService.findReviewsByCustomerEmail(cEmail);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
@@ -74,7 +74,7 @@ public class ReviewController {
         return reviewResponseDtos;
     }
 
-    @GetMapping("/reviews/{gId}/descending")
+    @GetMapping("/games/{gId}/reviews/descending")
     public List<ReviewResponseDto> getReviewByGameIdDescending(@PathVariable int gId) {
         List<Review> reviews = reviewService.findReviewsByGameIdDescending(gId);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
