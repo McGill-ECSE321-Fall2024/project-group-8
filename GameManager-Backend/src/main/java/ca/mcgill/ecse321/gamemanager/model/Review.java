@@ -163,5 +163,5 @@ public class Review
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 
-
 }
+

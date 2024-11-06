@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus;
-
 
 @SpringBootTest
 public class GameRepositoryTests {
@@ -70,7 +68,5 @@ public class GameRepositoryTests {
         //assertEquals(aRequest, game_valFromDb.getRequest(0));
         //assertTrue(game_valFromDb instanceof GameCopy, "The game should have copy.");
         //assertEquals(game_val.getGameId(), ((GameCopy) game_valFromDb).getGameId());
-
-
     }
 }
