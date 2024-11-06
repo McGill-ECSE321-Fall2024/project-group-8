@@ -1,10 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
 
-import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
-import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
-import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
 import jakarta.transaction.Transactional;
@@ -16,12 +12,16 @@ import org.springframework.web.server.ResponseStatusException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PurchaseOrderService {
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
+
+    @Transactional
+    public List<PurchaseOrder> getAllOrders() {
+        return (List<PurchaseOrder>) purchaseOrderRepository.findAll();
+    }
 
     // Finding orders with its id
     @Transactional
@@ -58,9 +58,8 @@ public class PurchaseOrderService {
         }
 
         PurchaseOrder order = purchaseOrderRepository.findByOrderId(id);
-        double oldPrice = order.getTotalPrice();
         order.setDate(date);
-        order.setTotalPrice(oldPrice + price);
+        order.setTotalPrice(price);
         order.setOrderStatus(status);
 
         return purchaseOrderRepository.save(order);
