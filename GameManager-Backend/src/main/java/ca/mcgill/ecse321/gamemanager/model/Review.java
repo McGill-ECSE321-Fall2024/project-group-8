@@ -42,9 +42,8 @@ public class Review
   //------------------------
   @SuppressWarnings("unused")
   public Review(){}
-  public Review(int aReviewId, int aRating, String aDescription, Date aDate, Customer aCreated, Game aGame)
+  public Review(int aRating, String aDescription, Date aDate, Customer aCreated, Game aGame)
   {
-    reviewId = aReviewId;
     rating = aRating;
     description = aDescription;
     date = aDate;
@@ -163,4 +162,6 @@ public class Review
             "  " + "created = "+(getCreated()!=null?Integer.toHexString(System.identityHashCode(getCreated())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
+
 }
+
