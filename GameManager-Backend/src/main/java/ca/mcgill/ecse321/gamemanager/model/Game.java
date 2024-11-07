@@ -41,6 +41,9 @@ public class Game
   @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")) // Add this line to specify the foreign key column in the Game table
   private Category category;
 
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Review> reviews = new ArrayList<>();
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -69,6 +72,20 @@ public class Game
   //------------------------
   // INTERFACE
   //------------------------
+
+// New method to add a review
+    public void addReview(Review review) {
+        if (!reviews.contains(review)) {
+            reviews.add(review);
+            review.setGame(this); // Set the game in Review as well
+        }
+    }
+
+    // Getter for reviews
+    public List<Review> getReviews() {
+        return Collections.unmodifiableList(reviews);
+    }
+
 
   public boolean setGameId(int aGameId)
   {
