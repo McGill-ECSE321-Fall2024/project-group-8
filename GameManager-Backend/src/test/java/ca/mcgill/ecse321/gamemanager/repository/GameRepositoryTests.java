@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.gamemanager.model.Category;
-
 @SpringBootTest
 public class GameRepositoryTests {
 
@@ -31,42 +29,58 @@ public class GameRepositoryTests {
 
     @Test
     public void testCreateAndReadGameVal() {
-        // create and save category
-        Category acategory = new Category("FPS", "First Person Shooting Game");
-        acategory = categoryRepo.save(acategory);
+        // Create and save category
+        Category category = new Category("FPS", "First Person Shooting Game");
+        category = categoryRepo.save(category);
 
-        // create game
+        // Game attributes
         String title = "Valorant";
-        String description = "An fps game made by Riot";
+        String description = "An FPS game made by Riot";
         double price = 19.99;
-        Game.GameStatus aGameStatus = Game.GameStatus.Archived;
-        String genre = "Tactical shooter";
+        Game.GameStatus gameStatus = Game.GameStatus.Available;
+        String genre = "Tactical Shooter";
         int stock = 3;
-        Owner aOwner = new Owner();
-        Game.RequestStatus aRequestStatus = Game.RequestStatus.Approved;
+        Game.RequestStatus requestStatus = Game.RequestStatus.Approved;
 
-        Game game_val = new Game(title, description, genre, price, stock, aGameStatus, aRequestStatus, acategory);
+        // Create and save game
+        Game game = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
+        game = gameRepo.save(game);
 
-        // save game
-        game_val = gameRepo.save(game_val);
+        // Retrieve game
+        Game gameFromDb = gameRepo.findByGameId(game.getGameId());
 
-        // retrieve game
-        Game game_valFromDb = gameRepo.findByGameId(game_val.getGameId());
+        // Assert initial properties
+        assertNotNull(gameFromDb);
+        assertEquals(title, gameFromDb.getTitle());
+        assertEquals(description, gameFromDb.getDescription());
+        assertEquals(price, gameFromDb.getPrice());
+        assertEquals(stock, gameFromDb.getStock());
+        assertEquals(gameStatus, gameFromDb.getGameStatus());
+        assertEquals(requestStatus, gameFromDb.getRequestStatus());
+        assertEquals(category.getName(), gameFromDb.getCategory().getName());
 
-        // assertions
-        assertNotNull(game_valFromDb);
-        assertEquals(title, game_valFromDb.getTitle());
-        // Similar to:
-        // if (title != game_valFromDb.getTitle) throw new AssertionFailedError();
-        assertEquals(game_val.getGameId(), game_valFromDb.getGameId());
-        assertEquals(description, game_valFromDb.getDescription());
-        assertEquals(price, game_valFromDb.getPrice());
+        // Assert initial popularity and average rating
+        assertEquals(0, gameFromDb.getPopularity(), "Initial popularity should be 0.");
+        assertEquals(0.0, gameFromDb.getAverageRating(), "Initial average rating should be 0.0.");
 
-        //assertEquals(acategory.getName(), game_valFromDb.getCategory().getName());
+        // Test incrementPopularity and updateAverageRating
+        gameFromDb.updateAverageRating(4.0); // Has increment popularity function
+        gameRepo.save(gameFromDb); // Save the updated game back to the database
 
-        assertEquals(aGameStatus, game_valFromDb.getGameStatus());
-        //assertEquals(aRequest, game_valFromDb.getRequest(0));
-        //assertTrue(game_valFromDb instanceof GameCopy, "The game should have copy.");
-        //assertEquals(game_val.getGameId(), ((GameCopy) game_valFromDb).getGameId());
+        // Retrieve the updated game
+        Game updatedGameFromDb = gameRepo.findByGameId(game.getGameId());
+
+        // Assert updated popularity and average rating
+        assertEquals(1, updatedGameFromDb.getPopularity(), "Popularity should be 1 after one increment.");
+        assertEquals(4.0, updatedGameFromDb.getAverageRating(), "Average rating should be 4.0 after one rating of 4.0.");
+
+        // Add another rating and verify the updated average rating
+        updatedGameFromDb.updateAverageRating(5.0); // Adding a second rating
+        gameRepo.save(updatedGameFromDb); // Save changes to the database
+
+        // Retrieve the game again and check the new average rating
+        Game finalGameFromDb = gameRepo.findByGameId(game.getGameId());
+        assertEquals(2, finalGameFromDb.getPopularity(), "Popularity should be 2 after two interactions.");
+        assertEquals(4.5, finalGameFromDb.getAverageRating(), "Average rating should be 4.5 after ratings of 4.0 and 5.0.");
     }
 }
