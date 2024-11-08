@@ -19,18 +19,27 @@ For more information, check the [wiki](https://github.com/McGill-ECSE321-Fall202
 The scope of this project is to create an online game website, allowing the owner and employees to manage the shop and allowing customers to purchase games. Other goals are to learn how to design the software to fulfill given requirements, manipulate information in a database, and further teamwork communication skills.
 
 # Overview table
-| Names         | Team roles | Sprint 1 | Sprint 2 | Sprint 3 | 
-| ------------- | -------------   |-------------|-------------|-------------|
-| Cher Li       | Software Developer | 35 |||
-| Cleo Tang     | Software Developer | 32 |||
-| Nara Yun      | Software Developer | 32 |||
-| Sijing Gu     | Software Developer | 35 |||
-| Diane Teo     | Software Developer | 38 |||
-| Ang Li        | Software Developer | 34 |||
 
-We also had other minor roles such as software lead and documentation manager, but software developer is the most important role to all of us. We also only included software developer because we wanted to keep our roles flexible. This way, everyone could learn and help with various parts of the project, especially with the topics they're interested in. 
+| Names         | Sprint 1 roles | Sprint 2 roles | Sprint 3 roles | 
+| ------------- | -------------|-------------|-------------|
+| Cher Li       | Software Developer, Project Manager |||
+| Cleo Tang     | Software Developer, QA Tester |||
+| Nara Yun      | Software Developer, Documentation Manager |||
+| Sijing Gu     | Software Developer, QA Tester |||
+| Diane Teo     | Software Developer, QA Tester |||
+| Ang Li        | Software Developer, QA Tester |||
+
+| Names         | Sprint 1 efforts | Sprint 2 efforts | Sprint 3 efforts | 
+| ------------- | -------------|-------------|-------------|
+| Cher Li       | 35 |||
+| Cleo Tang     | 32 |||
+| Nara Yun      | 32 |||
+| Sijing Gu     | 35 |||
+| Diane Teo     | 38 |||
+| Ang Li        | 34 |||
 
 # Sprint efforts
+## Sprint 1
 | Names         | Contributions |
 | ------------- | -------------   |
 | Cher Li       | Requirements, Detailed Use Cases, Class Diagram draft, created github issues, Add JPA annotations for PurchaseOrder, Spring Boot and Postgre set up, Persistence layer test, Project Report Wiki           |
@@ -39,3 +48,13 @@ We also had other minor roles such as software lead and documentation manager, b
 | Sijing Gu     | Requirements, Detailed Use Cases, Use case diagram for customers, first version of Domain Model Relationship, create and complete most findby methods, create and complete tests for employee, owner and category, further debugging |
 | Diane Teo     | Requirements, Detailed Use Cases, Use Case Diagram, Domain Model Relationships, Generation of code from UML, JPA Notations for Person, Customer, Employee, Owner classes,, Remodelling Domain Model to remove ManyToMany relationships, Creation & Testing of CRUD Repositories |
 | Ang Li        | Requirements, Detailed Use Cases, JPA Notations for Game, add game copy to avoid ManyToMany relationships,Creation of CRUD Repositories, create and complete tests for gamerepository , gamecopyrepository  |
+
+## Sprint 2
+| Names         | Contributions |
+| ------------- | -------------   |
+| Cher Li       |  |
+| Cleo Tang     |  |
+| Nara Yun      |  |
+| Sijing Gu     |  |
+| Diane Teo     |  |
+| Ang Li        |  |

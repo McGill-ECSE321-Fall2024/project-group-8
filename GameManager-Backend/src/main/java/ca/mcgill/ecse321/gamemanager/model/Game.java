@@ -2,9 +2,9 @@
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 package ca.mcgill.ecse321.gamemanager.model;
 
-
 import jakarta.persistence.*;
 import java.util.*;
+
 // line 72 "model.ump"
 // line 136 "model.ump"
 @Entity
@@ -33,11 +33,16 @@ public class Game
   private int stock;
   private GameStatus gameStatus;
   private RequestStatus requestStatus;
+  private int popularity;
+  private double averageRating;
 
   //Game Associations
   @ManyToOne
   @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")) // Add this line to specify the foreign key column in the Game table
   private Category category;
+
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Review> reviews = new ArrayList<>();
 
   //------------------------
   // CONSTRUCTOR
@@ -46,6 +51,7 @@ public class Game
   @SuppressWarnings("unused")
   public Game() {
   }
+  
   public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, GameStatus aGameStatus, RequestStatus aRequestStatus, Category aCategory)
   {
     title = aTitle;
@@ -55,6 +61,8 @@ public class Game
     stock = aStock;
     gameStatus = aGameStatus;
     requestStatus = aRequestStatus;
+    popularity = 0;
+    averageRating = 0.0;
     if (!setCategory(aCategory))
     {
       throw new RuntimeException("Unable to create Game due to aCategory. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
@@ -64,6 +72,20 @@ public class Game
   //------------------------
   // INTERFACE
   //------------------------
+
+// New method to add a review
+    public void addReview(Review review) {
+        if (!reviews.contains(review)) {
+            reviews.add(review);
+            review.setGame(this); // Set the game in Review as well
+        }
+    }
+
+    // Getter for reviews
+    public List<Review> getReviews() {
+        return Collections.unmodifiableList(reviews);
+    }
+
 
   public boolean setGameId(int aGameId)
   {
@@ -168,6 +190,15 @@ public class Game
   {
     return requestStatus;
   }
+
+  public int getPopularity() {
+    return popularity;
+  }
+
+  public double getAverageRating() {
+    return averageRating;
+  }
+
   /* Code from template association_GetOne */
   public Category getCategory()
   {
@@ -185,24 +216,54 @@ public class Game
     return wasSet;
   }
 
+  /**
+   * Increments the popularity by 1.
+   */
+  public void incrementPopularity() {
+    popularity++;
+  }
+
+  /**
+  * Updates the average rating based on a new rating.
+  *
+  * @param newRating The new rating to consider in average calculation.
+  */
+ public void updateAverageRating(double newRating) {
+   if (newRating < 0 || newRating > 5) {
+     throw new IllegalArgumentException("Rating must be between 0 and 5.");
+   }
+   
+   // Calculate the new average
+   if (popularity == 0) {
+     averageRating = newRating;
+   } else {
+     averageRating = (averageRating * popularity + newRating) / (popularity + 1);
+   }
+
+   incrementPopularity();  // Update popularity since the game was rated
+ }
+
   public void delete()
   {
     category = null;
   }
 
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "gameId" + ":" + getGameId()+ "," +
-            "title" + ":" + getTitle()+ "," +
-            "description" + ":" + getDescription()+ "," +
-            "genre" + ":" + getGenre()+ "," +
-            "price" + ":" + getPrice()+ "," +
-            "stock" + ":" + getStock()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "gameStatus" + "=" + (getGameStatus() != null ? !getGameStatus().equals(this)  ? getGameStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "requestStatus" + "=" + (getRequestStatus() != null ? !getRequestStatus().equals(this)  ? getRequestStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "category = "+(getCategory()!=null?Integer.toHexString(System.identityHashCode(getCategory())):"null");
+  @Override
+  public String toString() {
+    return super.toString() + "[" +
+            "gameId" + ":" + getGameId() + "," +
+            "title" + ":" + getTitle() + "," +
+            "description" + ":" + getDescription() + "," +
+            "genre" + ":" + getGenre() + "," +
+            "price" + ":" + getPrice() + "," +
+            "stock" + ":" + getStock() + "," +
+            "popularity" + ":" + getPopularity() + "," +
+            "averageRating" + ":" + getAverageRating() + "]" + 
+            System.getProperties().getProperty("line.separator") +
+            "  " + "gameStatus" + "=" + (getGameStatus() != null ? getGameStatus() : "null") + 
+            System.getProperties().getProperty("line.separator") +
+            "  " + "requestStatus" + "=" + (getRequestStatus() != null ? getRequestStatus() : "null") +
+            System.getProperties().getProperty("line.separator") +
+            "  " + "category = " + (getCategory() != null ? Integer.toHexString(System.identityHashCode(getCategory())) : "null");
   }
 }
