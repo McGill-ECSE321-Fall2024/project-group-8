@@ -21,6 +21,10 @@ public class GameDto {
     private RequestStatus requestStatus;
     private Category category;
 
+    // Default constructor
+    public GameDto() {
+    }
+
     // Constructor with all attributes
     public GameDto(int gameId, String title, String description, String genre, double price, int stock, int popularity, double averageRating, List<ReviewDto> reviews, GameStatus gameStatus, RequestStatus requestStatus, Category category) {
         this.gameId = gameId;
@@ -63,6 +67,10 @@ public class GameDto {
         this.popularity = popularity;
         this.averageRating = averageRating;
         this.reviews = reviews;
+    }
+
+    public int getGameId() {
+        return gameId;
     }
 
     public String getTitle() {
