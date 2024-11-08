@@ -18,6 +18,17 @@ import java.util.stream.Collectors;
 @Service
 public class GameService {
 
+        @Autowired
+        private static GameRepository gameRepo;
+
+        public static Game findByGameId(int id){
+            Game game= gameRepo.findByGameId(id);
+            if (game ==null){
+                throw new IllegalArgumentException("There is no game with ID " + id + ".");
+            }
+            return game;
+
+
     @Autowired
     private GameRepository gameRepository;
 
@@ -77,6 +88,40 @@ public class GameService {
         } else {
             games = gameRepository.findByCategoryName(category);
         }
+
+
+        /*@Transactional
+        public Game updateGame(int id, String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Category aCategory) {
+            Game game = gameRepo.findByGameId(id);
+            if (game ==null){
+                throw new IllegalArgumentException("There is no game with ID " + id + ".");
+            }
+            //Date now = Date.valueOf(LocalDate.now());
+            game.setTitle(aTitle);
+            game.setDescription(aDescription);
+            game.setGenre(aGenre);
+            game.setPrice(aPrice);
+            game.setStock(aStock);
+            game.setGameStatus(aGameStatus);
+            game.setRequestStatus(aRequestStatus);
+            game.setCategory(aCategory);
+            return gameRepo.save(game);
+        }
+        @Transactional
+        public void deleteGame(int id) {
+            Game game = gameRepo.findByGameId(id);
+            if (game ==null){
+                throw new IllegalArgumentException("There is no game with ID " + id + ".");
+            }
+            gameRepo.delete(game);
+        }
+
+        public Iterable<Game> findAllGames() {
+            return gameRepo.findAll();
+        }*/
+
+
+
 
         // Sort games based on the selected sorting criteria
         games = sortGames(games, sortBy);
@@ -150,4 +195,5 @@ public class GameService {
         }
         return "No results found for \"" + keyword + "\". Please try again or check the spelling.";
     }
+
 }
