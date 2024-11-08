@@ -32,11 +32,8 @@ public class PurchaseOrderRepositoryTests {
     @Test
     public void testCreateAndReadOrder() {
         // Create customer
-        Customer customer = new Customer();
-        customer.setEmail("bob@gmail.com");
-        customer.setName("Bob");
-        customer.setPassword("123");
-        customer = customerRepository.save(customer); // Save customer to DB
+        Customer customer = new Customer("123", "Bob", "bob@gmail.com");
+        customer = customerRepository.save(customer);
 
         // Create order
         OrderStatus status = OrderStatus.Bought;
