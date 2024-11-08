@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
+import ca.mcgill.ecse321.gamemanager.dto.GameRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
@@ -29,14 +31,14 @@ public class GameController {
 
 
     @PostMapping("/game")
-    public GameDto createGame(@RequestBody GameDto game){
-        Game createdGame = gameService.createGame(game.getTitle(),game.getDescription(), game.getGenre(), game.getPrice(), game.getGameId(), game.getGameStatus(),game.getRequestStatus(),game.getCategory());
+    public GameDto createGame(@RequestBody GameRequestDto game){
+        Game createdGame = gameService.createGame(game.getTitle(),game.getDescription(), game.getGenre(), game.getPrice(),game.getStock() ,game.getGameStatus(),game.getRequestStatus(),game.getCategory());
 
         return new GameDto(createdGame);
     }
 
     @PutMapping("/game/{id}")
-    public GameDto updateGame(@PathVariable int id, @RequestBody GameDto game){
+    public GameDto updateGame(@PathVariable int id, @RequestBody GameRequestDto game){
         String title = game.getTitle();
         String description = game.getDescription();
         String genre = game.getGenre();
