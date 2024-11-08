@@ -30,6 +30,15 @@ public class ReviewService {
 
     @Transactional
     public Review createReview(int rating, String description, String customerEmail, int gameId) {
+        if (rating > 5 || rating < 1) {
+            throw new IllegalArgumentException("Review rating out of range");
+        }
+        if (description.length()>1000) {
+            throw new IllegalArgumentException("Review description out of range");
+        }
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException("review description is null or empty");
+        }
         Date now = Date.valueOf(LocalDate.now());
         Customer customer = customerRepository.findCustomerByEmail(customerEmail);
         Game game = gameRepository.findByGameId(gameId);
@@ -46,6 +55,9 @@ public class ReviewService {
         }
         if (review.getRating() > 5 || review.getRating() < 1) {
             throw new IllegalArgumentException("Review rating out of range");
+        }
+        if (description == null || description.isEmpty() || description.length()>1000) {
+            throw new IllegalArgumentException("Review description out of range");
         }
         Date now = Date.valueOf(LocalDate.now());
         review.setRating(rating);
