@@ -56,8 +56,11 @@ public class ReviewService {
         if (review.getRating() > 5 || review.getRating() < 1) {
             throw new IllegalArgumentException("Review rating out of range");
         }
-        if (description == null || description.isEmpty() || description.length()>1000) {
+        if (description.length()>1000) {
             throw new IllegalArgumentException("Review description out of range");
+        }
+        if (description.isEmpty()) {
+            throw new IllegalArgumentException("review description is null or empty");
         }
         Date now = Date.valueOf(LocalDate.now());
         review.setRating(rating);
@@ -120,7 +123,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public List<Review> findReviewsByGameIdDescending(int gameId) {
+    public List<Review> findReviewsByGameIdDescendingRating(int gameId) {
         Game game = gameRepository.findByGameId(gameId);
         List<Review> review = reviewRepository.findReviewByGame(game);
         if (review == null) {

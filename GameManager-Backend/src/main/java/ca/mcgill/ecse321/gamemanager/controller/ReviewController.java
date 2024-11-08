@@ -75,8 +75,8 @@ public class ReviewController {
     }
 
     @GetMapping("/games/{gId}/reviews/descending")
-    public List<ReviewResponseDto> getReviewByGameIdDescending(@PathVariable int gId) {
-        List<Review> reviews = reviewService.findReviewsByGameIdDescending(gId);
+    public List<ReviewResponseDto> getReviewByGameIdDescendingRating(@PathVariable int gId) {
+        List<Review> reviews = reviewService.findReviewsByGameIdDescendingRating(gId);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
         for (Review review : reviews) {
             reviewResponseDtos.add(new ReviewResponseDto(review));
