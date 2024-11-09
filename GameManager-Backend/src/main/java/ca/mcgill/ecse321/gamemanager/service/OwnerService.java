@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Owner;
+import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import ca.mcgill.ecse321.gamemanager.repository.OwnerRepository;
 
 import jakarta.transaction.Transactional;
@@ -15,6 +17,9 @@ public class OwnerService {
 
     @Autowired
     private OwnerRepository ownerRepo;
+
+    @Autowired
+    private GameRepository gameRepo;
 
     // Retrieve a owner by email (used as ID in this case)
     public Owner findOwnerByEmail(String email) {
@@ -68,5 +73,21 @@ public class OwnerService {
             throw new IllegalArgumentException("Owner with email " + email + " does not exist.");
         }
         ownerRepo.deleteById(email);
+    }
+
+    @Transactional
+    public Game updateGameDiscount(float discount, int gameId){
+        if(discount > 1 || discount < 0) {
+            throw new IllegalArgumentException("Discount must be between 0 and 1.");
+        }
+        Game game = gameRepo.findByGameId(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException("Game with id " + gameId + " does not exist.");
+        }
+        double currentPrice = game.getPrice();
+        currentPrice = discount * currentPrice;
+        game.setPrice(currentPrice);
+        return gameRepo.save(game);
+
     }
 }
