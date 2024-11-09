@@ -59,7 +59,7 @@ public class ReviewServiceTests {
     @Test
     public void testAndCreateValidReview() {
         int gameId = 1;
-        String customerEmail = "example@example.com";
+        String customerEmail = "example1@example.com";
         String password = "123456";
         Customer customer = new Customer(password,"John",customerEmail);
         Game game = new Game();
@@ -135,7 +135,7 @@ public class ReviewServiceTests {
     public void testGetReviewByValidReviewId() {
         int reviewId = 11;
         int gameId = 1;
-        String customerEmail = "example@example.com";
+        String customerEmail = "example2@example.com";
         String password = "123456";
         Customer customer = new Customer(password,"John",customerEmail);
         Game game = new Game();
@@ -333,7 +333,7 @@ public class ReviewServiceTests {
         //Customer customer1 = new Customer();
         Customer customer2 = new Customer();
         //customer1.setEmail("example1@example.com");
-        customer2.setEmail("example2@example.com");
+        customer2.setEmail("example@example.com");
         //Review Review1 = new Review(1,"1",Date.valueOf(LocalDate.now()),customer1, game );
         Review Review2 = new Review(2,"2",Date.valueOf(LocalDate.now()),customer2, game );
         Review Review3 = new Review(3,"3",Date.valueOf(LocalDate.now()),customer2, game );
@@ -344,7 +344,8 @@ public class ReviewServiceTests {
 
         when(mockCustomerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer2);
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(reviewList);
-        List<Review> gotReviewList = reviewService.findReviewsByCustomerEmail(customer2.getEmail());
+        //List<Review> gotReviewList = reviewService.findReviewsByCustomerEmail(customer2.getEmail());
+        List<Review> gotReviewList = reviewService.findReviewsByCustomerEmail("example@example.com");
         assertNotNull(gotReviewList);
         assertEquals(2, gotReviewList.size());
         assertEquals(Review2, gotReviewList.get(0));
@@ -357,9 +358,10 @@ public class ReviewServiceTests {
     public void testFindReviewByCustomerEmailUnsuccessfully(){
         String customerEmail = "example@example.com";
         Customer customer = new Customer();
+        List<Review> listReview= new ArrayList<>();
 
         when(mockCustomerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
-        when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(null);
+        when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(listReview);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByCustomerEmail(customerEmail));
         assertEquals("404 NOT_FOUND \"There is no review from customer example@example.com.\"", ex.getMessage());
@@ -422,7 +424,7 @@ public class ReviewServiceTests {
 
         when(mockGameRepository.findByGameId(any(int.class))).thenReturn(game);
         when(mockReviewRepository.findReviewByGame(any(Game.class))).thenReturn(reviewList);
-        List<Review> gotReviewList = reviewService.findReviewsByGameId(1);
+        List<Review> gotReviewList = reviewService.findReviewsByGameIdDescendingRating(1);
         assertNotNull(gotReviewList);
         assertEquals(2, gotReviewList.size());
         assertEquals(Review3, gotReviewList.get(0));

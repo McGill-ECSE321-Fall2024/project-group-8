@@ -100,7 +100,7 @@ public class ReviewService {
     public List<Review> findReviewsByCustomerEmail(String customerEmail) {
         Customer customer = customerRepository.findCustomerByEmail(customerEmail);
         List<Review> review = reviewRepository.findReviewByCreated(customer);
-        if (review == null) {
+        if (review.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review from customer %s.", customerEmail));
         }
