@@ -35,11 +35,11 @@ public class PurchaseOrderService {
     @Transactional
     public PurchaseOrder createOrder(OrderStatus aOrderStatus, double aTotalPrice) {
         if (aTotalPrice < 0) {
-            throw new IllegalArgumentException("Price cannot be negative");
+            throw new IllegalArgumentException("Price cannot be negative.");
         }
 
         if (aOrderStatus == null) {
-            throw new IllegalArgumentException("Status cannot be null");
+            throw new IllegalArgumentException("Status cannot be null.");
         }
 
         Date now = Date.valueOf(LocalDate.now());
@@ -52,15 +52,15 @@ public class PurchaseOrderService {
     @Transactional
     public PurchaseOrder updateOrder(int id, OrderStatus status, double price, Date date) {
         if (price < 0) {
-            throw new IllegalArgumentException("Price cannot be negative");
+            throw new IllegalArgumentException("Price cannot be negative.");
         }
 
         if (date == null) {
-            throw new IllegalArgumentException("Date cannot be null");
+            throw new IllegalArgumentException("Date cannot be null.");
         }
 
         if (status == null) {
-            throw new IllegalArgumentException("Status cannot be null");
+            throw new IllegalArgumentException("Status cannot be null.");
         }
 
         PurchaseOrder order = purchaseOrderRepository.findByOrderId(id);

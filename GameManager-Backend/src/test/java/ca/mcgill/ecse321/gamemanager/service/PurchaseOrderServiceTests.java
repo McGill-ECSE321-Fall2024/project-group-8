@@ -51,6 +51,28 @@ public class PurchaseOrderServiceTests {
     }
 
     @Test
+    public void testCreateInvalidOrderPrice() {
+        // Arrange
+        OrderStatus status = OrderStatus.Bought;
+        double totalPrice = -3;
+
+        // Act and assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> service.createOrder(status, totalPrice));
+        assertEquals("Price cannot be negative.", exception.getMessage());
+    }
+
+    @Test
+    public void testCreateInvalidOrderStatus() {
+        // Arrange
+        OrderStatus status = null;
+        double totalPrice = 50;
+
+        // Act and assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> service.createOrder(status, totalPrice));
+        assertEquals("Status cannot be null.", exception.getMessage());
+    }
+
+    @Test
     public void testGetAllOrders() {
         // Arrange
         PurchaseOrder order1 =
@@ -100,6 +122,72 @@ public class PurchaseOrderServiceTests {
         assertEquals(newStatus, result.getOrderStatus());
         assertEquals(newDate, result.getDate());
         verify(repo, times(1)).findByOrderId(id);
+    }
+
+    @Test
+    public void testUpdateInvalidOrderPrice() {
+        // Arrange
+        int id = 0;
+        OrderStatus oldStatus = OrderStatus.Bought;
+        double oldPrice = 1234;
+        Date oldDate = Date.valueOf(LocalDate.now());
+
+        PurchaseOrder order = new PurchaseOrder(oldStatus, oldPrice, oldDate);
+        order.setOrderId(id);
+        when(repo.findByOrderId(id)).thenReturn(order);
+
+        // new info for updating
+        OrderStatus newStatus = OrderStatus.ShoppingCart;
+        double newPrice = -5;
+        Date newDate = Date.valueOf(LocalDate.now());
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice, newDate));
+        assertEquals("Price cannot be negative.", exception.getMessage());
+    }
+
+    @Test
+    public void testUpdateInvalidOrderDate() {
+        // Arrange
+        int id = 0;
+        OrderStatus oldStatus = OrderStatus.Bought;
+        double oldPrice = 1234;
+        Date oldDate = Date.valueOf(LocalDate.now());
+
+        PurchaseOrder order = new PurchaseOrder(oldStatus, oldPrice, oldDate);
+        order.setOrderId(id);
+        when(repo.findByOrderId(id)).thenReturn(order);
+
+        // new info for updating
+        OrderStatus newStatus = OrderStatus.ShoppingCart;
+        double newPrice = 2;
+        Date newDate = null;
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice, newDate));
+        assertEquals("Date cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    public void testUpdateInvalidOrderStatus() {
+        // Arrange
+        int id = 0;
+        OrderStatus oldStatus = OrderStatus.Bought;
+        double oldPrice = 1234;
+        Date oldDate = Date.valueOf(LocalDate.now());
+
+        PurchaseOrder order = new PurchaseOrder(oldStatus, oldPrice, oldDate);
+        order.setOrderId(id);
+        when(repo.findByOrderId(id)).thenReturn(order);
+
+        // new info for updating
+        OrderStatus newStatus = null;
+        double newPrice = 2;
+        Date newDate = Date.valueOf(LocalDate.now());
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice, newDate));
+        assertEquals("Status cannot be null.", exception.getMessage());
     }
 
     @Test
