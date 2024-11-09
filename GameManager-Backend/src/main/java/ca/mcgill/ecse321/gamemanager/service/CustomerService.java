@@ -48,14 +48,25 @@ public class CustomerService {
         if (name != null && !name.isBlank()) {
             customer.setName(name);
         }
+        else{
+            throw new IllegalArgumentException("Failed to update customer with invalid name.");
+
+        }
         if (newEmail != null && !newEmail.isBlank()) {
             if (!newEmail.equals(email) && customerRepo.findCustomerByEmail(newEmail) != null) {
                 throw new IllegalArgumentException("New email is already in use by another customer.");
             }
             customer.setEmail(newEmail);
         }
+        else{
+            throw new IllegalArgumentException("Failed to update customer with invalid email.");
+
+        }
         if (password != null && password.length() >= 8) {
             customer.setPassword(password);
+        }
+        else{
+            throw new IllegalArgumentException("Failed to update customer with invalid password.");
         }
 
         return customerRepo.save(customer);
