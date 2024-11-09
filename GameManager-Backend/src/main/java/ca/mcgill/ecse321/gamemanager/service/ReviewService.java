@@ -36,8 +36,8 @@ public class ReviewService {
         if (description.length()>1000) {
             throw new IllegalArgumentException("Review description out of range");
         }
-        if (description == null || description.isEmpty()) {
-            throw new IllegalArgumentException("review description is null or empty");
+        if (description.isEmpty()) {
+            throw new IllegalArgumentException("Review description is empty");
         }
         Date now = Date.valueOf(LocalDate.now());
         Customer customer = customerRepository.findCustomerByEmail(customerEmail);
@@ -53,14 +53,14 @@ public class ReviewService {
         if (review == null) {
             throw new IllegalArgumentException("Review not found");
         }
-        if (review.getRating() > 5 || review.getRating() < 1) {
+        if (rating > 5 || rating < 1) {
             throw new IllegalArgumentException("Review rating out of range");
         }
         if (description.length()>1000) {
             throw new IllegalArgumentException("Review description out of range");
         }
         if (description.isEmpty()) {
-            throw new IllegalArgumentException("review description is null or empty");
+            throw new IllegalArgumentException("Review description is empty");
         }
         Date now = Date.valueOf(LocalDate.now());
         review.setRating(rating);
@@ -81,11 +81,10 @@ public class ReviewService {
     }
 
 
-
+    @Transactional
     public Review findReviewById(int id) {
         Review review = reviewRepository.findReviewByReviewId(id);
         if (review == null) {
-            // TODO: maybe create a new exception type
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review with ID %d.", id));
         }
@@ -102,7 +101,6 @@ public class ReviewService {
         Customer customer = customerRepository.findCustomerByEmail(customerEmail);
         List<Review> review = reviewRepository.findReviewByCreated(customer);
         if (review == null) {
-            // TODO: maybe create a new exception type
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review from customer %s.", customerEmail));
         }

@@ -44,7 +44,7 @@ public class ReviewServiceTests {
     private static final String VALID_COMMENT = "The game is excellent";
     private static final String INVALID_LONG_COMMENT = "This is a test comment designed to be exactly 1001 characters long. It serves as an example for limiting text length in a Java program or other application that requires constraints on user input. Comments like this can become lengthy when users have a lot to share about their experiences, especially on platforms like Steam, where players discuss gameplay mechanics, graphics, and story depth. Let's consider, for example, a game with a complex narrative and intricate gameplay. The developers crafted an open world with rich lore, and the graphics engine renders textures beautifully. This draws players in, giving them an immersive experience with dynamic lighting, weather effects, and character animations that feel lifelike. The game offers a range of missions and side quests, keeping players engaged for hours. Additionally, character customization and skill upgrades add depth. The story has twists, turns, and unexpected outcomes. I would definitely recommend this to fans of the genre!!!";
 
-    // TODO: update with valid and invalid, 4 find methods with valid and invalid cases
+    // TODO: 4 find methods with valid and invalid cases
     @Test
     public void testAndCreateValidReview() {
         int gameId = 1;
@@ -80,7 +80,7 @@ public class ReviewServiceTests {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(VALID_RATING, INVALID_EMPTY_COMMENT, customerEmail, gameId));
         //  IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.findPersonById(invalidId));
 
-        assertEquals("review description is null or empty", e.getMessage());
+        assertEquals("Review description is null or empty", e.getMessage());
 
     }
 
@@ -160,8 +160,7 @@ public class ReviewServiceTests {
         Date date = Date.valueOf(LocalDate.now());
         Review review = new Review(VALID_RATING, VALID_COMMENT,date, customer, game );
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
-        //when(mockReviewRepository.findById()).thenReturn(review);
-        when(mockReviewRepository.delete(review)).thenReturn(true);
+
 
         reviewService.deleteReview(reviewId);
         verify(mockReviewRepository, times(1)).delete(review);
@@ -175,5 +174,148 @@ public class ReviewServiceTests {
 
         assertEquals("Review not found", ex.getMessage());
     }
+
+    @Test
+    public void testUpdateReviewWithEverythingValid(){
+        int reviewId = 11;
+        int gameId = 1;
+        String customerEmail = "example@example.com";
+        Customer customer = new Customer();
+        Game game = new Game();
+        customer.setEmail(customerEmail);
+        game.setGameId(gameId);
+        Date date = Date.valueOf(LocalDate.now());
+
+        Review review = new Review(VALID_RATING, VALID_COMMENT,date, customer, game );
+        when(mockReviewRepository.findReviewByReviewId(reviewId)).thenReturn(review);
+
+        int updatedRating = 1;
+        String updatedDescription = "The game is awful";
+
+        Review updatedReview = reviewService.updateReview(reviewId, updatedRating, updatedDescription);
+
+        assertNotNull(updatedReview);
+        assertEquals(updatedRating, updatedReview.getRating());
+        assertEquals(updatedDescription, updatedReview.getDescription());
+        assertEquals(Date.valueOf(LocalDate.now()), updatedReview.getDate());
+        verify(mockReviewRepository, times(1)).findReviewByReviewId(reviewId);
+    }
+
+    @Test
+    public void testUpdateReviewWithInvalidReviewId(){
+        int reviewId = 11;
+        int validRating = 1;
+        String validDescription = "The game is awful";
+
+        when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(null);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,validRating,validDescription));
+
+        assertEquals("Review not found", ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateReviewWithInvalidEmptyDescription(){
+        int reviewId = 11;
+        int gameId = 1;
+        String customerEmail = "example@example.com";
+        Customer customer = new Customer();
+        Game game = new Game();
+        customer.setEmail(customerEmail);
+        game.setGameId(gameId);
+        Date date = Date.valueOf(LocalDate.now());
+        Review review = new Review(VALID_RATING, VALID_COMMENT,date, customer, game );
+
+        when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_EMPTY_COMMENT));
+        assertEquals("Review description is empty", ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateReviewWithInvalidLongDescription(){
+        int reviewId = 11;
+        int gameId = 1;
+        String customerEmail = "example@example.com";
+        Customer customer = new Customer();
+        Game game = new Game();
+        customer.setEmail(customerEmail);
+        game.setGameId(gameId);
+        Date date = Date.valueOf(LocalDate.now());
+        Review review = new Review(VALID_RATING, VALID_COMMENT,date, customer, game );
+
+        when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_LONG_COMMENT));
+        assertEquals("Review description is empty", ex.getMessage());
+
+
+    }
+
+    @Test
+    public void testUpdateReviewWithLowRating(){
+        int reviewId = 11;
+        int gameId = 1;
+        String customerEmail = "example@example.com";
+        Customer customer = new Customer();
+        Game game = new Game();
+        customer.setEmail(customerEmail);
+        game.setGameId(gameId);
+        Date date = Date.valueOf(LocalDate.now());
+        Review review = new Review(VALID_RATING, VALID_COMMENT,date, customer, game );
+
+
+        when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,INVALID_LOW_RATING,VALID_COMMENT));
+        assertEquals("Review rating out of range", ex.getMessage());
+
+    }
+    @Test
+    public void testUpdateReviewWithHighRating(){
+
+        int reviewId = 11;
+        int gameId = 1;
+        String customerEmail = "example@example.com";
+        Customer customer = new Customer();
+        Game game = new Game();
+        customer.setEmail(customerEmail);
+        game.setGameId(gameId);
+        Date date = Date.valueOf(LocalDate.now());
+        Review review = new Review(VALID_RATING, VALID_COMMENT,date, customer, game );
+
+
+        when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,INVALID_HIGH_RATING,VALID_COMMENT));
+        assertEquals("Review rating out of range", ex.getMessage());
+
+    }
+
+    @Test
+    public void testFindAllReviews(){
+
+    }
+
+    @Test
+    public void testFindReviewByReviewIdSuccessfully(){
+
+    }
+
+    @Test
+    public void testFindReviewByReviewIdUnsuccessfully(){
+
+    }
+
+    @Test
+    public void testFindReviewByGameIdSuccessfully(){}
+
+    @Test
+    public void testFindReviewByGameIdUnsuccessfully(){}
+
+    @Test
+    public void testFindReviewByGameIdDescendingSuccessfully(){}
+
+    @Test
+    public void testFindReviewByGameIdDescendingUnsuccessfully(){}
 
 }
