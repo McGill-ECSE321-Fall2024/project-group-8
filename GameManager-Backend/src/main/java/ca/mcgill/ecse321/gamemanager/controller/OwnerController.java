@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
+import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
+import ca.mcgill.ecse321.gamemanager.dto.GameDto;
+import ca.mcgill.ecse321.gamemanager.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +55,14 @@ public class OwnerController {
     @DeleteMapping("/{email}")
     public void deleteOwner(@PathVariable String email) {
         ownerService.deleteOwner(email);
+    }
+
+    @PutMapping("/{gameId}")
+    public GameDto copyOwner(@PathVariable int gameId, float discount) {
+        Game game = ownerService.updateGameDiscount(discount,gameId);
+
+        return new GameDto(game);
+
     }
 
     private OwnerDto convertToDto(Owner owner) {
