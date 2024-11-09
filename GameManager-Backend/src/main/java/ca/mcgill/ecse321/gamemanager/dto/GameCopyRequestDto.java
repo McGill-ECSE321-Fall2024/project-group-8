@@ -5,18 +5,18 @@ import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 
 public class GameCopyRequestDto {
     private int gameCopyId;
-    private Game game;
-    public GameCopyRequestDto(Game aGame) {
-        this.game = aGame;
+    private GameDto gameDto;
+    public GameCopyRequestDto(GameDto aGameDto) {
+        this.gameDto = aGameDto;
     }
 
     public int getGameCopyId() {
         return gameCopyId;
     }
-    public Game getGame(){
-        return this.game;
+    public GameDto getGame(){
+        return this.gameDto;
     }
-    public void setGame(Game aGame) {
-        this.game = aGame;
+    public void setGame(GameDto aGameDto) {
+        this.gameDto = aGameDto;
     }
 }

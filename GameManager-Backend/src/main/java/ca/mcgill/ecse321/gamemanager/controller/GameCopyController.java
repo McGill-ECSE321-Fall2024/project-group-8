@@ -44,6 +44,7 @@ public class GameCopyController {
     public long countGameCopyOfGame(@PathVariable int gameid) {
         return gameCopyService.countGameCopyOfGame(gameid);
     }
+
     @PostMapping("/gamecopy")
     @ResponseStatus(HttpStatus.CREATED)
     public GameCopyResponseDto createGameCopy(@RequestBody GameCopyRequestDto gameCopy) {
@@ -53,7 +54,7 @@ public class GameCopyController {
 
     @DeleteMapping("/gamecopy/{gameid}")
     public ResponseEntity<Void> deleteGameCopy(@PathVariable int gameid){
-        gameCopyService.deleteGameCopy(gameid);
+        gameCopyService.returnGameCopy(gameid);
         return ResponseEntity.noContent().build();
     }
 }

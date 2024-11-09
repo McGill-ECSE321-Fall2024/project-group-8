@@ -37,23 +37,24 @@ public class GameCopyService {
     }
     @Transactional
     public GameCopy createGameCopy(int gameId){
-        Optional<Game> optionalGame = Optional.ofNullable(gameRepo.findByGameId(gameId));
-        Game game = optionalGame.orElseThrow(() -> new IllegalArgumentException("Invalid Game ID."));
-        int stock = game.getStock();
-        boolean b = game.setStock(stock-1);
+        Game targetGame = gameRepo.findByGameId(gameId);
+        if (targetGame == null) {
+            throw new IllegalArgumentException("Invalid Game ID.");
+        }
+        int stock = targetGame.getStock();
+        boolean b = targetGame.setStock(stock-1);
         if (b) {
-            GameCopy newGameCopy = new GameCopy(game);
-            gameRepo.save(game);
+            GameCopy newGameCopy = new GameCopy(targetGame);
+            gameRepo.save(targetGame);
             return gameCopyRepo.save(newGameCopy);
         } else {
-            String gameTitle = game.getTitle();
+            String gameTitle = targetGame.getTitle();
             throw new IllegalStateException(gameTitle + " with Game ID " + gameId + " is currently out of stock.");
         }
     }
 
     @Transactional
-    public boolean deleteGameCopy(int gameCopyId){
-        boolean wasDelete;
+    public void returnGameCopy(int gameCopyId){
         GameCopy gameCopy = findGameCopyByGameCopyId(gameCopyId);
         int gameId = gameCopy.getGame().getGameId();
         Game game = gameRepo.findByGameId(gameId);
@@ -61,9 +62,8 @@ public class GameCopyService {
             throw new RuntimeException("Game not found");
         }
         int stock = game.getStock();
-        wasDelete = game.setStock(stock+1);
+        game.setStock(stock+1);
         gameCopyRepo.delete(gameCopy);
-        return wasDelete;
     }
 
 }
