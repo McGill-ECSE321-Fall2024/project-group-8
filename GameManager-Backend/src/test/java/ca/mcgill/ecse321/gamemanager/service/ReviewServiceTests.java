@@ -44,16 +44,15 @@ public class ReviewServiceTests {
 
     private static final String INVALID_EMPTY_COMMENT  = "";
     private static final String VALID_COMMENT = "The game is excellent";
-    private static final String INVALID_LONG_COMMENT = "This is a test comment designed to be exactly 1001 characters long. It serves as an example for limiting text length in a Java program or other application that requires constraints on user input. Comments like this can become lengthy when users have a lot to share about their experiences, especially on platforms like Steam, where players discuss gameplay mechanics, graphics, and story depth. Let's consider, for example, a game with a complex narrative and intricate gameplay. The developers crafted an open world with rich lore, and the graphics engine renders textures beautifully. This draws players in, giving them an immersive experience with dynamic lighting, weather effects, and character animations that feel lifelike. The game offers a range of missions and side quests, keeping players engaged for hours. Additionally, character customization and skill upgrades add depth. The story has twists, turns, and unexpected outcomes. I would definitely recommend this to fans of the genre!!!";
-
+    private static final String INVALID_LONG_COMMENT = "This is a comment designed to be slightly longer than 1000 characters. It includes some filler text to reach the necessary length and demonstrate how one might handle comments of this size within the constraints of the Steam platform. When you write comments on a game, it's easy to get carried away describing the features, graphics, storyline, and gameplay mechanics. For instance, let's talk about the combat system—it's fluid and dynamic, allowing for seamless transitions between moves, and the AI opponents are challenging without feeling unfair. Additionally, the graphics are stunning, with high-resolution textures and beautiful landscapes that make exploration enjoyable. The developers have done a fantastic job in creating an immersive world that keeps you engaged for hours. As you progress, you can unlock new abilities and upgrades, which add depth and replay value. Not to mention, the storyline is compelling and filled with unexpected twists and turns, making you eager to see what happens next. Overall, this game is a masterclass in design and storytelling, and I highly recommend it. I'm excited to see how the game evolves with future updates, as the potential for even more content is enormous. Let's keep supporting such dedicated developers!\n";
     // TODO: 4 find methods with valid and invalid cases
     @Test
     public void testAndCreateValidReview() {
         int gameId = 1;
         String customerEmail = "example@example.com";
-        Customer customer = new Customer();
+        String password = "123456";
+        Customer customer = new Customer(password,"John",customerEmail);
         Game game = new Game();
-        customer.setEmail(customerEmail);
         game.setGameId(gameId);
         Date date = Date.valueOf(LocalDate.now());
 
@@ -82,7 +81,7 @@ public class ReviewServiceTests {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(VALID_RATING, INVALID_EMPTY_COMMENT, customerEmail, gameId));
         //  IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.findPersonById(invalidId));
 
-        assertEquals("Review description is null or empty", e.getMessage());
+        assertEquals("Review description is empty", e.getMessage());
 
     }
 
@@ -101,7 +100,7 @@ public class ReviewServiceTests {
         String customerEmail = "example@example.com";
 
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(INVALID_LOW_RATING, VALID_COMMENT, customerEmail, gameId));
-        assertEquals("Review description out of range", e.getMessage());
+        assertEquals("Review rating out of range", e.getMessage());
     }
 
     @Test
@@ -109,7 +108,7 @@ public class ReviewServiceTests {
         int gameId = 1;
         String customerEmail = "example@example.com";
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(INVALID_HIGH_RATING, VALID_COMMENT, customerEmail, gameId));
-        assertEquals("Review description out of range", e.getMessage());
+        assertEquals("Review rating out of range", e.getMessage());
     }
 
     @Test
@@ -193,8 +192,11 @@ public class ReviewServiceTests {
 
         int updatedRating = 1;
         String updatedDescription = "The game is awful";
+        Review review2 = new Review(updatedRating, updatedDescription, date, customer, game );
+        when(mockReviewRepository.save(any(Review.class))).thenReturn(review2);
 
         Review updatedReview = reviewService.updateReview(reviewId, updatedRating, updatedDescription);
+
 
         assertNotNull(updatedReview);
         assertEquals(updatedRating, updatedReview.getRating());
@@ -248,7 +250,7 @@ public class ReviewServiceTests {
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_LONG_COMMENT));
-        assertEquals("Review description is empty", ex.getMessage());
+        assertEquals("Review description out of range", ex.getMessage());
 
 
     }
@@ -349,7 +351,7 @@ public class ReviewServiceTests {
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(null);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByCustomerEmail(customerEmail));
-        assertEquals("There is no review from customer example@example.com.", ex.getMessage());
+        assertEquals("404 NOT_FOUND \"There is no review from customer example@example.com.\"", ex.getMessage());
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
 
     }

@@ -112,7 +112,7 @@ public class ReviewService {
         Game game = gameRepository.findByGameId(gameId);
 
         List<Review> review = reviewRepository.findReviewByGame(game);
-        if (review == null) {
+        if (review.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review for game %d.", gameId));
         }
@@ -124,7 +124,7 @@ public class ReviewService {
     public List<Review> findReviewsByGameIdDescendingRating(int gameId) {
         Game game = gameRepository.findByGameId(gameId);
         List<Review> review = reviewRepository.findReviewByGame(game);
-        if (review == null) {
+        if (review.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review for game %d.", gameId));
         }
