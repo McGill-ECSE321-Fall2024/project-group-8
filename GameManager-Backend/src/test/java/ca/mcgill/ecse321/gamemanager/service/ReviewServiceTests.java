@@ -7,6 +7,8 @@ import ca.mcgill.ecse321.gamemanager.model.Review;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import ca.mcgill.ecse321.gamemanager.repository.ReviewRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -37,6 +39,14 @@ public class ReviewServiceTests {
 
     @InjectMocks
     private ReviewService reviewService;
+
+    @BeforeEach
+    @AfterEach
+    public void deleteDb(){
+        mockGameRepository.deleteAll();
+        mockCustomerRepository.deleteAll();
+        mockReviewRepository.deleteAll();
+    }
 
     private static final int VALID_RATING = 5;
     private static final int INVALID_LOW_RATING = -1;
@@ -118,7 +128,7 @@ public class ReviewServiceTests {
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewById(reviewId));
 
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
-        assertEquals("There is no review with id 11.", ex.getMessage());
+        assertEquals("404 NOT_FOUND \"There is no review with ID 11.\"", ex.getMessage());
 
     }
     @Test
@@ -126,7 +136,8 @@ public class ReviewServiceTests {
         int reviewId = 11;
         int gameId = 1;
         String customerEmail = "example@example.com";
-        Customer customer = new Customer();
+        String password = "123456";
+        Customer customer = new Customer(password,"John",customerEmail);
         Game game = new Game();
         customer.setEmail(customerEmail);
         game.setGameId(gameId);
@@ -391,7 +402,7 @@ public class ReviewServiceTests {
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(null);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByGameId(gameId));
-        assertEquals("There is no review for game 1.", ex.getMessage());
+        assertEquals("404 NOT_FOUND \"There is no review for game 1.\"", ex.getMessage());
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
     }
 
@@ -429,7 +440,7 @@ public class ReviewServiceTests {
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(null);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByGameIdDescendingRating(gameId));
-        assertEquals("There is no review for game 1.", ex.getMessage());
+        assertEquals("404 NOT_FOUND \"There is no review for game 1.\"", ex.getMessage());
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
     }
 

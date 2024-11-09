@@ -172,9 +172,9 @@ public class Review
     return this.reviewId == that.reviewId
             && this.rating == that.rating
             && this.description.equals(that.description)
-            && this.date.equals(that.date)
-            && this.created.equals(that.created)
-            && this.game.equals(that.game);
+            && this.date.equals(that.date);
+            //&& this.created.equals(that.created)
+            //&& this.game.equals(that.game);
   }
 
 }
