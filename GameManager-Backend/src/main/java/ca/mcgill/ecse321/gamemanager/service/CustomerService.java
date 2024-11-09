@@ -67,6 +67,6 @@ public class CustomerService {
         if (customerRepo.findCustomerByEmail(email) == null) {
             throw new IllegalArgumentException("Customer with email " + email + " does not exist.");
         }
-        customerRepo.deleteById(email);
+        customerRepo.deleteByEmail(email);
     }
 }
