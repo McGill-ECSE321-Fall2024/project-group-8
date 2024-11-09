@@ -1,28 +1,19 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+import ca.mcgill.ecse321.gamemanager.model.Category;
+import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
 
-import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
-import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
-
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 public class CategoryServiceTests {
@@ -34,137 +25,138 @@ public class CategoryServiceTests {
     private CategoryService categoryService;
 
     @Test
-    public void testCreateValidCategory() {
-        // Arrange
-        String name = "Adventure";
-        String description = "Exciting adventure games";
-        CategoryDto categoryDto = new CategoryDto(0, name, description, Collections.emptyList());
-        Category category = new Category(name, description);
-
-        when(categoryRepository.save(any(Category.class))).thenReturn(category);
-
-        // Act
-        CategoryDto createdCategory = categoryService.createCategory(categoryDto);
-
-        // Assert
-        assertNotNull(createdCategory);
-        assertEquals(name, createdCategory.getName());
-        assertEquals(description, createdCategory.getDescription());
-        verify(categoryRepository, times(1)).save(any(Category.class));
-    }
-
-    @Test
     public void testGetAllCategories() {
-        // Arrange
-        Category category1 = new Category("Adventure", "Exciting adventure games");
+        Category category1 = new Category();
         category1.setCategoryId(1);
+        category1.setName("Adventure");
+        category1.setDescription("Exciting adventure games");
 
-        Category category2 = new Category("Action", "High-paced action games");
+        Category category2 = new Category();
         category2.setCategoryId(2);
+        category2.setName("Puzzle");
+        category2.setDescription("Challenging puzzle games");
 
-        List<Category> categories = Arrays.asList(category1, category2);
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
 
-        // Mock the findAll method to return the list of categories
         when(categoryRepository.findAll()).thenReturn(categories);
+        List<Category> result = categoryService.getAllCategories();
 
-        // Act
-        List<CategoryDto> result = categoryService.getAllCategories();
-
-        // Assert
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(categories.stream().map(Category::getName).collect(Collectors.toList()),
-                result.stream().map(CategoryDto::getName).collect(Collectors.toList()));
-        assertEquals(categories.stream().map(Category::getDescription).collect(Collectors.toList()),
-                result.stream().map(CategoryDto::getDescription).collect(Collectors.toList()));
+        assertEquals("Adventure", result.get(0).getName());
+        assertEquals("Puzzle", result.get(1).getName());
     }
 
     @Test
-    public void testGetCategoryWithGamesByValidId() {
-        // Arrange
-        int id = 1;
-        Category category = new Category("Adventure", "Exciting adventure games");
-        category.setCategoryId(id);
-        when(categoryRepository.findById(String.valueOf(id))).thenReturn(Optional.of(category));
+    public void testGetCategoryById_ValidId() {
+        int categoryId = 1;
+        Category category = new Category();
+        category.setCategoryId(categoryId);
+        category.setName("Adventure");
+        category.setDescription("Exciting adventure games");
 
-        // Act
-        CategoryDto foundCategory = categoryService.getCategoryWithGames(id);
-
-        // Assert
-        assertNotNull(foundCategory);
-        assertEquals("Adventure", foundCategory.getName());
-        assertEquals("Exciting adventure games", foundCategory.getDescription());
-        verify(categoryRepository, times(1)).findById(String.valueOf(id));
+        when(categoryRepository.findById(String.valueOf(categoryId))).thenReturn(Optional.of(category));
+        Category result = categoryService.getCategoryById(categoryId);
+        assertNotNull(result);
+        assertEquals("Adventure", result.getName());
+        assertEquals("Exciting adventure games", result.getDescription());
     }
 
     @Test
-    public void testGetCategoryWithGamesByInvalidId() {
-        // Arrange
-        int invalidId = 42;
+    public void testGetCategoryById_InvalidId() {
+        int invalidId = 99;
         when(categoryRepository.findById(String.valueOf(invalidId))).thenReturn(Optional.empty());
-
-        // Act & Assert
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            categoryService.getCategoryWithGames(invalidId);
+            categoryService.getCategoryById(invalidId);
         });
         assertEquals("404 NOT_FOUND \"Category with ID " + invalidId + " not found\"", exception.getMessage());
-        verify(categoryRepository, times(1)).findById(String.valueOf(invalidId));
     }
 
     @Test
-    public void testDeleteCategoryByValidId() {
-        // Arrange
+    public void testCreateCategory_ValidCategory() {
+        Category category = new Category();
+        category.setName("Adventure");
+        category.setDescription("Exciting adventure games");
+
+        when(categoryRepository.save(any(Category.class))).thenReturn(category);
+        Category result = categoryService.createCategory(category);
+        assertNotNull(result);
+        assertEquals("Adventure", result.getName());
+        assertEquals("Exciting adventure games", result.getDescription());
+    }
+
+    @Test
+    public void testCreateCategory_InvalidCategory_NoName() {
+        Category category = new Category();
+        category.setDescription("Exciting adventure games");
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            categoryService.createCategory(category);
+        });
+        assertEquals("400 BAD_REQUEST \"Category name cannot be empty\"", exception.getMessage());
+    }
+
+    @Test
+    public void testCreateCategory_InvalidCategory_NoDescription() {
+        Category category = new Category();
+        category.setName("Adventure");
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            categoryService.createCategory(category);
+        });
+        assertEquals("400 BAD_REQUEST \"Category description cannot be empty\"", exception.getMessage());
+    }
+
+    @Test
+    public void testUpdateCategory_ValidId() {
+        int categoryId = 1;
+        Category existingCategory = new Category();
+        existingCategory.setCategoryId(categoryId);
+        existingCategory.setName("Adventure");
+        existingCategory.setDescription("Old description");
+
+        Category updatedCategory = new Category();
+        updatedCategory.setName("Adventure Updated");
+        updatedCategory.setDescription("Updated description");
+
+        when(categoryRepository.findById(String.valueOf(categoryId))).thenReturn(Optional.of(existingCategory));
+        when(categoryRepository.save(any(Category.class))).thenReturn(existingCategory);
+
+        Category result = categoryService.updateCategory(categoryId, updatedCategory);
+        assertNotNull(result);
+        assertEquals("Adventure Updated", result.getName());
+        assertEquals("Updated description", result.getDescription());
+    }
+
+    @Test
+    public void testUpdateCategory_InvalidId() {
+        int invalidId = 99;
+        Category updatedCategory = new Category();
+        updatedCategory.setName("New Name");
+        updatedCategory.setDescription("New description");
+
+        when(categoryRepository.findById(String.valueOf(invalidId))).thenReturn(Optional.empty());
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            categoryService.updateCategory(invalidId, updatedCategory);
+        });
+        assertEquals("404 NOT_FOUND \"Category with ID " + invalidId + " not found\"", exception.getMessage());
+    }
+
+    @Test
+    public void testDeleteCategory_ValidId() {
         int categoryId = 1;
         when(categoryRepository.existsById(String.valueOf(categoryId))).thenReturn(true);
-
-        // Act
         categoryService.deleteCategory(categoryId);
-
-        // Assert
         verify(categoryRepository, times(1)).deleteById(String.valueOf(categoryId));
     }
 
     @Test
-    public void testDeleteCategoryByInvalidId() {
-        // Arrange
-        int invalidId = 42;
+    public void testDeleteCategory_InvalidId() {
+        int invalidId = 99;
         when(categoryRepository.existsById(String.valueOf(invalidId))).thenReturn(false);
-
-        // Act & Assert
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             categoryService.deleteCategory(invalidId);
         });
         assertEquals("404 NOT_FOUND \"Category with ID " + invalidId + " not found\"", exception.getMessage());
-        verify(categoryRepository, times(1)).existsById(String.valueOf(invalidId));
-    }
-
-    @Test
-    public void testUpdateCategory() {
-        // Arrange
-        int id = 1;
-        String oldName = "Adventure";
-        String oldDescription = "Exciting adventure games";
-        String newName = "Action-Adventure";
-        String newDescription = "Thrilling action and adventure games";
-
-        // Original category in the repository
-        Category category = new Category(oldName, oldDescription);
-        category.setCategoryId(id);
-
-        // Updated information
-        CategoryDto updatedCategoryDto = new CategoryDto(id, newName, newDescription, Collections.emptyList());
-
-        when(categoryRepository.findById(String.valueOf(id))).thenReturn(Optional.of(category));
-        when(categoryRepository.save(any(Category.class))).thenReturn(category);
-
-        // Act
-        CategoryDto result = categoryService.updateCategory(id, updatedCategoryDto);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(newName, result.getName());
-        assertEquals(newDescription, result.getDescription());
-        verify(categoryRepository, times(1)).findById(String.valueOf(id));
-        verify(categoryRepository, times(1)).save(any(Category.class));
     }
 }
