@@ -163,5 +163,19 @@ public class Review
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 
+  @Override
+  public boolean equals(Object other){
+    if (!(other instanceof Review)) {
+      return false;
+    }
+    Review that = (Review) other;
+    return this.reviewId == that.reviewId
+            && this.rating == that.rating
+            && this.description.equals(that.description)
+            && this.date.equals(that.date);
+            //&& this.created.equals(that.created)
+            //&& this.game.equals(that.game);
+  }
+
 }
 

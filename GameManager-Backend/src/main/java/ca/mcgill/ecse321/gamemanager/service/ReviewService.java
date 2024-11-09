@@ -30,6 +30,15 @@ public class ReviewService {
 
     @Transactional
     public Review createReview(int rating, String description, String customerEmail, int gameId) {
+        if (rating > 5 || rating < 1) {
+            throw new IllegalArgumentException("Review rating out of range");
+        }
+        if (description.length()>1000) {
+            throw new IllegalArgumentException("Review description out of range");
+        }
+        if (description.isEmpty()) {
+            throw new IllegalArgumentException("Review description is empty");
+        }
         Date now = Date.valueOf(LocalDate.now());
         Customer customer = customerRepository.findCustomerByEmail(customerEmail);
         Game game = gameRepository.findByGameId(gameId);
@@ -44,8 +53,14 @@ public class ReviewService {
         if (review == null) {
             throw new IllegalArgumentException("Review not found");
         }
-        if (review.getRating() > 5 || review.getRating() < 1) {
+        if (rating > 5 || rating < 1) {
             throw new IllegalArgumentException("Review rating out of range");
+        }
+        if (description.length()>1000) {
+            throw new IllegalArgumentException("Review description out of range");
+        }
+        if (description.isEmpty()) {
+            throw new IllegalArgumentException("Review description is empty");
         }
         Date now = Date.valueOf(LocalDate.now());
         review.setRating(rating);
@@ -66,11 +81,10 @@ public class ReviewService {
     }
 
 
-
+    @Transactional
     public Review findReviewById(int id) {
         Review review = reviewRepository.findReviewByReviewId(id);
         if (review == null) {
-            // TODO: maybe create a new exception type
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review with ID %d.", id));
         }
@@ -78,16 +92,15 @@ public class ReviewService {
     }
 
 
-    public Iterable<Review> findAllReviews() {
-        return reviewRepository.findAll();
+    public List<Review> findAllReviews() {
+        return (List<Review>) reviewRepository.findAll();
     }
 
     @Transactional
     public List<Review> findReviewsByCustomerEmail(String customerEmail) {
         Customer customer = customerRepository.findCustomerByEmail(customerEmail);
         List<Review> review = reviewRepository.findReviewByCreated(customer);
-        if (review == null) {
-            // TODO: maybe create a new exception type
+        if (review.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review from customer %s.", customerEmail));
         }
@@ -99,7 +112,7 @@ public class ReviewService {
         Game game = gameRepository.findByGameId(gameId);
 
         List<Review> review = reviewRepository.findReviewByGame(game);
-        if (review == null) {
+        if (review.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review for game %d.", gameId));
         }
@@ -108,10 +121,10 @@ public class ReviewService {
     }
 
     @Transactional
-    public List<Review> findReviewsByGameIdDescending(int gameId) {
+    public List<Review> findReviewsByGameIdDescendingRating(int gameId) {
         Game game = gameRepository.findByGameId(gameId);
         List<Review> review = reviewRepository.findReviewByGame(game);
-        if (review == null) {
+        if (review.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("There is no review for game %d.", gameId));
         }

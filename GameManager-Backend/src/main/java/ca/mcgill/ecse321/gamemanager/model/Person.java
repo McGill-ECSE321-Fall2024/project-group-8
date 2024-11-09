@@ -122,4 +122,15 @@ public abstract class Person
             "name" + ":" + getName()+ "," +
             "email" + ":" + getEmail()+ "]";
   }
+  @Override
+  public boolean equals(Object other){
+    if (!(other instanceof Person)) {
+      return false;
+    }
+    Person that = (Person) other;
+    return  this.password.equals(that.password)
+            && this.name.equals(that.name)
+            && this.email.equals(that.email);
+
+  }
 }
