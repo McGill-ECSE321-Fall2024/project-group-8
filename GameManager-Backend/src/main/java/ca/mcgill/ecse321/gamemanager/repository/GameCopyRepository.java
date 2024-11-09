@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface GameCopyRepository extends CrudRepository <GameCopy, Integer> {
-    public GameCopy findGameCopyByGameCopyId(int gameCopyId);
-    public List<GameCopy> findGameCopiesByGame(Game game);
-    public long countByGame(Game game);
+    GameCopy findGameCopyByGameCopyId(int gameCopyId);
+    List<GameCopy> findGameCopiesByGame(Game game);
+    long countByGame(Game game);
 }

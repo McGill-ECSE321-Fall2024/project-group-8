@@ -35,25 +35,29 @@ public class GameCopyService {
         if (game==null) throw new IllegalArgumentException("Invalid Game ID.");
         return gameCopyRepo.countByGame(game);
     }
+
     @Transactional
-    public GameCopy createGameCopy(int gameId){
-        Optional<Game> optionalGame = Optional.ofNullable(gameRepo.findByGameId(gameId));
-        Game game = optionalGame.orElseThrow(() -> new IllegalArgumentException("Invalid Game ID."));
-        int stock = game.getStock();
-        boolean b = game.setStock(stock-1);
-        if (b) {
-            GameCopy newGameCopy = new GameCopy(game);
-            gameRepo.save(game);
-            return gameCopyRepo.save(newGameCopy);
-        } else {
-            String gameTitle = game.getTitle();
+    public GameCopy createGameCopy(int gameId) {
+        Game targetGame = gameRepo.findByGameId(gameId);
+        if (targetGame == null) {
+            throw new IllegalArgumentException("Invalid Game ID.");
+        }
+        int stock = targetGame.getStock();
+        System.out.println("Stock before creation: " + stock);
+
+        if (stock <= 0) {
+            String gameTitle = targetGame.getTitle();
             throw new IllegalStateException(gameTitle + " with Game ID " + gameId + " is currently out of stock.");
         }
+
+        targetGame.setStock(stock - 1);
+        gameRepo.save(targetGame);
+        GameCopy newGameCopy = new GameCopy(targetGame);
+        return gameCopyRepo.save(newGameCopy);
     }
 
     @Transactional
-    public boolean deleteGameCopy(int gameCopyId){
-        boolean wasDelete;
+    public void returnGameCopy(int gameCopyId){
         GameCopy gameCopy = findGameCopyByGameCopyId(gameCopyId);
         int gameId = gameCopy.getGame().getGameId();
         Game game = gameRepo.findByGameId(gameId);
@@ -61,9 +65,8 @@ public class GameCopyService {
             throw new RuntimeException("Game not found");
         }
         int stock = game.getStock();
-        wasDelete = game.setStock(stock+1);
+        game.setStock(stock+1);
         gameCopyRepo.delete(gameCopy);
-        return wasDelete;
     }
 
 }

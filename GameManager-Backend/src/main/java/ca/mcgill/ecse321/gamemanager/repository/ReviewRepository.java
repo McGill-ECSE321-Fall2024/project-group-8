@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ReviewRepository extends CrudRepository <Review, Integer> {
     public Review findReviewByReviewId(int reviewId);
+
     public List<Review> findReviewByGame(Game game);
+
     public List<Review> findReviewByCreated(Customer customer);
 }

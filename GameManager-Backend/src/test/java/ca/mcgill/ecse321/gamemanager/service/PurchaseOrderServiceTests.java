@@ -1,34 +1,26 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
-import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
-import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
-import org.aspectj.weaver.ast.Or;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class PurchaseOrderServiceTests {
     @Mock
     private PurchaseOrderRepository repo;
@@ -43,17 +35,17 @@ public class PurchaseOrderServiceTests {
         OrderStatus status = OrderStatus.Bought;
         double totalPrice = 53.2;
         Date date = Date.valueOf(LocalDate.now());
-        PurchaseOrderDto orderDto = new PurchaseOrderDto(0, status, totalPrice, date);
+
         PurchaseOrder order = new PurchaseOrder(status, totalPrice, date);
         when(repo.save(any(PurchaseOrder.class))).thenReturn(order);
 
         // Act
-        PurchaseOrderDto createdOrder = service.createOrder(orderDto);
+        PurchaseOrder createdOrder = service.createOrder(status, totalPrice);
 
         // Assert
         assertNotNull(createdOrder);
         assertEquals(status, createdOrder.getOrderStatus());
-        assertEquals(totalPrice, createdOrder.getPrice());
+        assertEquals(totalPrice, createdOrder.getTotalPrice());
         assertEquals(date, createdOrder.getDate());
         verify(repo, times(1)).save(any(PurchaseOrder.class));
     }
@@ -71,21 +63,14 @@ public class PurchaseOrderServiceTests {
 
         // grouping together to check equality later
         List<PurchaseOrder> orders = Arrays.asList(order1, order2);
-
          when(repo.findAll()).thenReturn(orders);
 
          // Act
-        List<PurchaseOrderDto> result = service.getAllOrders();
+        List<PurchaseOrder> result = service.getAllOrders();
 
         // Assert
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(orders.stream().map(PurchaseOrder::getDate).collect(Collectors.toList()),
-                result.stream().map(PurchaseOrderDto::getDate).collect(Collectors.toList()));
-        assertEquals(orders.stream().map(PurchaseOrder::getOrderStatus).collect(Collectors.toList()),
-                result.stream().map(PurchaseOrderDto::getOrderStatus).collect(Collectors.toList()));
-        assertEquals(orders.stream().map(PurchaseOrder::getDate).collect(Collectors.toList()),
-                result.stream().map(PurchaseOrderDto::getDate).collect(Collectors.toList()));
     }
 
     @Test
@@ -98,74 +83,72 @@ public class PurchaseOrderServiceTests {
 
         PurchaseOrder order = new PurchaseOrder(oldStatus, oldPrice, oldDate);
         order.setOrderId(id);
+        when(repo.findByOrderId(id)).thenReturn(order);
 
         // new info for updating
         OrderStatus newStatus = OrderStatus.ShoppingCart;
         double newPrice = 4321.99;
         Date newDate = Date.valueOf(LocalDate.now());
 
-        PurchaseOrderDto updatedDto = new PurchaseOrderDto(id, newStatus, newPrice, newDate);
-
-        when(repo.findByOrderId(id)).thenReturn(order);
-        when(repo.save(any(PurchaseOrder.class))).thenReturn(order);
-
         // Act
-        PurchaseOrderDto result = service.updateOrder(id, updatedDto);
+        PurchaseOrder result = service.updateOrder(id, newStatus, newPrice, newDate);
+        when(repo.findByOrderId(id)).thenReturn(result);
 
         // Assert
         assertNotNull(result);
-        assertEquals(newPrice, result.getPrice());
+        assertEquals(newPrice, result.getTotalPrice());
         assertEquals(newStatus, result.getOrderStatus());
         assertEquals(newDate, result.getDate());
         verify(repo, times(1)).findByOrderId(id);
-        verify(repo, times(1)).save(any(PurchaseOrder.class));
     }
 
-    // left to code:
-    // findOrderById - valid and invalid
-    // deleteOrder - valid and invalid
-
-    /*
-    tutorial examples:
-
     @Test
-    public void testReadPersonByValidId() {
+    public void testFindOrderByValidId() {
         // Arrange
-        int id = 42;
-        Person charlie = new Person("Charlie", "charlie@mail.mcgill.ca", "password123", Date.valueOf("2024-03-01"));
-        when(repo.findPersonById(id)).thenReturn(charlie);
+        int id = 0;
+        PurchaseOrder order =
+                new PurchaseOrder(OrderStatus.ShoppingCart, 23.45, Date.valueOf(LocalDate.now()));
+        order.setOrderId(id);
+
+        when(repo.findByOrderId(id)).thenReturn(order);
 
         // Act
-        Person person = service.findPersonById(id);
+        PurchaseOrder foundOrder = service.findOrderById(id);
 
         // Assert
-        assertNotNull(person);
-        assertEquals(charlie.getName(), person.getName());
-        assertEquals(charlie.getEmail(), person.getEmail());
-        assertEquals(charlie.getPassword(), person.getPassword());
-        assertEquals(charlie.getCreationDate(), person.getCreationDate());
+        assertNotNull(foundOrder);
+        assertEquals(OrderStatus.ShoppingCart, foundOrder.getOrderStatus());
+        assertEquals(23.45, foundOrder.getTotalPrice());
+        assertEquals(Date.valueOf(LocalDate.now()), foundOrder.getDate());
+        verify(repo, times(1)).findByOrderId(id);
     }
 
     @Test
-    public void testReadPersonByInvalidId() {
-        // Set up
-        int id = 42;
-        // Default is to return null, so you could omit this
-        when(repo.findPersonById(id)).thenReturn(null);
+    public void testFindOrderByInvalidId() {
+        // Arrange
+        int invalidId = 1;
+        when(repo.findByOrderId(invalidId)).thenReturn(null);
 
-        // Act
-        // Assert
-        EventRegistrationException e = assertThrows(EventRegistrationException.class, () -> service.findPersonById(id));
-        assertEquals("There is no person with ID " + id + ".", e.getMessage());
-        // assertThrows is basically like the following:
-        // try {
-        // service.findPersonById(id);
-        // fail("No exception was thrown.");
-        // } catch (IllegalArgumentException e) {
-        // assertEquals("There is no person with ID " + id + ".", e.getMessage());
-        // }
+        // Act and assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> service.findOrderById(invalidId));
+        assertEquals("There is no order with ID " + invalidId + ".", exception.getMessage());
     }
 
-     */
+    @Test
+    public void testDeleteOrderByValidId() {
+        // Arrange
+        int id = 1;
+        PurchaseOrder order =
+                new PurchaseOrder(OrderStatus.ShoppingCart, 23.45, Date.valueOf(LocalDate.now()));
+        order.setOrderId(id);
+
+        when(repo.findByOrderId(id)).thenReturn(order);
+
+        // Act
+        service.deleteOrder(id);
+
+        // Assert
+        verify(repo, times(1)).deleteById(id);
+    }
 
 }

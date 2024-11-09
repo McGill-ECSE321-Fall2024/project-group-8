@@ -5,4 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CustomerRepository extends CrudRepository<Customer, String> {
     public Customer findCustomerByEmail(String Email);
+    public Customer deleteByEmail(String Email);
+    public Customer findCustomerByName(String name );
+
 }

@@ -8,6 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/ReviewService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/ReviewServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/ReviewServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameCopyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameCopyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +103,16 @@
     "Spring Boot.GamemanagerApplication.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "Sijing/UTest",
+    "Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor": "Run",
+    "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
+    "Gradle.GameServiceTests.executor": "Run",
+    "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
+    "HTTP Request.All in generated-requests.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/tomgusijing/Desktop/ECSE321/project-group-8",
     "node.js.detected.package.eslint": "true",
@@ -113,6 +125,8 @@
 }]]></component>
   <component name="RunManager" selected="Gradle.ReviewServiceTests">
     <configuration name="ReviewServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager">
+    <configuration name="GameCopyServiceTests.testCreateValidGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -126,6 +140,7 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;ca.mcgill.ecse321.gamemanager.service.ReviewServiceTests&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.GameCopyServiceTests.testCreateValidGameCopy&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -137,6 +152,7 @@
       <method v="2" />
     </configuration>
     <configuration name="ReviewServiceTests.testAndCreateValidReview" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -150,6 +166,7 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;ca.mcgill.ecse321.gamemanager.service.ReviewServiceTests.testAndCreateValidReview&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -161,6 +178,7 @@
       <method v="2" />
     </configuration>
     <configuration name="ReviewServiceTests.testGetReviewByValidReviewId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="GameServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -174,6 +192,7 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;ca.mcgill.ecse321.gamemanager.service.ReviewServiceTests.testGetReviewByValidReviewId&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.GameServiceTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -184,6 +203,35 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+
+    <configuration name="GameServiceTests.testCreateValidGame" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.GameServiceTests.testCreateValidGame&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" requestIdentifier="#2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+
     <configuration name="GamemanagerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="gamemanager.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ca.mcgill.ecse321.gamemanager.GamemanagerApplication" />
@@ -196,6 +244,11 @@
         <item itemvalue="Gradle.ReviewServiceTests" />
         <item itemvalue="Gradle.ReviewServiceTests.testAndCreateValidReview" />
         <item itemvalue="Gradle.ReviewServiceTests.testGetReviewByValidReviewId" />
+        <item itemvalue="Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId" />
+        <item itemvalue="Gradle.GameCopyServiceTests.testCreateValidGameCopy" />
+        <item itemvalue="Gradle.GameServiceTests" />
+        <item itemvalue="Gradle.GameServiceTests.testCreateValidGame" />
+        <item itemvalue="HTTP Request.generated-requests | #2" />
       </list>
     </recent_temporary>
   </component>

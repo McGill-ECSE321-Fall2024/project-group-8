@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.repository;
 
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface GameRepository extends CrudRepository<Game, Integer> {
+
     
     // Method to find a game by its ID
     Game findByGameId(int id);
@@ -18,3 +20,4 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     // Custom query to search games by category name
     List<Game> findByCategoryName(String categoryName);
 }
+
