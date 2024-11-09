@@ -35,22 +35,25 @@ public class GameCopyService {
         if (game==null) throw new IllegalArgumentException("Invalid Game ID.");
         return gameCopyRepo.countByGame(game);
     }
+
     @Transactional
-    public GameCopy createGameCopy(int gameId){
+    public GameCopy createGameCopy(int gameId) {
         Game targetGame = gameRepo.findByGameId(gameId);
         if (targetGame == null) {
             throw new IllegalArgumentException("Invalid Game ID.");
         }
         int stock = targetGame.getStock();
-        boolean b = targetGame.setStock(stock-1);
-        if (b) {
-            GameCopy newGameCopy = new GameCopy(targetGame);
-            gameRepo.save(targetGame);
-            return gameCopyRepo.save(newGameCopy);
-        } else {
+        System.out.println("Stock before creation: " + stock);
+
+        if (stock <= 0) {
             String gameTitle = targetGame.getTitle();
             throw new IllegalStateException(gameTitle + " with Game ID " + gameId + " is currently out of stock.");
         }
+
+        targetGame.setStock(stock - 1);
+        gameRepo.save(targetGame);
+        GameCopy newGameCopy = new GameCopy(targetGame);
+        return gameCopyRepo.save(newGameCopy);
     }
 
     @Transactional
