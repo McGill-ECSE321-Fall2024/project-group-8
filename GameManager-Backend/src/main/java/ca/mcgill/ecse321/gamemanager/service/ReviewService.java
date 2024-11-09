@@ -92,8 +92,8 @@ public class ReviewService {
     }
 
 
-    public Iterable<Review> findAllReviews() {
-        return reviewRepository.findAll();
+    public List<Review> findAllReviews() {
+        return (List<Review>) reviewRepository.findAll();
     }
 
     @Transactional

@@ -266,4 +266,24 @@ public class Game
             System.getProperties().getProperty("line.separator") +
             "  " + "category = " + (getCategory() != null ? Integer.toHexString(System.identityHashCode(getCategory())) : "null");
   }
+  @Override
+  public boolean equals(Object other){
+    if (!(other instanceof Game)) {
+      return false;
+    }
+    Game that = (Game) other;
+    return this.getGameId() == that.getGameId()
+            && this.getTitle().equals(that.getTitle())
+            && this.getDescription().equals(that.getDescription())
+            && this.getGenre().equals(that.getGenre())
+            && this.getPrice() == that.getPrice()
+            && this.getStock() == that.getStock()
+            && this.getPopularity() == that.getPopularity()
+            && this.getAverageRating() == that.getAverageRating()
+            && this.getCategory() == that.getCategory()
+            && this.getRequestStatus() == that.getRequestStatus()
+            && this.getGameStatus() == that.getGameStatus()
+            && this.getCategory().equals(that.getCategory());
+
+  }
 }
