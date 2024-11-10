@@ -7,11 +7,13 @@ import ca.mcgill.ecse321.gamemanager.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/purchaseOrders")
+@RequestMapping("/api/orders")
 public class PurchaseOrderController {
 
     @Autowired
@@ -26,14 +28,14 @@ public class PurchaseOrderController {
     }
 
     // Get order by Id
-    @GetMapping("/orders/{id}")
+    @GetMapping("/{id}")
     public PurchaseOrderDto findOrderById(@PathVariable int id) {
         PurchaseOrder order = orderService.findOrderById(id);
         return convertToDto(order);
     }
 
     // Create a new order
-    @PostMapping("/orders")
+    @PostMapping
     public PurchaseOrderDto createOrder(@RequestBody PurchaseOrderRequestDto orderRequestDto) {
         PurchaseOrder createdOrder =
                 orderService.createOrder(orderRequestDto.getOrderStatus(), orderRequestDto.getPrice());
@@ -46,9 +48,9 @@ public class PurchaseOrderController {
         PurchaseOrder updatedOrder = orderService.updateOrder(
                 id,
                 orderRequestDto.getOrderStatus(),
-                orderRequestDto.getPrice(),
-                orderRequestDto.getDate());
+                orderRequestDto.getPrice());
         return convertToDto(updatedOrder);
+//        return new PurchaseOrderDto(id, orderRequestDto.getOrderStatus(), orderRequestDto.getPrice(), Date.valueOf(LocalDate.now()));
     }
 
     // Delete order by ID

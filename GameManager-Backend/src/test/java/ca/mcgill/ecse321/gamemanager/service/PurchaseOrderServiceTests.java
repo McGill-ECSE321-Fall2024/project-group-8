@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
-import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -113,7 +111,7 @@ public class PurchaseOrderServiceTests {
         Date newDate = Date.valueOf(LocalDate.now());
 
         // Act
-        PurchaseOrder result = service.updateOrder(id, newStatus, newPrice, newDate);
+        PurchaseOrder result = service.updateOrder(id, newStatus, newPrice);
         when(repo.findByOrderId(id)).thenReturn(result);
 
         // Assert
@@ -139,33 +137,10 @@ public class PurchaseOrderServiceTests {
         // new info for updating
         OrderStatus newStatus = OrderStatus.ShoppingCart;
         double newPrice = -5;
-        Date newDate = Date.valueOf(LocalDate.now());
 
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice, newDate));
+                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice));
         assertEquals("Price cannot be negative.", exception.getMessage());
-    }
-
-    @Test
-    public void testUpdateInvalidOrderDate() {
-        // Arrange
-        int id = 0;
-        OrderStatus oldStatus = OrderStatus.Bought;
-        double oldPrice = 1234;
-        Date oldDate = Date.valueOf(LocalDate.now());
-
-        PurchaseOrder order = new PurchaseOrder(oldStatus, oldPrice, oldDate);
-        order.setOrderId(id);
-        when(repo.findByOrderId(id)).thenReturn(order);
-
-        // new info for updating
-        OrderStatus newStatus = OrderStatus.ShoppingCart;
-        double newPrice = 2;
-        Date newDate = null;
-
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice, newDate));
-        assertEquals("Date cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -186,7 +161,7 @@ public class PurchaseOrderServiceTests {
         Date newDate = Date.valueOf(LocalDate.now());
 
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice, newDate));
+                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice));
         assertEquals("Status cannot be null.", exception.getMessage());
     }
 
