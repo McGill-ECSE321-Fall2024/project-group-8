@@ -17,8 +17,6 @@ public abstract class Person
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<String, Person> personsByEmail = new HashMap<String, Person>();
-
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -39,10 +37,11 @@ public abstract class Person
   {
     password = aPassword;
     name = aName;
-    if (!setEmail(aEmail))
+    email = aEmail;
+    /*if (!setEmail(aEmail))
     {
       throw new RuntimeException("Cannot create due to duplicate email. See https://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
+    }*/
   }
 
   //------------------------
@@ -68,19 +67,11 @@ public abstract class Person
   public boolean setEmail(String aEmail)
   {
     boolean wasSet = false;
-    String anOldEmail = getEmail();
-    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
-      return true;
-    }
-    if (hasWithEmail(aEmail)) {
-      return wasSet;
-    }
+
     email = aEmail;
+
     wasSet = true;
-    if (anOldEmail != null) {
-      personsByEmail.remove(anOldEmail);
-    }
-    personsByEmail.put(aEmail, this);
+
     return wasSet;
   }
 
@@ -98,20 +89,11 @@ public abstract class Person
   {
     return email;
   }
-  /* Code from template attribute_GetUnique */
-  public static Person getWithEmail(String aEmail)
-  {
-    return personsByEmail.get(aEmail);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithEmail(String aEmail)
-  {
-    return getWithEmail(aEmail) != null;
-  }
+
 
   public void delete()
   {
-    personsByEmail.remove(getEmail());
+
   }
 
 
