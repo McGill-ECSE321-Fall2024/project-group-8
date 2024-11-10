@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class PurchaseOrderController {
 
     // Update order by ID
     @PutMapping("/{id}")
-    public PurchaseOrderDto updateOrder(@PathVariable Integer id, @RequestBody PurchaseOrderRequestDto orderRequestDto) {
+    public PurchaseOrderDto updateOrder(@PathVariable int id, @RequestBody PurchaseOrderRequestDto orderRequestDto) {
         PurchaseOrder updatedOrder = orderService.updateOrder(
                 id,
                 orderRequestDto.getOrderStatus(),
@@ -51,6 +52,17 @@ public class PurchaseOrderController {
         return convertToDto(updatedOrder);
     }
 
+    @PutMapping("/{id}/{game}")
+    public PurchaseOrderDto addGameToCart(@PathVariable int id, @PathVariable List<Integer> gameCopyIds) {
+        PurchaseOrder cart = orderService.addGameToCart(id, gameCopyIds);
+        return convertToDto(cart);
+    }
+
+    @PostMapping("/{id}")
+    public PurchaseOrderDto checkOut(@PathVariable int id){
+        PurchaseOrder checkOutOrder = orderService.checkOut(id);
+        return convertToDto(checkOutOrder);
+    }
     // Delete order by ID
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Integer id) {

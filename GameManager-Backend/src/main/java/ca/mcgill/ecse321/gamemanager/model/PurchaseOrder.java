@@ -149,6 +149,16 @@ public class PurchaseOrder
     return wasAdded;
   }
 
+  public boolean addGameCopy(List<GameCopy> gameCopies)
+  {
+    boolean wasAdded = false;
+    for (GameCopy aGameCopy : gameCopies){
+      if (!gameCopies.contains(aGameCopy)) { addGameCopy(aGameCopy); }
+    }
+    wasAdded = numberOfGameCopies() != 0;
+    return wasAdded;
+  }
+
   public boolean removeGameCopy(GameCopy aGameCopy)
   {
     boolean wasRemoved = false;

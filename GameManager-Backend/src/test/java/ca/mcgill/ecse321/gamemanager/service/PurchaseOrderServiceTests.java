@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
+import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import org.junit.jupiter.api.Test;
 
 import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +27,13 @@ import static org.mockito.Mockito.*;
 public class PurchaseOrderServiceTests {
     @Mock
     private PurchaseOrderRepository repo;
+    @Mock
+    private GameCopyRepository gameCopyRepository;
 
     @InjectMocks
     private PurchaseOrderService service;
+    @InjectMocks
+    private GameCopyService gameCopyService;
 
     @SuppressWarnings("null")
     @Test
@@ -239,4 +246,130 @@ public class PurchaseOrderServiceTests {
         verify(repo, times(1)).deleteById(id);
     }
 
+    @Test
+    public void testAddGameToCartBy_ValidOrderId_validGameCopies() {
+        // Arrange
+        int id = 1;
+        PurchaseOrder order = new PurchaseOrder(OrderStatus.ShoppingCart, 23.45, Date.valueOf(LocalDate.now()));
+        order.setOrderId(id);
+
+        GameCopy gameCopy = new GameCopy();
+        int gameCopyId = gameCopy.getGameCopyId();
+        ArrayList<Integer> gameCopyIds = new ArrayList<>();
+        gameCopyIds.add(gameCopyId);
+
+        when(repo.findByOrderId(id)).thenReturn(order);
+        when(repo.save(order)).thenReturn(order);
+        when(gameCopyRepository.findGameCopyByGameCopyId(gameCopyId)).thenReturn(gameCopy);
+
+        // Act
+        PurchaseOrder updatedPurchaseOrder = service.addGameToCart(id, gameCopyIds);
+
+        // Assert
+        assertEquals(updatedPurchaseOrder.getOrderId(), id);
+        assertEquals(updatedPurchaseOrder.getGameCopy(0).getGameCopyId(), gameCopyId);
+        verify(repo, times(1)).save(order);
+    }
+
+    @Test
+    public void testAddGameToCartBy_InvalidOrderId_ValidGameCopies() {
+        // Arrange
+        int InvalidId = 1;
+        PurchaseOrder order = new PurchaseOrder(OrderStatus.ShoppingCart, 0.1, Date.valueOf(LocalDate.now()));
+        order.setOrderId(InvalidId);
+
+        GameCopy gameCopy = new GameCopy();
+        int gameCopyId = gameCopy.getGameCopyId();
+        ArrayList<Integer> gameCopyIds = new ArrayList<>();
+        gameCopyIds.add(gameCopyId);
+
+        when(repo.findByOrderId(InvalidId)).thenReturn(null);
+
+        // Act and assert
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.addGameToCart(InvalidId, gameCopyIds));
+        assertEquals("Invalid order Id.", e.getMessage());
+    }
+
+    @Test
+    public void testAddGameToCartBy_ValidOrderId_EmptyGameCopies() {
+        // Arrange
+        int id = 1;
+        PurchaseOrder order = new PurchaseOrder(OrderStatus.ShoppingCart, 0.1, Date.valueOf(LocalDate.now()));
+        order.setOrderId(id);
+
+        ArrayList<Integer> gameCopyIds = new ArrayList<>();
+
+        when(repo.findByOrderId(id)).thenReturn(order);
+        when(repo.save(order)).thenReturn(order);
+
+        // Act and assert
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.addGameToCart(id, gameCopyIds));
+        assertEquals("Can not add empty Game in cart.", e.getMessage());
+    }
+
+    @Test
+    public void testAddGameToCartBy_ValidOrderId_InvalidGameCopies() {
+        // Arrange
+        int InvalidId = 1;
+        PurchaseOrder order = new PurchaseOrder(OrderStatus.ShoppingCart, 0.1, Date.valueOf(LocalDate.now()));
+        order.setOrderId(InvalidId);
+
+        ArrayList<Integer> gameCopyIds = new ArrayList<>();
+        gameCopyIds.add(1);
+
+        when(repo.findByOrderId(InvalidId)).thenReturn(order);
+        when(gameCopyRepository.findGameCopyByGameCopyId(1)).thenReturn(null);
+
+        // Act and assert
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.addGameToCart(InvalidId, gameCopyIds));
+        assertEquals("Invalid gameCopy id contained at 0th id.", e.getMessage());
+    }
+
+    @Test
+    public void testCheckOutBy_ValidOrderId_ValidGameCopies(){
+        // Arrange
+        int ValidId = 1;
+        PurchaseOrder order = new PurchaseOrder(OrderStatus.ShoppingCart, 0.1, Date.valueOf(LocalDate.now()));
+        order.setOrderId(ValidId);
+
+        GameCopy gameCopy = new GameCopy();
+        order.addGameCopy(gameCopy);
+
+        when(repo.findByOrderId(ValidId)).thenReturn(order);
+        when(repo.save(order)).thenReturn(order);
+
+        // Act
+        PurchaseOrder updatedPurchaseOrder = service.checkOut(ValidId);
+
+        // Assert
+        assertEquals(updatedPurchaseOrder.getOrderId(), ValidId);
+        assertEquals(updatedPurchaseOrder.getTotalPrice(), 0.1);
+        assertEquals(updatedPurchaseOrder.getOrderStatus(), OrderStatus.Bought);
+        verify(repo, times(1)).save(order);
+    }
+
+    @Test
+    public void testCheckOutBy_InvalidOrderId_ValidGameCopies(){
+        // Arrange
+        int InvalidId = 1;
+        when(repo.findByOrderId(InvalidId)).thenReturn(null);
+
+        // Act and assert
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.checkOut(InvalidId));
+        assertEquals("Invalid order Id.", e.getMessage());
+    }
+
+    @Test
+    public void testCheckOutBy_ValidOrderId_InvalidGameCopies(){
+        // Arrange
+        int ValidId = 1;
+        PurchaseOrder order = new PurchaseOrder(OrderStatus.ShoppingCart, 0.1, Date.valueOf(LocalDate.now()));
+        order.setOrderId(ValidId);
+
+        when(repo.findByOrderId(ValidId)).thenReturn(order);
+
+        // Act and assert
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> service.checkOut(ValidId));
+        assertEquals("Can not check out without game in the order.", e.getMessage());
+    }
 }
