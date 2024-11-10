@@ -125,7 +125,8 @@ public class GameCopyServiceTests {
         GameCopy createdGameCopy = gameCopyService.createGameCopy(gameId);
 
         assertNotNull(createdGameCopy);
-        assertEquals(game, createdGameCopy.getGame());
+        assertEquals(game.getGameId(), createdGameCopy.getGame().getGameId());
+        assertEquals(game.getStock(), createdGameCopy.getGame().getStock());
         verify(gameRepo, times(1)).save(game); // Verify stock was updated
         verify(gameCopyRepo, times(1)).save(any(GameCopy.class)); // Use any(GameCopy.class) for verification
     }
