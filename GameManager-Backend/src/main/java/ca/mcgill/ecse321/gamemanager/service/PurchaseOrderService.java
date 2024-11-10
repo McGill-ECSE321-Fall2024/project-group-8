@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
+import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.List;
 public class PurchaseOrderService {
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
+    @Autowired
+    private GameCopyRepository gameCopyRepository;
 
     // Find all orders
     public List<PurchaseOrder> getAllOrders() {
@@ -70,6 +74,36 @@ public class PurchaseOrderService {
         return order;
     }
 
+    @Transactional
+    public PurchaseOrder addGameToCart(int purchaseOrderId, List<Integer> gameCopyIds) {
+        PurchaseOrder order = purchaseOrderRepository.findByOrderId(purchaseOrderId);
+        if (order == null) { throw new IllegalArgumentException("Invalid order Id.");}
+        if (gameCopyIds.isEmpty()){ throw new IllegalArgumentException("Can not add empty Game in cart.");
+        }
+        for (int id : gameCopyIds) {
+            GameCopy gameCopy = gameCopyRepository.findGameCopyByGameCopyId(id);
+            if (gameCopy==null) {
+                int index = gameCopyIds.indexOf(id);
+                throw  new IllegalArgumentException(String.format("Invalid gameCopy id contained at %dth id.", index));
+            }
+            order.addGameCopy(gameCopy);
+        }
+        return purchaseOrderRepository.save(order);
+    }
+
+    @Transactional
+    public PurchaseOrder checkOut(int purchaseOrderId) {
+        PurchaseOrder order = purchaseOrderRepository.findByOrderId(purchaseOrderId);
+        if (order == null) {
+            throw new IllegalArgumentException("Invalid order Id.");
+        }
+        List<GameCopy> gameCopies= order.getGameCopies();
+        if (gameCopies.isEmpty()) {
+            throw new IllegalStateException("Can not check out without game in the order.");
+        }
+        order.setOrderStatus(OrderStatus.Bought);
+        return purchaseOrderRepository.save(order);
+    }
 
     // Delete an order by ID
     @Transactional

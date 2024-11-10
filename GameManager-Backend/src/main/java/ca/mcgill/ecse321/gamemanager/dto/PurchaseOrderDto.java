@@ -1,14 +1,17 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
 
 import java.sql.Date;
+import java.util.List;
 
 public class PurchaseOrderDto {
     private int orderId;
     private OrderStatus orderStatus;
     private Date date;
     private double price;
+    private List<GameCopy> gameCopies;
 
     @SuppressWarnings("unused")
     private PurchaseOrderDto() {}
@@ -44,4 +47,10 @@ public class PurchaseOrderDto {
     public double getPrice() {return price;}
 
     public void setPrice(double price) { this.price = price; }
+
+    public List<GameCopy> getGameCopies() {return gameCopies;}
+
+    public void setGameCopies(List<GameCopy> gameCopies) {
+        this.gameCopies = gameCopies;
+    }
 }
