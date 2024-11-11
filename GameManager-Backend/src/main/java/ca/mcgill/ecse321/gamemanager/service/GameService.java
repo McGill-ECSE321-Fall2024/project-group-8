@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class GameService {
 
-        @Autowired
-        private static GameRepository gameRepo;
+    @Autowired
+    private static GameRepository gameRepo;
 
         /*public static Game findByGameId(int id) {
             Game game = gameRepo.findByGameId(id);

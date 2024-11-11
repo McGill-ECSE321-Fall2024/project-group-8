@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
+      <change afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/exception/ResponseExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/application-test.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/PurchaseOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/PurchaseOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/PurchaseOrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/PurchaseOrderDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/PurchaseOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/model/PurchaseOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/PurchaseOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/PurchaseOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/PurchaseOrderServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/PurchaseOrderServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/GameCopyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/GameCopyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/ErrorDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/ErrorDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/GameCopyRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/GameCopyRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/GameCopyResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/GameCopyResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/GameRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/GameRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/repository/GameRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/repository/GameRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameCopyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameCopyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,17 +102,23 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.GameCopyIntegrationTests.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testCreateInvalidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testCreateValidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId.executor": "Run",
     "Gradle.GameCopyServiceTests.executor": "Run",
     "Gradle.GameCopyServiceTests.testCreateGameCopy_ValidGameId_WithStock.executor": "Run",
     "Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor": "Run",
     "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
     "Gradle.GameServiceTests.executor": "Run",
     "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testAddGameToCartByValidIdValidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_InvalidOrderId_ValidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor": "Run",
     "HTTP Request.All in generated-requests.executor": "Run",
     "HTTP Request.generated-requests | #2.executor": "Run",
@@ -123,8 +136,8 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies">
-    <configuration name="PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.GameCopyIntegrationTests">
+    <configuration name="GameCopyIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -137,7 +150,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -148,7 +161,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="GameCopyIntegrationTests.testCreateInvalidGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -161,7 +174,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testCreateInvalidGameCopy&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -172,7 +185,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="GameCopyIntegrationTests.testCreateValidGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -185,7 +198,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testCreateValidGameCopy&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -196,7 +209,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -209,7 +222,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -220,7 +233,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PurchaseOrderServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -233,7 +246,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.PurchaseOrderServiceTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -253,11 +266,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies" />
-        <item itemvalue="Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies" />
-        <item itemvalue="Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies" />
-        <item itemvalue="Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies" />
-        <item itemvalue="Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies" />
+        <item itemvalue="Gradle.GameCopyIntegrationTests" />
+        <item itemvalue="Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId" />
+        <item itemvalue="Gradle.GameCopyIntegrationTests.testCreateInvalidGameCopy" />
+        <item itemvalue="Gradle.GameCopyIntegrationTests.testCreateValidGameCopy" />
+        <item itemvalue="Gradle.PurchaseOrderServiceTests" />
       </list>
     </recent_temporary>
   </component>

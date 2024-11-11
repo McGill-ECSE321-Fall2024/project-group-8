@@ -28,7 +28,7 @@ public class GameRequestDto {
     private Category category;
 
 
-    public GameRequestDto(String name,int gameId, String title, String description, String genre, double price, int stock, Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Category category) {
+    public GameRequestDto(String name, int gameId, String title, String description, String genre, double price, int stock, Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Category category) {
         this.name = name;
         this.title = title;
         this.description = description;

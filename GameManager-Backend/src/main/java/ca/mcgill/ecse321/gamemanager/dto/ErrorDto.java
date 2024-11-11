@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.List;
 
 public class ErrorDto {

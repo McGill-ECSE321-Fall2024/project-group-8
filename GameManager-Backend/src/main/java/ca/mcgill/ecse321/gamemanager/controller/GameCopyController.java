@@ -30,7 +30,7 @@ public class GameCopyController {
         return new GameCopyResponseDto(gameCopy);
     }
 
-    @GetMapping("/gamecopy/{gameid}")
+    @GetMapping("/game/{gameid}/gamecopies")
     public List<GameCopyResponseDto> findGameCopiesByGame(@PathVariable int gameid){
         List<GameCopy> gameCopies = gameCopyService.findGameCopiesByGame(gameid);
         List<GameCopyResponseDto> gameCopyResponseDtos = new ArrayList<>();
@@ -40,21 +40,21 @@ public class GameCopyController {
         return gameCopyResponseDtos;
     }
 
-    @GetMapping("/gamecopy/counts/{gameid}")
+    @GetMapping("/game/{gameid}/gamecopies/count")
     public long countGameCopyOfGame(@PathVariable int gameid) {
         return gameCopyService.countGameCopyOfGame(gameid);
     }
 
     @PostMapping("/gamecopy")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameCopyResponseDto createGameCopy(@RequestBody GameCopyRequestDto gameCopy) {
-        GameCopy savedGameCopy = gameCopyService.createGameCopy(gameCopy.getGame().getGameId());
+    public GameCopyResponseDto createGameCopy(@RequestBody GameCopyRequestDto gameCopyRequestDto) {
+        GameCopy savedGameCopy = gameCopyService.createGameCopy(gameCopyRequestDto.getGame().getGameId());
         return new GameCopyResponseDto(savedGameCopy);
     }
 
-    @DeleteMapping("/gamecopy/{gameid}")
-    public ResponseEntity<Void> deleteGameCopy(@PathVariable int gameid){
-        gameCopyService.returnGameCopy(gameid);
+    @DeleteMapping("/gamecopy/{gameCopyId}")
+    public ResponseEntity<Void> deleteGameCopy(@PathVariable int gameCopyId){
+        gameCopyService.returnGameCopy(gameCopyId);
         return ResponseEntity.noContent().build();
     }
 }
