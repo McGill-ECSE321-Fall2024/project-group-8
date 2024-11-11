@@ -21,17 +21,17 @@ public class GameCopyController {
     /**
      * Return the gameCopy with the given ID.
      *
-     * @param gcid The primary key of the gameCopy to find.
+     * @param gameCopyId The primary key of the gameCopy to find.
      * @return The gameCopy with the given ID.
      */
-    @GetMapping("/gamecopy/{gcid}")
-    public GameCopyResponseDto findGameCopyByGameCopyId(@PathVariable int gcid){
-        GameCopy gameCopy = gameCopyService.findGameCopyByGameCopyId(gcid);
+    @GetMapping("/gamecopy/{gameCopyId}")
+    public GameCopyResponseDto findGameCopyByGameCopyId(@PathVariable int gameCopyId){
+        GameCopy gameCopy = gameCopyService.findGameCopyByGameCopyId(gameCopyId);
         return new GameCopyResponseDto(gameCopy);
     }
 
     @GetMapping("/game/{gameid}/gamecopies")
-    public List<GameCopyResponseDto> findGameCopiesByGame(@PathVariable int gameid){
+    public List<GameCopyResponseDto> findGameCopiesByGameId(@PathVariable int gameid){
         List<GameCopy> gameCopies = gameCopyService.findGameCopiesByGame(gameid);
         List<GameCopyResponseDto> gameCopyResponseDtos = new ArrayList<>();
         for (GameCopy eachGC : gameCopies) {
