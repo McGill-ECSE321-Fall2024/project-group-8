@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
-import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
@@ -17,7 +16,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -151,28 +149,6 @@ public class PurchaseOrderServiceTests {
         IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice));
         assertEquals("Price cannot be negative.", exception.getMessage());
-    }
-
-    @Test
-    public void testUpdateInvalidOrderDate() {
-        // Arrange
-        int id = 0;
-        OrderStatus oldStatus = OrderStatus.Bought;
-        double oldPrice = 1234;
-        Date oldDate = Date.valueOf(LocalDate.now());
-
-        PurchaseOrder order = new PurchaseOrder(oldStatus, oldPrice, oldDate);
-        order.setOrderId(id);
-        when(repo.findByOrderId(id)).thenReturn(order);
-
-        // new info for updating
-        OrderStatus newStatus = OrderStatus.ShoppingCart;
-        double newPrice = 2;
-        Date newDate = null;
-
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice));
-        assertEquals("Date cannot be null.", exception.getMessage());
     }
 
     @Test

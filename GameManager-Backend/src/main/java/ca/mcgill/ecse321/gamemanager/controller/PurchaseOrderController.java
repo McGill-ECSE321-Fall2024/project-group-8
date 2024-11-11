@@ -2,14 +2,12 @@ package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
-import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,11 +30,13 @@ public class PurchaseOrderController {
     @GetMapping("/{id}")
     public PurchaseOrderDto findOrderById(@PathVariable int id) {
         PurchaseOrder order = orderService.findOrderById(id);
+
         return convertToDto(order);
     }
 
     // Create a new order
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public PurchaseOrderDto createOrder(@RequestBody PurchaseOrderRequestDto orderRequestDto) {
         PurchaseOrder createdOrder =
                 orderService.createOrder(orderRequestDto.getOrderStatus(), orderRequestDto.getPrice());
@@ -51,7 +51,6 @@ public class PurchaseOrderController {
                 orderRequestDto.getOrderStatus(),
                 orderRequestDto.getPrice());
         return convertToDto(updatedOrder);
-//        return new PurchaseOrderDto(id, orderRequestDto.getOrderStatus(), orderRequestDto.getPrice(), Date.valueOf(LocalDate.now()));
     }
 
     @PutMapping("/{id}/{game}")
@@ -67,6 +66,7 @@ public class PurchaseOrderController {
     }
     // Delete order by ID
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable Integer id) {
         orderService.deleteOrder(id);
     }

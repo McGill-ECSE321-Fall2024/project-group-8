@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.gamemanager.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -38,52 +37,79 @@ public class PurchaseOrderIntegrationTests {
     private final Date VALID_DATE = Date.valueOf(LocalDate.now());
     private final Date INVALID_DATE = null;
 
-//    @Test
-//    @Order(1)
-//    public void testCreateValidOrder() {
-//        // Arrange
-//        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, VALID_PRICE);
-//
-//        // Act
-//        ResponseEntity<PurchaseOrderDto> response = client.postForEntity("/api/orders", request, PurchaseOrderDto.class);
-//
-//        // Assert
-//        assertNotNull(response);
-//        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-//        PurchaseOrderDto createdOrder = response.getBody();
-//        assertNotNull(createdOrder);
-//        assertEquals(VALID_PRICE, createdOrder.getPrice());
-//        assertEquals(VALID_STATUS, createdOrder.getOrderStatus());
-//        assertEquals(Date.valueOf(LocalDate.now()), createdOrder.getDate());
-//        assertNotNull(createdOrder.getOrderId());
-//        this.orderId = createdOrder.getOrderId();
-//    }
-
-    /*
     @Test
-    @Order(2)
-    public void testReadPersonByValidId() {
+    @Order(1)
+    public void testCreateValidOrder() {
         // Arrange
-        String url = "/people/" + this.validId;
+        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, VALID_PRICE);
 
         // Act
-        ResponseEntity<PersonResponseDto> response = client.getForEntity(url, PersonResponseDto.class);
+        ResponseEntity<PurchaseOrderDto> response = client.postForEntity("/api/orders", request, PurchaseOrderDto.class);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        PurchaseOrderDto createdOrder = response.getBody();
+        assertNotNull(createdOrder);
+        assertEquals(VALID_PRICE, createdOrder.getPrice());
+        assertEquals(VALID_STATUS, createdOrder.getOrderStatus());
+        assertNotNull(createdOrder.getOrderId());
+        this.orderId = createdOrder.getOrderId();
+    }
+
+    @Test
+    @Order(2)
+    public void testFindOrderById() {
+        // Arrange
+        String url = "/api/orders/" + this.orderId;
+
+        // Act
+        ResponseEntity<PurchaseOrderDto> response = client.getForEntity(url, PurchaseOrderDto.class);
 
         // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        PersonResponseDto person = response.getBody();
-        assertNotNull(person);
-        assertEquals(VALID_NAME, person.getName());
-        assertEquals(VALID_EMAIL, person.getEmail());
-        assertEquals(this.validId, person.getId());
-        assertEquals(LocalDate.now(), person.getCreationDate());
+        PurchaseOrderDto createdOrder = response.getBody();
+        assertNotNull(createdOrder);
+        assertEquals(VALID_PRICE, createdOrder.getPrice());
+        assertEquals(VALID_STATUS, createdOrder.getOrderStatus());
+        assertNotNull(createdOrder.getOrderId());
+        this.orderId = createdOrder.getOrderId();
     }
-     */
+
+    @Test
+    @Order(3)
+    public void testUpdateValidOrder() {
+        // Arrange
+        String url = "/api/orders/" + this.orderId;
+        PurchaseOrderDto updated = new PurchaseOrderDto(orderId, OrderStatus.ShoppingCart, 1, VALID_DATE);
+
+        client.put(url, updated);
+
+        // Act
+        ResponseEntity<PurchaseOrderDto> response = client.getForEntity(url, PurchaseOrderDto.class);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        PurchaseOrderDto updatedOrder = response.getBody();
+        assertNotNull(updatedOrder);
+        assertEquals(1, updatedOrder.getPrice());
+        assertEquals(OrderStatus.ShoppingCart, updatedOrder.getOrderStatus());
+    }
+
+//    @Test
+//    @Order(4)
+//    public void testDeleteOrder() {
+//        String url = "/api/orders/" + this.orderId;
+//        client.delete(url);
+//
+//        ResponseEntity<String> response = client.getForEntity(url, String.class);
+//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // should already be deleted
+//    }
+
 
     // getAllOrders
-    // findOrderById
-    // createOrder
-    // updateOrder
-    // deleteOrder
+    // addGameToCart
+    // checkOut
 }
