@@ -54,13 +54,9 @@ public class PurchaseOrderService {
 
     // Update an order, especially the price / status
     @Transactional
-    public PurchaseOrder updateOrder(int id, OrderStatus status, double price, Date date) {
+    public PurchaseOrder updateOrder(int id, OrderStatus status, double price) {
         if (price < 0) {
             throw new IllegalArgumentException("Price cannot be negative.");
-        }
-
-        if (date == null) {
-            throw new IllegalArgumentException("Date cannot be null.");
         }
 
         if (status == null) {
@@ -69,7 +65,7 @@ public class PurchaseOrderService {
 
         PurchaseOrder order = purchaseOrderRepository.findByOrderId(id);
         if (order != null) {
-            order.setDate(date);
+            order.setDate(Date.valueOf(LocalDate.now()));
             order.setTotalPrice(price);
             order.setOrderStatus(status);
             purchaseOrderRepository.save(order);
