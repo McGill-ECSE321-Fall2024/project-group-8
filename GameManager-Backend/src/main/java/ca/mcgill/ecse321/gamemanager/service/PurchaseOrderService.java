@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
@@ -7,6 +8,7 @@ import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -28,22 +30,19 @@ public class PurchaseOrderService {
     // Finding orders with its id
     @Transactional
     public PurchaseOrder findOrderById(int id) {
-        PurchaseOrder order = purchaseOrderRepository.findByOrderId(id);
-        if (order == null) {
-            throw new IllegalArgumentException("There is no order with ID " + id + ".");
-        }
-        return order;
+        return purchaseOrderRepository.findById(id)
+                .orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "There is no order with ID " + id + "."));
     }
 
     // Creating an order w/ validation
     @Transactional
     public PurchaseOrder createOrder(OrderStatus aOrderStatus, double aTotalPrice) {
         if (aTotalPrice < 0) {
-            throw new IllegalArgumentException("Price cannot be negative.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Price cannot be negative.");
         }
 
         if (aOrderStatus == null) {
-            throw new IllegalArgumentException("Status cannot be null.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Status cannot be null.");
         }
 
         Date now = Date.valueOf(LocalDate.now());
@@ -55,23 +54,17 @@ public class PurchaseOrderService {
     // Update an order, especially the price / status
     @Transactional
     public PurchaseOrder updateOrder(int id, OrderStatus status, double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("Price cannot be negative.");
+        PurchaseOrder existingOrder = purchaseOrderRepository.findById(id)
+                .orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "There is no order with ID " + id + "."));
+
+        if (price > 0) {
+            existingOrder.setTotalPrice(price);
+        }
+        if (status != null) {
+            existingOrder.setOrderStatus(status);
         }
 
-        if (status == null) {
-            throw new IllegalArgumentException("Status cannot be null.");
-        }
-
-        PurchaseOrder order = purchaseOrderRepository.findByOrderId(id);
-        if (order != null) {
-            order.setDate(Date.valueOf(LocalDate.now()));
-            order.setTotalPrice(price);
-            order.setOrderStatus(status);
-            purchaseOrderRepository.save(order);
-        }
-
-        return order;
+        return purchaseOrderRepository.save(existingOrder);
     }
 
     @Transactional
@@ -108,8 +101,8 @@ public class PurchaseOrderService {
     // Delete an order by ID
     @Transactional
     public void deleteOrder(int id) {
-        if (purchaseOrderRepository.findByOrderId(id) == null) {
-            throw new IllegalArgumentException("Order with id " + id + " does not exist.");
+        if (!purchaseOrderRepository.existsById(id)) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Order with id " + id + " does not exist.");
         }
         purchaseOrderRepository.deleteById(id);
     }

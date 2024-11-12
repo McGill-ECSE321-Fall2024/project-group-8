@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
+import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -59,6 +61,24 @@ public class PurchaseOrderIntegrationTests {
 
     @Test
     @Order(2)
+    public void testCreateInvalidOrder() {
+        // Arrange
+        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, INVALID_PRICE);
+
+        // Act
+        ResponseEntity<ErrorDto> response = client.postForEntity("/api/orders", request, ErrorDto.class);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        ErrorDto body = response.getBody();
+        assertNotNull(body);
+        assertEquals(1, body.getErrors().size());
+        assertEquals("Price cannot be negative.", body.getErrors().get(0));
+    }
+
+    @Test
+    @Order(3)
     public void testFindOrderById() {
         // Arrange
         String url = "/api/orders/" + this.orderId;
@@ -78,7 +98,7 @@ public class PurchaseOrderIntegrationTests {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void testUpdateValidOrder() {
         // Arrange
         String url = "/api/orders/" + this.orderId;
@@ -98,15 +118,15 @@ public class PurchaseOrderIntegrationTests {
         assertEquals(OrderStatus.ShoppingCart, updatedOrder.getOrderStatus());
     }
 
-//    @Test
-//    @Order(4)
-//    public void testDeleteOrder() {
-//        String url = "/api/orders/" + this.orderId;
-//        client.delete(url);
-//
-//        ResponseEntity<String> response = client.getForEntity(url, String.class);
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // should already be deleted
-//    }
+    @Test
+    @Order(5)
+    public void testDeleteOrder() {
+        String url = "/api/orders/" + this.orderId;
+        client.delete(url);
+
+        ResponseEntity<String> response = client.getForEntity(url, String.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // should already be deleted
+    }
 
 
     // getAllOrders

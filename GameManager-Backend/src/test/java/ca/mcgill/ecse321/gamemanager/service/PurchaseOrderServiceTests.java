@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
+import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
@@ -10,12 +12,14 @@ import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -62,7 +66,10 @@ public class PurchaseOrderServiceTests {
         double totalPrice = -3;
 
         // Act and assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> service.createOrder(status, totalPrice));
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
+            service.createOrder(status, totalPrice);
+        });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals("Price cannot be negative.", exception.getMessage());
     }
 
@@ -73,7 +80,10 @@ public class PurchaseOrderServiceTests {
         double totalPrice = 50;
 
         // Act and assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> service.createOrder(status, totalPrice));
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
+            service.createOrder(status, totalPrice);
+        });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals("Status cannot be null.", exception.getMessage());
     }
 
@@ -112,6 +122,9 @@ public class PurchaseOrderServiceTests {
         order.setOrderId(id);
         when(repo.findByOrderId(id)).thenReturn(order);
 
+        when(repo.findById(id)).thenReturn(Optional.of(order));
+        when(repo.save(any(PurchaseOrder.class))).thenReturn(order);
+
         // new info for updating
         OrderStatus newStatus = OrderStatus.ShoppingCart;
         double newPrice = 4321.99;
@@ -126,7 +139,6 @@ public class PurchaseOrderServiceTests {
         assertEquals(newPrice, result.getTotalPrice());
         assertEquals(newStatus, result.getOrderStatus());
         assertEquals(newDate, result.getDate());
-        verify(repo, times(1)).findByOrderId(id);
     }
 
     @Test
@@ -144,11 +156,13 @@ public class PurchaseOrderServiceTests {
         // new info for updating
         OrderStatus newStatus = OrderStatus.ShoppingCart;
         double newPrice = -5;
-        Date newDate = Date.valueOf(LocalDate.now());
 
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice));
-        assertEquals("Price cannot be negative.", exception.getMessage());
+        when(repo.findById(id)).thenReturn(Optional.empty());
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
+            service.updateOrder(id, newStatus, newPrice);
+        });
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+        assertEquals("There is no order with ID " + id + ".", exception.getMessage());
     }
 
     @Test
@@ -166,22 +180,24 @@ public class PurchaseOrderServiceTests {
         // new info for updating
         OrderStatus newStatus = null;
         double newPrice = 2;
-        Date newDate = Date.valueOf(LocalDate.now());
 
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> service.updateOrder(id, newStatus, newPrice));
-        assertEquals("Status cannot be null.", exception.getMessage());
+        when(repo.findById(id)).thenReturn(Optional.empty());
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
+            service.updateOrder(id, newStatus, newPrice);
+        });
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+        assertEquals("There is no order with ID " + id + ".", exception.getMessage());
     }
 
     @Test
     public void testFindOrderByValidId() {
         // Arrange
-        int id = 0;
+        int id = 1;
         PurchaseOrder order =
                 new PurchaseOrder(OrderStatus.ShoppingCart, 23.45, Date.valueOf(LocalDate.now()));
         order.setOrderId(id);
 
-        when(repo.findByOrderId(id)).thenReturn(order);
+        when(repo.findById(id)).thenReturn(Optional.of(order));
 
         // Act
         PurchaseOrder foundOrder = service.findOrderById(id);
@@ -191,17 +207,18 @@ public class PurchaseOrderServiceTests {
         assertEquals(OrderStatus.ShoppingCart, foundOrder.getOrderStatus());
         assertEquals(23.45, foundOrder.getTotalPrice());
         assertEquals(Date.valueOf(LocalDate.now()), foundOrder.getDate());
-        verify(repo, times(1)).findByOrderId(id);
     }
 
     @Test
     public void testFindOrderByInvalidId() {
         // Arrange
         int invalidId = 1;
-        when(repo.findByOrderId(invalidId)).thenReturn(null);
+        when(repo.findById(invalidId)).thenReturn(Optional.empty());
 
-        // Act and assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> service.findOrderById(invalidId));
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
+            service.findOrderById(invalidId);
+        });
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
         assertEquals("There is no order with ID " + invalidId + ".", exception.getMessage());
     }
 
@@ -209,13 +226,13 @@ public class PurchaseOrderServiceTests {
     public void testDeleteOrderByValidId() {
         // Arrange
         int id = 1;
+
         PurchaseOrder order =
                 new PurchaseOrder(OrderStatus.ShoppingCart, 23.45, Date.valueOf(LocalDate.now()));
         order.setOrderId(id);
 
-        when(repo.findByOrderId(id)).thenReturn(order);
-
         // Act
+        when(repo.existsById(id)).thenReturn(true);
         service.deleteOrder(id);
 
         // Assert
