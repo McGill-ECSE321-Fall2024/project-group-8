@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -37,6 +39,7 @@ public class CategoryIntegrationTests {
         categoryRepository.deleteAll();
     }
 
+    // Test for creating a valid category
     @Test
     @Order(1)
     public void testCreateValidCategory() {
@@ -51,12 +54,24 @@ public class CategoryIntegrationTests {
         assertEquals("Exciting adventure games", createdCategory.getDescription());
         assertNotNull(createdCategory.getCategoryId());
 
-        // Save the ID for further tests
         this.validCategoryId = createdCategory.getCategoryId();
     }
 
     @Test
     @Order(2)
+    public void testCreateCategoryWithInvalidData() {
+        CategoryDto request = new CategoryDto(0, "", "No name", null);
+        ResponseEntity<ErrorDto> response = client.postForEntity("/categories", request, ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        ErrorDto errorBody = response.getBody();
+        assertNotNull(errorBody);
+        assertTrue(errorBody.getErrors().contains("Category name cannot be empty"));
+    }
+
+    @Test
+    @Order(3)
     public void testGetCategoryByValidId() {
         String url = "/categories/" + this.validCategoryId;
 
@@ -72,7 +87,7 @@ public class CategoryIntegrationTests {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void testGetCategoryByInvalidId() {
         String url = "/categories/999";
 
@@ -87,16 +102,14 @@ public class CategoryIntegrationTests {
         assertEquals("Category with ID 999 not found", errorBody.getErrors().get(0));
     }
 
-
     @Test
-    @Order(4)
+    @Order(5)
     public void testUpdateCategory() {
         String url = "/categories/" + this.validCategoryId;
         CategoryDto updatedRequest = new CategoryDto(this.validCategoryId, "Adventure Updated", "Updated adventure games", null);
 
         client.put(url, updatedRequest);
 
-        // Retrieve updated category
         ResponseEntity<CategoryDto> response = client.getForEntity(url, CategoryDto.class);
 
         assertNotNull(response);
@@ -108,14 +121,42 @@ public class CategoryIntegrationTests {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
+    public void testUpdateCategoryWithInvalidId() {
+        String url = "/categories/999";
+        CategoryDto updatedRequest = new CategoryDto(999, "Nonexistent Update", "Should not exist", null);
+
+        ResponseEntity<ErrorDto> response = client.exchange(url, HttpMethod.PUT, new HttpEntity<>(updatedRequest), ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        ErrorDto errorBody = response.getBody();
+        assertNotNull(errorBody);
+        assertTrue(errorBody.getErrors().contains("Category with ID 999 not found"));
+    }
+
+    @Test
+    @Order(7)
     public void testDeleteCategory() {
         String url = "/categories/" + this.validCategoryId;
         client.delete(url);
 
-        // Attempt to retrieve deleted category
-        ResponseEntity<String> response = client.getForEntity(url, String.class);
+        ResponseEntity<ErrorDto> response = client.getForEntity(url, ErrorDto.class);
+        assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertTrue(response.getBody().getErrors().contains("Category with ID " + this.validCategoryId + " not found"));
+    }
+
+    @Test
+    @Order(8)
+    public void testDeleteCategoryWithInvalidId() {
+        String url = "/categories/999";
+        ResponseEntity<ErrorDto> response = client.exchange(url, HttpMethod.DELETE, null, ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        ErrorDto errorBody = response.getBody();
+        assertNotNull(errorBody);
+        assertTrue(errorBody.getErrors().contains("Category with ID 999 not found"));
     }
 }
-
