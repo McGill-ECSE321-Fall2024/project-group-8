@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,16 @@ public class CategoryService {
     @Transactional
     public Category getCategoryById(int id) {
         return categoryRepository.findById(String.valueOf(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with ID " + id + " not found"));
+                .orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "Category with ID " + id + " not found"));
     }
 
     @Transactional
     public Category createCategory(Category category) {
         if (category.getName() == null || category.getName().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category name cannot be empty");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Category name cannot be empty");
         }
         if (category.getDescription() == null || category.getDescription().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category description cannot be empty");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Category description cannot be empty");
         }
         return categoryRepository.save(category);
     }
@@ -42,7 +43,7 @@ public class CategoryService {
     @Transactional
     public Category updateCategory(int id, Category category) {
         Category existingCategory = categoryRepository.findById(String.valueOf(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with ID " + id + " not found"));
+                .orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "Category with ID " + id + " not found"));
 
         if (category.getName() != null && !category.getName().isBlank()) {
             existingCategory.setName(category.getName());
@@ -57,7 +58,7 @@ public class CategoryService {
     @Transactional
     public void deleteCategory(int id) {
         if (!categoryRepository.existsById(String.valueOf(id))) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with ID " + id + " not found");
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Category with ID " + id + " not found");
         }
         categoryRepository.deleteById(String.valueOf(id));
     }

@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.gamemanager.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
@@ -48,7 +49,7 @@ public class GameCopyServiceTests {
         int invalidId = 99;
         when(gameCopyRepo.findGameCopyByGameCopyId(invalidId)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             gameCopyService.findGameCopyByGameCopyId(invalidId);
         });
         assertEquals("Invalid GameCopy ID.", exception.getMessage());
@@ -78,7 +79,7 @@ public class GameCopyServiceTests {
         int invalidGameId = 99;
         when(gameRepo.findByGameId(invalidGameId)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             gameCopyService.findGameCopiesByGame(invalidGameId);
         });
         assertEquals("Invalid Game ID.", exception.getMessage());
@@ -104,7 +105,7 @@ public class GameCopyServiceTests {
         int invalidGameId = 99;
         when(gameRepo.findByGameId(invalidGameId)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             gameCopyService.countGameCopyOfGame(invalidGameId);
         });
         assertEquals("Invalid Game ID.", exception.getMessage());
@@ -136,7 +137,7 @@ public class GameCopyServiceTests {
         int invalidGameId = 99;
         when(gameRepo.findByGameId(invalidGameId)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             gameCopyService.createGameCopy(invalidGameId);
         });
         assertEquals("Invalid Game ID.", exception.getMessage());
@@ -153,7 +154,7 @@ public class GameCopyServiceTests {
         when(gameRepo.findByGameId(gameId)).thenReturn(game);
 
         // Attempt to create a game copy and expect an IllegalStateException
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             gameCopyService.createGameCopy(gameId);
         });
         assertEquals("Example Game with Game ID " + gameId + " is currently out of stock.", exception.getMessage());
@@ -184,7 +185,7 @@ public class GameCopyServiceTests {
         int invalidGameCopyId = 99;
         when(gameCopyRepo.findGameCopyByGameCopyId(invalidGameCopyId)).thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             gameCopyService.returnGameCopy(invalidGameCopyId);
         });
         assertEquals("Invalid GameCopy ID.", exception.getMessage());

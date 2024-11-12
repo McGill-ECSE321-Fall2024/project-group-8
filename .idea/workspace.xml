@@ -6,12 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/GameCopyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/GameCopyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/exception/GameManagerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/exception/GameManagerException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/exception/GameManagerExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/exception/GameManagerExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameCopyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameCopyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/application-test.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/CategoryIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/CategoryIntegrationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/CategoryServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/CategoryServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +95,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.CategoryIntegrationTests.executor": "Run",
+    "Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor": "Run",
+    "Gradle.CategoryServiceTests.executor": "Run",
+    "Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription.executor": "Run",
+    "Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoName.executor": "Run",
+    "Gradle.CategoryServiceTests.testDeleteCategory_InvalidId.executor": "Run",
+    "Gradle.CategoryServiceTests.testUpdateCategory_InvalidId.executor": "Run",
     "Gradle.GameCopyIntegrationTests.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testCountGameCopyOfGame.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy.executor": "Run",
@@ -104,6 +110,7 @@
     "Gradle.GameCopyIntegrationTests.testDeleteGameCopy.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testDeleteValidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameCopyId.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameId.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidId.executor": "Run",
     "Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId.executor": "Run",
@@ -111,6 +118,7 @@
     "Gradle.GameCopyServiceTests.executor": "Run",
     "Gradle.GameCopyServiceTests.testCreateGameCopy_ValidGameId_WithStock.executor": "Run",
     "Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor": "Run",
+    "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_InvalidId.executor": "Run",
     "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
     "Gradle.GameServiceTests.executor": "Run",
     "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
@@ -138,8 +146,8 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy">
-    <configuration name="GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.CategoryServiceTests">
+    <configuration name="CategoryServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -152,7 +160,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -163,7 +171,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GameCopyIntegrationTests.testDeleteGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -176,7 +184,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testDeleteGameCopy&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -187,7 +195,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GameCopyIntegrationTests.testDeleteInvalidGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CategoryServiceTests.testDeleteCategory_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -200,7 +208,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testDeleteInvalidGameCopy&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testDeleteCategory_InvalidId&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -211,7 +219,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GameCopyIntegrationTests.testDeleteValidGameCopy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CategoryServiceTests.testGetCategoryById_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -224,7 +232,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testDeleteValidGameCopy&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testGetCategoryById_InvalidId&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -235,7 +243,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CategoryServiceTests.testUpdateCategory_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -248,7 +256,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testUpdateCategory_InvalidId&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -268,19 +276,19 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy" />
-        <item itemvalue="Gradle.GameCopyIntegrationTests.testDeleteValidGameCopy" />
-        <item itemvalue="Gradle.GameCopyIntegrationTests.testDeleteGameCopy" />
-        <item itemvalue="Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId" />
-        <item itemvalue="Gradle.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy" />
+        <item itemvalue="Gradle.CategoryServiceTests" />
+        <item itemvalue="Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription" />
+        <item itemvalue="Gradle.CategoryServiceTests.testGetCategoryById_InvalidId" />
+        <item itemvalue="Gradle.CategoryServiceTests.testDeleteCategory_InvalidId" />
+        <item itemvalue="Gradle.CategoryServiceTests.testUpdateCategory_InvalidId" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-53826d6a" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-322ed176" />
       </set>
     </attachedChunks>
   </component>
@@ -297,6 +305,7 @@
       <workItem from="1728346922172" duration="95000" />
       <workItem from="1728703706158" duration="348000" />
       <workItem from="1730565994181" duration="4713000" />
+      <workItem from="1731377412702" duration="1881000" />
     </task>
     <task id="LOCAL-00001" summary="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <option name="closed" value="true" />
