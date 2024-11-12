@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
+import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -75,15 +76,17 @@ public class CategoryIntegrationTests {
     public void testGetCategoryByInvalidId() {
         String url = "/categories/999";
 
-        ResponseEntity<String> response = client.getForEntity(url, String.class);
+        ResponseEntity<ErrorDto> response = client.getForEntity(url, ErrorDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        // The response will contain the default Spring error message format
-        assertTrue(response.getBody().contains("\"status\":404"));
-        assertTrue(response.getBody().contains("\"error\":\"Not Found\""));
-        assertTrue(response.getBody().contains("\"/categories/999\""));
+
+        ErrorDto errorBody = response.getBody();
+        assertNotNull(errorBody);
+        assertEquals(1, errorBody.getErrors().size());
+        assertEquals("Category with ID 999 not found", errorBody.getErrors().get(0));
     }
+
 
     @Test
     @Order(4)
