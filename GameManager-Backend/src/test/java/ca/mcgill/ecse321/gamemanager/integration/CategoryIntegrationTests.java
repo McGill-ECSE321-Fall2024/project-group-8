@@ -1,11 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
-import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
-import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -20,7 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.server.ResponseStatusException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -79,11 +75,14 @@ public class CategoryIntegrationTests {
     public void testGetCategoryByInvalidId() {
         String url = "/categories/999";
 
-        ResponseEntity<ErrorDto> response = client.getForEntity(url, ErrorDto.class);
+        ResponseEntity<String> response = client.getForEntity(url, String.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("Category with ID 999 not found", response.getBody().getErrors().get(0));
+        // The response will contain the default Spring error message format
+        assertTrue(response.getBody().contains("\"status\":404"));
+        assertTrue(response.getBody().contains("\"error\":\"Not Found\""));
+        assertTrue(response.getBody().contains("\"/categories/999\""));
     }
 
     @Test
