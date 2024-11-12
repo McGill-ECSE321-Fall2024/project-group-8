@@ -20,6 +20,7 @@ public class GameDto {
     private GameStatus gameStatus;
     private RequestStatus requestStatus;
     private Category category;
+    private int categoryId;
 
     // Default constructor
     public GameDto() {
@@ -41,7 +42,6 @@ public class GameDto {
         this.category = category;
     }
 
-    // Constructor from Game entity
     public GameDto(Game game) {
         this.gameId = game.getGameId();
         this.title = game.getTitle();
@@ -54,7 +54,7 @@ public class GameDto {
         this.reviews = game.getReviews().stream().map(ReviewDto::new).collect(Collectors.toList());
         this.gameStatus = game.getGameStatus();
         this.requestStatus = game.getRequestStatus();
-        this.category = game.getCategory();
+        this.categoryId = game.getCategory() != null ? game.getCategory().getCategoryId() : 0;
     }
 
     public GameDto(int gameId, String title, String description, String genre, double price, int stock, int popularity, double averageRating, List<ReviewDto> reviews) {
@@ -67,6 +67,14 @@ public class GameDto {
         this.popularity = popularity;
         this.averageRating = averageRating;
         this.reviews = reviews;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public int getGameId() {

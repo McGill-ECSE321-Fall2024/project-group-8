@@ -38,7 +38,7 @@ public class Game
 
   //Game Associations
   @ManyToOne
-  @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")) // Add this line to specify the foreign key column in the Game table
+  @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "CATEGORY_ID_FK"))
   private Category category;
 
   @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)

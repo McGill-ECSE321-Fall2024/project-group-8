@@ -21,6 +21,7 @@ import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
+import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 
 @SpringBootTest
 public class GameServiceTests {
@@ -28,12 +29,15 @@ public class GameServiceTests {
     @Mock
     private GameRepository gameRepository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     @InjectMocks
     private GameService gameService;
 
     @Test
     public void testCreateValidGame() {
-        // Set up
+        // Set up game attributes
         String title = "Test Game";
         String description = "A fun game to play.";
         String genre = "Adventure";
@@ -41,13 +45,23 @@ public class GameServiceTests {
         int stock = 10;
         Game.GameStatus gameStatus = Game.GameStatus.Available;
         Game.RequestStatus requestStatus = Game.RequestStatus.Approved;
-        Category category = new Category("Action", "Action-packed games");
 
+        // Set up category attributes
+        int categoryId = 1;
+        String categoryName = "Action";
+        String categoryDescription = "Action-packed games";
+
+        // Mock the Category retrieval or creation
+        Category category = new Category(categoryName, categoryDescription);
+        category.setCategoryId(categoryId);
+        when(categoryRepository.findCategoryByCategoryId(categoryId)).thenReturn(category);
+
+        // Mock the Game save operation
         Game game = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
         when(gameRepository.save(any(Game.class))).thenReturn(game);
 
         // Act
-        Game createdGame = gameService.createGame(title, description, genre, price, stock, gameStatus, requestStatus, category);
+        Game createdGame = gameService.createGame(title, description, genre, price, stock, gameStatus, requestStatus, categoryId, categoryName, categoryDescription);
 
         // Assert
         assertNotNull(createdGame);
@@ -59,6 +73,9 @@ public class GameServiceTests {
         assertEquals(gameStatus, createdGame.getGameStatus());
         assertEquals(requestStatus, createdGame.getRequestStatus());
         assertEquals(category, createdGame.getCategory());
+
+        // Verify interactions
+        verify(categoryRepository, times(1)).findCategoryByCategoryId(categoryId);
         verify(gameRepository, times(1)).save(any(Game.class));
     }
 

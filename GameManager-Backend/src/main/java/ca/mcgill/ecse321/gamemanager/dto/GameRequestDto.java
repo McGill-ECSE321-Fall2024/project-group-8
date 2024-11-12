@@ -1,11 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 
-import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import jakarta.validation.constraints.NotBlank;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameRequestDto {
     @NotBlank(message = "Game name is required.")
@@ -25,21 +21,31 @@ public class GameRequestDto {
     @NotBlank(message = "Game request is required.")
     private Game.RequestStatus requestStatus;
     @NotBlank(message = "Game category is required.")
-    private Category category;
+    private int categoryId;
 
+    // New fields for category name and description
+    @NotBlank(message = "Category name is required.")
+    private String categoryName;
+    @NotBlank(message = "Category description is required.")
+    private String categoryDescription;
 
-    public GameRequestDto(String name, int gameId, String title, String description, String genre, double price, int stock, Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Category category) {
-        this.name = name;
+    // Constructor with category name and description
+    public GameRequestDto(String title, String description, String genre, double price, int stock,
+                          Game.GameStatus gameStatus, Game.RequestStatus requestStatus, int categoryId,
+                          String categoryName, String categoryDescription) {
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.price = price;
         this.stock = stock;
-        this.gameStatus=gameStatus;
-        this.requestStatus=requestStatus;
-        this.category=new Category();
-
+        this.gameStatus = gameStatus;
+        this.requestStatus = requestStatus;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
     }
+
+    // Getters and setters
     public String getName() { return name; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
@@ -48,7 +54,13 @@ public class GameRequestDto {
     public int getStock() { return stock; }
     public Game.GameStatus getGameStatus() { return gameStatus; }
     public Game.RequestStatus getRequestStatus() { return requestStatus; }
-    public Category getCategory() { return category; }
+    public int getCategoryId() { return categoryId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
 
+    // New getters and setters for category name and description
+    public String getCategoryName() { return categoryName; }
+    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
 
+    public String getCategoryDescription() { return categoryDescription; }
+    public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
 }

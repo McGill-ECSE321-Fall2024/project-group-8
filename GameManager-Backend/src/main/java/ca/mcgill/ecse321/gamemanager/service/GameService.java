@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.gamemanager.dto.ReviewDto;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
+import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class GameService {
 
     @Autowired
-    private static GameRepository gameRepo;
+    private GameRepository gameRepo;
 
         /*public static Game findByGameId(int id) {
             Game game = gameRepo.findByGameId(id);
@@ -32,6 +33,9 @@ public class GameService {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     /**
      * Retrieve a game by ID, throwing an exception if not found.
@@ -60,11 +64,25 @@ public class GameService {
      * @param aCategory     The category of the game.
      * @return The created game.
      */
-    @Transactional
-    public Game createGame(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Category aCategory) {
-        Game gameToCreate = new Game(aTitle, aDescription, aGenre, aPrice, aStock, aGameStatus, aRequestStatus, aCategory);
-        return gameRepository.save(gameToCreate);
-    }
+
+     @Transactional
+     public Game createGame(String title, String description, String genre, double price, int stock,
+                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId, 
+                            String categoryName, String categoryDescription) {
+         // Try to fetch the category by ID from the database
+         Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+     
+         // If the category doesn't exist, create and save a new one
+         if (category == null) {
+             category = new Category(categoryName, categoryDescription);
+             category.setCategoryId(categoryId); // Ensure the ID is set if needed
+             categoryRepository.save(category);
+         }
+     
+         // Create the Game with the associated Category
+         Game gameToCreate = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
+         return gameRepository.save(gameToCreate);
+     }     
 
     /**
      * Search games by keyword or category and sort by popularity, rating, and relevance.
@@ -90,11 +108,6 @@ public class GameService {
             games = gameRepository.findByCategoryName(category);
         }
 
-
-
-
-
-
         // Sort games based on the selected sorting criteria
         games = sortGames(games, sortBy);
 
@@ -104,23 +117,31 @@ public class GameService {
         }
         return games;
     }
+
     @Transactional
-    public Game updateGame(int id, String aTitle, String aDescription, String aGenre, double aPrice, int aStock, Game.GameStatus aGameStatus, Game.RequestStatus aRequestStatus, Category aCategory) {
-        Game game = gameRepo.findByGameId(id);
-        if (game ==null){
+    public Game updateGame(int id, String title, String description, String genre, double price, int stock, 
+                           Game.GameStatus gameStatus, Game.RequestStatus requestStatus, int categoryId) {
+        Game game = gameRepository.findByGameId(id);
+        if (game == null) {
             throw new IllegalArgumentException("There is no game with ID " + id + ".");
         }
-        //Date now = Date.valueOf(LocalDate.now());
-        game.setTitle(aTitle);
-        game.setDescription(aDescription);
-        game.setGenre(aGenre);
-        game.setPrice(aPrice);
-        game.setStock(aStock);
-        game.setGameStatus(aGameStatus);
-        game.setRequestStatus(aRequestStatus);
-        game.setCategory(aCategory);
-        return gameRepo.save(game);
+    
+        // Retrieve the category using the categoryId
+        Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+    
+        // Update the game’s attributes
+        game.setTitle(title);
+        game.setDescription(description);
+        game.setGenre(genre);
+        game.setPrice(price);
+        game.setStock(stock);
+        game.setGameStatus(gameStatus);
+        game.setRequestStatus(requestStatus);
+        game.setCategory(category);
+    
+        return gameRepository.save(game);
     }
+    
     @Transactional
     public void deleteGame(int id) {
         Game game = gameRepo.findByGameId(id);
