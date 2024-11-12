@@ -15,6 +15,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -46,45 +48,75 @@ public class ReviewIntegrationTests {
     }
 
     private final int VALID_RATING = 5;
+    private final int VALID_NEW_RATING = 1;
     private final String VALID_DESCRIPTION = "Excellent game";
+    private final String VALID_NEW_DESCRIPTION = "Awful game";
     private final String VALID_EMAIL = "example@example.com";
-    private final int VALID_GAME_ID = 3;
+    private int VALID_GAME_ID;
+    private final String VALID_GAME_TITLE = "Elden Ring";
+    private int savedId;
 
     @Test
     @Order(1)
     public void testAndCreateValidReview() {
 
         // set up: add Customer and Game into the repo
-        ReviewRequestDto request = new ReviewRequestDto(VALID_RATING, VALID_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         Game game = new Game();
         // TODO: game and customer instance need more specific attributes
-        game.setGameId(VALID_GAME_ID);
+        game.setTitle(VALID_GAME_TITLE);
         gameRepository.save(game);
+        VALID_GAME_ID = game.getGameId();
         Customer customer = new Customer("12345","Joe",VALID_EMAIL);
         customerRepository.save(customer);
+        ReviewRequestDto request = new ReviewRequestDto(VALID_RATING, VALID_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
 
-        ResponseEntity<ReviewResponseDto> response = client.postForEntity("/review", request, ReviewResponseDto.class);
+
+        ResponseEntity<ReviewResponseDto> response = client.postForEntity("/reviews", request, ReviewResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
         ReviewResponseDto createdReview = response.getBody();
-
-
-
+        savedId = createdReview.getReviewId();
+        assertEquals(VALID_RATING, createdReview.getRating());
+        assertEquals(VALID_DESCRIPTION, createdReview.getDescription());
+        assertEquals(VALID_EMAIL, createdReview.getReviewerEmail());
+        assertEquals(VALID_GAME_TITLE, createdReview.getGameTitle());
+        assertEquals(LocalDate.now(),createdReview.getCreationDate());
 
     }
 
     @Test
     @Order(2)
     public void testAndUpdateValidReview() {
+        ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
+        //String url = client.getForEntity("/review", String.class).getBody();
+        String url = "/reviews/" + savedId;
+        client.put(url, request);
+
+        ResponseEntity<ReviewResponseDto> response = client.getForEntity(url,ReviewResponseDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        ReviewResponseDto createdReview = response.getBody();
+        assertEquals(VALID_NEW_RATING, createdReview.getRating());
+        assertEquals(VALID_NEW_DESCRIPTION, createdReview.getDescription());
 
     }
 
     @Test
     @Order(3)
     public void testAndDeleteValidReview() {
+        String url = "/reviews/" + savedId;
+        client.delete(url);
+
+        ResponseEntity<ReviewResponseDto> response = client.getForEntity(url,ReviewResponseDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
 
     }
 
