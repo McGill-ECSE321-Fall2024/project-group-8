@@ -3,12 +3,14 @@ package ca.mcgill.ecse321.gamemanager.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -68,10 +70,11 @@ public class CategoryServiceTests {
     public void testGetCategoryById_InvalidId() {
         int invalidId = 99;
         when(categoryRepository.findById(String.valueOf(invalidId))).thenReturn(Optional.empty());
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             categoryService.getCategoryById(invalidId);
         });
-        assertEquals("404 NOT_FOUND \"Category with ID " + invalidId + " not found\"", exception.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+        assertEquals("Category with ID " + invalidId + " not found", exception.getMessage());
     }
 
     @Test
@@ -91,20 +94,22 @@ public class CategoryServiceTests {
     public void testCreateCategory_InvalidCategory_NoName() {
         Category category = new Category();
         category.setDescription("Exciting adventure games");
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             categoryService.createCategory(category);
         });
-        assertEquals("400 BAD_REQUEST \"Category name cannot be empty\"", exception.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
+        assertEquals("Category name cannot be empty", exception.getMessage());
     }
 
     @Test
     public void testCreateCategory_InvalidCategory_NoDescription() {
         Category category = new Category();
         category.setName("Adventure");
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             categoryService.createCategory(category);
         });
-        assertEquals("400 BAD_REQUEST \"Category description cannot be empty\"", exception.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
+        assertEquals("Category description cannot be empty", exception.getMessage());
     }
 
     @Test
@@ -136,10 +141,11 @@ public class CategoryServiceTests {
         updatedCategory.setDescription("New description");
 
         when(categoryRepository.findById(String.valueOf(invalidId))).thenReturn(Optional.empty());
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             categoryService.updateCategory(invalidId, updatedCategory);
         });
-        assertEquals("404 NOT_FOUND \"Category with ID " + invalidId + " not found\"", exception.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+        assertEquals("Category with ID " + invalidId + " not found", exception.getMessage());
     }
 
     @Test
@@ -154,9 +160,10 @@ public class CategoryServiceTests {
     public void testDeleteCategory_InvalidId() {
         int invalidId = 99;
         when(categoryRepository.existsById(String.valueOf(invalidId))).thenReturn(false);
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        GameManagerException exception = assertThrows(GameManagerException.class, () -> {
             categoryService.deleteCategory(invalidId);
         });
-        assertEquals("404 NOT_FOUND \"Category with ID " + invalidId + " not found\"", exception.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+        assertEquals("Category with ID " + invalidId + " not found", exception.getMessage());
     }
 }

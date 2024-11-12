@@ -142,7 +142,7 @@ public class GameCopyIntegrationTests {
     @Order(4)
     public void testFindGameCopyByInvalidGameCopyId(){
         // Arrange
-        String url = "/gamecopy/" + this.VALID_GAME_COPY_ID;
+        String url = "/gamecopy/" + this.INVALID_GAME_COPY_ID;
 
         // Act
         ResponseEntity<ErrorDto> response = client.getForEntity(url, ErrorDto.class);
@@ -280,7 +280,7 @@ public class GameCopyIntegrationTests {
         // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
+        assertEquals("Invalid GameCopy ID.", response.getBody().getErrors().get(0));
     }
 
     @Test

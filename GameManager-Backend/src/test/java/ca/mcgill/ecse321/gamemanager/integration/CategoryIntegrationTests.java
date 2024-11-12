@@ -1,8 +1,5 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -80,7 +79,10 @@ public class CategoryIntegrationTests {
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("Category with ID 999 not found", response.getBody());
+        // The response will contain the default Spring error message format
+        assertTrue(response.getBody().contains("\"status\":404"));
+        assertTrue(response.getBody().contains("\"error\":\"Not Found\""));
+        assertTrue(response.getBody().contains("\"/categories/999\""));
     }
 
     @Test
