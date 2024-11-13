@@ -223,7 +223,7 @@ public class EmployeeServiceTests {
         GameManagerException e = assertThrows(GameManagerException.class, () -> employeeService.deleteEmployee(InvalidEmail));
 
         assertEquals(HttpStatus.NOT_FOUND,e.getStatus());
-        assertEquals("Invalid Employee email.",e.getMessage());
+        assertEquals("Employee with email example@example.com does not exist.",e.getMessage());
     }
 
 
