@@ -1,14 +1,18 @@
 package ca.mcgill.ecse321.gamemanager.dto;
+import ca.mcgill.ecse321.gamemanager.model.Customer;
 
 public class CustomerDto {
     private String name;
     private String email;
+    private String password;
+
 
     public CustomerDto() {}
 
-    public CustomerDto(String name, String email) {
-        this.name = name;
-        this.email = email;
+    public CustomerDto(Customer customer) {
+        this.name = customer.getName();
+        this.email = customer.getEmail();
+        this.password = customer.getPassword() ;
     }
 
     public String getName() {
@@ -26,4 +30,5 @@ public class CustomerDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
