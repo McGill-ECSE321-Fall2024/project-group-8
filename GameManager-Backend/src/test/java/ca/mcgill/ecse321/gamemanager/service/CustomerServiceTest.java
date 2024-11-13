@@ -10,24 +10,13 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.gamemanager.dto.CustomerDto;
-import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.swing.text.StyledEditorKit;
 
 
 @SpringBootTest
@@ -118,13 +107,15 @@ public class CustomerServiceTest {
 
         when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
 
-        String newEmail = "newMichael@gmail.com";
 
-        Customer updatedCustomer = new Customer(password,name, newEmail);
+        String newPassword = "Michael123";
+        String newName = "Michael";
+        Customer updatedCustomer = new Customer(newPassword,newName, email);
         when(customerRepository.save(any(Customer.class))).thenReturn(updatedCustomer);
 
         assertNotNull(updatedCustomer);
-        assertEquals(newEmail, updatedCustomer.getEmail());
+        assertEquals(newPassword, updatedCustomer.getPassword());
+        assertEquals(newName, updatedCustomer.getName());
 
         //verify(customerRepository, times(1)).findCustomerByEmail(newEmail);
     }
@@ -137,13 +128,13 @@ public class CustomerServiceTest {
         when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
 
 
-        String newEmail = "newMichael@gmail.com";
+
         String newName = "";
 
-        Customer updatedCustomer = new Customer(password,newName, newEmail);
+        Customer updatedCustomer = new Customer(password,newName, email);
         when(customerRepository.save(any(Customer.class))).thenReturn(updatedCustomer);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,newName, newEmail, password) ) ;
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,newName, password) ) ;
         assertEquals("Failed to update customer with invalid name.",ex.getMessage());
 
     }
@@ -155,73 +146,35 @@ public class CustomerServiceTest {
         Customer customer = new Customer(password,name, email);
         when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
 
-        String newEmail = "newMichael@gmail.com";
+
         String newName = null;
 
-        Customer updatedCustomer = new Customer(password,newName, newEmail);
+        Customer updatedCustomer = new Customer(password,newName, email);
         when(customerRepository.save(any(Customer.class))).thenReturn(updatedCustomer);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,newName, newEmail, password) ) ;
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,newName, password) ) ;
         assertEquals("Failed to update customer with invalid name.",ex.getMessage());
 
 
     }
+
+
+
     @Test
-    public void testUpdateCustomerInvalidEmail(){
-        String name = "Michael";
-        String email = "michael@gmail.com";
-        String password = "Michael123";
-        Customer customer = new Customer(password,name, email);
-        when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
-
-
-        String newEmail = "";
-
-        Customer updatedCustomer = new Customer(password,name, newEmail);
-        when(customerRepository.save(any(Customer.class))).thenReturn(updatedCustomer);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newEmail, password) ) ;
-        assertEquals("Failed to update customer with invalid email.",ex.getMessage());
-
-
-    }
-    @Test
-    public void testUpdateCustomerNullEmail(){
-        String name = "Michael";
-        String email = "michael@gmail.com";
-        String password = "Michael123";
-        Customer customer = new Customer(password,name, email);
-        when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
-
-
-
-
-        String newEmail = null;
-
-        //Customer updatedCustomer = new Customer(password,name, newEmail);
-        //when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newEmail, password) ) ;
-        assertEquals("Failed to update customer with invalid email.",ex.getMessage());
-
-    }
-
-    /*@Test
     public void testUpdateCustomerNullPassword(){
         String name = "Michael";
         String email = "michael@gmail.com";
         String password = "Michael123";
         Customer customer = new Customer(password,name, email);
-        when(customerRepository.findCustomerByEmail(email).thenReturn(customer);
+        when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
 
 
         String newPassword = null;
-        String newEmail = "newMichael123@gmail.com";
+
 
        // Customer updatedCustomer = new Customer(newPassword,name, email);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newEmail, newPassword) ) ;
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
         assertEquals("Failed to update customer with invalid password.",ex.getMessage());
 
     }
@@ -231,16 +184,16 @@ public class CustomerServiceTest {
         String email = "michael@gmail.com";
         String password = "Michael123";
         Customer customer = new Customer(name, email, password);
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+        when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
 
-        String newEmail = "newMichael@gmail.com";
+
         String newPassword = "123";
 
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newEmail, newPassword) ) ;
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
         assertEquals("Failed to update customer with invalid password.",ex.getMessage());
 
-    }*/
+    }
 
     @Test
     public void testDeleteCustomerWithValidEmail() {
