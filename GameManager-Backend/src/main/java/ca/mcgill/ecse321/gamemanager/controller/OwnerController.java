@@ -45,6 +45,8 @@ public class OwnerController {
 
     @PutMapping("/{email}")
     public OwnerResponseDto updateOwner(@PathVariable String email, @RequestBody OwnerRequestDto ownerRequestDto) {
+
+
         Owner updatedOwner = ownerService.updateOwner(
                 email,
                 ownerRequestDto.getName(),
@@ -57,9 +59,9 @@ public class OwnerController {
         ownerService.deleteOwner(email);
     }
 
-    @PutMapping("/{gameId}")
-    public GameDto updateDiscount(@PathVariable int gameId, float discount) {
-        Game game = ownerService.updateGameDiscount(discount,gameId);
+    @PutMapping("/discount/{gameId}")
+    public GameDto updateDiscount(@PathVariable int gameId, @RequestParam float discount) {
+        Game game = ownerService.updateGameDiscount(discount, gameId);
 
         return new GameDto(game);
 
