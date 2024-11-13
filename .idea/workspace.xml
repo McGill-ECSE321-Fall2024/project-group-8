@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
+      <change afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/OwnerResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/OwnerServiceTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/EmployeeIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/EmployeeIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/OwnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/OwnerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/OwnerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/OwnerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/EmployeeServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/EmployeeServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,6 +125,7 @@
     "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
     "Gradle.GameServiceTests.executor": "Run",
     "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
+    "Gradle.OwnerServiceTests.executor": "Run",
     "Gradle.PurchaseOrderIntegrationTests.executor": "Run",
     "Gradle.PurchaseOrderIntegrationTests.testAddGameToCart.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.executor": "Run",
@@ -147,31 +152,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.EmployeeIntegrationTests">
-    <configuration name="CategoryServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Gradle.EmployeeServiceTests">
     <configuration name="EmployeeIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -210,6 +191,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;ca.mcgill.ecse321.gamemanager.service.EmployeeServiceTests&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="OwnerServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.OwnerServiceTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -277,11 +282,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.EmployeeIntegrationTests" />
         <item itemvalue="Gradle.EmployeeServiceTests" />
+        <item itemvalue="Gradle.OwnerServiceTests" />
+        <item itemvalue="Gradle.EmployeeIntegrationTests" />
         <item itemvalue="Gradle.PurchaseOrderIntegrationTests" />
         <item itemvalue="Gradle.PurchaseOrderIntegrationTests.testAddGameToCart" />
-        <item itemvalue="Gradle.CategoryServiceTests" />
       </list>
     </recent_temporary>
   </component>

@@ -72,7 +72,7 @@ public class EmployeeService {
     // Delete a employee by email
     @Transactional
     public void deleteEmployee(String email) {
-        Employee employee = findEmployeeByEmail(email);
+        Employee employee = employeeRepo.findEmployeeByEmail(email);
         if (employee == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND, "Employee with email " + email + " does not exist.");
         }

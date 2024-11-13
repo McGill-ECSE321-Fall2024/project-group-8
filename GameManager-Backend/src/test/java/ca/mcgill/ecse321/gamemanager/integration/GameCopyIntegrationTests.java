@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.gamemanager.dto.GameCopyRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 
 import org.junit.jupiter.api.*;
@@ -34,6 +35,9 @@ public class GameCopyIntegrationTests {
     private GameRepository gameRepository;
 
     @Autowired
+    private GameCopyRepository gameCopyRepository;
+
+    @Autowired
     private TestRestTemplate client;
 
     private final String TITLE = "MineCraft";
@@ -44,6 +48,13 @@ public class GameCopyIntegrationTests {
 
     private int validGameCopyId;
     private int validGameId;
+
+    @BeforeAll
+    @AfterAll
+    public void clearDb() {
+        gameRepository.deleteAll();
+        gameCopyRepository.deleteAll();
+    }
 
 
     @Test

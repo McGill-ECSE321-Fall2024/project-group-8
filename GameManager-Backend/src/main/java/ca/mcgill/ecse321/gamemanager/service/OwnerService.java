@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Owner;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
@@ -7,6 +8,7 @@ import ca.mcgill.ecse321.gamemanager.repository.OwnerRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +26,11 @@ public class OwnerService {
     // Retrieve a owner by email (used as ID in this case)
     public Owner findOwnerByEmail(String email) {
         Optional<Owner> optionalOwner = Optional.ofNullable(ownerRepo.findOwnerByEmail(email));
-        return optionalOwner.orElseThrow(() -> new IllegalArgumentException("Invalid Owner email."));
+        return optionalOwner.orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "Invalid Owner email."));
     }
 
     // Retrieve all owners
-    public List<Owner> getAllOwners() {
+    public List<Owner> getOwner() {
         return (List<Owner>) ownerRepo.findAll();
     }
 
@@ -36,32 +38,28 @@ public class OwnerService {
     @Transactional
     public Owner createOwner(String name, String email, String password) {
         if (ownerRepo.findOwnerByEmail(email) != null) {
-            throw new IllegalArgumentException("A owner with this email already exists.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST,"An owner with this email already exists.");
         }
-        if (password == null || password.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters long.");
+        if (password == null || password.length() < 9 || password.length() > 13) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password length must be between 9 and 13 characters.");
         }
-        Owner newOwner = new Owner(name, email, password);
+        Owner newOwner = new Owner(password,name, email);
         return ownerRepo.save(newOwner);
     }
 
     // Update an existing owner by email
     @Transactional
-    public Owner updateOwner(String email, String name, String newEmail, String password) {
+    public Owner updateOwner(String email, String newName, String newPassword) {
         Owner owner = findOwnerByEmail(email);
-        
-        if (name != null && !name.isBlank()) {
-            owner.setName(name);
+
+        if (newName == null || newName.isBlank()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid Owner name.");
         }
-        if (newEmail != null && !newEmail.isBlank()) {
-            if (!newEmail.equals(email) && ownerRepo.findOwnerByEmail(newEmail) != null) {
-                throw new IllegalArgumentException("New email is already in use by another owner.");
-            }
-            owner.setEmail(newEmail);
+        owner.setName(newName);
+        if(newPassword == null || newPassword.length() < 9 || newPassword.length() > 13) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password length must be between 9 and 13 characters.");
         }
-        if (password != null && password.length() >= 8) {
-            owner.setPassword(password);
-        }
+        owner.setPassword(newPassword);
 
         return ownerRepo.save(owner);
     }
@@ -69,20 +67,21 @@ public class OwnerService {
     // Delete a owner by email
     @Transactional
     public void deleteOwner(String email) {
-        if (ownerRepo.findOwnerByEmail(email) == null) {
-            throw new IllegalArgumentException("Owner with email " + email + " does not exist.");
+        Owner owner = ownerRepo.findOwnerByEmail(email);
+        if (owner== null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Owner with email " + email + " does not exist.");
         }
-        ownerRepo.deleteById(email);
+        ownerRepo.delete(owner);
     }
 
     @Transactional
     public Game updateGameDiscount(float discount, int gameId){
         if(discount > 1 || discount < 0) {
-            throw new IllegalArgumentException("Discount must be between 0 and 1.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid discount value. Discount must be between 0 and 1.");
         }
         Game game = gameRepo.findByGameId(gameId);
         if (game == null) {
-            throw new IllegalArgumentException("Game with id " + gameId + " does not exist.");
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with id " + gameId + " does not exist.");
         }
         double currentPrice = game.getPrice();
         currentPrice = discount * currentPrice;

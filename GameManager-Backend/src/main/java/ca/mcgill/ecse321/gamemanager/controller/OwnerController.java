@@ -1,16 +1,14 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
-import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
-import ca.mcgill.ecse321.gamemanager.dto.GameDto;
+import ca.mcgill.ecse321.gamemanager.dto.*;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ca.mcgill.ecse321.gamemanager.dto.OwnerDto;
-import ca.mcgill.ecse321.gamemanager.dto.OwnerRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Owner;
 import ca.mcgill.ecse321.gamemanager.service.OwnerService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,35 +19,37 @@ public class OwnerController {
     private OwnerService ownerService;
 
     @GetMapping("/{email}")
-    public OwnerDto findOwnerByEmail(@PathVariable String email) {
+    public OwnerResponseDto findOwnerByEmail(@PathVariable String email) {
         Owner owner = ownerService.findOwnerByEmail(email);
-        return convertToDto(owner);
+        return new OwnerResponseDto(owner);
     }
 
     @GetMapping
-    public List<OwnerDto> getAllOwners() {
-        return ownerService.getAllOwners().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public List<OwnerResponseDto> getAllOwners() {
+        List<Owner> owners = ownerService.getOwner();
+        List<OwnerResponseDto> ownerResponseDtos = new ArrayList<>();
+        for (Owner owner : owners) {
+            ownerResponseDtos.add(new OwnerResponseDto(owner));
+        }
+        return ownerResponseDtos;
     }
 
     @PostMapping
-    public OwnerDto createOwner(@RequestBody OwnerRequestDto ownerRequestDto) {
+    public OwnerResponseDto createOwner(@RequestBody OwnerRequestDto ownerRequestDto) {
         Owner createdOwner = ownerService.createOwner(
                 ownerRequestDto.getName(),
                 ownerRequestDto.getEmail(),
                 ownerRequestDto.getPassword());
-        return convertToDto(createdOwner);
+        return new OwnerResponseDto(createdOwner);
     }
 
     @PutMapping("/{email}")
-    public OwnerDto updateOwner(@PathVariable String email, @RequestBody OwnerRequestDto ownerRequestDto) {
+    public OwnerResponseDto updateOwner(@PathVariable String email, @RequestBody OwnerRequestDto ownerRequestDto) {
         Owner updatedOwner = ownerService.updateOwner(
                 email,
                 ownerRequestDto.getName(),
-                ownerRequestDto.getEmail(),
                 ownerRequestDto.getPassword());
-        return convertToDto(updatedOwner);
+        return new OwnerResponseDto(updatedOwner);
     }
 
     @DeleteMapping("/{email}")
@@ -58,14 +58,11 @@ public class OwnerController {
     }
 
     @PutMapping("/{gameId}")
-    public GameDto copyOwner(@PathVariable int gameId, float discount) {
+    public GameDto updateDiscount(@PathVariable int gameId, float discount) {
         Game game = ownerService.updateGameDiscount(discount,gameId);
 
         return new GameDto(game);
 
     }
 
-    private OwnerDto convertToDto(Owner owner) {
-        return new OwnerDto(owner.getName(), owner.getEmail());
-    }
 }
