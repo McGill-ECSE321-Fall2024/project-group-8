@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.gamemanager.integration;
 
 import ca.mcgill.ecse321.gamemanager.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
+import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
 import ca.mcgill.ecse321.gamemanager.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
 
@@ -42,6 +43,8 @@ public class CustomerIntegrationTests {
     private final String updatedUsername = "Ang1";
     private final String updatedPassword = "23456789";
     private  String aEmail ;
+
+
 
     @Test
     @Order(1)
@@ -91,15 +94,118 @@ public class CustomerIntegrationTests {
         assertEquals(updatedPassword, createdCustomerResponseDto.getPassword());
 
     }
-
     @Test
     @Order(3)
-    public void testDeleteEmailValid(){
-        String url="/customers/" + this.email;
+    public void testCreateInValidEmail(){
+        //set
+
+        CustomerRequestDto request = new CustomerRequestDto( aUsername,email,aPassword);
+
+        ResponseEntity<String> response = client.postForEntity("/customers", request, String.class);
+
+        assertNotNull(response);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    }
+
+
+    @Test
+    @Order(4)
+    public void testCreateInValidPassword(){
+        //set
+        String inValidPassword = "123";
+        String newEmail = "ang123@example.com";
+        CustomerRequestDto request = new CustomerRequestDto( aUsername,newEmail,inValidPassword);
+        ResponseEntity<String> response = client.postForEntity("/customers", request, String.class);
+
+
+        assertNotNull(response);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    }
+
+    @Test
+    @Order(5)
+    public void testUpdateInValidEmail(){
+
+        String inValidEmail = "Ang1234@example.com";
+        CustomerRequestDto request = new CustomerRequestDto( updatedUsername,inValidEmail,updatedPassword);
+        String url = "/customers/" + inValidEmail;
+
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+
+    }
+    @Test
+    @Order(6)
+    public void testUpdateInValidName(){
+        String inValidName = null;
+        CustomerRequestDto request = new CustomerRequestDto( inValidName,email,updatedPassword);
+        String url = "/customers/" + this.email;
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @Order(7)
+    public void testUpdateInValidPassword(){
+        String inValidPassword = "123";
+        CustomerRequestDto request = new CustomerRequestDto( updatedUsername,email,inValidPassword);
+        String url = "/customers/" + this.email;
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @Order(8)
+    public void testDeleteEmailInValid(){
+
+        String inValidEmail1 = "Ang12345@example.com";
+        CustomerRequestDto request = new CustomerRequestDto( aUsername,inValidEmail1,aPassword);
+        String url="/customers/" + inValidEmail1;
+
         client.delete(url);
         ResponseEntity<String> response = client.getForEntity(url, String.class);
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
+
+
+    @Test
+    @Order(9)
+    public void testDeleteEmailValid(){
+
+        String url="/customers/" + this.email;
+
+        client.delete(url);
+        ResponseEntity<String> response = client.getForEntity(url, String.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+
 
 }

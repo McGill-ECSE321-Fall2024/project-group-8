@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
@@ -30,10 +31,12 @@ public class CustomerService {
     public Customer createCustomer(String name, String email, String password) {
 
         if (customerRepo.findCustomerByEmail(email) != null) {
-            throw new IllegalArgumentException("A customer with this email already exists.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "A customer with this email already exists.");
+            //throw new IllegalArgumentException("A customer with this email already exists.");
         }
         if (password == null || password.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters long.");
+           // throw new IllegalArgumentException("Password must be at least 8 characters long.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters long.");
         }
 
         Customer newCustomer = new Customer(password,name, email);
@@ -48,7 +51,8 @@ public class CustomerService {
         Customer customer = customerRepo.findCustomerByEmail(email);
 
         if(customer == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
+            throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
+
         }
 
         return customer;
@@ -69,24 +73,24 @@ public class CustomerService {
         Customer customer = customerRepo.findCustomerByEmail(email);
 
         if (customer == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
+            throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
         }
         if (newName != null && !newName.isBlank()) {
             customer.setName(newName);
         }
         else{
-            throw new IllegalArgumentException("Failed to update customer with invalid name.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST,"Failed to update customer with invalid name.");
 
         }
         if (email.isBlank()) {
-            throw new IllegalArgumentException("Failed to update customer with invalid email.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST,"Failed to update customer with invalid email.");
         }
 
         if (newPassword != null && newPassword.length() >= 8) {
             customer.setPassword(newPassword);
         }
         else{
-            throw new IllegalArgumentException("Failed to update customer with invalid password.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST,"Failed to update customer with invalid password.");
         }
 
         return customerRepo.save(customer);
@@ -96,10 +100,11 @@ public class CustomerService {
     @Transactional
     public void deleteCustomer(String email) {
 
-        Customer customer = findCustomerByEmail(email);
+
+        Customer customer = customerRepo.findCustomerByEmail(email);
 
         if (customer == null) {
-            throw new IllegalArgumentException("Customer with email " + email + " does not exist.");
+            throw new GameManagerException(HttpStatus.BAD_REQUEST,"Customer with email " + email + " does not exist.");
         }
         customerRepo.delete(customer);
     }
@@ -110,7 +115,7 @@ public class CustomerService {
         Customer customer = customerRepo.findCustomerByEmail(email);
         PurchaseOrder purchaseOrder = purchaseOrderRepo.findByOrderId(orderId);
         if (customer == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
+            throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
         }
 
         return purchaseOrder;
