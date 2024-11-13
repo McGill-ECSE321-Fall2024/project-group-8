@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
 import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
-import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;

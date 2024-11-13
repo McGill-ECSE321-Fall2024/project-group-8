@@ -77,7 +77,7 @@ public class PurchaseOrderService {
             GameCopy gameCopy = gameCopyRepository.findGameCopyByGameCopyId(id);
             if (gameCopy==null) {
                 int index = gameCopyIds.indexOf(id);
-                throw  new IllegalArgumentException(String.format("Invalid gameCopy id contained at %dth id.", index));
+                throw new IllegalArgumentException(String.format("Invalid gameCopy id contained at %dth id.", index));
             }
             order.addGameCopy(gameCopy);
         }
