@@ -22,21 +22,21 @@ The scope of this project is to create an online game website, allowing the owne
 
 | Names         | Sprint 1 roles | Sprint 2 roles | Sprint 3 roles | 
 | ------------- | -------------|-------------|-------------|
-| Cher Li       | Software Developer, Project Manager |||
-| Cleo Tang     | Software Developer, QA Tester |||
-| Nara Yun      | Software Developer, Documentation Manager |||
-| Sijing Gu     | Software Developer, QA Tester |||
-| Diane Teo     | Software Developer, QA Tester |||
-| Ang Li        | Software Developer, QA Tester |||
+| Cher Li       | Software Developer, Project Manager | Software Developer, Documentation Manager ||
+| Cleo Tang     | Software Developer, QA Tester | Software Developer, QA Tester ||
+| Nara Yun      | Software Developer, Documentation Manager | Software Developer, Project Manager ||
+| Sijing Gu     | Software Developer, QA Tester | Software Developer, QA Tester ||
+| Diane Teo     | Software Developer, QA Tester | Software Developer, Project Manager ||
+| Ang Li        | Software Developer, QA Tester | Software Developer, QA Tester ||
 
 | Names         | Sprint 1 efforts | Sprint 2 efforts | Sprint 3 efforts | 
 | ------------- | -------------|-------------|-------------|
-| Cher Li       | 35 |||
-| Cleo Tang     | 32 |||
-| Nara Yun      | 32 |||
-| Sijing Gu     | 35 |||
-| Diane Teo     | 38 |||
-| Ang Li        | 34 |||
+| Cher Li       | 35 | 38 ||
+| Cleo Tang     | 32 | 43 ||
+| Nara Yun      | 32 | 41 ||
+| Sijing Gu     | 35 | 44 ||
+| Diane Teo     | 38 | 44 ||
+| Ang Li        | 34 | 39 ||
 
 # Sprint efforts
 ## Sprint 1
@@ -52,7 +52,7 @@ The scope of this project is to create an online game website, allowing the owne
 ## Sprint 2
 | Names         | Contributions |
 | ------------- | -------------   |
-| Cher Li       |  |
+| Cher Li       | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing, QA documentation, Project Management: committing to issues |
 | Cleo Tang     |  |
 | Nara Yun      |  |
 | Sijing Gu     |  |
