@@ -54,15 +54,18 @@ public class PurchaseOrderController {
     }
 
     @PutMapping("/{id}/cart")
-    public PurchaseOrderDto addGameToCart(@PathVariable int id, @PathVariable List<Integer> gameCopyIds) {
+    public PurchaseOrderDto addGameToCart(@PathVariable int id, @RequestBody List<Integer> gameCopyIds) {
         PurchaseOrder cart = orderService.addGameToCart(id, gameCopyIds);
-        return convertToDto(cart);
+        PurchaseOrderDto orderDto = new PurchaseOrderDto(cart);
+        System.out.println("hello");
+        System.out.println(orderDto.getGameCopies());
+        return orderDto;
     }
 
     @PostMapping("/{id}")
     public PurchaseOrderDto checkOut(@PathVariable int id){
         PurchaseOrder checkOutOrder = orderService.checkOut(id);
-        return convertToDto(checkOutOrder);
+        return new PurchaseOrderDto(checkOutOrder);
     }
     // Delete order by ID
     @DeleteMapping("/{id}")

@@ -6,7 +6,6 @@ import ca.mcgill.ecse321.gamemanager.dto.GameCopyRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.model.Game;
-import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 
 import org.junit.jupiter.api.*;
@@ -33,8 +32,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameCopyIntegrationTests {
     @Autowired
     private GameRepository gameRepository;
-    @Autowired
-    private GameCopyRepository gameCopyRepository;
 
     @Autowired
     private TestRestTemplate client;
@@ -45,8 +42,8 @@ public class GameCopyIntegrationTests {
     private final int INVALID_GAME_COPY_ID = -1;
     private final int INVALID_GAME_ID = -1;
 
-    private int VALID_GAME_COPY_ID;
-    private int VALID_GAME_ID;
+    private int validGameCopyId;
+    private int validGameId;
 
 
     @Test
@@ -79,10 +76,8 @@ public class GameCopyIntegrationTests {
         assertEquals(STOCK-1, responsedGameDto.getStock());
         assertTrue(createdGameCopyDto.getGameCopyId() > 0, "GameCopyResponse should have a positive ID.");
         assertTrue(responsedGameDto.getGameId() > 0, "GameResponse should have a positive ID.");
-        this.VALID_GAME_COPY_ID = createdGameCopyDto.getGameCopyId();
-        System.out.println("first");
-        System.out.println(VALID_GAME_COPY_ID);
-        this.VALID_GAME_ID = responsedGameDto.getGameId();
+        this.validGameCopyId = createdGameCopyDto.getGameCopyId();
+        this.validGameId = responsedGameDto.getGameId();
     }
 
     @Test
@@ -118,9 +113,9 @@ public class GameCopyIntegrationTests {
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
-        VALID_GAME_COPY_ID = postResponse.getBody().getGameCopyId();
-        VALID_GAME_ID = postResponse.getBody().getGameDto().getGameId();
-        String url = "/gamecopy/" + this.VALID_GAME_COPY_ID;
+        validGameCopyId = postResponse.getBody().getGameCopyId();
+        validGameId = postResponse.getBody().getGameDto().getGameId();
+        String url = "/gamecopy/" + this.validGameCopyId;
 
         // Act
         ResponseEntity<GameCopyResponseDto> response = client.getForEntity(url, GameCopyResponseDto.class);
@@ -130,8 +125,8 @@ public class GameCopyIntegrationTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         GameCopyResponseDto gameCopyResponseDto = response.getBody();
         assertNotNull(gameCopyResponseDto);
-        assertEquals(VALID_GAME_COPY_ID, gameCopyResponseDto.getGameCopyId());
-        assertEquals(VALID_GAME_ID, gameCopyResponseDto.getGameDto().getGameId());
+        assertEquals(validGameCopyId, gameCopyResponseDto.getGameCopyId());
+        assertEquals(validGameId, gameCopyResponseDto.getGameDto().getGameId());
         assertEquals(STOCK-1, gameCopyResponseDto.getGameDto().getStock());
         assertEquals(PRICE, gameCopyResponseDto.getGameDto().getPrice());
     }
@@ -168,8 +163,8 @@ public class GameCopyIntegrationTests {
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
-        VALID_GAME_COPY_ID = postResponse.getBody().getGameCopyId();
-        VALID_GAME_ID = postResponse.getBody().getGameDto().getGameId();
+        validGameCopyId = postResponse.getBody().getGameCopyId();
+        validGameId = postResponse.getBody().getGameDto().getGameId();
         String url = "/game/"+ savedGame.getGameId() + "/gamecopies";
 
         // Act
@@ -187,8 +182,8 @@ public class GameCopyIntegrationTests {
         GameCopyResponseDto gameCopyResponseDto = gameCopyResponseDtos.get(0);
         assertNotNull(gameCopyResponseDtos);
         assertTrue(gameCopyResponseDtos.size()>0, "The number of GameCopy found should be positive.");
-        assertEquals(VALID_GAME_COPY_ID, gameCopyResponseDto.getGameCopyId());
-        assertEquals(VALID_GAME_ID, gameCopyResponseDto.getGameDto().getGameId());
+        assertEquals(validGameCopyId, gameCopyResponseDto.getGameCopyId());
+        assertEquals(validGameId, gameCopyResponseDto.getGameDto().getGameId());
         assertEquals(STOCK-1, gameCopyResponseDto.getGameDto().getStock());
         assertEquals(PRICE, gameCopyResponseDto.getGameDto().getPrice());
     }
@@ -223,9 +218,9 @@ public class GameCopyIntegrationTests {
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
-        VALID_GAME_COPY_ID = postResponse.getBody().getGameCopyId();
-        VALID_GAME_ID = postResponse.getBody().getGameDto().getGameId();
-        String url = "/game/" + VALID_GAME_ID + "/gamecopies/count";
+        validGameCopyId = postResponse.getBody().getGameCopyId();
+        validGameId = postResponse.getBody().getGameDto().getGameId();
+        String url = "/game/" + validGameId + "/gamecopies/count";
 
         // Act
         ResponseEntity<Integer> response = client.getForEntity(url, Integer.class);
@@ -246,8 +241,8 @@ public class GameCopyIntegrationTests {
         game.setPrice(PRICE);
         game.setTitle(TITLE);
         Game savedGame = gameRepository.save(game);
-        VALID_GAME_ID = savedGame.getGameId();
-        String url = "/game/" + VALID_GAME_ID + "/gamecopies/count";
+        validGameId = savedGame.getGameId();
+        String url = "/game/" + validGameId + "/gamecopies/count";
 
         // Act
         ResponseEntity<Integer> response = client.getForEntity(url, Integer.class);
@@ -270,8 +265,8 @@ public class GameCopyIntegrationTests {
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
-        VALID_GAME_COPY_ID = postResponse.getBody().getGameCopyId();
-        String url = "/gamecopy/" + VALID_GAME_COPY_ID;
+        validGameCopyId = postResponse.getBody().getGameCopyId();
+        String url = "/gamecopy/" + validGameCopyId;
 
         // Act
         client.delete(url, GameCopyResponseDto.class);
@@ -295,10 +290,10 @@ public class GameCopyIntegrationTests {
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
-        VALID_GAME_COPY_ID = postResponse.getBody().getGameCopyId();
-        VALID_GAME_ID = postResponse.getBody().getGameDto().getGameId();
+        validGameCopyId = postResponse.getBody().getGameCopyId();
+        validGameId = postResponse.getBody().getGameDto().getGameId();
         String deleteUrl = "/gamecopy/" + INVALID_GAME_COPY_ID;
-        String findUrl = "/gamecopy/" + VALID_GAME_COPY_ID;
+        String findUrl = "/gamecopy/" + validGameCopyId;
 
         // Act
         client.delete(deleteUrl, GameCopyResponseDto.class);
@@ -309,10 +304,10 @@ public class GameCopyIntegrationTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         GameCopyResponseDto gameCopyResponseDto = response.getBody();
         assertNotNull(gameCopyResponseDto);
-        assertEquals(VALID_GAME_COPY_ID, gameCopyResponseDto.getGameCopyId());
+        assertEquals(validGameCopyId, gameCopyResponseDto.getGameCopyId());
         GameDto respondseGameDto = gameCopyResponseDto.getGameDto();
         assertNotNull(respondseGameDto);
-        assertEquals(VALID_GAME_ID, respondseGameDto.getGameId());
+        assertEquals(validGameId, respondseGameDto.getGameId());
         assertEquals(STOCK-1, respondseGameDto.getStock());
         assertEquals(TITLE, respondseGameDto.getTitle());
         assertEquals(PRICE, respondseGameDto.getPrice());

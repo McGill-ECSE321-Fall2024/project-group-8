@@ -1,17 +1,20 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
+import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
+import org.springframework.web.bind.annotation.Mapping;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PurchaseOrderDto {
     private int orderId;
     private OrderStatus orderStatus;
     private Date date;
     private double price;
-    private List<GameCopy> gameCopies;
+    private List<GameCopyResponseDto> gameCopies;
 
     @SuppressWarnings("unused")
     private PurchaseOrderDto() {}
@@ -21,6 +24,16 @@ public class PurchaseOrderDto {
         this.orderStatus = status;
         this.price = price;
         this.date = date;
+    }
+
+    public PurchaseOrderDto(PurchaseOrder purchaseOrder) {
+        this.orderId = purchaseOrder.getOrderId();
+        this.orderStatus = purchaseOrder.getOrderStatus();
+        this.price = purchaseOrder.getTotalPrice();
+        this.date = purchaseOrder.getDate();
+        this.gameCopies = purchaseOrder.getGameCopies().stream()
+                .map(GameCopyResponseDto::new) // Assuming a constructor in GameCopyResponseDto
+                .collect(Collectors.toList());
     }
 
     // Getters and setters
@@ -48,9 +61,10 @@ public class PurchaseOrderDto {
 
     public void setPrice(double price) { this.price = price; }
 
-    public List<GameCopy> getGameCopies() {return gameCopies;}
+    public List<GameCopyResponseDto> getGameCopies() {return gameCopies;}
 
-    public void setGameCopies(List<GameCopy> gameCopies) {
+    public void setGameCopies(List<GameCopyResponseDto> gameCopies) {
         this.gameCopies = gameCopies;
     }
+
 }

@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PurchaseOrderRepository extends CrudRepository<PurchaseOrder, Integer> {
     public PurchaseOrder findByOrderId(int orderId);
+
 }

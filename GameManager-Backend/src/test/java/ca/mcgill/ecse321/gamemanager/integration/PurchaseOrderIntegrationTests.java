@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
+import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
+import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
 import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
@@ -22,8 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -134,33 +136,41 @@ public class PurchaseOrderIntegrationTests {
     @Test
     @Order(5)
     public void testAddGameToCart() {
-        GameCopy gameCopy1 = gameCopyRepository.save(new GameCopy());
+        // Arrange
+        Game savedGame = gameRepository.save(new Game());
+
+        GameCopy gameCopy1 = gameCopyRepository.save(new GameCopy(savedGame));
         int game1 = gameCopy1.getGameCopyId();
 
-        GameCopy gameCopy2 = gameCopyRepository.save(new GameCopy());
+        GameCopy gameCopy2 = gameCopyRepository.save(new GameCopy(savedGame));
         int game2 = gameCopy2.getGameCopyId();
 
-        List<Integer> VALID_GAMES = List.of(game1, game2);
+        List<Integer> validGameCopyIds = List.of(game1, game2);
+
+        HttpEntity<List<Integer>> putRequest = new HttpEntity<>(validGameCopyIds);
 
         String url = "/api/orders/" + this.orderId + "/cart";
-        client.put(url, VALID_GAMES);
 
-        String orderUrl = "/api/orders/" + this.orderId;
+        // Act
+        ResponseEntity<PurchaseOrderDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                putRequest,
+                new ParameterizedTypeReference<PurchaseOrderDto>() {}
+        );
 
-        ResponseEntity<PurchaseOrderDto> response = client.getForEntity(orderUrl, PurchaseOrderDto.class);
-
+        // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         PurchaseOrderDto updatedOrder = response.getBody();
         assertNotNull(updatedOrder);
+        assertEquals(this.orderId, updatedOrder.getOrderId());
 
-        List<GameCopy> gameCopies = new ArrayList<>();
-        for (int id : VALID_GAMES) {
-            GameCopy gameCopy = gameCopyRepository.findGameCopyByGameCopyId(id);
-            gameCopies.add(gameCopy);
+        for (int i = 0; i < validGameCopyIds.size(); i++) {
+            int expectedId = validGameCopyIds.get(i);
+            int actualId = updatedOrder.getGameCopies().get(i).getGameCopyId();
+            assertEquals(expectedId, actualId);
         }
-
-        assertEquals(updatedOrder.getGameCopies(), gameCopies);
     }
 
     @Test

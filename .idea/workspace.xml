@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/PurchaseOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/PurchaseOrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/PurchaseOrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/PurchaseOrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/repository/PurchaseOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/repository/PurchaseOrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/application-test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/PurchaseOrderIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/PurchaseOrderIntegrationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +123,8 @@
     "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
     "Gradle.GameServiceTests.executor": "Run",
     "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
+    "Gradle.PurchaseOrderIntegrationTests.executor": "Run",
+    "Gradle.PurchaseOrderIntegrationTests.testAddGameToCart.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testAddGameToCartByValidIdValidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_InvalidOrderId_ValidGameCopies.executor": "Run",
@@ -126,15 +133,12 @@
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor": "Run",
-    "Gradle.ReviewIntegrationTests.executor": "Run",
-    "Gradle.ReviewIntegrationTests.testAndCreateReviewByInvalidRating.executor": "Run",
-    "Gradle.ReviewServiceTests.executor": "Run",
     "HTTP Request.All in generated-requests.executor": "Run",
     "HTTP Request.generated-requests | #2.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Sijing/IntegrationTest",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/tomgusijing/Desktop/ECSE321/project-group-8",
     "node.js.detected.package.eslint": "true",
@@ -145,31 +149,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.ReviewIntegrationTests">
-    <configuration name="CategoryIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.CategoryIntegrationTests&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Gradle.PurchaseOrderIntegrationTests">
     <configuration name="CategoryServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -194,7 +174,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ReviewIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -207,7 +187,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.ReviewIntegrationTests&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -218,7 +198,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ReviewIntegrationTests.testAndCreateReviewByInvalidRating" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CategoryServiceTests.testGetCategoryById_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -231,7 +211,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.ReviewIntegrationTests.testAndCreateReviewByInvalidRating&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testGetCategoryById_InvalidId&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -242,7 +222,31 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ReviewServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PurchaseOrderIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--scan" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.PurchaseOrderIntegrationTests&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PurchaseOrderIntegrationTests.testAddGameToCart" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -255,7 +259,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.ReviewServiceTests&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.PurchaseOrderIntegrationTests.testAddGameToCart&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -275,11 +279,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.ReviewIntegrationTests" />
-        <item itemvalue="Gradle.ReviewServiceTests" />
-        <item itemvalue="Gradle.ReviewIntegrationTests.testAndCreateReviewByInvalidRating" />
-        <item itemvalue="Gradle.CategoryIntegrationTests" />
+        <item itemvalue="Gradle.PurchaseOrderIntegrationTests" />
+        <item itemvalue="Gradle.PurchaseOrderIntegrationTests.testAddGameToCart" />
         <item itemvalue="Gradle.CategoryServiceTests" />
+        <item itemvalue="Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription" />
+        <item itemvalue="Gradle.CategoryServiceTests.testGetCategoryById_InvalidId" />
       </list>
     </recent_temporary>
   </component>
