@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
-import ca.mcgill.ecse321.gamemanager.dto.EmployeeRequestDto;
-import ca.mcgill.ecse321.gamemanager.dto.EmployeeResponseDto;
-import ca.mcgill.ecse321.gamemanager.dto.ReviewResponseDto;
-import ca.mcgill.ecse321.gamemanager.model.Employee;
+import ca.mcgill.ecse321.gamemanager.dto.*;
 import ca.mcgill.ecse321.gamemanager.repository.EmployeeRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +35,11 @@ public class EmployeeIntegrationTests {
 
     public final String VALID_NAME = "Doe";
     public final String VALID_NEW_NAME = "John";
+    public final String EMPTY_NAME = "";
     public final String VALID_EMAIL = "doe@example.com";
+    public final String NEW_EMAIL = "john@example.com";
     public final String VALID_PASSWORD = "123456789";
+    public final String INVALID_PASSWORD = "";
     public final String VALID_NEW_PASSWORD = "987654321";
 
 
@@ -61,6 +61,30 @@ public class EmployeeIntegrationTests {
 
     @Test
     @Order(2)
+    public void testAndCreateEmployeeWithExistingEmail() {
+        EmployeeRequestDto requestDto = new EmployeeRequestDto(VALID_NAME, VALID_EMAIL, VALID_PASSWORD);
+
+        ResponseEntity<ErrorDto> response = client.postForEntity("/api/employees", requestDto, ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    }
+
+    @Test
+    @Order(3)
+    public void testAndCreateEmployeeWithInvalidPassword() {
+        EmployeeRequestDto requestDto = new EmployeeRequestDto(VALID_NAME, NEW_EMAIL, INVALID_PASSWORD);
+
+        ResponseEntity<ErrorDto> response = client.postForEntity("/api/employees", requestDto, ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+
+    @Test
+    @Order(4)
     public void testAndUpdateValidEmployee() {
         EmployeeRequestDto request = new EmployeeRequestDto(VALID_NEW_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
         String url = "/api/employees/" + VALID_EMAIL;
@@ -78,9 +102,66 @@ public class EmployeeIntegrationTests {
         EmployeeResponseDto createdEmployee = response.getBody();
         assertEquals(VALID_NEW_NAME, createdEmployee.getName());
     }
+    @Test
+    @Order(5)
+    public void testAndUpdateNotExistingEmployee() {
+        EmployeeRequestDto request = new EmployeeRequestDto(VALID_NEW_NAME, NEW_EMAIL, VALID_NEW_PASSWORD);
+        String url = "/api/employees/" + NEW_EMAIL;
+
+        ResponseEntity<EmployeeResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                EmployeeResponseDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 
     @Test
-    @Order(3)
+    @Order(6)
+    public void testAndUpdateEmployeeWithInvalidName() {
+        EmployeeRequestDto request = new EmployeeRequestDto(EMPTY_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
+        String url = "/api/employees/" + this.VALID_EMAIL;
+
+        ResponseEntity<EmployeeResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                EmployeeResponseDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @Order(7)
+    public void testAndUpdateEmployeeWithInvalidPassword() {
+        EmployeeRequestDto request = new EmployeeRequestDto(VALID_NEW_NAME, VALID_EMAIL, INVALID_PASSWORD);
+        String url = "/api/employees/" + this.VALID_EMAIL;
+
+        ResponseEntity<EmployeeResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                EmployeeResponseDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @Order(8)
+    public void testAndDeleteEmployeeWithInvalidEmail() {
+        String url = "/api/employees/" + NEW_EMAIL;
+        client.delete(url);
+        ResponseEntity<String> response = client.getForEntity(url,String.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    @Order(9)
     public void testAndDeleteValidEmployee() {
 
         String url = "/api/employees/" + VALID_EMAIL;

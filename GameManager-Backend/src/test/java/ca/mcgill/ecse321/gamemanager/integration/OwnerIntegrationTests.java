@@ -35,8 +35,11 @@ public class OwnerIntegrationTests {
 
     public final String VALID_NAME = "Doe";
     public final String VALID_NEW_NAME = "John";
+    public final String EMPTY_NAME = "";
     public final String VALID_EMAIL = "doe@example.com";
+    public final String NEW_EMAIL = "john@example.com";
     public final String VALID_PASSWORD = "123456789";
+    public final String INVALID_PASSWORD = "";
     public final String VALID_NEW_PASSWORD = "987654321";
 
 
@@ -59,6 +62,30 @@ public class OwnerIntegrationTests {
 
     @Test
     @Order(2)
+    public void testAndCreateOwnerWithExistingEmail() {
+        OwnerRequestDto requestDto = new OwnerRequestDto(VALID_NAME, VALID_EMAIL, VALID_PASSWORD);
+
+        ResponseEntity<ErrorDto> response = client.postForEntity("/api/owners", requestDto, ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    }
+
+    @Test
+    @Order(3)
+    public void testAndCreateOwnerWithInvalidPassword() {
+        OwnerRequestDto requestDto = new OwnerRequestDto(VALID_NAME, NEW_EMAIL, INVALID_PASSWORD);
+
+        ResponseEntity<ErrorDto> response = client.postForEntity("/api/owners", requestDto, ErrorDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+
+    @Test
+    @Order(4)
     public void testAndUpdateValidOwner() {
         OwnerRequestDto request = new OwnerRequestDto(VALID_NEW_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
         String url = "/api/owners/" + this.VALID_EMAIL;
@@ -77,7 +104,66 @@ public class OwnerIntegrationTests {
     }
 
     @Test
-    @Order(3)
+    @Order(5)
+    public void testAndUpdateNotExistingOwner() {
+        OwnerRequestDto request = new OwnerRequestDto(VALID_NEW_NAME, NEW_EMAIL, VALID_NEW_PASSWORD);
+        String url = "/api/owners/" + NEW_EMAIL;
+
+        ResponseEntity<OwnerResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                OwnerResponseDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    @Order(6)
+    public void testAndUpdateOwnerWithInvalidName() {
+        OwnerRequestDto request = new OwnerRequestDto(EMPTY_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
+        String url = "/api/owners/" + this.VALID_EMAIL;
+
+        ResponseEntity<OwnerResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                OwnerResponseDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @Order(7)
+    public void testAndUpdateOwnerWithInvalidPassword() {
+        OwnerRequestDto request = new OwnerRequestDto(VALID_NEW_NAME, VALID_EMAIL, INVALID_PASSWORD);
+        String url = "/api/owners/" + this.VALID_EMAIL;
+
+        ResponseEntity<OwnerResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                OwnerResponseDto.class
+        );
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @Order(8)
+    public void testAndDeleteOwnerWithInvalidEmail() {
+        String url = "/api/owners/" + NEW_EMAIL;
+        client.delete(url);
+        ResponseEntity<String> response = client.getForEntity(url,String.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+
+    @Test
+    @Order(9)
     public void testAndDeleteValidOwner() {
 
         String url = "/api/owners/" + VALID_EMAIL;
