@@ -6,13 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
+import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -27,6 +24,12 @@ public class GameIntegrationTests {
     
     @Autowired
     private TestRestTemplate client;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
     
     private Integer validGameId;
     private Integer validCategoryId;
@@ -39,11 +42,20 @@ public class GameIntegrationTests {
 
     @BeforeAll
     public void setup() {
+        categoryRepository.deleteAll();
+        gameRepository.deleteAll();
+
         // Create a category for testing
         CategoryDto categoryRequest = new CategoryDto(0, "Adventure", "Adventure games", null);
         ResponseEntity<CategoryDto> categoryResponse = client.postForEntity("/api/categories", categoryRequest, CategoryDto.class);
         assertNotNull(categoryResponse.getBody());
         this.validCategoryId = categoryResponse.getBody().getCategoryId();
+    }
+
+    @AfterAll
+    public void teardown() {
+        categoryRepository.deleteAll();
+        gameRepository.deleteAll();
     }
 
     @Test

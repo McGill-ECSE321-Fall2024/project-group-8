@@ -96,7 +96,6 @@ public class ReviewIntegrationTests {
     @Order(2)
     public void testAndUpdateValidReview() {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
-        //String url = client.getForEntity("/review", String.class).getBody();
         String url = "/reviews/" + savedId;
         ResponseEntity<ReviewResponseDto> response = client.exchange(
                 url,
@@ -168,7 +167,6 @@ public class ReviewIntegrationTests {
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        //assertEquals("Review description is empty", response.getBody());
 
     }
 

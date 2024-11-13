@@ -50,7 +50,10 @@ public class OwnerService {
     // Update an existing owner by email
     @Transactional
     public Owner updateOwner(String email, String newName, String newPassword) {
-        Owner owner = findOwnerByEmail(email);
+        Owner owner = ownerRepo.findOwnerByEmail(email);
+        if (owner == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Invalid Owner email.");
+        }
 
         if (newName == null || newName.isBlank()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid Owner name.");
