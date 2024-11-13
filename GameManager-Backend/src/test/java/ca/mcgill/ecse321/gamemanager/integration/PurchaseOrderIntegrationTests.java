@@ -1,16 +1,17 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
-import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
+import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
+import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -31,13 +34,23 @@ public class PurchaseOrderIntegrationTests {
     @Autowired
     private TestRestTemplate client;
 
+    @Autowired
+    private GameRepository gameRepository;
+
+    @Autowired
+    private GameCopyRepository gameCopyRepository;
+
     private int orderId;
-    private final OrderStatus VALID_STATUS = OrderStatus.Bought;
+    private final OrderStatus VALID_STATUS = OrderStatus.ShoppingCart;
     private final OrderStatus INVALID_STATUS = null;
     private final double VALID_PRICE = 123.99;
     private final double INVALID_PRICE = -2;
     private final Date VALID_DATE = Date.valueOf(LocalDate.now());
     private final Date INVALID_DATE = null;
+
+
+    public PurchaseOrderIntegrationTests() {
+    }
 
     @Test
     @Order(1)
@@ -120,6 +133,53 @@ public class PurchaseOrderIntegrationTests {
 
     @Test
     @Order(5)
+    public void testAddGameToCart() {
+        GameCopy gameCopy1 = gameCopyRepository.save(new GameCopy());
+        int game1 = gameCopy1.getGameCopyId();
+
+        GameCopy gameCopy2 = gameCopyRepository.save(new GameCopy());
+        int game2 = gameCopy2.getGameCopyId();
+
+        List<Integer> VALID_GAMES = List.of(game1, game2);
+
+        String url = "/api/orders/" + this.orderId + "/cart";
+        client.put(url, VALID_GAMES);
+
+        String orderUrl = "/api/orders/" + this.orderId;
+
+        ResponseEntity<PurchaseOrderDto> response = client.getForEntity(orderUrl, PurchaseOrderDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        PurchaseOrderDto updatedOrder = response.getBody();
+        assertNotNull(updatedOrder);
+
+        List<GameCopy> gameCopies = new ArrayList<>();
+        for (int id : VALID_GAMES) {
+            GameCopy gameCopy = gameCopyRepository.findGameCopyByGameCopyId(id);
+            gameCopies.add(gameCopy);
+        }
+
+        assertEquals(updatedOrder.getGameCopies(), gameCopies);
+    }
+
+    @Test
+    @Order(6)
+    public void testCheckOut() {
+        String url = "/api/orders/" + this.orderId;
+        PurchaseOrderDto request = new PurchaseOrderDto(orderId, VALID_STATUS, VALID_PRICE, VALID_DATE);
+        client.postForEntity(url, request, PurchaseOrderDto.class);
+
+        ResponseEntity<PurchaseOrderDto> response = client.getForEntity(url, PurchaseOrderDto.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        PurchaseOrderDto updatedOrder = response.getBody();
+        assertNotNull(updatedOrder);
+        assertEquals(OrderStatus.Bought, updatedOrder.getOrderStatus());
+    }
+
+    @Test
+    @Order(7)
     public void testDeleteOrder() {
         String url = "/api/orders/" + this.orderId;
         client.delete(url);
@@ -127,9 +187,4 @@ public class PurchaseOrderIntegrationTests {
         ResponseEntity<String> response = client.getForEntity(url, String.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // should already be deleted
     }
-
-
-    // getAllOrders
-    // addGameToCart
-    // checkOut
 }

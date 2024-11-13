@@ -53,7 +53,7 @@ public class PurchaseOrderController {
         return convertToDto(updatedOrder);
     }
 
-    @PutMapping("/{id}/{game}")
+    @PutMapping("/{id}/cart")
     public PurchaseOrderDto addGameToCart(@PathVariable int id, @PathVariable List<Integer> gameCopyIds) {
         PurchaseOrder cart = orderService.addGameToCart(id, gameCopyIds);
         return convertToDto(cart);
