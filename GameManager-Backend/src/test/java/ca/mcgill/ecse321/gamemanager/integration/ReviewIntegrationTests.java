@@ -45,9 +45,9 @@ public class ReviewIntegrationTests {
     @BeforeAll
     @AfterAll
     public void cleanUp() {
+        reviewRepository.deleteAll();
         gameRepository.deleteAll();
         customerRepository.deleteAll();
-        reviewRepository.deleteAll();
     }
 
     private final int VALID_RATING = 5;
