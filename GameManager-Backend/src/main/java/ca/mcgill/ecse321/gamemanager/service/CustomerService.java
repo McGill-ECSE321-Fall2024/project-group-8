@@ -64,32 +64,26 @@ public class CustomerService {
 
     // Update an existing customer by email
     @Transactional
-    public Customer updateCustomer(String email, String name, String newEmail, String password) {
+    public Customer updateCustomer(String email, String newName, String newPassword) {
 
         Customer customer = customerRepo.findCustomerByEmail(email);
 
         if (customer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
         }
-        if (name != null && !name.isBlank()) {
-            customer.setName(name);
+        if (newName != null && !newName.isBlank()) {
+            customer.setName(newName);
         }
         else{
             throw new IllegalArgumentException("Failed to update customer with invalid name.");
 
         }
-        if (newEmail != null && !newEmail.isBlank()) {
-            if (!email.equals(newEmail) && customerRepo.findCustomerByEmail(newEmail) != null) {
-                throw new IllegalArgumentException("New email is already in use by another customer.");
-            }
-            customer.setEmail(newEmail);
-        }
-        else{
+        if (email.isBlank()) {
             throw new IllegalArgumentException("Failed to update customer with invalid email.");
-
         }
-        if (password != null && password.length() >= 8) {
-            customer.setPassword(password);
+
+        if (newPassword != null && newPassword.length() >= 8) {
+            customer.setPassword(newPassword);
         }
         else{
             throw new IllegalArgumentException("Failed to update customer with invalid password.");
@@ -223,35 +217,35 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer addInWishlist(String email, int orderId) {
+    public Customer addInWishlist(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(orderId);
+        Game game= gameRepo.findByGameId(gameId);
         List<Game> games = customer.getInWishlist();
         games.add(game);
         return customerRepo.save(customer);
     }
 
     @Transactional
-    public Customer removeInWishlist(String email, int orderId) {
+    public Customer removeInWishlist(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(orderId);
+        Game game= gameRepo.findByGameId(gameId);
         List<Game> games = customer.getInWishlist();
         games.remove(game);
         return customerRepo.save(customer);
     }
 
     @Transactional
-    public Customer addInCart(String email, int orderId) {
+    public Customer addInCart(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(orderId);
+        Game game= gameRepo.findByGameId(gameId);
         List<Game> cart = customer.getInCart();
         cart.add(game);
         return customerRepo.save(customer);
     }
     @Transactional
-    public Customer removeInCart(String email, int orderId) {
+    public Customer removeInCart(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(orderId);
+        Game game= gameRepo.findByGameId(gameId);
         List<Game> cart = customer.getInCart();
         cart.remove(game);
         return customerRepo.save(customer);

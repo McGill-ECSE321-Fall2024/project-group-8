@@ -1,20 +1,16 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
 
-import ca.mcgill.ecse321.gamemanager.dto.CustomerDto;
+import ca.mcgill.ecse321.gamemanager.dto.CustomerResponseDto;
 
 
 import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.gamemanager.dto.CustomerDto;
-import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,17 +44,17 @@ public class CustomerIntegrationTests {
         //set
         CustomerRequestDto request = new CustomerRequestDto( aUsername,aEmail,aPassword);
 
-        ResponseEntity<CustomerDto> response = client.postForEntity("/customers", request, CustomerDto.class);
+        ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request, CustomerResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
 
-        CustomerDto createdCustomerDto = response.getBody();
+        CustomerResponseDto createdCustomerResponseDto = response.getBody();
 
-        assertEquals(aUsername,createdCustomerDto.getName());
-        assertEquals(aEmail,createdCustomerDto.getEmail());
+        assertEquals(aUsername, createdCustomerResponseDto.getName());
+        assertEquals(aEmail, createdCustomerResponseDto.getEmail());
 
 
 

@@ -3,58 +3,68 @@ package ca.mcgill.ecse321.gamemanager.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ca.mcgill.ecse321.gamemanager.dto.CustomerDto;
+import ca.mcgill.ecse321.gamemanager.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.service.CustomerService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/customers")
+
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/{email}")
-    public CustomerDto findCustomerByEmail(@PathVariable String email) {
+    @PostMapping("/customers")
+    public CustomerResponseDto createCustomer(@RequestBody CustomerRequestDto customerRequestDto) {
+        String name = customerRequestDto.getName();
+        String email = customerRequestDto.getEmail();
+        String password = customerRequestDto.getPassword();
+        Customer createdCustomer = customerService.createCustomer(name, email, password);
+
+        return new CustomerResponseDto(createdCustomer);
+
+    }
+    @PutMapping("/customers/{email}")
+    public CustomerResponseDto updateCustomer(@PathVariable String email, @RequestBody CustomerRequestDto customerRequestDto) {
+        String newName = customerRequestDto.getName();
+        String newPassword = customerRequestDto.getPassword();
+
+        Customer updatedCustomer = customerService.updateCustomer(email, newName, newPassword);
+
+        return new CustomerResponseDto(updatedCustomer);
+    }
+
+    @GetMapping("/customers/{email}")
+    public CustomerResponseDto getCustomerByEmail(@PathVariable String email) {
         Customer customer = customerService.findCustomerByEmail(email);
-        return convertToDto(customer);
+        return new CustomerResponseDto(customer);
     }
 
-    @GetMapping
-    public List<CustomerDto> getAllCustomers() {
-        return customerService.getAllCustomers().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    @GetMapping("/customers")
+    public List<CustomerResponseDto> getAllCustomers() {
+
+        Iterable<Customer> customers = customerService.getAllCustomers();
+        List<CustomerResponseDto > customerResponseDtos = new ArrayList<>();
+        for (Customer customer : customers) {
+            customerResponseDtos.add(new CustomerResponseDto(customer));
+
+        }
+        return customerResponseDtos;
     }
 
-    @PostMapping
-    public CustomerDto createCustomer(@RequestBody CustomerRequestDto customerRequestDto) {
-        Customer createdCustomer = customerService.createCustomer(
-                customerRequestDto.getName(),
-                customerRequestDto.getEmail(),
-                customerRequestDto.getPassword());
-        return convertToDto(createdCustomer);
-    }
 
-    @PutMapping("/{email}")
-    public CustomerDto updateCustomer(@PathVariable String email, @RequestBody CustomerRequestDto customerRequestDto) {
-        Customer updatedCustomer = customerService.updateCustomer(
-                email,
-                customerRequestDto.getName(),
-                customerRequestDto.getEmail(),
-                customerRequestDto.getPassword());
-        return convertToDto(updatedCustomer);
-    }
 
-    @DeleteMapping("/{email}")
+
+
+    @DeleteMapping("/customers/{email}")
     public void deleteCustomer(@PathVariable String email) {
+
         customerService.deleteCustomer(email);
     }
 
-    private CustomerDto convertToDto(Customer customer) {
-        return new CustomerDto(customer.getName(), customer.getEmail());
-    }
+
 }
