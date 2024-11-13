@@ -14,12 +14,9 @@ import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder.OrderStatus;
 import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -42,6 +39,9 @@ public class PurchaseOrderIntegrationTests {
     @Autowired
     private GameCopyRepository gameCopyRepository;
 
+    @Autowired
+    private PurchaseOrderRepository purchaseOrderRepository;
+
     private int orderId;
     private final OrderStatus VALID_STATUS = OrderStatus.ShoppingCart;
     private final OrderStatus INVALID_STATUS = null;
@@ -50,9 +50,16 @@ public class PurchaseOrderIntegrationTests {
     private final Date VALID_DATE = Date.valueOf(LocalDate.now());
     private final Date INVALID_DATE = null;
 
-
-    public PurchaseOrderIntegrationTests() {
+    @BeforeAll
+    @AfterAll
+    public void clearDb() {
+        gameRepository.deleteAll();
+        gameCopyRepository.deleteAll();
+        purchaseOrderRepository.deleteAll();
     }
+
+
+
 
     @Test
     @Order(1)
