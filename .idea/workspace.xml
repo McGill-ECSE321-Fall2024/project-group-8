@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/CategoryIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/CategoryIntegrationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameCopyIntegrationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/CategoryServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/CategoryServiceTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/GameCopyServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,12 +126,15 @@
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor": "Run",
     "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor": "Run",
+    "Gradle.ReviewIntegrationTests.executor": "Run",
+    "Gradle.ReviewIntegrationTests.testAndCreateReviewByInvalidRating.executor": "Run",
+    "Gradle.ReviewServiceTests.executor": "Run",
     "HTTP Request.All in generated-requests.executor": "Run",
     "HTTP Request.generated-requests | #2.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Sijing/IntegrationTest",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/tomgusijing/Desktop/ECSE321/project-group-8",
     "node.js.detected.package.eslint": "true",
@@ -146,7 +145,31 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.CategoryServiceTests">
+  <component name="RunManager" selected="Gradle.ReviewIntegrationTests">
+    <configuration name="CategoryIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.CategoryIntegrationTests&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="CategoryServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -171,7 +194,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReviewIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -184,7 +207,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.ReviewIntegrationTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -195,7 +218,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CategoryServiceTests.testDeleteCategory_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReviewIntegrationTests.testAndCreateReviewByInvalidRating" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -208,7 +231,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testDeleteCategory_InvalidId&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.ReviewIntegrationTests.testAndCreateReviewByInvalidRating&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -219,7 +242,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CategoryServiceTests.testGetCategoryById_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReviewServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
@@ -232,31 +255,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testGetCategoryById_InvalidId&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="CategoryServiceTests.testUpdateCategory_InvalidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.CategoryServiceTests.testUpdateCategory_InvalidId&quot;" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.ReviewServiceTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -276,11 +275,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ReviewIntegrationTests" />
+        <item itemvalue="Gradle.ReviewServiceTests" />
+        <item itemvalue="Gradle.ReviewIntegrationTests.testAndCreateReviewByInvalidRating" />
+        <item itemvalue="Gradle.CategoryIntegrationTests" />
         <item itemvalue="Gradle.CategoryServiceTests" />
-        <item itemvalue="Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription" />
-        <item itemvalue="Gradle.CategoryServiceTests.testGetCategoryById_InvalidId" />
-        <item itemvalue="Gradle.CategoryServiceTests.testDeleteCategory_InvalidId" />
-        <item itemvalue="Gradle.CategoryServiceTests.testUpdateCategory_InvalidId" />
       </list>
     </recent_temporary>
   </component>

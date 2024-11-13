@@ -3,13 +3,8 @@ package ca.mcgill.ecse321.gamemanager.integration;
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
 import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -35,6 +30,7 @@ public class CategoryIntegrationTests {
     private int validCategoryId;
 
     @BeforeAll
+    @AfterAll
     public void clearDatabase() {
         categoryRepository.deleteAll();
     }
