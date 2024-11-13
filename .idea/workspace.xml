@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/GameIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/EmployeeIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/EmployeeIntegrationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/OwnerIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/OwnerIntegrationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/PurchaseOrderIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/PurchaseOrderIntegrationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,7 +345,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/OwnerIntegrationTests.java</url>
-          <line>60</line>
+          <line>87</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

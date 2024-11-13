@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.gamemanager.integration;
 
 import ca.mcgill.ecse321.gamemanager.dto.EmployeeRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.EmployeeResponseDto;
-import ca.mcgill.ecse321.gamemanager.dto.ReviewResponseDto;
-import ca.mcgill.ecse321.gamemanager.model.Employee;
 import ca.mcgill.ecse321.gamemanager.repository.EmployeeRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
