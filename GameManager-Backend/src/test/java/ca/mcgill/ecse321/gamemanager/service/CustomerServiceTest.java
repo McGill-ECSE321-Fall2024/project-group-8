@@ -184,7 +184,7 @@ public class CustomerServiceTest {
         String email = "michael@gmail.com";
         String password = "Michael123";
         Customer customer = new Customer(name, email, password);
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+        when(customerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
 
 
         String newPassword = "123";

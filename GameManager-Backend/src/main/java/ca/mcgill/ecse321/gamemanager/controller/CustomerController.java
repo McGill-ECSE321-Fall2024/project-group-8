@@ -38,11 +38,7 @@ public class CustomerController {
         return new CustomerResponseDto(updatedCustomer);
     }
 
-    @GetMapping("/customers/{email}")
-    public CustomerResponseDto getCustomerByEmail(@PathVariable String email) {
-        Customer customer = customerService.findCustomerByEmail(email);
-        return new CustomerResponseDto(customer);
-    }
+
 
     @GetMapping("/customers")
     public List<CustomerResponseDto> getAllCustomers() {
@@ -57,7 +53,11 @@ public class CustomerController {
     }
 
 
-
+    @GetMapping("/customers/{email}")
+    public CustomerResponseDto getCustomerByEmail(@PathVariable String email) {
+        Customer customer = customerService.findCustomerByEmail(email);
+        return new CustomerResponseDto(customer);
+    }
 
 
     @DeleteMapping("/customers/{email}")
