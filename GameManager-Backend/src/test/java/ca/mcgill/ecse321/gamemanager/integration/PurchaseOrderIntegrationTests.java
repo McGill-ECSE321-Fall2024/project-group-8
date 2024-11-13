@@ -2,11 +2,9 @@ package ca.mcgill.ecse321.gamemanager.integration;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
-import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Game;

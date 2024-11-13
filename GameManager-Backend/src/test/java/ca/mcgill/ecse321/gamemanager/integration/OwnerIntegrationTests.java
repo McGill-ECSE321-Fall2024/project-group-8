@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.integration;
 
 import ca.mcgill.ecse321.gamemanager.dto.*;
-import ca.mcgill.ecse321.gamemanager.model.Employee;
-import ca.mcgill.ecse321.gamemanager.repository.EmployeeRepository;
 import ca.mcgill.ecse321.gamemanager.repository.OwnerRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,21 +69,10 @@ public class OwnerIntegrationTests {
                 new HttpEntity<>(request),
                 OwnerResponseDto.class
         );
-
-       /* ResponseEntity<String> response = client.exchange(
-                url,
-                HttpMethod.PUT,
-                new HttpEntity<>(request),
-                String.class
-        );*/
-
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        //assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
         OwnerResponseDto createdOwner = response.getBody();
-        //assertEquals("",createdOwner.getName());
-        //assertEquals("",createdOwner);
         assertEquals(VALID_NEW_NAME, createdOwner.getName());
     }
 
