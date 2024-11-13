@@ -163,7 +163,7 @@ public class CustomerServiceTest {
         Customer updatedCustomer = new Customer(password,newName, email);
         when(customerRepository.save(any(Customer.class))).thenReturn(updatedCustomer);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,newName, password) ) ;
+        GameManagerException ex = assertThrows(GameManagerException.class,()-> customerService.updateCustomer(email,newName, password) ) ;
         assertEquals("Failed to update customer with invalid name.",ex.getMessage());
 
 
@@ -185,7 +185,7 @@ public class CustomerServiceTest {
 
        // Customer updatedCustomer = new Customer(newPassword,name, email);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
+        GameManagerException ex = assertThrows(GameManagerException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
         assertEquals("Failed to update customer with invalid password.",ex.getMessage());
 
     }
@@ -201,7 +201,7 @@ public class CustomerServiceTest {
         String newPassword = "123";
 
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
+        GameManagerException ex = assertThrows(GameManagerException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
         assertEquals("Failed to update customer with invalid password.",ex.getMessage());
 
     }
