@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/ReviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/ReviewService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/integration/ReviewIntegrationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/ReviewServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/test/java/ca/mcgill/ecse321/gamemanager/service/ReviewServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +145,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.ReviewServiceTests">
+  <component name="RunManager" selected="Gradle.ReviewIntegrationTests">
     <configuration name="CategoryIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -278,8 +275,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.ReviewServiceTests" />
         <item itemvalue="Gradle.ReviewIntegrationTests" />
+        <item itemvalue="Gradle.ReviewServiceTests" />
         <item itemvalue="Gradle.ReviewIntegrationTests.testAndCreateReviewByInvalidRating" />
         <item itemvalue="Gradle.CategoryIntegrationTests" />
         <item itemvalue="Gradle.CategoryServiceTests" />

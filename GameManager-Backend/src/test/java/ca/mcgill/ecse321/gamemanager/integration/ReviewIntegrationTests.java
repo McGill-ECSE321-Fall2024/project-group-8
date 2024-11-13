@@ -98,9 +98,12 @@ public class ReviewIntegrationTests {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         //String url = client.getForEntity("/review", String.class).getBody();
         String url = "/reviews/" + savedId;
-        client.put(url, request);
-
-        ResponseEntity<ReviewResponseDto> response = client.getForEntity(url,ReviewResponseDto.class);
+        ResponseEntity<ReviewResponseDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ReviewResponseDto.class
+        );
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -126,7 +129,7 @@ public class ReviewIntegrationTests {
         ResponseEntity<String> response = client.postForEntity("/reviews", request, String.class);
 
         assertNotNull(response);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
     }
 
@@ -145,7 +148,7 @@ public class ReviewIntegrationTests {
         ResponseEntity<String> response = client.postForEntity("/reviews", request, String.class);
 
         assertNotNull(response);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
     }
 
@@ -164,7 +167,7 @@ public class ReviewIntegrationTests {
         ResponseEntity<String> response = client.postForEntity("/reviews", request, String.class);
 
         assertNotNull(response);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         //assertEquals("Review description is empty", response.getBody());
 
     }
@@ -176,8 +179,12 @@ public class ReviewIntegrationTests {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         String url = "/reviews/" + invalidReviewId;
 
-        client.put(url, request);
-        ResponseEntity<ReviewResponseDto> response = client.getForEntity(url,ReviewResponseDto.class);
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -188,31 +195,34 @@ public class ReviewIntegrationTests {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, INVALID_LONG_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
 
         String url = "/reviews/" + savedId;
-        client.put(url, request);
 
-        ResponseEntity<String> response = client.getForEntity(url,String.class);
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
 
 
         assertNotNull(response);
-        //assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        //assertEquals("Review description out of range", response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     @Order(8)
     public void testAndUpdateReviewByEmptyDescription() {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, INVALID_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
-        //String url = client.getForEntity("/review", String.class).getBody();
         String url = "/reviews/" + savedId;
-        client.put(url, request);
 
-        ResponseEntity<ErrorDto> response = client.getForEntity(url,ErrorDto.class);
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
 
         assertNotNull(response);
-        //assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        //assertEquals("Review description is empty",response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
     }
 
@@ -220,16 +230,17 @@ public class ReviewIntegrationTests {
     @Order(9)
     public void testAndUpdateReviewByInvalidRating() {
         ReviewRequestDto request = new ReviewRequestDto(INVALID_RATING, VALID_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
-        //String url = client.getForEntity("/review", String.class).getBody();
         String url = "/reviews/" + savedId;
-        client.put(url, request);
 
-        ResponseEntity<String> response = client.getForEntity(url,String.class);
+        ResponseEntity<ErrorDto> response = client.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                ErrorDto.class
+        );
 
         assertNotNull(response);
-        //assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        //assertEquals("Review rating out of range", response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
     }
 
@@ -240,7 +251,7 @@ public class ReviewIntegrationTests {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         String url = "/reviews/" + invalidReviewId;
 
-        client.delete(url, request);
+        client.delete(url);
         ResponseEntity<String> response = client.getForEntity(url,String.class);
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -252,7 +263,6 @@ public class ReviewIntegrationTests {
     public void testAndDeleteValidReview() {
         String url = "/reviews/" + savedId;
         client.delete(url);
-
         ResponseEntity<String> response = client.getForEntity(url,String.class);
 
         assertNotNull(response);
