@@ -7,6 +7,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
+import org.springframework.http.HttpStatus;
 
 
 @SpringBootTest
@@ -31,7 +34,7 @@ public class CustomerServiceTest {
     @AfterEach
     public void deleteDb(){
         customerRepository.deleteAll();
-        ;
+
     }
 
 
@@ -78,23 +81,31 @@ public class CustomerServiceTest {
 
 
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> customerService.createCustomer(password2,name2, email2));
+
+        GameManagerException e = assertThrows(GameManagerException.class, () -> customerService.createCustomer(password2,name2, email2));
         assertEquals("A customer with this email already exists.",e.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, e.getStatus());
+
     }
 
     @Test
     public void testCreateInvalidCustomerWithInvalidPassword() {
         String name = "Michael";
         String email = "michael@gmail.com";
-        IllegalArgumentException invalidPassword = assertThrows(IllegalArgumentException.class, () -> customerService.createCustomer(name,email,invalid_password_wrong));
+        GameManagerException invalidPassword = assertThrows(GameManagerException.class, () -> customerService.createCustomer(name,email,invalid_password_wrong));
+
         assertEquals("Password must be at least 8 characters long.",invalidPassword.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST,invalidPassword.getStatus());
     }
+
     @Test
     public void testCreateInvalidCustomerWithEmptyPassword(){
         String name = "Michael";
         String email = "michael@gmail.com";
-        IllegalArgumentException emptyPassword = assertThrows(IllegalArgumentException.class, () -> customerService.createCustomer(name,email,null));
+        GameManagerException emptyPassword = assertThrows(GameManagerException.class, () -> customerService.createCustomer(name,email,null));
         assertEquals("Password must be at least 8 characters long.",emptyPassword.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST,emptyPassword.getStatus());
+
     }
 
     @Test
@@ -134,7 +145,7 @@ public class CustomerServiceTest {
         Customer updatedCustomer = new Customer(password,newName, email);
         when(customerRepository.save(any(Customer.class))).thenReturn(updatedCustomer);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,()-> customerService.updateCustomer(email,newName, password) ) ;
+        GameManagerException ex = assertThrows(GameManagerException.class,()-> customerService.updateCustomer(email,newName, password) ) ;
         assertEquals("Failed to update customer with invalid name.",ex.getMessage());
 
     }
