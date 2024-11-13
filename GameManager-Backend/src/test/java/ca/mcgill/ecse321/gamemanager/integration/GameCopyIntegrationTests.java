@@ -52,8 +52,8 @@ public class GameCopyIntegrationTests {
     @BeforeAll
     @AfterAll
     public void clearDb() {
-        gameRepository.deleteAll();
         gameCopyRepository.deleteAll();
+        gameRepository.deleteAll();
     }
 
 

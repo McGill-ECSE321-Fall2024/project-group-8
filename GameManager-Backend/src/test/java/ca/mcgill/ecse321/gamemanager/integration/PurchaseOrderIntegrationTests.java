@@ -51,8 +51,8 @@ public class PurchaseOrderIntegrationTests {
     @BeforeAll
     @AfterAll
     public void clearDb() {
-        gameRepository.deleteAll();
         gameCopyRepository.deleteAll();
+        gameRepository.deleteAll();
         purchaseOrderRepository.deleteAll();
     }
 
