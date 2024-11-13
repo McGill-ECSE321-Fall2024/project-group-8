@@ -320,20 +320,20 @@ public class ReviewServiceTests {
     public void testFindAllReviews(){
         Game game = new Game();
         Customer customer = new Customer();
-        Review Review1 = new Review(1,"1",Date.valueOf(LocalDate.now()),customer, game );
-        Review Review2 = new Review(2,"2",Date.valueOf(LocalDate.now()),customer, game );
+        Review review1 = new Review(1,"1",Date.valueOf(LocalDate.now()),customer, game );
+        Review review2 = new Review(2,"2",Date.valueOf(LocalDate.now()),customer, game );
         List<Review> reviewList = new ArrayList<>();
-        reviewList.add(Review1);
-        reviewList.add(Review2);
+        reviewList.add(review1);
+        reviewList.add(review2);
 
         when(mockReviewRepository.findAll()).thenReturn(reviewList);
         List<Review> gotReviewList = reviewService.findAllReviews();
         assertNotNull(gotReviewList);
         assertEquals(2, gotReviewList.size());
-        assertEquals(Review1, gotReviewList.get(0));
-        assertEquals(Review2, gotReviewList.get(1));
-        assertTrue(reviewList.contains(Review1));
-        assertTrue(reviewList.contains(Review2));
+        assertEquals(review1, gotReviewList.get(0));
+        assertEquals(review2, gotReviewList.get(1));
+        assertTrue(reviewList.contains(review1));
+        assertTrue(reviewList.contains(review2));
 
     }
 

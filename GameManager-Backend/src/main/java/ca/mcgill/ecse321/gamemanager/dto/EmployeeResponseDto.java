@@ -1,14 +1,16 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 
-public class EmployeeDto {
+import ca.mcgill.ecse321.gamemanager.model.Employee;
+
+public class EmployeeResponseDto {
     private String name;
     private String email;
 
-    public EmployeeDto() {}
+    public EmployeeResponseDto() {}
 
-    public EmployeeDto(String name, String email) {
-        this.name = name;
-        this.email = email;
+    public EmployeeResponseDto(Employee employee) {
+        this.name = employee.getName();
+        this.email = employee.getEmail();
     }
 
     public String getName() {
