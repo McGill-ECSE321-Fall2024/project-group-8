@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
 
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Review;
@@ -55,7 +56,7 @@ public class ReviewServiceTests {
     private static final String INVALID_EMPTY_COMMENT  = "";
     private static final String VALID_COMMENT = "The game is excellent";
     private static final String INVALID_LONG_COMMENT = "This is a comment designed to be slightly longer than 1000 characters. It includes some filler text to reach the necessary length and demonstrate how one might handle comments of this size within the constraints of the Steam platform. When you write comments on a game, it's easy to get carried away describing the features, graphics, storyline, and gameplay mechanics. For instance, let's talk about the combat system—it's fluid and dynamic, allowing for seamless transitions between moves, and the AI opponents are challenging without feeling unfair. Additionally, the graphics are stunning, with high-resolution textures and beautiful landscapes that make exploration enjoyable. The developers have done a fantastic job in creating an immersive world that keeps you engaged for hours. As you progress, you can unlock new abilities and upgrades, which add depth and replay value. Not to mention, the storyline is compelling and filled with unexpected twists and turns, making you eager to see what happens next. Overall, this game is a masterclass in design and storytelling, and I highly recommend it. I'm excited to see how the game evolves with future updates, as the potential for even more content is enormous. Let's keep supporting such dedicated developers!\n";
-    // TODO: 4 find methods with valid and invalid cases
+
     @Test
     public void testAndCreateValidReview() {
         int gameId = 1;
@@ -88,10 +89,11 @@ public class ReviewServiceTests {
         int gameId = 1;
         String customerEmail = "example@example.com";
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(VALID_RATING, INVALID_EMPTY_COMMENT, customerEmail, gameId));
+        GameManagerException e = assertThrows(GameManagerException.class, () -> reviewService.createReview(VALID_RATING, INVALID_EMPTY_COMMENT, customerEmail, gameId));
         //  IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> service.findPersonById(invalidId));
 
         assertEquals("Review description is empty", e.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, e.getStatus());
 
     }
 
@@ -100,8 +102,9 @@ public class ReviewServiceTests {
         int gameId = 1;
         String customerEmail = "example@example.com";
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(VALID_RATING, INVALID_LONG_COMMENT, customerEmail, gameId));
+        GameManagerException e = assertThrows(GameManagerException.class, () -> reviewService.createReview(VALID_RATING, INVALID_LONG_COMMENT, customerEmail, gameId));
         assertEquals("Review description out of range", e.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, e.getStatus());
     }
 
     @Test
@@ -109,26 +112,28 @@ public class ReviewServiceTests {
         int gameId = 1;
         String customerEmail = "example@example.com";
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(INVALID_LOW_RATING, VALID_COMMENT, customerEmail, gameId));
+        GameManagerException e = assertThrows(GameManagerException.class, () -> reviewService.createReview(INVALID_LOW_RATING, VALID_COMMENT, customerEmail, gameId));
         assertEquals("Review rating out of range", e.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST,e.getStatus());
     }
 
     @Test
     public void testAndCreateValidReviewWithHighRating() {
         int gameId = 1;
         String customerEmail = "example@example.com";
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> reviewService.createReview(INVALID_HIGH_RATING, VALID_COMMENT, customerEmail, gameId));
+        GameManagerException e = assertThrows(GameManagerException.class, () -> reviewService.createReview(INVALID_HIGH_RATING, VALID_COMMENT, customerEmail, gameId));
         assertEquals("Review rating out of range", e.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, e.getStatus());
     }
 
     @Test
     public void testGetReviewByInvalidReviewId() {
         int reviewId = 11;
         when(mockReviewRepository.findReviewByReviewId(reviewId)).thenReturn(null);
-        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewById(reviewId));
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.findReviewById(reviewId));
 
-        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
-        assertEquals("404 NOT_FOUND \"There is no review with ID 11.\"", ex.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatus());
+        assertEquals("There is no review with ID 11.", ex.getMessage());
 
     }
     @Test
@@ -182,9 +187,11 @@ public class ReviewServiceTests {
     public void testDeleteReviewByInvalidCustomerId() {
         int reviewId = 11;
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(null);
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.deleteReview(reviewId));
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.deleteReview(reviewId));
 
         assertEquals("Review not found", ex.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND,ex.getStatus());
+
     }
 
     @Test
@@ -223,9 +230,9 @@ public class ReviewServiceTests {
         String validDescription = "The game is awful";
 
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(null);
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,validRating,validDescription));
-
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.updateReview(reviewId,validRating,validDescription));
         assertEquals("Review not found", ex.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND,ex.getStatus());
     }
 
     @Test
@@ -242,8 +249,9 @@ public class ReviewServiceTests {
 
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_EMPTY_COMMENT));
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_EMPTY_COMMENT));
         assertEquals("Review description is empty", ex.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST,ex.getStatus());
     }
 
     @Test
@@ -260,9 +268,9 @@ public class ReviewServiceTests {
 
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_LONG_COMMENT));
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.updateReview(reviewId,VALID_RATING,INVALID_LONG_COMMENT));
         assertEquals("Review description out of range", ex.getMessage());
-
+        assertEquals(HttpStatus.BAD_REQUEST,ex.getStatus());
 
     }
 
@@ -281,8 +289,9 @@ public class ReviewServiceTests {
 
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,INVALID_LOW_RATING,VALID_COMMENT));
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.updateReview(reviewId,INVALID_LOW_RATING,VALID_COMMENT));
         assertEquals("Review rating out of range", ex.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST,ex.getStatus());
 
     }
     @Test
@@ -301,8 +310,9 @@ public class ReviewServiceTests {
 
         when(mockReviewRepository.findReviewByReviewId(any(int.class))).thenReturn(review);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> reviewService.updateReview(reviewId,INVALID_HIGH_RATING,VALID_COMMENT));
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.updateReview(reviewId,INVALID_HIGH_RATING,VALID_COMMENT));
         assertEquals("Review rating out of range", ex.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
 
     }
 
@@ -363,9 +373,9 @@ public class ReviewServiceTests {
         when(mockCustomerRepository.findCustomerByEmail(any(String.class))).thenReturn(customer);
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(listReview);
 
-        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByCustomerEmail(customerEmail));
-        assertEquals("404 NOT_FOUND \"There is no review from customer example@example.com.\"", ex.getMessage());
-        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.findReviewsByCustomerEmail(customerEmail));
+        assertEquals("There is no review from customer example@example.com.", ex.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatus());
 
     }
 
@@ -403,9 +413,9 @@ public class ReviewServiceTests {
         when(mockGameRepository.findByGameId(any(int.class))).thenReturn(game);
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(null);
 
-        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByGameId(gameId));
-        assertEquals("404 NOT_FOUND \"There is no review for game 1.\"", ex.getMessage());
-        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.findReviewsByGameId(gameId));
+        assertEquals("There is no review for game 1.", ex.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatus());
     }
 
     @Test
@@ -441,9 +451,9 @@ public class ReviewServiceTests {
         when(mockGameRepository.findByGameId(any(int.class))).thenReturn(game);
         when(mockReviewRepository.findReviewByCreated(any(Customer.class))).thenReturn(null);
 
-        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> reviewService.findReviewsByGameIdDescendingRating(gameId));
-        assertEquals("404 NOT_FOUND \"There is no review for game 1.\"", ex.getMessage());
-        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+        GameManagerException ex = assertThrows(GameManagerException.class, () -> reviewService.findReviewsByGameIdDescendingRating(gameId));
+        assertEquals("There is no review for game 1.", ex.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatus());
     }
 
 }

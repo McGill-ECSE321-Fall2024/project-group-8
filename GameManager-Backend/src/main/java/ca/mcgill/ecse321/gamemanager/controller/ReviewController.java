@@ -6,6 +6,8 @@ import ca.mcgill.ecse321.gamemanager.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.gamemanager.model.Review;
 import ca.mcgill.ecse321.gamemanager.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +33,15 @@ public class ReviewController {
     public ReviewResponseDto updateReview(@PathVariable int rId ,@RequestBody ReviewRequestDto reviewRequestDto) {
         int rating = reviewRequestDto.getRating();
         String description = reviewRequestDto.getDescription();
+        /*
+        try {
+            Review updatedReview = reviewService.updateReview(rId, rating, description);
+            return ResponseEntity.ok("Resource updated successfully");
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+
+         */
         Review updatedReview = reviewService.updateReview(rId, rating, description);
         return new ReviewResponseDto(updatedReview);
 
