@@ -215,6 +215,17 @@ public class EmployeeServiceTests {
 
     }
 
+    @Test
+    public void testDeleteEmployeeWithInvalidEmail() {
+        String InvalidEmail = "example@example.com";
+        when(mockEmployeeRepository.findEmployeeByEmail(any(String.class))).thenReturn(null);
+
+        GameManagerException e = assertThrows(GameManagerException.class, () -> employeeService.deleteEmployee(InvalidEmail));
+
+        assertEquals(HttpStatus.NOT_FOUND,e.getStatus());
+        assertEquals("Invalid Employee email.",e.getMessage());
+    }
+
 
 
 }
