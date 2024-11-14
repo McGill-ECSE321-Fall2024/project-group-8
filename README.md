@@ -54,7 +54,7 @@ The scope of this project is to create an online game website, allowing the owne
 | ------------- | -------------   |
 | Cher Li       | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing, QA documentation, Project Management: committing to issues |
 | Cleo Tang     |  |
-| Nara Yun      |  |
+| Nara Yun      | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing |
 | Sijing Gu     |  |
 | Diane Teo     |  |
 | Ang Li        |  |
