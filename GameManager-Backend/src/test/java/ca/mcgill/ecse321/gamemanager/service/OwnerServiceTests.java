@@ -106,32 +106,27 @@ public class OwnerServiceTests {
     }
 
     @Test
-    public void testGetOwnerByEmail() {
-        Owner owner = new Owner(VALID_PASSWORD, VALID_NAME,VALID_EMAIL);
-        when(mockOwnerRepository.findOwnerByEmail(any(String.class))).thenReturn(owner);
-
-        Owner foundOwner = ownerService.findOwnerByEmail(VALID_EMAIL);
-
-        assertNotNull(foundOwner);
-        assertEquals(VALID_EMAIL, foundOwner.getEmail());
-        assertEquals(VALID_PASSWORD, foundOwner.getPassword());
-        assertEquals(VALID_NAME, foundOwner.getName());
-        verify(mockOwnerRepository, times(1)).findOwnerByEmail(VALID_EMAIL);
-    }
-
-    @Test
     public void testGetOwner() {
         Owner owner0= new Owner(VALID_PASSWORD, VALID_NAME,VALID_EMAIL);
         List<Owner> owners = new ArrayList<>();
         owners.add(owner0);
 
         when(mockOwnerRepository.findAll()).thenReturn(owners);
-        List<Owner> foundOwner = ownerService.getOwner();
+        Owner foundOwner = ownerService.getOwner();
         assertNotNull(foundOwner);
-        assertEquals(owners.size(), foundOwner.size());
-        assertEquals(owner0, foundOwner.get(0));
-        assertTrue(foundOwner.contains(owner0));
+        assertEquals(owner0, foundOwner);
+
         verify(mockOwnerRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void testGetOwnerWithNone() {
+        List<Owner> owners = new ArrayList<>();
+        when(mockOwnerRepository.findAll()).thenReturn(owners);
+
+        GameManagerException e = assertThrows(GameManagerException.class, () -> ownerService.getOwner());
+        assertEquals(HttpStatus.BAD_REQUEST,e.getStatus());
+
     }
 
     @Test
@@ -178,28 +173,6 @@ public class OwnerServiceTests {
 
 
     }
-
-    @Test
-    public void testDeleteOwner() {
-        Owner owner = new Owner(VALID_PASSWORD, VALID_NAME,VALID_EMAIL);
-        when(mockOwnerRepository.findOwnerByEmail(any(String.class))).thenReturn(owner);
-
-        ownerService.deleteOwner(VALID_EMAIL);
-        verify(mockOwnerRepository, times(1)).delete(owner);
-
-    }
-
-    @Test
-    public void testDeleteOwnerWithInvalidEmail() {
-        String InvalidEmail = "example@example.com";
-        when(mockOwnerRepository.findOwnerByEmail(any(String.class))).thenReturn(null);
-
-        GameManagerException e = assertThrows(GameManagerException.class, () -> ownerService.deleteOwner(InvalidEmail));
-
-        assertEquals(HttpStatus.NOT_FOUND,e.getStatus());
-        assertEquals("Owner with email example@example.com does not exist.",e.getMessage());
-    }
-
 
 
 }

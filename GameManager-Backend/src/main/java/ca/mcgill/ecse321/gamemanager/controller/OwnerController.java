@@ -18,20 +18,12 @@ public class OwnerController {
     @Autowired
     private OwnerService ownerService;
 
-    @GetMapping("/{email}")
-    public OwnerResponseDto findOwnerByEmail(@PathVariable String email) {
-        Owner owner = ownerService.findOwnerByEmail(email);
-        return new OwnerResponseDto(owner);
-    }
 
     @GetMapping
-    public List<OwnerResponseDto> getAllOwners() {
-        List<Owner> owners = ownerService.getOwner();
-        List<OwnerResponseDto> ownerResponseDtos = new ArrayList<>();
-        for (Owner owner : owners) {
-            ownerResponseDtos.add(new OwnerResponseDto(owner));
-        }
-        return ownerResponseDtos;
+    public OwnerResponseDto getOwner() {
+       Owner owner = ownerService.getOwner();
+
+        return new OwnerResponseDto(owner);
     }
 
     @PostMapping
@@ -54,10 +46,6 @@ public class OwnerController {
         return new OwnerResponseDto(updatedOwner);
     }
 
-    @DeleteMapping("/{email}")
-    public void deleteOwner(@PathVariable String email) {
-        ownerService.deleteOwner(email);
-    }
 
     @PutMapping("/discount/{gameId}")
     public GameDto updateDiscount(@PathVariable int gameId, @RequestParam float discount) {

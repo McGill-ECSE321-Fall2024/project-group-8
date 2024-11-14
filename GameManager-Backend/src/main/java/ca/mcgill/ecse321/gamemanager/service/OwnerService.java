@@ -23,16 +23,15 @@ public class OwnerService {
     @Autowired
     private GameRepository gameRepo;
 
-    // Retrieve a owner by email (used as ID in this case)
-    public Owner findOwnerByEmail(String email) {
-        Optional<Owner> optionalOwner = Optional.ofNullable(ownerRepo.findOwnerByEmail(email));
-        return optionalOwner.orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "Invalid Owner email."));
+    public Owner getOwner() {
+        List<Owner> gotOwner = (List<Owner>) ownerRepo.findAll();
+        if (gotOwner.size() != 1) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "There should be only one owner in the database.");
+        }
+        return gotOwner.getFirst();
+
     }
 
-    // Retrieve all owners
-    public List<Owner> getOwner() {
-        return (List<Owner>) ownerRepo.findAll();
-    }
 
     // Create a new owner
     @Transactional
@@ -67,15 +66,6 @@ public class OwnerService {
         return ownerRepo.save(owner);
     }
 
-    // Delete a owner by email
-    @Transactional
-    public void deleteOwner(String email) {
-        Owner owner = ownerRepo.findOwnerByEmail(email);
-        if (owner== null) {
-            throw new GameManagerException(HttpStatus.NOT_FOUND, "Owner with email " + email + " does not exist.");
-        }
-        ownerRepo.delete(owner);
-    }
 
     @Transactional
     public Game updateGameDiscount(float discount, int gameId){
