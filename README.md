@@ -56,5 +56,5 @@ The scope of this project is to create an online game website, allowing the owne
 | Cleo Tang     | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing |
 | Nara Yun      | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing |
 | Sijing Gu     | Controller and endpoint documentation for review, DTO class, Unit testing / Service tests, Integration testing for employee, owner and reviews |
-| Diane Teo     |  |
+| Diane Teo     | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing |
 | Ang Li        |  Controller, DTO class,Unit testing/ Service tests, Integration testing |
