@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
 
+import ca.mcgill.ecse321.gamemanager.dto.ReviewListDto;
 import ca.mcgill.ecse321.gamemanager.dto.ReviewRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.gamemanager.model.Review;
@@ -39,13 +40,13 @@ public class ReviewController {
 
 
     @GetMapping("/reviews")
-    public List<ReviewResponseDto> getAllReviews() {
+    public ReviewListDto getAllReviews() {
         Iterable<Review> reviews = reviewService.findAllReviews();
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
         for (Review review : reviews) {
             reviewResponseDtos.add(new ReviewResponseDto(review));
         }
-        return reviewResponseDtos;
+        return new ReviewListDto(reviewResponseDtos);
     }
 
     @GetMapping("/reviews/{rId}")
@@ -55,33 +56,33 @@ public class ReviewController {
     }
 
     @GetMapping("/games/{gId}/reviews")
-    public List<ReviewResponseDto> getReviewByGameId(@PathVariable int gId) {
+    public ReviewListDto getReviewByGameId(@PathVariable int gId) {
         List<Review> reviews = reviewService.findReviewsByGameId(gId);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
         for (Review review : reviews) {
             reviewResponseDtos.add(new ReviewResponseDto(review));
         }
-        return reviewResponseDtos;
+        return new ReviewListDto(reviewResponseDtos);
     }
 
     @GetMapping("/customers/{cEmail}/reviews")
-    public List<ReviewResponseDto> getReviewByEmail(@PathVariable String cEmail) {
+    public ReviewListDto getReviewByEmail(@PathVariable String cEmail) {
         List<Review> reviews = reviewService.findReviewsByCustomerEmail(cEmail);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
         for (Review review : reviews) {
             reviewResponseDtos.add(new ReviewResponseDto(review));
         }
-        return reviewResponseDtos;
+        return new ReviewListDto(reviewResponseDtos);
     }
 
     @GetMapping("/games/{gId}/reviews/descending")
-    public List<ReviewResponseDto> getReviewByGameIdDescendingRating(@PathVariable int gId) {
+    public ReviewListDto getReviewByGameIdDescendingRating(@PathVariable int gId) {
         List<Review> reviews = reviewService.findReviewsByGameIdDescendingRating(gId);
         List<ReviewResponseDto> reviewResponseDtos = new ArrayList<>();
         for (Review review : reviews) {
             reviewResponseDtos.add(new ReviewResponseDto(review));
         }
-        return reviewResponseDtos;
+        return new ReviewListDto(reviewResponseDtos);
     }
 
 
