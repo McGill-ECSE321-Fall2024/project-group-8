@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -33,14 +32,11 @@ public class ReviewService {
     public Review createReview(int rating, String description, String customerEmail, int gameId) {
         if (rating > 5 || rating < 1) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"Review rating out of range");
-            //throw new IllegalArgumentException("Review rating out of range");
         }
         if (description.length()>1000) {
-            //throw new IllegalArgumentException("Review description out of range");
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"Review description out of range");
         }
         if (description.isEmpty()) {
-            //throw new IllegalArgumentException("Review description is empty");
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Review description is empty");
         }
         Date now = Date.valueOf(LocalDate.now());
@@ -56,18 +52,14 @@ public class ReviewService {
         Review review = reviewRepository.findReviewByReviewId(id);
         if (review == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND,"Review not found");
-            //throw new IllegalArgumentException("Review not found");
         }
         if (rating > 5 || rating < 1) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"Review rating out of range");
-            //throw new IllegalArgumentException("Review rating out of range");
         }
         if (description.length()>1000) {
-            //throw new IllegalArgumentException("Review description out of range");
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"Review description out of range");
         }
         if (description.isEmpty()) {
-            //throw new IllegalArgumentException("Review description is empty");
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"Review description is empty");
 
         }
@@ -84,7 +76,6 @@ public class ReviewService {
     public void deleteReview(int id) {
         Review review = reviewRepository.findReviewByReviewId(id);
         if (review == null) {
-            //throw new IllegalArgumentException("Review not found");
             throw new GameManagerException(HttpStatus.NOT_FOUND,"Review not found");
         }
         reviewRepository.delete(review);
@@ -96,8 +87,6 @@ public class ReviewService {
         Review review = reviewRepository.findReviewByReviewId(id);
         if (review == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("There is no review with ID %d.", id));
-            //throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-            //        String.format("There is no review with ID %d.", id));
         }
         return review;
     }
@@ -113,8 +102,6 @@ public class ReviewService {
         List<Review> review = reviewRepository.findReviewByCreated(customer);
         if (review.isEmpty()) {
             throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("There is no review from customer %s.", customerEmail));
-            //throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-            //        String.format("There is no review from customer %s.", customerEmail));
         }
         return review;
     }
@@ -126,8 +113,6 @@ public class ReviewService {
         List<Review> review = reviewRepository.findReviewByGame(game);
         if (review.isEmpty()) {
             throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("There is no review for game %d.", gameId));
-            //throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-            //        String.format("There is no review for game %d.", gameId));
         }
 
         return review;

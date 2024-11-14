@@ -94,6 +94,49 @@ public class ReviewIntegrationTests {
 
     @Test
     @Order(2)
+    public void testGetReviewById() {
+        ResponseEntity<ReviewResponseDto> response = client.getForEntity("/reviews/" + savedId, ReviewResponseDto.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        ReviewResponseDto createdReview = response.getBody();
+        assertEquals(VALID_RATING, createdReview.getRating());
+        assertEquals(VALID_DESCRIPTION, createdReview.getDescription());
+        assertEquals(VALID_EMAIL, createdReview.getReviewerEmail());
+        assertEquals(VALID_GAME_TITLE, createdReview.getGameTitle());
+
+    }
+/*
+    @Test
+    @Order(3)
+    public void testGetReviewByCustomerEmail() {
+        ResponseEntity<ReviewResponseDto> response = client.getForEntity("/customers/"+VALID_EMAIL+"/reviews", ReviewResponseDto.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        ReviewResponseDto createdReview = response.getBody();
+        assertEquals(VALID_RATING, createdReview.getRating());
+        assertEquals(VALID_DESCRIPTION, createdReview.getDescription());
+        assertEquals(VALID_EMAIL, createdReview.getReviewerEmail());
+        assertEquals(VALID_GAME_TITLE, createdReview.getGameTitle());
+    }
+
+    @Test
+    @Order(4)
+    public void testGetReviewByGameId() {
+        ResponseEntity<ReviewResponseDto> response = client.getForEntity("/games/" + VALID_GAME_ID + "/reviews", ReviewResponseDto.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        ReviewResponseDto createdReview = response.getBody();
+        assertEquals(VALID_RATING, createdReview.getRating());
+        assertEquals(VALID_DESCRIPTION, createdReview.getDescription());
+        assertEquals(VALID_EMAIL, createdReview.getReviewerEmail());
+        assertEquals(VALID_GAME_TITLE, createdReview.getGameTitle());
+    }
+*/
+    @Test
+    @Order(5)
     public void testAndUpdateValidReview() {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         String url = "/reviews/" + savedId;
@@ -114,7 +157,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(3)
+    @Order(6)
     public void testAndCreateReviewByInvalidRating() {
 
         Game game = new Game();
@@ -133,7 +176,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(4)
+    @Order(7)
     public void testAndCreateReviewByLongDescription() {
 
         Game game = new Game();
@@ -152,7 +195,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(5)
+    @Order(8)
     public void testAndCreateReviewByEmptyDescription() {
 
         Game game = new Game();
@@ -171,7 +214,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(6)
+    @Order(9)
     public void testAndUpdateReviewByInvalidId() {
         int invalidReviewId = VALID_GAME_ID+1;
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
@@ -188,7 +231,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(7)
+    @Order(10)
     public void testAndUpdateReviewByLongDescription() {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, INVALID_LONG_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
 
@@ -207,7 +250,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(8)
+    @Order(11)
     public void testAndUpdateReviewByEmptyDescription() {
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, INVALID_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         String url = "/reviews/" + savedId;
@@ -225,7 +268,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(9)
+    @Order(12)
     public void testAndUpdateReviewByInvalidRating() {
         ReviewRequestDto request = new ReviewRequestDto(INVALID_RATING, VALID_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
         String url = "/reviews/" + savedId;
@@ -243,7 +286,7 @@ public class ReviewIntegrationTests {
     }
 
     @Test
-    @Order(10)
+    @Order(13)
     public void testAndDeleteReviewByInvalidId() {
         int invalidReviewId = VALID_GAME_ID+1;
         ReviewRequestDto request = new ReviewRequestDto(VALID_NEW_RATING, VALID_NEW_DESCRIPTION, VALID_EMAIL, VALID_GAME_ID);
@@ -257,7 +300,7 @@ public class ReviewIntegrationTests {
 
 
     @Test
-    @Order(11)
+    @Order(14)
     public void testAndDeleteValidReview() {
         String url = "/reviews/" + savedId;
         client.delete(url);
