@@ -6,10 +6,13 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -85,6 +88,32 @@ public class EmployeeIntegrationTests {
 
     @Test
     @Order(4)
+    public void testAndFindEmployeeByEmail() {
+        ResponseEntity<EmployeeResponseDto> response = client.getForEntity("/api/employees/" + VALID_EMAIL, EmployeeResponseDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        EmployeeResponseDto responseBody = response.getBody();
+        assertEquals(VALID_NAME, responseBody.getName());
+        assertEquals(VALID_EMAIL, responseBody.getEmail());
+
+    }
+
+
+    @Test
+    @Order(5)
+    public void testAndFindEmployeeByInvalidEmail() {
+        ResponseEntity<EmployeeResponseDto> response = client.getForEntity("/api/employees/" + NEW_EMAIL, EmployeeResponseDto.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+
+    @Test
+    @Order(6)
     public void testAndUpdateValidEmployee() {
         EmployeeRequestDto request = new EmployeeRequestDto(VALID_NEW_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
         String url = "/api/employees/" + VALID_EMAIL;
@@ -103,7 +132,7 @@ public class EmployeeIntegrationTests {
         assertEquals(VALID_NEW_NAME, createdEmployee.getName());
     }
     @Test
-    @Order(5)
+    @Order(7)
     public void testAndUpdateNotExistingEmployee() {
         EmployeeRequestDto request = new EmployeeRequestDto(VALID_NEW_NAME, NEW_EMAIL, VALID_NEW_PASSWORD);
         String url = "/api/employees/" + NEW_EMAIL;
@@ -119,7 +148,7 @@ public class EmployeeIntegrationTests {
     }
 
     @Test
-    @Order(6)
+    @Order(8)
     public void testAndUpdateEmployeeWithInvalidName() {
         EmployeeRequestDto request = new EmployeeRequestDto(EMPTY_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
         String url = "/api/employees/" + this.VALID_EMAIL;
@@ -135,7 +164,7 @@ public class EmployeeIntegrationTests {
     }
 
     @Test
-    @Order(7)
+    @Order(9)
     public void testAndUpdateEmployeeWithInvalidPassword() {
         EmployeeRequestDto request = new EmployeeRequestDto(VALID_NEW_NAME, VALID_EMAIL, INVALID_PASSWORD);
         String url = "/api/employees/" + this.VALID_EMAIL;
@@ -151,7 +180,7 @@ public class EmployeeIntegrationTests {
     }
 
     @Test
-    @Order(8)
+    @Order(10)
     public void testAndDeleteEmployeeWithInvalidEmail() {
         String url = "/api/employees/" + NEW_EMAIL;
         client.delete(url);
@@ -161,7 +190,7 @@ public class EmployeeIntegrationTests {
     }
 
     @Test
-    @Order(9)
+    @Order(11)
     public void testAndDeleteValidEmployee() {
 
         String url = "/api/employees/" + VALID_EMAIL;

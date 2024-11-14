@@ -17,8 +17,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    // TODO: add new controller methods
-
     @GetMapping("/{email}")
     public EmployeeResponseDto findEmployeeByEmail(@PathVariable String email) {
         Employee employee = employeeService.findEmployeeByEmail(email);
