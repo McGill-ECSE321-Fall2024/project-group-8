@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus; // Import GameStatus enum
-import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus; // Import RequestStatus enum
+import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus;
+import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus;
 
 public class GameDto {
     private int gameId;
