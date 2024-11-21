@@ -4,8 +4,10 @@ import GameDetails from '../components/GameDetails.vue';
 import CreateGame from '../components/CreateGame.vue';
 import UpdateGame from '../components/UpdateGame.vue';
 import Login from '@/components/Login.vue';
+import ApproveGames from '../components/ApproveGames.vue';
 
 const routes = [
+  { path: '/approve-games', component: ApproveGames },
   {
     path: '/',
     name: 'GameList',
