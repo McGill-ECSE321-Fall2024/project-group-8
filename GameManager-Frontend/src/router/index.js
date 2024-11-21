@@ -3,6 +3,7 @@ import GameList from '../components/GameList.vue';
 import GameDetails from '../components/GameDetails.vue';
 import CreateGame from '../components/CreateGame.vue';
 import UpdateGame from '../components/UpdateGame.vue';
+import Login from '@/components/Login.vue';
 
 const routes = [
   {
@@ -30,6 +31,15 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     redirect: '/',
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/',
+    redirect: '/login',
   },
 ];
 
