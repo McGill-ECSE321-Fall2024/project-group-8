@@ -20,5 +20,8 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     // Custom query to search games by category name
     List<Game> findByCategoryName(String categoryName);
+
+    List<Game> findByRequestStatus(Game.RequestStatus requestStatus);
+
 }
 

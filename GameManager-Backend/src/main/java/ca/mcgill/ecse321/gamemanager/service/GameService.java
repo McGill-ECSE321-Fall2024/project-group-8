@@ -67,22 +67,22 @@ public class GameService {
 
      @Transactional
      public Game createGame(String title, String description, String genre, double price, int stock,
-                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId, 
+                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId,
                             String categoryName, String categoryDescription) {
          // Try to fetch the category by ID from the database
          Category category = categoryRepository.findCategoryByCategoryId(categoryId);
-     
+
          // If the category doesn't exist, create and save a new one
          if (category == null) {
              category = new Category(categoryName, categoryDescription);
              category.setCategoryId(categoryId); // Ensure the ID is set if needed
              categoryRepository.save(category);
          }
-     
+
          // Create the Game with the associated Category
          Game gameToCreate = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
          return gameRepository.save(gameToCreate);
-     }     
+     }
 
     /**
      * Search games by keyword or category and sort by popularity, rating, and relevance.
@@ -119,16 +119,16 @@ public class GameService {
     }
 
     @Transactional
-    public Game updateGame(int id, String title, String description, String genre, double price, int stock, 
+    public Game updateGame(int id, String title, String description, String genre, double price, int stock,
                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, int categoryId) {
         Game game = gameRepository.findByGameId(id);
         if (game == null) {
             throw new IllegalArgumentException("There is no game with ID " + id + ".");
         }
-    
+
         // Retrieve the category using the categoryId
         Category category = categoryRepository.findCategoryByCategoryId(categoryId);
-    
+
         // Update the game’s attributes
         game.setTitle(title);
         game.setDescription(description);
@@ -138,10 +138,10 @@ public class GameService {
         game.setGameStatus(gameStatus);
         game.setRequestStatus(requestStatus);
         game.setCategory(category);
-    
+
         return gameRepository.save(game);
     }
-    
+
     @Transactional
     public void deleteGame(int id) {
         Game game = gameRepo.findByGameId(id);
@@ -190,21 +190,27 @@ public class GameService {
     // Helper method to convert Game entity to GameDto
     private GameDto convertToDto(Game game) {
         List<ReviewDto> reviewDtos = game.getReviews().stream()
-            .map(review -> new ReviewDto(review.getReviewId(), review.getDescription(), review.getRating()))
-            .collect(Collectors.toList());
+                .map(review -> new ReviewDto(review.getReviewId(), review.getDescription(), review.getRating()))
+                .collect(Collectors.toList());
 
         return new GameDto(
-            game.getGameId(),
-            game.getTitle(),
-            game.getDescription(),
-            game.getGenre(),
-            game.getPrice(),
-            game.getStock(),
-            game.getPopularity(),
-            game.getAverageRating(),
-            reviewDtos
+                game.getGameId(),
+                game.getTitle(),
+                game.getDescription(),
+                game.getGenre(),
+                game.getPrice(),
+                game.getStock(),
+                game.getPopularity(),
+                game.getAverageRating(),
+                reviewDtos,
+                game.getGameStatus(),
+                game.getRequestStatus(),
+                game.getCategory() != null ? game.getCategory().getCategoryId() : 0,
+                game.getCategory() != null ? game.getCategory().getName() : null,
+                game.getCategory() != null ? game.getCategory().getDescription() : null
         );
     }
+
 
     /**
      * Handle an invalid search input or no search results found.
@@ -218,5 +224,48 @@ public class GameService {
         }
         return "No results found for \"" + keyword + "\". Please try again or check the spelling.";
     }
+
+    @Transactional
+    public List<Game> findPendingGames() {
+        return gameRepository.findByRequestStatus(Game.RequestStatus.PendingApproval);
+    }
+
+    @Transactional
+    public Game approveGameAddition(int gameId) {
+        Game game = gameRepository.findByGameId(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
+        }
+        if (game.getRequestStatus() != Game.RequestStatus.PendingApproval) {
+            throw new IllegalStateException("Game with ID " + gameId + " is not pending approval.");
+        }
+
+        game.setRequestStatus(Game.RequestStatus.Approved);
+        game.setGameStatus(Game.GameStatus.Available); // Make the game available for purchase
+        return gameRepository.save(game);
+    }
+
+    @Transactional
+    public Game rejectGameAddition(int gameId) {
+        Game game = gameRepository.findByGameId(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
+        }
+        if (game.getRequestStatus() != Game.RequestStatus.PendingApproval) {
+            throw new IllegalStateException("Game with ID " + gameId + " is not pending approval.");
+        }
+
+        game.setRequestStatus(Game.RequestStatus.Archived); // Mark game as archived
+        game.setGameStatus(Game.GameStatus.Archived); // Update the status
+        return gameRepository.save(game);
+    }
+
+    @Transactional
+    public Game updateGameStatus(int gameId, Game.GameStatus newStatus) {
+        Game game = findByGameId(gameId);
+        game.setGameStatus(newStatus);
+        return gameRepository.save(game);
+    }
+
 
 }

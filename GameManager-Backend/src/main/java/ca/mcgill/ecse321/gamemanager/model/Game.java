@@ -15,7 +15,7 @@ public class Game
   // ENUMERATIONS
   //------------------------
 
-  public enum GameStatus { Onsale, Available, Archived }
+  public enum GameStatus { Onsale, Available, Archived, PendingOrder }
   public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
@@ -286,4 +286,5 @@ public class Game
             && this.getCategory().equals(that.getCategory());
 
   }
+
 }

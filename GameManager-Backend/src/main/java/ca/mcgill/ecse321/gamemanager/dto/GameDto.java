@@ -2,10 +2,12 @@ package ca.mcgill.ecse321.gamemanager.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus;
-import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus;
+import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus; // Import GameStatus enum
+import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus; // Import RequestStatus enum
 
 public class GameDto {
     private int gameId;
@@ -17,17 +19,33 @@ public class GameDto {
     private int popularity;
     private double averageRating;
     private List<ReviewDto> reviews;
-    private GameStatus gameStatus;
+    private GameStatus gameStatus; // Ensure these enums are correctly defined
     private RequestStatus requestStatus;
-    private Category category;
     private int categoryId;
+    private String categoryName;
+    private String categoryDescription;
 
     // Default constructor
     public GameDto() {
     }
 
     // Constructor with all attributes
-    public GameDto(int gameId, String title, String description, String genre, double price, int stock, int popularity, double averageRating, List<ReviewDto> reviews, GameStatus gameStatus, RequestStatus requestStatus, Category category) {
+    public GameDto(
+            int gameId,
+            String title,
+            String description,
+            String genre,
+            double price,
+            int stock,
+            int popularity,
+            double averageRating,
+            List<ReviewDto> reviews,
+            GameStatus gameStatus,
+            RequestStatus requestStatus,
+            int categoryId,
+            String categoryName,
+            String categoryDescription
+    ) {
         this.gameId = gameId;
         this.title = title;
         this.description = description;
@@ -39,9 +57,12 @@ public class GameDto {
         this.reviews = reviews;
         this.gameStatus = gameStatus;
         this.requestStatus = requestStatus;
-        this.category = category;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
     }
 
+    // Constructor for Game entity
     public GameDto(Game game) {
         this.gameId = game.getGameId();
         this.title = game.getTitle();
@@ -55,71 +76,85 @@ public class GameDto {
         this.gameStatus = game.getGameStatus();
         this.requestStatus = game.getRequestStatus();
         this.categoryId = game.getCategory() != null ? game.getCategory().getCategoryId() : 0;
+        this.categoryName = game.getCategory() != null ? game.getCategory().getName() : null;
+        this.categoryDescription = game.getCategory() != null ? game.getCategory().getDescription() : null;
     }
 
-    public GameDto(int gameId, String title, String description, String genre, double price, int stock, int popularity, double averageRating, List<ReviewDto> reviews) {
-        this.gameId = gameId;
-        this.title = title;
-        this.description = description;
-        this.genre = genre;
-        this.price = price;
-        this.stock = stock;
-        this.popularity = popularity;
-        this.averageRating = averageRating;
-        this.reviews = reviews;
+    public GameDto(int i, String validTitle, String validDescription, String validGenre, double validPrice, int validStock, int i1, double v, Object o) {
     }
 
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
+    // Getters and setters for all attributes
     public int getGameId() {
         return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
     public String getTitle() {
         return title;
     }
-    
+
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public String getGenre() {
         return genre;
     }
-    
+
     public void setGenre(String genre) {
         this.genre = genre;
     }
-    
+
     public double getPrice() {
         return price;
     }
-    
+
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
     public int getStock() {
         return stock;
     }
-    
+
     public void setStock(int stock) {
         this.stock = stock;
-    }    
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public List<ReviewDto> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDto> reviews) {
+        this.reviews = reviews;
+    }
 
     public GameStatus getGameStatus() {
         return gameStatus;
@@ -137,12 +172,28 @@ public class GameDto {
         this.requestStatus = requestStatus;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
     }
 
     @Override
@@ -159,7 +210,9 @@ public class GameDto {
                 ", reviews=" + reviews +
                 ", gameStatus=" + gameStatus +
                 ", requestStatus=" + requestStatus +
-                ", category=" + category +
+                ", categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", categoryDescription='" + categoryDescription + '\'' +
                 '}';
     }
 }

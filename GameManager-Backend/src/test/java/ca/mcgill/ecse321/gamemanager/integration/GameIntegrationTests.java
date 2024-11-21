@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
+import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import org.junit.jupiter.api.*;
@@ -62,8 +63,22 @@ public class GameIntegrationTests {
     @Order(1)
     public void testCreateValidGame() {
         // Arrange
-        GameDto request = new GameDto(0, VALID_TITLE, VALID_DESCRIPTION, VALID_GENRE, VALID_PRICE, VALID_STOCK, 0, 0.0, null);
-        request.setCategoryId(validCategoryId);
+        GameDto request = new GameDto(
+                0,
+                VALID_TITLE,        // Title
+                VALID_DESCRIPTION,  // Description
+                VALID_GENRE,        // Genre
+                VALID_PRICE,        // Price
+                VALID_STOCK,        // Stock
+                0,                  // Popularity
+                0.0,                // Average Rating
+                null,               // Reviews
+                Game.GameStatus.Available,  // Game Status (match enum)
+                Game.RequestStatus.PendingApproval, // Request Status (match enum)
+                validCategoryId,    // Category ID
+                "Adventure",        // Category Name
+                "Adventure games"   // Category Description
+        );
 
         // Act
         ResponseEntity<GameDto> response = client.postForEntity("/api/games", request, GameDto.class);
@@ -71,6 +86,8 @@ public class GameIntegrationTests {
         // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
+        // Verify the created game
         GameDto createdGame = response.getBody();
         assertNotNull(createdGame);
         assertEquals(VALID_TITLE, createdGame.getTitle());
@@ -78,11 +95,13 @@ public class GameIntegrationTests {
         assertEquals(VALID_GENRE, createdGame.getGenre());
         assertEquals(VALID_PRICE, createdGame.getPrice());
         assertEquals(VALID_STOCK, createdGame.getStock());
-        assertNotNull(createdGame.getGameId());
+        assertEquals(Game.GameStatus.Available, createdGame.getGameStatus());
+        assertEquals(Game.RequestStatus.PendingApproval, createdGame.getRequestStatus());
 
-        // Save the ID for further tests
+        // Save the game ID for further tests
         this.validGameId = createdGame.getGameId();
     }
+
 
     @Test
     @Order(2)
@@ -107,14 +126,31 @@ public class GameIntegrationTests {
     public void testUpdateGame() {
         // Arrange
         String url = "/api/games/" + this.validGameId;
-        GameDto updatedRequest = new GameDto(this.validGameId, "Updated Game Title", "Updated description", "RPG", 49.99, 20, 5, 4.5, null);
-        updatedRequest.setCategoryId(validCategoryId);
+        GameDto updatedRequest = new GameDto(
+                this.validGameId,
+                "Updated Game Title",
+                "Updated description",
+                "RPG",
+                49.99,
+                20,
+                5,
+                4.5,
+                null,
+                Game.GameStatus.Available,
+                Game.RequestStatus.Approved,
+                validCategoryId,
+                "Adventure",
+                "Adventure games"
+        );
 
         // Act
         client.put(url, updatedRequest);
 
         // Retrieve updated game
         ResponseEntity<GameDto> response = client.getForEntity(url, GameDto.class);
+
+        // Debugging: Log response
+        System.out.println(response.getBody());
 
         // Assert
         assertNotNull(response);
@@ -127,6 +163,7 @@ public class GameIntegrationTests {
         assertEquals(49.99, updatedGame.getPrice());
         assertEquals(20, updatedGame.getStock());
     }
+
 
     @Test
     @Order(4)

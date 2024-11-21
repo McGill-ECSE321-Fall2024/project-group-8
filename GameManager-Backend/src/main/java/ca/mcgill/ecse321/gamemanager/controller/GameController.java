@@ -128,4 +128,35 @@ public class GameController {
     public String handleInvalidSearch(@RequestParam String keyword) {
         return gameService.handleInvalidSearch(keyword);
     }
+    @GetMapping("/pending")
+    public List<GameDto> getPendingGames() {
+        List<Game> pendingGames = gameService.findPendingGames();
+        return pendingGames.stream().map(GameDto::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Approve a game addition.
+     */
+    @PutMapping("/{id}/approve")
+    public GameDto approveGame(@PathVariable int id) {
+        Game approvedGame = gameService.approveGameAddition(id);
+        return new GameDto(approvedGame);
+    }
+
+    /**
+     * Reject a game addition.
+     */
+    @PutMapping("/{id}/reject")
+    public GameDto rejectGame(@PathVariable int id) {
+        Game rejectedGame = gameService.rejectGameAddition(id);
+        return new GameDto(rejectedGame);
+    }
+
+    @PutMapping("/{id}/status")
+    public GameDto updateGameStatus(@PathVariable int id, @RequestParam Game.GameStatus newStatus) {
+        Game updatedGame = gameService.updateGameStatus(id, newStatus);
+        return new GameDto(updatedGame);
+    }
+
+
 }
