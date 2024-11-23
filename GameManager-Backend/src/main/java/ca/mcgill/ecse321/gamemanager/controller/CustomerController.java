@@ -50,7 +50,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{email}/cartAll")
-    public GameListDto getAllInCart(String email){
+    public GameListDto getAllInCart(@PathVariable String email){
         List<Game> games = customerService.getInCart(email);
         List<GameDto> gameDtos = new ArrayList<>();
         for (Game game : games) {

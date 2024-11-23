@@ -24,13 +24,13 @@ public class GameCopyController {
      * @param gameCopyId The primary key of the gameCopy to find.
      * @return The gameCopy with the given ID.
      */
-    @GetMapping("/gamecopy/{gameCopyId}")
+    @GetMapping("/game-copy/{gameCopyId}")
     public GameCopyResponseDto findGameCopyByGameCopyId(@PathVariable int gameCopyId){
         GameCopy gameCopy = gameCopyService.findGameCopyByGameCopyId(gameCopyId);
         return new GameCopyResponseDto(gameCopy);
     }
 
-    @GetMapping("/game/{gameid}/gamecopies")
+    @GetMapping("/game/{gameid}/game-copies")
     public List<GameCopyResponseDto> findGameCopiesByGameId(@PathVariable int gameid){
         List<GameCopy> gameCopies = gameCopyService.findGameCopiesByGame(gameid);
         List<GameCopyResponseDto> gameCopyResponseDtos = new ArrayList<>();
@@ -40,19 +40,19 @@ public class GameCopyController {
         return gameCopyResponseDtos;
     }
 
-    @GetMapping("/game/{gameid}/gamecopies/count")
+    @GetMapping("/game/{gameid}/game-copies/count")
     public long countGameCopyOfGame(@PathVariable int gameid) {
         return gameCopyService.countGameCopyOfGame(gameid);
     }
 
-    @PostMapping("/gamecopy")
+    @PostMapping("/game-copy")
     @ResponseStatus(HttpStatus.CREATED)
     public GameCopyResponseDto createGameCopy(@RequestBody GameCopyRequestDto gameCopyRequestDto) {
         GameCopy savedGameCopy = gameCopyService.createGameCopy(gameCopyRequestDto.getGame().getGameId());
         return new GameCopyResponseDto(savedGameCopy);
     }
 
-    @DeleteMapping("/gamecopy/{gameCopyId}")
+    @DeleteMapping("/game-copy/{gameCopyId}")
     public ResponseEntity<Void> deleteGameCopy(@PathVariable int gameCopyId){
         gameCopyService.returnGameCopy(gameCopyId);
         return ResponseEntity.noContent().build();

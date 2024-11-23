@@ -71,7 +71,7 @@ public class GameCopyIntegrationTests {
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
 
         // Act
-        ResponseEntity<GameCopyResponseDto> response = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
+        ResponseEntity<GameCopyResponseDto> response = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
 
         // Assert
         assertNotNull(response);
@@ -101,7 +101,7 @@ public class GameCopyIntegrationTests {
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
 
         // Act
-        ResponseEntity<ErrorDto> response = client.postForEntity("/gamecopy", request, ErrorDto.class);
+        ResponseEntity<ErrorDto> response = client.postForEntity("/game-copy", request, ErrorDto.class);
 
         // Assert
         assertNotNull(response);
@@ -123,10 +123,10 @@ public class GameCopyIntegrationTests {
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
-        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
+        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
-        String url = "/gamecopy/" + this.validGameCopyId;
+        String url = "/game-copy/" + this.validGameCopyId;
 
         // Act
         ResponseEntity<GameCopyResponseDto> response = client.getForEntity(url, GameCopyResponseDto.class);
@@ -148,7 +148,7 @@ public class GameCopyIntegrationTests {
     @Order(4)
     public void testFindGameCopyByInvalidGameCopyId(){
         // Arrange
-        String url = "/gamecopy/" + this.INVALID_GAME_COPY_ID;
+        String url = "/game-copy/" + this.INVALID_GAME_COPY_ID;
 
         // Act
         ResponseEntity<ErrorDto> response = client.getForEntity(url, ErrorDto.class);
@@ -173,10 +173,10 @@ public class GameCopyIntegrationTests {
         Game savedGame = gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
-        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
+        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
-        String url = "/game/"+ savedGame.getGameId() + "/gamecopies";
+        String url = "/game/"+ savedGame.getGameId() + "/game-copies";
 
         // Act
         ResponseEntity<List<GameCopyResponseDto>> response = client.exchange(
@@ -203,7 +203,7 @@ public class GameCopyIntegrationTests {
     @Order(6)
     public void testFindGameCopyByInvalidGameId() {
         // Arrange
-        String url = "/game/" + INVALID_GAME_ID + "/gamecopies";
+        String url = "/game/" + INVALID_GAME_ID + "/game-copies";
 
         // Act
         ResponseEntity<ErrorDto> response = client.getForEntity(url, ErrorDto.class);
@@ -228,10 +228,10 @@ public class GameCopyIntegrationTests {
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
-        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
+        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
-        String url = "/game/" + validGameId + "/gamecopies/count";
+        String url = "/game/" + validGameId + "/game-copies/count";
 
         // Act
         ResponseEntity<Integer> response = client.getForEntity(url, Integer.class);
@@ -253,7 +253,7 @@ public class GameCopyIntegrationTests {
         game.setTitle(TITLE);
         Game savedGame = gameRepository.save(game);
         validGameId = savedGame.getGameId();
-        String url = "/game/" + validGameId + "/gamecopies/count";
+        String url = "/game/" + validGameId + "/game-copies/count";
 
         // Act
         ResponseEntity<Integer> response = client.getForEntity(url, Integer.class);
@@ -275,9 +275,9 @@ public class GameCopyIntegrationTests {
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
-        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
+        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
-        String url = "/gamecopy/" + validGameCopyId;
+        String url = "/game-copy/" + validGameCopyId;
 
         // Act
         client.delete(url, GameCopyResponseDto.class);
@@ -300,11 +300,11 @@ public class GameCopyIntegrationTests {
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
         GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
-        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/gamecopy", request, GameCopyResponseDto.class);
+        ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
-        String deleteUrl = "/gamecopy/" + INVALID_GAME_COPY_ID;
-        String findUrl = "/gamecopy/" + validGameCopyId;
+        String deleteUrl = "/game-copy/" + INVALID_GAME_COPY_ID;
+        String findUrl = "/game-copy/" + validGameCopyId;
 
         // Act
         client.delete(deleteUrl, GameCopyResponseDto.class);

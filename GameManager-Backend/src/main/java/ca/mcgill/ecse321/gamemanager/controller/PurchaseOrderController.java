@@ -57,8 +57,6 @@ public class PurchaseOrderController {
     public PurchaseOrderDto addGameToCart(@PathVariable int id, @RequestBody List<Integer> gameCopyIds) {
         PurchaseOrder cart = orderService.addGameToCart(id, gameCopyIds);
         PurchaseOrderDto orderDto = new PurchaseOrderDto(cart);
-        System.out.println("hello");
-        System.out.println(orderDto.getGameCopies());
         return orderDto;
     }
 
