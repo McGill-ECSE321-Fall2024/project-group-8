@@ -89,6 +89,19 @@ public class CustomerService {
         return customerRepo.save(customer);
     }
     @Transactional
+    public List<Game> getAllInCart(String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        return customer.getInCart();
+    }
+
+
+    @Transactional
     public Customer addInWishlist(int gameId, String email){
         if (email == null || email.isEmpty()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
