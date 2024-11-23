@@ -12,11 +12,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -51,7 +48,7 @@ public class CustomerService {
         }
         Customer customer = customerRepo.findCustomerByEmail(email);
         if (customer == null) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Customer with this email does not exist.");
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
         }
         String encryptedPassword = SHA256Encryption.getSHA(password);
         if(!customer.getPassword().equals(encryptedPassword)) {
@@ -59,6 +56,105 @@ public class CustomerService {
         }
         return customer;
     }
+    @Transactional
+    public Customer addInCart(int gameId, String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        Game game = gameRepo.findByGameId(gameId);
+        if (game == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.addInCart(game);
+        return customerRepo.save(customer);
+    }
+    @Transactional
+    public Customer removeInCart(int gameId, String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        Game game = gameRepo.findByGameId(gameId);
+        if (game == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.removeInCart(game);
+        return customerRepo.save(customer);
+    }
+    @Transactional
+    public Customer addInWishlist(int gameId, String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        Game game = gameRepo.findByGameId(gameId);
+        if (game == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.addInWishlist(game);
+        return customerRepo.save(customer);
+    }
+    @Transactional
+    public Customer removeInWishList(int gameId, String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        Game game = gameRepo.findByGameId(gameId);
+        if (game == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.removeInWishlist(game);
+        return customerRepo.save(customer);
+    }
+    @Transactional
+    public Customer addPurchaseOrder(int orderId, String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        PurchaseOrder order = purchaseOrderRepo.findByOrderId(orderId);
+        if (order == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Order with this id does not exist.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.addPurchaseOrder(order);
+        return customerRepo.save(customer);
+
+    }
+    @Transactional
+    public Customer removePurchaseOrder(int orderId, String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
+        }
+        PurchaseOrder order = purchaseOrderRepo.findByOrderId(orderId);
+        if (order == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Order with this id does not exist.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.removePurchaseOrder(order);
+        return customerRepo.save(customer);
+
+    }
+
 
 
 

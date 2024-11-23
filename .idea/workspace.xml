@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
-      <change afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/LoginResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/security/SHA256PasswordEncoder.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CustomerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
