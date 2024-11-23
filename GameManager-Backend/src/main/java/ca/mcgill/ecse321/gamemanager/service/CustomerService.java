@@ -45,14 +45,19 @@ public class CustomerService {
     }
 
     @Transactional
-    public boolean loginCustomer(String email, String password) {
+    public Customer loginCustomer(String email, String password) {
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email or password cannot be empty.");
+        }
         Customer customer = customerRepo.findCustomerByEmail(email);
         if (customer == null) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Customer with this email does not exist.");
         }
         String encryptedPassword = SHA256Encryption.getSHA(password);
-        return customer.getPassword().equals(encryptedPassword);
-
+        if(!customer.getPassword().equals(encryptedPassword)) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Customer with this password does not match.");
+        }
+        return customer;
     }
 
 

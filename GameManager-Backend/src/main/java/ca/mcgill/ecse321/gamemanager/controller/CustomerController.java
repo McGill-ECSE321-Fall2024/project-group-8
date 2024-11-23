@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
+import ca.mcgill.ecse321.gamemanager.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +38,20 @@ public class CustomerController {
 
         return new CustomerResponseDto(updatedCustomer);
     }
-/*
-    @GetMapping("/customers/login")
-    public CustomerResponseDto login(@RequestParam String email, @RequestParam String password) {
 
+    @PostMapping("/customers/login")
+    public LoginResponse login(@RequestBody CustomerRequestDto customerRequestDto) {
+        String email = customerRequestDto.getEmail();
+        String password = customerRequestDto.getPassword();
+        LoginResponse response = new LoginResponse();
+        if (customerService.loginCustomer(email,password) != null){
+            response.setSuccess(true);
+            response.setMessage("Successfully logged in");
+            response.setUserEmail(email);
+        }
+        return response;
     }
-*/
+
 
 
     @GetMapping("/customers")
