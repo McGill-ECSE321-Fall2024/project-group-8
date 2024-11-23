@@ -1,11 +1,10 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
-import ca.mcgill.ecse321.gamemanager.dto.LoginResponse;
+import ca.mcgill.ecse321.gamemanager.dto.*;
+import ca.mcgill.ecse321.gamemanager.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ca.mcgill.ecse321.gamemanager.dto.CustomerResponseDto;
-import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.service.CustomerService;
 
@@ -48,6 +47,17 @@ public class CustomerController {
         String email = customerRequestDto.getEmail();
         Customer customer = customerService.removeInCart(gId, email);
         return new CustomerResponseDto(customer);
+    }
+
+    @GetMapping("/customers/{email}/cartAll")
+    public GameListDto getAllInCart(String email){
+        List<Game> games = customerService.getInCart(email);
+        List<GameDto> gameDtos = new ArrayList<>();
+        for (Game game : games) {
+            GameDto gameListDto = new GameDto(game);
+            gameDtos.add(gameListDto);
+        }
+        return new GameListDto(gameDtos);
     }
 
     @PutMapping("/customers/addWishList/{gId}")
