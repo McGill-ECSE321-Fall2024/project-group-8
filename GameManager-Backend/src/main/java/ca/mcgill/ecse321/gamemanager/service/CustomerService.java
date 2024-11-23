@@ -38,9 +38,21 @@ public class CustomerService {
            // throw new IllegalArgumentException("Password must be at least 8 characters long.");
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters long.");
         }
+        String encryptedPassword = SHA256Encryption.getSHA(password);
 
-        Customer newCustomer = new Customer(password,name, email);
+        Customer newCustomer = new Customer(encryptedPassword,name, email);
         return customerRepo.save(newCustomer);
+    }
+
+    @Transactional
+    public boolean loginCustomer(String email, String password) {
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Customer with this email does not exist.");
+        }
+        String encryptedPassword = SHA256Encryption.getSHA(password);
+        return customer.getPassword().equals(encryptedPassword);
+
     }
 
 

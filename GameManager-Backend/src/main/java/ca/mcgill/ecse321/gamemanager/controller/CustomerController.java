@@ -37,7 +37,12 @@ public class CustomerController {
 
         return new CustomerResponseDto(updatedCustomer);
     }
+/*
+    @GetMapping("/customers/login")
+    public CustomerResponseDto login(@RequestParam String email, @RequestParam String password) {
 
+    }
+*/
 
 
     @GetMapping("/customers")
