@@ -55,6 +55,10 @@ public class CustomerController {
         List<GameDto> gameDtos = new ArrayList<>();
         for (Game game : games) {
             GameDto gameListDto = new GameDto(game);
+            if (gameDtos.contains(gameListDto)){
+                gameListDto.increaseQuantity();
+                continue;
+            }
             gameDtos.add(gameListDto);
         }
         return new GameListDto(gameDtos);

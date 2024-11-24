@@ -7,10 +7,10 @@
         <p>Price: ${{ game.price }}</p>
         <div class="quantity-controls">
           <button @click="decreaseQuantity(game)">-</button>
-          <span>{{ getQuantity(game.gameId) }}</span>
+          <span>{{ game.quantity }}</span>
           <button @click="increaseQuantity(game)">+</button>
         </div>
-        <p>${{ getQuantity(game.gameId) * game.price }}</p>
+        <p>${{ (game.quantity * game.price).toFixed(2) }}</p>
       </div>
     </div>
     <div class="checkout-box">
@@ -23,53 +23,43 @@
 
 <script>
 import axios from "axios";
+import Payment from "@/components/Payment.vue";
 
 export default {
   name: "cart",
   data() {
     return {
-      customer: null,
-      // cart: [],
-      cart : [
-        { gameId: "01", price: 0.1, title: "Chess" },
-        { gameId: "02", price: 0.2, title: "Checkers" },
-        { gameId: "01", price: 0.1, title: "Chess" },
-      ],
+      customer: {
+        name:"",
+        email:"",
+        password:"",
+      },
+      cart: [],
     };
   },
   async created() {
     try {
-      let user_name = sessionStorage.getItem("name");
-      let user_email = sessionStorage.getItem("email");
-      let user_psw = sessionStorage.getItem("password");
-      this.customer = {
-        name:user_name,
-        email: user_email,
-        password: user_psw
-      }
-      axios.get(`/customers/${user_email}/cartAll`) // API call to the Controller
-      .then();//response => {this.cart = response.data;});
+      const routes = [
+        { path: '/payment', component: Payment },
+      ]
+      this.customer = JSON.parse(sessionStorage.getItem("user"));
+      console.log(this.customer.email);
+      // axios.post()
+      axios.get(`/customers/${this.customer.email}/cartAll`) // API call to the Controller
+      .then(response => {this.cart = response.data;});
     } catch (error) {
       console.error("Error fetching cart games:", error);
     }
   },
   computed: {
     totalCartPrice() {
-      return this.cart.reduce((total, game) => total + game.price * this.getQuantity(game.gameId), 0);
+      return this.cart.reduce((total, game) => total + game.price * game.quantity, 0).toFixed(2);
     },
   },
   methods: {
-    getQuantity(gameId){
-      let quantity = 0;
-      for (const game of this.cart) {
-        if (game.gameId === gameId) {
-          quantity++; // Increment count if the gameId matches
-        }
-      }
-      return quantity;
-    },
     increaseQuantity(game) {
       try {
+        game.quantity++;
         const response = axios.put(`/customers/addCart/${game.gameId}`, this.customer, {
           headers: { 'Content-Type': 'application/json'}
         });
@@ -81,6 +71,7 @@ export default {
     },
     decreaseQuantity(game) {
       try {
+        if (game.quantity > 1) game.quantity--;
         const response = axios.put(`/customers/removeInCart/${game.gameId}`, this.customer, {
           headers: { 'Content-Type': 'application/json'}
         });
@@ -91,8 +82,21 @@ export default {
       }
     },
     checkout() {
-      alert("Proceeding to checkout with total: $" + this.totalCartPrice);
+      // Get payment details from localStorage
+      const paymentDetails = JSON.parse(localStorage.getItem("paymentDetails"));
+
+      // Check if payment details exist
+      if (paymentDetails && paymentDetails.customer === this.customer.email) {
+        if (this.totalCartPrice > 0) {
+          alert("Proceeding to checkout with total: $" + this.totalCartPrice);
+        } else {
+          alert("The price is zero. Please add items to your cart.");
+        }
+      } else {
+        this.$router.push("/payment");
+      }
     },
+
   },
 };
 </script>
