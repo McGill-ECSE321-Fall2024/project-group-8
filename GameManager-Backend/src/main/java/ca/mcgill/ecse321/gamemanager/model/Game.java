@@ -15,7 +15,7 @@ public class Game
   // ENUMERATIONS
   //------------------------
 
-  public enum GameStatus { Onsale, Available, Archived, PendingOrder }
+  public enum GameStatus { Onsale, Available, Archived, PendingApproval }
   public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------

@@ -6,19 +6,14 @@ import UpdateGame from '../components/UpdateGame.vue';
 import Login from '@/components/Login.vue';
 import ApproveGames from "@/components/ApproveGames.vue";
 import Cart from "@/components/Cart.vue";
-<<<<<<< HEAD
 import Payment from "@/components/Payment.vue";
 import Category from "@/components/Category.vue";
+import AddRemoveGames from "@/components/AddRemoveGames.vue";
 
-const routes = [
-  { path: '/approve-games',
-    component: ApproveGames },
-=======
-import ApproveGames from '../components/ApproveGames.vue';
 
 const routes = [
   { path: '/approve-games', component: ApproveGames },
->>>>>>> 34fd522 (..)
+
   {
     path: '/',
     name: 'GameList',
@@ -68,6 +63,11 @@ const routes = [
     path: '/category',
     name: 'Categories',
     component: Category,
+  },
+  {
+    path: "/games/manage",
+    name: "AddRemoveGames",
+    component: AddRemoveGames,
   }
 ];
 
