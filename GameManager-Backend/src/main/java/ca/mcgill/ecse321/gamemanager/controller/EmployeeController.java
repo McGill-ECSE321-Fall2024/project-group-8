@@ -33,6 +33,11 @@ public class EmployeeController {
         return employeesDtos;
     }
 
+    @GetMapping("/isEmployee/{email}")
+    public boolean isEmployeeExist(@PathVariable String email) {
+        return employeeService.isEmployeeExist(email);
+    }
+
     @PostMapping
     public EmployeeResponseDto createEmployee(@RequestBody EmployeeRequestDto employeeRequestDto) {
         Employee createdEmployee = employeeService.createEmployee(

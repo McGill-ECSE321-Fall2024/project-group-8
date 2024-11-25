@@ -26,6 +26,12 @@ public class OwnerController {
         return new OwnerResponseDto(owner);
     }
 
+    @GetMapping("/IsOwner/{email}")
+    public boolean isOwner(@PathVariable String email) {
+        return ownerService.isOwner(email);
+    }
+
+
     @PostMapping
     public OwnerResponseDto createOwner(@RequestBody OwnerRequestDto ownerRequestDto) {
         Owner createdOwner = ownerService.createOwner(
