@@ -311,7 +311,7 @@
       <workItem from="1728703706158" duration="348000" />
       <workItem from="1730565994181" duration="4713000" />
       <workItem from="1731377412702" duration="1881000" />
-      <workItem from="1732501366256" duration="1056000" />
+      <workItem from="1732501366256" duration="1437000" />
     </task>
     <task id="LOCAL-00001" summary="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <option name="closed" value="true" />
