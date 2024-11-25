@@ -24,7 +24,7 @@ export default {
     return {
       // Navigation menu items
       menuItems: ["Home", "Create Game", "Categories", "Search", "Cart", "Log in"],
-      menuItemRef: ['/', '/create-game', '/category', '/', '/cart', '/login'],
+      menuItemRef: ['/', '/create-game', '/category', '/search', '/cart', '/login'],
       // Track the selected item
       selectedItem: "Home", // Default selected item
     };
