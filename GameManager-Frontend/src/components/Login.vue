@@ -119,6 +119,7 @@
 
 <script>
 import CreateAccountForm from './CreateAccountForm.vue'
+import axios from "axios";
 
 export default {
   name: 'LoginPage',
