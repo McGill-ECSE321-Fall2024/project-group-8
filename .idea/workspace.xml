@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateAccountForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateAccountForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +45,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -82,7 +86,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -157,6 +161,11 @@
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "E:\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
+    ]
   }
 }]]></component>
   <component name="RunManager" selected="Gradle.EmployeeIntegrationTests">
@@ -311,7 +320,7 @@
       <workItem from="1728703706158" duration="348000" />
       <workItem from="1730565994181" duration="4713000" />
       <workItem from="1731377412702" duration="1881000" />
-      <workItem from="1732501366256" duration="1437000" />
+      <workItem from="1732501366256" duration="3821000" />
     </task>
     <task id="LOCAL-00001" summary="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <option name="closed" value="true" />
