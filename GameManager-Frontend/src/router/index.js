@@ -4,10 +4,14 @@ import GameDetails from '../components/GameDetails.vue';
 import CreateGame from '../components/CreateGame.vue';
 import UpdateGame from '../components/UpdateGame.vue';
 import Login from '@/components/Login.vue';
-import ApproveGames from '../components/ApproveGames.vue';
+import ApproveGames from "@/components/ApproveGames.vue";
+import Cart from "@/components/Cart.vue";
+import Payment from "@/components/Payment.vue";
+import Category from "@/components/Category.vue";
 
 const routes = [
-  { path: '/approve-games', component: ApproveGames },
+  { path: '/approve-games',
+    component: ApproveGames },
   {
     path: '/',
     name: 'GameList',
@@ -31,6 +35,16 @@ const routes = [
     props: true,
   },
   {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment,
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/',
   },
@@ -43,6 +57,11 @@ const routes = [
     path: '/',
     redirect: '/login',
   },
+  {
+    path: '/category',
+    name: 'Categories',
+    component: Category,
+  }
 ];
 
 const router = createRouter({

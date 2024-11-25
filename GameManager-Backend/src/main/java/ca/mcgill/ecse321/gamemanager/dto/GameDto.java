@@ -24,6 +24,7 @@ public class GameDto {
     private int categoryId;
     private String categoryName;
     private String categoryDescription;
+    private int quantity;
 
     // Default constructor
     public GameDto() {
@@ -194,6 +195,16 @@ public class GameDto {
 
     public void setCategoryDescription(String categoryDescription) {
         this.categoryDescription = categoryDescription;
+    }
+
+    public void increaseQuantity(){
+        this.quantity++;
+    }
+
+    public void decreaseQuantity(){
+        if(this.quantity>1) {
+            this.quantity--;
+        }
     }
 
     @Override
