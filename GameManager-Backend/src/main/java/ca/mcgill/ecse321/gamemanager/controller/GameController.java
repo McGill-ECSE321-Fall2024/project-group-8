@@ -159,5 +159,39 @@ public class GameController {
         return new GameDto(updatedGame);
     }
 
+    @PostMapping("/direct-add")
+    public ResponseEntity<GameDto> addGameDirectly(@RequestBody GameRequestDto gameRequestDto) {
+        Game createdGame = gameService.createGame(
+                gameRequestDto.getTitle(),
+                gameRequestDto.getDescription(),
+                gameRequestDto.getGenre(),
+                gameRequestDto.getPrice(),
+                gameRequestDto.getStock(),
+                Game.GameStatus.Available,
+                Game.RequestStatus.Approved,
+                gameRequestDto.getCategoryId(),
+                gameRequestDto.getCategoryName(),
+                gameRequestDto.getCategoryDescription()
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(new GameDto(createdGame));
+    }
+
+//    @DeleteMapping("/direct-remove/{id}")
+//    public ResponseEntity<Void> removeGameDirectly(@PathVariable int id) {
+//        gameService.deleteGame(id);
+//        return ResponseEntity.noContent().build();
+//    }
+    @DeleteMapping("/direct-remove/{id}")
+    public ResponseEntity<Void> removeGameDirectly(@PathVariable int id) {
+        try {
+            gameService.deleteGame(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
 
 }

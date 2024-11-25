@@ -9,10 +9,11 @@ import Cart from "@/components/Cart.vue";
 import Payment from "@/components/Payment.vue";
 import Category from "@/components/Category.vue";
 import CreateAccount from "@/components/CreateAccountForm.vue";
+import AddRemoveGames from "@/components/AddRemoveGames.vue";
 
 const routes = [
-  { path: '/approve-games',
-    component: ApproveGames },
+  { path: '/approve-games', component: ApproveGames },
+
   {
     path: '/',
     name: 'GameList',
@@ -68,6 +69,11 @@ const routes = [
     path: '/category',
     name: 'Categories',
     component: Category,
+  },
+  {
+    path: "/games/manage",
+    name: "AddRemoveGames",
+    component: AddRemoveGames,
   }
 ];
 

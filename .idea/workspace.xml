@@ -71,17 +71,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
+    &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
     &quot;assignee&quot;: &quot;MRJ-G&quot;
-  }
-}</component>
+    }
+    }</component>
   <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/McGill-ECSE321-Fall2024/project-group-8.git&quot;,
-    &quot;accountId&quot;: &quot;e53ee127-8018-40af-98ec-9613811f926f&quot;
-  }
-}</component>
+
+    &quot;accountId&quot;: &quot;3b75fc7b-3f7c-4431-8b5c-a0b64eebe986&quot;
+    }
+    }</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -89,8 +90,8 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
-}</component>
+    &quot;associatedIndex&quot;: 7
+    }</component>
   <component name="ProjectId" id="2n89VUeiNtWzGKctfGLsnVUZDOn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -98,7 +99,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
+    &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Gradle.CategoryIntegrationTests.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor&quot;: &quot;Run&quot;,
@@ -161,6 +162,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;E:\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+
   },
   &quot;keyToStringList&quot;: {
     &quot;vue.recent.templates&quot;: [
@@ -168,6 +170,7 @@
     ]
   }
 }</component>
+
   <component name="RunManager" selected="Gradle.EmployeeIntegrationTests">
     <configuration name="EmployeeIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>

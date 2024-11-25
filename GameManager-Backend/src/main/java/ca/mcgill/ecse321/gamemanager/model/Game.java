@@ -15,7 +15,7 @@ public class Game
   // ENUMERATIONS
   //------------------------
 
-  public enum GameStatus { Onsale, Available, Archived, PendingOrder }
+  public enum GameStatus { Onsale, Available, Archived, PendingApproval }
   public enum RequestStatus { PendingApproval, Approved, PendingArchived, Archived }
 
   //------------------------
@@ -31,7 +31,9 @@ public class Game
   private String genre;
   private double price;
   private int stock;
+  @Enumerated(EnumType.STRING)
   private GameStatus gameStatus;
+  @Enumerated(EnumType.STRING)
   private RequestStatus requestStatus;
   private int popularity;
   private double averageRating;
