@@ -133,11 +133,7 @@ export default {
         password: '',
         rememberMe: false
       },
-      person: {
-        name:'',
-        email:this.loginForm.email,
-        password:this.loginForm.password,
-      },
+
       loginErrors: {},
       isLoggingIn: false,
       showLoginPassword: false,
@@ -200,7 +196,12 @@ export default {
       }
     },
 
-    async loginUser(credentials) {
+    async loginUser() {
+      this.person={
+        name:'',
+            email:this.loginForm.email,
+            password:this.loginForm.password,
+      };
       // Implement your login API call here
       const ownerResponse = await axios.get(`/IsOwner/${this.person.email}`)
       const employeeResponse = await axios.get(`/IsEmployee/${this.person.email}`)
