@@ -460,7 +460,7 @@ export default {
       };
       this.isSubmitting = true
       try {
-        const response = await axios.post(`/IsOwner/customers`, this.customer)
+        const response = await axios.post(`/customers`, this.customer)
         // Implement your registration API call here
         await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate API call
         this.showSuccessModal = true
