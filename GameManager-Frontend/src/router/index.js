@@ -8,8 +8,8 @@ import ApproveGames from "@/components/ApproveGames.vue";
 import Cart from "@/components/Cart.vue";
 import Payment from "@/components/Payment.vue";
 import Category from "@/components/Category.vue";
+import CreateAccount from "@/components/CreateAccountForm.vue";
 import AddRemoveGames from "@/components/AddRemoveGames.vue";
-
 
 const routes = [
   { path: '/approve-games', component: ApproveGames },
@@ -54,6 +54,12 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+
+  {
+    path: '/create-game',
+    name: 'CreateGame',
+    component: CreateGame,
   },
   {
     path: '/',

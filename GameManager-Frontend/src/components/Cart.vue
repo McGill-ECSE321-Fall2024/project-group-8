@@ -42,7 +42,7 @@ export default {
       const routes = [
         { path: '/payment', component: Payment },
       ]
-      this.customer = JSON.parse(sessionStorage.getItem("user"));
+      this.customer = JSON.parse(sessionStorage.getItem("customer"));
       console.log(this.customer.email);
       // axios.post()
       axios.get(`/customers/${this.customer.email}/cartAll`) // API call to the Controller

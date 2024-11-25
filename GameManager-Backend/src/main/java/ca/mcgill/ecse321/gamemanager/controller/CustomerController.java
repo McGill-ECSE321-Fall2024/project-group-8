@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-
+@CrossOrigin(origins = "http://localhost:5174")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;

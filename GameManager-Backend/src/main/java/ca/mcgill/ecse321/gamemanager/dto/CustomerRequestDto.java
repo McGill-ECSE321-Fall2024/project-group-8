@@ -10,17 +10,11 @@ public class CustomerRequestDto {
     private String name;
     private String email;
     private String password;
-    private List<PurchaseOrder> purchaseOrders;
-    private List<Game> inWishlist;
-    private List<Game> inCart;
 
     public CustomerRequestDto(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        purchaseOrders = new ArrayList<>();
-        inWishlist = new ArrayList<>();
-        inCart = new ArrayList<>();
     }
     public String getName() {
         return name;
@@ -41,9 +35,6 @@ public class CustomerRequestDto {
 
     public String getPassword() {return password;}
 
-    public void sePassword(String password) {
-        this.password = password;
-    }
     public void setPassword(String password) {this.password = password;}
 
 }
