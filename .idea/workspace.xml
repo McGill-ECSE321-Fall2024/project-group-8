@@ -79,10 +79,22 @@
   <component name="GithubPullRequestsUISettings">{
     &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/McGill-ECSE321-Fall2024/project-group-8.git&quot;,
+<<<<<<< HEAD
+<<<<<<< HEAD
+    &quot;accountId&quot;: &quot;3b75fc7b-3f7c-4431-8b5c-a0b64eebe986&quot;
+    }
+    }</component>
+=======
+    &quot;accountId&quot;: &quot;e53ee127-8018-40af-98ec-9613811f926f&quot;
+  }
+}</component>
+>>>>>>> Ang_frontend_NOV_24
+=======
 
     &quot;accountId&quot;: &quot;3b75fc7b-3f7c-4431-8b5c-a0b64eebe986&quot;
     }
     }</component>
+>>>>>>> 5bc4e153fb6fec0037260931503535f94d11d23f
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -162,7 +174,14 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;E:\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+<<<<<<< HEAD
+<<<<<<< HEAD
+    }
+    }</component>
+=======
+=======
 
+>>>>>>> 5bc4e153fb6fec0037260931503535f94d11d23f
   },
   &quot;keyToStringList&quot;: {
     &quot;vue.recent.templates&quot;: [
@@ -170,7 +189,11 @@
     ]
   }
 }</component>
+<<<<<<< HEAD
+>>>>>>> Ang_frontend_NOV_24
+=======
 
+>>>>>>> 5bc4e153fb6fec0037260931503535f94d11d23f
   <component name="RunManager" selected="Gradle.EmployeeIntegrationTests">
     <configuration name="EmployeeIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
