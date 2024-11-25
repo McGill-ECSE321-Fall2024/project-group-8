@@ -19,7 +19,7 @@ public class GameDto {
     private int popularity;
     private double averageRating;
     private List<ReviewDto> reviews;
-    private GameStatus gameStatus; // Ensure these enums are correctly defined
+    private GameStatus gameStatus;
     private RequestStatus requestStatus;
     private int categoryId;
     private String categoryName;

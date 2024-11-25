@@ -6,12 +6,19 @@ import UpdateGame from '../components/UpdateGame.vue';
 import Login from '@/components/Login.vue';
 import ApproveGames from "@/components/ApproveGames.vue";
 import Cart from "@/components/Cart.vue";
+<<<<<<< HEAD
 import Payment from "@/components/Payment.vue";
 import Category from "@/components/Category.vue";
 
 const routes = [
   { path: '/approve-games',
     component: ApproveGames },
+=======
+import ApproveGames from '../components/ApproveGames.vue';
+
+const routes = [
+  { path: '/approve-games', component: ApproveGames },
+>>>>>>> 34fd522 (..)
   {
     path: '/',
     name: 'GameList',
