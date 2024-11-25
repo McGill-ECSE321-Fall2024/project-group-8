@@ -470,6 +470,7 @@ export default {
     closeSuccessModal() {
       this.showSuccessModal = false
       this.$router.push('/login') // Redirect to login page
+
     },
 
     closeErrorModal() {
