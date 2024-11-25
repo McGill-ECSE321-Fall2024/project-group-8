@@ -95,10 +95,20 @@ public class GameController {
     /**
      * Delete a game by ID.
      */
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteGame(@PathVariable int id) {
+//        gameService.deleteGame(id);
+//        return ResponseEntity.noContent().build();
+//    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGame(@PathVariable int id) {
-        gameService.deleteGame(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteGame(@PathVariable int id) {
+        try {
+            gameService.deleteGame(id);
+            return ResponseEntity.ok("Game deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to delete game");
+        }
     }
 
     /**

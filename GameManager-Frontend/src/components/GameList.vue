@@ -21,8 +21,8 @@
         <td>{{ game.price }}</td>
         <td>{{ game.stock }}</td>
         <td>
-          <!-- Button to navigate to update game -->
-          <button @click="editGame(game)">Edit</button>
+          <button @click="editGame(game.gameId)">Edit</button>
+          <button @click="deleteGame(game.gameId)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -47,6 +47,7 @@ export default {
       games: [], // Array to store games fetched from backend
     };
   },
+
   async created() {
     try {
       // Fetch games when the component is created
@@ -57,16 +58,28 @@ export default {
     }
   },
   methods: {
-    editGame(game) {
-      // Navigate to the update game page with the game ID as a parameter
-      this.$router.push({ name: "UpdateGame", params: { gameId: game.gameId } });
-    },
     createGame() {
-      // Navigate to the create game page
       this.$router.push({ name: "CreateGame" });
+    },
+    editGame(gameId) {
+      this.$router.push({ name: "UpdateGame", params: { id: gameId } });
+    },
+    async deleteGame(gameId) {
+      if (!confirm("Are you sure you want to delete this game?")) {
+        return;
+      }
+      try {
+        await axiosClient.delete(`/api/games/${gameId}`); // Corrected template literal syntax
+        this.games = this.games.filter((game) => game.gameId !== gameId);
+        alert("Game deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting game:", error);
+        alert("Failed to delete game.");
+      }
     },
   },
 };
+
 </script>
 
 <style>

@@ -36,6 +36,7 @@ const routes = [
     component: UpdateGame,
     props: true,
   },
+
   {
     path: '/cart',
     name: 'Cart',
@@ -74,6 +75,12 @@ const routes = [
     path: "/games/manage",
     name: "AddRemoveGames",
     component: AddRemoveGames,
+  },
+  {
+    path: '/games/update/:id',
+    name: 'UpdateGame',
+    component: UpdateGame,
+    props: true,
   }
 ];
 
