@@ -37,6 +37,12 @@ public class EmployeeService {
         return employees;
     }
 
+    public boolean isEmployeeExist(String email) {
+        Employee employee = employeeRepo.findEmployeeByEmail(email);
+        return employee != null;
+    }
+
+
     // Create a new employee
     @Transactional
     public Employee createEmployee(String name, String email, String password) {

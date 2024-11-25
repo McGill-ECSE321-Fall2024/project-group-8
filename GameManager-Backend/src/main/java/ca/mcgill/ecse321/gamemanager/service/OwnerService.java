@@ -32,13 +32,24 @@ public class OwnerService {
 
     }
 
+    public Boolean isOwner(String email) {
+        Owner owner = ownerRepo.findOwnerByEmail(email);
+        return owner != null;
+    }
 
     // Create a new owner
     @Transactional
     public Owner createOwner(String name, String email, String password) {
+        List<Owner> owners = (List<Owner>) ownerRepo.findAll();
+        if(!owners.isEmpty()){
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Owner already exists.");
+        }
+            /*
         if (ownerRepo.findOwnerByEmail(email) != null) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"An owner with this email already exists.");
         }
+
+             */
         if (password == null || password.length() < 9 || password.length() > 13) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password length must be between 9 and 13 characters.");
         }
