@@ -17,20 +17,31 @@ const axiosClient = axios.create({
 });
 
 export default {
-  data() {
-    return {
-      game: {},
-    };
-  },
-  async created() {
-    const gameId = this.$route.params.gameId;
-    try {
-      const response = await axiosClient.get(`/api/games/${gameId}`);
-      this.game = response.data;
-    } catch (e) {
-      console.error("Error fetching game:", e);
-    }
-  },
+    props: ['id'], // Accept the ID from the route
+    data() {
+      return {
+        game: {}, // To hold the game data being edited
+      };
+    },
+    async created() {
+      try {
+        const response = await axios.get(`/api/games/${this.id}`);
+        this.game = response.data;
+      } catch (e) {
+        console.error("Error fetching game:", e);
+      }
+    },
+
+
+  // async created() {
+  //   const gameId = this.$route.params.gameId;
+  //   try {
+  //     const response = await axiosClient.get(`/api/games/${gameId}`);
+  //     this.game = response.data;
+  //   } catch (e) {
+  //     console.error("Error fetching game:", e);
+  //   }
+  // },
   methods: {
     async updateGame() {
       try {
