@@ -133,6 +133,11 @@ export default {
         password: '',
         rememberMe: false
       },
+      person: {
+        name:'',
+        email:this.loginForm.email,
+        password:this.loginForm.password,
+      },
       loginErrors: {},
       isLoggingIn: false,
       showLoginPassword: false,
@@ -197,6 +202,30 @@ export default {
 
     async loginUser(credentials) {
       // Implement your login API call here
+      const ownerResponse = await axios.get(`/IsOwner/${this.person.email}`)
+      const employeeResponse = await axios.get(`/IsEmployee/${this.person.email}`)
+      if (ownerResponse.data) {
+        try{
+          await axios.post(`/owner/login`, this.person)
+          sessionStorage.setItem('owner', JSON.stringify(this.person));
+        }catch(error){
+          console.error("Error encountering when logging in:", error);
+        }
+      }else if(employeeResponse.data) {
+        try{
+          await axios.post(`/employees/login`, this.person)
+          sessionStorage.setItem('employee', JSON.stringify(this.person));
+        }catch(error){
+          console.error("Error encountering when logging in:", error);
+        }
+      }else{
+        try{
+          await axios.post(`/employees/login`, this.person)
+          sessionStorage.setItem('customer', JSON.stringify(this.person));
+        }catch(error){
+          console.error("Error encountering when logging in:", error);
+        }
+      }
 
 
 
