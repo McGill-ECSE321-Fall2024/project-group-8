@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
+import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.EmployeeResponseDto;
+import ca.mcgill.ecse321.gamemanager.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,19 @@ public class EmployeeController {
     public EmployeeResponseDto findEmployeeByEmail(@PathVariable String email) {
         Employee employee = employeeService.findEmployeeByEmail(email);
         return new EmployeeResponseDto(employee);
+    }
+
+    @PostMapping("/employees/login")
+    public LoginResponse login(@RequestBody EmployeeRequestDto employeeRequestDto) {
+        String email = employeeRequestDto.getEmail();
+        String password = employeeRequestDto.getPassword();
+        LoginResponse response = new LoginResponse();
+        if (employeeService.loginEmployee(email,password) != null){
+            response.setSuccess(true);
+            response.setMessage("Successfully logged in");
+            response.setUserEmail(email);
+        }
+        return response;
     }
 
     @GetMapping

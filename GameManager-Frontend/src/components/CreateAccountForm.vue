@@ -355,6 +355,11 @@
 </template>
 
 <script>
+import axios from "axios";
+const axiosClient = axios.create({
+  // NOTE: it's baseURL, not baseUrl
+  baseURL: "http://localhost:8080"
+});
 export default {
   name: 'CreateAccountForm',
   data() {
@@ -450,19 +455,30 @@ export default {
     },
 
     async handleSubmit() {
-      if (!this.validateStep()) return
 
+      this.customer={
+        name:this.formData.name,
+        email:this.formData.email,
+        password:this.formData.password,
+      };
       this.isSubmitting = true
       try {
+
+        const response = await axiosClient.post(`/customers`, this.customer)
         // Implement your registration API call here
-        await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate API call
+
         this.showSuccessModal = true
         this.$emit('registration-success')
-      } catch (error) {
+
+      }
+      catch (error) {
         console.error('Registration error:', error)
         this.errorMessage = 'An error occurred during registration. Please try again.'
+
         this.showErrorModal = true
-      } finally {
+      }
+
+      finally {
         this.isSubmitting = false
       }
     },
