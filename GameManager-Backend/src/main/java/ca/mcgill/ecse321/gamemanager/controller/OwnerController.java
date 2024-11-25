@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import ca.mcgill.ecse321.gamemanager.model.Owner;
 import ca.mcgill.ecse321.gamemanager.service.OwnerService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/owners")
+@CrossOrigin(origins = "http://localhost:5173")
 public class OwnerController {
     @Autowired
     private OwnerService ownerService;
