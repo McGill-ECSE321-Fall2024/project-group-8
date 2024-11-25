@@ -355,6 +355,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'CreateAccountForm',
   data() {
@@ -451,9 +453,14 @@ export default {
 
     async handleSubmit() {
       if (!this.validateStep()) return
-
+      this.customer={
+        name:this.formData.name,
+        email:this.formData.email,
+        password:this.formData.password,
+      };
       this.isSubmitting = true
       try {
+        const response = await axios.post(`/IsOwner/customers`, this.customer)
         // Implement your registration API call here
         await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate API call
         this.showSuccessModal = true
