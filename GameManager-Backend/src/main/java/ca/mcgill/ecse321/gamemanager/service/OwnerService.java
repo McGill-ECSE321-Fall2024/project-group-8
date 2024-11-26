@@ -35,7 +35,10 @@ public class OwnerService {
 
     public Boolean isOwner(String email) {
         Owner owner = ownerRepo.findOwnerByEmail(email);
-        return owner != null;
+        if(owner == null) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Owner with email " + email + " not found.");
+        }
+        return true;
     }
 
     @Transactional

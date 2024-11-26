@@ -41,7 +41,10 @@ public class EmployeeService {
 
     public boolean isEmployeeExist(String email) {
         Employee employee = employeeRepo.findEmployeeByEmail(email);
-        return employee != null;
+        if (employee == null) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid Employee email.");
+        }
+        return true;
     }
 
     @Transactional
