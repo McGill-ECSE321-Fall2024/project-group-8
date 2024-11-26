@@ -120,7 +120,10 @@
 <script>
 import CreateAccountForm from './CreateAccountForm.vue'
 import axios from "axios";
-
+const axiosClient = axios.create({
+  // NOTE: it's baseURL, not baseUrl
+  baseURL: "http://localhost:8080"
+});
 export default {
   name: 'LoginPage',
   components: {
@@ -203,16 +206,16 @@ export default {
         password:this.loginForm.password,
       };
       // Implement your login API call here
-      const ownerResponse = await axios.get(`/IsOwner/${this.person.email}`)
-      const employeeResponse = await axios.get(`/IsEmployee/${this.person.email}`)
-      if (ownerResponse.status === 200) {
+      const ownerResponse = await axios.get(`/api/owners`)
+      const employeeResponse = await axios.get(`/api/employees/${this.person.email}`)
+      if (ownerResponse.data.email === this.person.email) {
         try{
           await axios.post(`/owner/login`, this.person)
           sessionStorage.setItem('owner', JSON.stringify(this.person));
         }catch(error){
           console.error("Error encountering when logging in:", error);
         }
-      }else if(employeeResponse.status === 200) {
+      }else if(employeeResponse.data.email === this.person.email) {
         try{
           await axios.post(`/employees/login`, this.person)
           sessionStorage.setItem('employee', JSON.stringify(this.person));
