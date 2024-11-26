@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
 import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
+import ca.mcgill.ecse321.gamemanager.model.Employee;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Owner;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
@@ -32,13 +33,40 @@ public class OwnerService {
 
     }
 
+    public Boolean isOwner(String email) {
+        Owner owner = ownerRepo.findOwnerByEmail(email);
+        return owner != null;
+    }
+
+    @Transactional
+    public Owner loginOwner(String email, String password) {
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email or password cannot be empty.");
+        }
+        Owner owner = ownerRepo.findOwnerByEmail(email);
+        if (owner == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Owner with this email does not exist.");
+        }
+        String encryptedPassword = SHA256Encryption.getSHA(password);
+        if(!owner.getPassword().equals(encryptedPassword)) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Owner with this password does not match.");
+        }
+        return owner;
+    }
 
     // Create a new owner
     @Transactional
     public Owner createOwner(String name, String email, String password) {
+        List<Owner> owners = (List<Owner>) ownerRepo.findAll();
+        if(!owners.isEmpty()){
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Owner already exists.");
+        }
+            /*
         if (ownerRepo.findOwnerByEmail(email) != null) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST,"An owner with this email already exists.");
         }
+
+             */
         if (password == null || password.length() < 9 || password.length() > 13) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password length must be between 9 and 13 characters.");
         }

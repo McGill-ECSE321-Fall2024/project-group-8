@@ -26,6 +26,25 @@ public class OwnerController {
         return new OwnerResponseDto(owner);
     }
 
+    @GetMapping("/IsOwner/{email}")
+    public boolean isOwner(@PathVariable String email) {
+        return ownerService.isOwner(email);
+    }
+
+    @PostMapping("/owner/login")
+    public LoginResponse login(@RequestBody OwnerRequestDto ownerRequestDto) {
+        String email = ownerRequestDto.getEmail();
+        String password = ownerRequestDto.getPassword();
+        LoginResponse response = new LoginResponse();
+        if (ownerService.loginOwner(email,password) != null){
+            response.setSuccess(true);
+            response.setMessage("Successfully logged in");
+            response.setUserEmail(email);
+        }
+        return response;
+    }
+
+
     @PostMapping
     public OwnerResponseDto createOwner(@RequestBody OwnerRequestDto ownerRequestDto) {
         Owner createdOwner = ownerService.createOwner(

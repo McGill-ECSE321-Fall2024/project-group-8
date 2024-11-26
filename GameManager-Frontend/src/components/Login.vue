@@ -1,45 +1,116 @@
 <template>
-  <div>
-    <div v-if="loading" class="login-spinner">
-    </div>
-    <div v-else class="login">
-      <div class="login-form">
-        <h1>{{ signState }}</h1>
-        <form @submit.prevent="userAuth">
-          <input
-              v-if="signState === 'Sign Up'"
-              v-model="name"
-              type="text"
-              placeholder="Your name"
-          />
-          <input
-              v-model="email"
-              type="email"
-              placeholder="Email"
-          />
-          <input
-              v-model="password"
-              type="password"
-              placeholder="Password"
-          />
-          <button type="submit">{{ signState }}</button>
-          <div class="form-help">
-            <div class="remember">
-              <input type="checkbox" id="remember-me" />
-              <label for="remember-me">Remember Me</label>
-            </div>
-            <p>Need Help?</p>
+  <div class="auth-container">
+    <div class="auth-card" :class="{ 'expanded': showSignup }">
+      <!-- Show Login Form -->
+      <div v-if="!showSignup" class="form-container">
+        <div class="logo-section">
+          <div class="logo">
+            <i class="fas fa-gamepad"></i>
           </div>
+          <h1>Welcome Back!</h1>
+          <p class="subtitle">Sign in to continue to your account</p>
+        </div>
+
+        <!-- Login Form -->
+        <form @submit.prevent="handleLogin" class="login-form">
+          <div class="form-group">
+            <label for="login-email">
+              <i class="fas fa-envelope"></i>
+              Email
+            </label>
+            <div class="input-wrapper">
+              <input
+                  type="email"
+                  id="login-email"
+                  v-model="loginForm.email"
+                  :class="{ 'error': loginErrors.email }"
+                  placeholder="Enter your email"
+                  autocomplete="email"
+              />
+            </div>
+            <span class="error-message" v-if="loginErrors.email">{{ loginErrors.email }}</span>
+          </div>
+
+          <div class="form-group">
+            <div class="password-label">
+              <label for="login-password">
+                <i class="fas fa-lock"></i>
+                Password
+              </label>
+              <a href="#" @click.prevent="forgotPassword" class="forgot-password">
+                Forgot Password?
+              </a>
+            </div>
+            <div class="input-wrapper">
+              <input
+                  :type="showLoginPassword ? 'text' : 'password'"
+                  id="login-password"
+                  v-model="loginForm.password"
+                  :class="{ 'error': loginErrors.password }"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+              />
+              <button
+                  type="button"
+                  class="toggle-password"
+                  @click="showLoginPassword = !showLoginPassword"
+              >
+                <i :class="showLoginPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
+            <span class="error-message" v-if="loginErrors.password">{{ loginErrors.password }}</span>
+          </div>
+
+          <div class="remember-me">
+            <label class="checkbox-label">
+              <input type="checkbox" v-model="loginForm.rememberMe" />
+              <span class="custom-checkbox"></span>
+              Remember me
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" :disabled="isLoggingIn">
+            <span v-if="!isLoggingIn">
+              Sign In
+              <i class="fas fa-sign-in-alt"></i>
+            </span>
+            <div class="spinner" v-else></div>
+          </button>
+
+          <div class="divider">
+            <span>Don't have an account?</span>
+          </div>
+
+          <button type="button" @click="toggleSignup" class="btn-secondary">
+            Create Account
+            <i class="fas fa-user-plus"></i>
+          </button>
         </form>
-        <div class="form-switch">
-          <p v-if="signState === 'Sign In'">
-            New here?
-            <span @click="setSignState('Sign Up')">Sign Up Now</span>
-          </p>
-          <p v-else>
-            Already have an account?
-            <span @click="setSignState('Sign In')">Sign In Now</span>
-          </p>
+      </div>
+
+      <!-- Show Create Account Form -->
+      <transition name="fade">
+        <div v-if="showSignup" class="form-container">
+          <div class="back-button" @click="toggleSignup">
+            <i class="fas fa-arrow-left"></i>
+            Back to Login
+          </div>
+          <CreateAccountForm @registration-success="handleRegistrationSuccess" />
+        </div>
+      </transition>
+
+      <!-- Error Modal -->
+      <div v-if="showErrorModal" class="modal" @click.self="closeErrorModal">
+        <div class="modal-content error-modal">
+          <div class="modal-icon error">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <h3>Login Failed</h3>
+          <p>{{ errorMessage }}</p>
+          <button @click="closeErrorModal" class="btn-primary">
+            <i class="fas fa-times"></i>
+            Close
+          </button>
         </div>
       </div>
     </div>
@@ -47,147 +118,181 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import CreateAccountForm from './CreateAccountForm.vue'
 import axios from "axios";
 
 export default {
-  name: 'Login',
-  setup() {
-    const signState = ref('Sign In');
-    const name = ref('');
-    const email = ref('');
-    const password = ref('');
-    const loading = ref(false);
+  name: 'LoginPage',
+  components: {
+    CreateAccountForm
+  },
+  data() {
+    return {
+      loginForm: {
+        email: '',
+        password: '',
+        rememberMe: false
+      },
 
-    const logo = ref('/Login');
-    const spinner = ref('/SignIn');
+      loginErrors: {},
+      isLoggingIn: false,
+      showLoginPassword: false,
+      showErrorModal: false,
+      errorMessage: '',
+      showSignup: false
+    }
+  },
+  methods: {
+    toggleSignup() {
+      this.showSignup = !this.showSignup;
+      this.loginErrors = {};
+      this.loginForm = {
+        email: '',
+        password: '',
+        rememberMe: false
+      };
+    },
 
-    const setSignState = (state) => {
-      signState.value = state;
-    };
+    handleRegistrationSuccess() {
+      this.showSignup = false;
+      // Optionally pre-fill the login form with the registered email
+      this.loginForm.email = this.registeredEmail;
+      // Show success message
+      this.showSuccess('Account created successfully! Please sign in.');
+    },
 
-    const userAuth = async () => {
-      loading.value = true;
+    async handleLogin() {
+      this.loginErrors = {};
+
+      // Validate form
+      if (!this.loginForm.email) {
+        this.loginErrors.email = 'Email is required';
+      }
+      if (!this.loginForm.password) {
+        this.loginErrors.password = 'Password is required';
+      }
+
+      if (Object.keys(this.loginErrors).length > 0) {
+        return;
+      }
+
+      this.isLoggingIn = true;
+
       try {
-        if (signState.value === 'Sign In') {
-          console.log('Logging in:', email.value, password.value);
+        // Implement your login API call here
+        const response = await this.loginUser(this.loginForm);
+
+        if (response.success) {
+          // Handle successful login
+          this.$router.push('/dashboard'); // or wherever you want to redirect
         } else {
-          console.log('Signing up:', name.value, email.value, password.value);
+          this.showError('Invalid email or password');
         }
       } catch (error) {
-        console.error('Authentication error:', error);
+        this.showError('An error occurred during login. Please try again.');
+        console.error('Login error:', error);
       } finally {
-        loading.value = false;
+        this.isLoggingIn = false;
       }
-    };
+    },
 
-    return {
-      signState,
-      name,
-      email,
-      password,
-      loading,
-      setSignState,
-      userAuth,
-      logo,
-      spinner,
-    };
-  },
-};
+    async loginUser() {
+      this.person={
+        name:'',
+            email:this.loginForm.email,
+            password:this.loginForm.password,
+      };
+      // Implement your login API call here
+      const ownerResponse = await axios.get(`/IsOwner/${this.person.email}`)
+      const employeeResponse = await axios.get(`/IsEmployee/${this.person.email}`)
+      if (ownerResponse.data) {
+        try{
+          await axios.post(`/owner/login`, this.person)
+          sessionStorage.setItem('owner', JSON.stringify(this.person));
+        }catch(error){
+          console.error("Error encountering when logging in:", error);
+        }
+      }else if(employeeResponse.data) {
+        try{
+          await axios.post(`/employees/login`, this.person)
+          sessionStorage.setItem('employee', JSON.stringify(this.person));
+        }catch(error){
+          console.error("Error encountering when logging in:", error);
+        }
+      }else{
+        try{
+          await axios.post(`/employees/login`, this.person)
+          sessionStorage.setItem('customer', JSON.stringify(this.person));
+        }catch(error){
+          console.error("Error encountering when logging in:", error);
+        }
+      }
+
+
+
+
+      return { success: true }; // Placeholder
+    },
+
+
+
+    forgotPassword() {
+      // Implement forgot password flow
+    },
+
+    showError(message) {
+      this.errorMessage = message;
+      this.showErrorModal = true;
+    },
+
+    closeErrorModal() {
+      this.showErrorModal = false;
+      this.errorMessage = '';
+    }
+  }
+}
 </script>
 
-<style>
-.login{
-  height: 100vh;
-  padding: 20px 8%;
+<style scoped>
+/* Previous styles remain the same */
+
+/* Add these new styles */
+.auth-card {
+  transition: all 0.3s ease;
 }
 
-.login-form{
-  width: 100%;
-  max-width: 450px;
-  background: rgba(0,0,0,0.75);
-  border-radius: 4px;
-  padding: 60px;
-  margin: auto;
+.auth-card.expanded {
+  max-width: 600px; /* Wider card for the registration form */
 }
-.login-form h1{
-  font-size: 32px;
-  font-weight: 500;
-  margin-bottom: 28px;
+
+.form-container {
+  position: relative;
 }
-.login-form input{
-  width: 100%;
-  height: 50px;
-  background: #333;
-  color:white;
-  margin: 12px 0;
-  border: 0;
-  outline: 0;
-  border-radius: 4px;
-  padding: 16px 20px;
-  font-size: 16px;
-  font-weight: 500;
-}
-.login-form input::placeholder{
-  font-size: 16px;
-  font-weight: 500;
-}
-.login-form button{
-  width: 100%;
-  border: 0;
-  outline: 0;
-  padding: 16px;
-  background: #3EB489;
-  color: white;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 500;
-  margin-top: 20px;
+
+.back-button {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: #6b46c1;
   cursor: pointer;
-}
-.form-help{
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  color: #3EB489;
-  font-size: 13px;
-}
-.remember{
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.remember input{
-  width: 18px;
-  height: 18px;
-}
-.form-switch{
-  margin-top: 40px;
-  color: #3EB489
-}
-.form-switch span{
-  margin-left: 6px;
-  color: #fff;
+  gap: 8px;
   font-weight: 500;
-  cursor: pointer;
+  transition: color 0.3s ease;
 }
-.login-spinner{
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.back-button:hover {
+  color: #553c9a;
 }
-.login-spinner img{
-  width: 60px;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
-@media (max-width: 500px) {
-  .login{
-    padding: 15px 5%;
-  }
-  .login-form{
-    padding: 20px;
-    margin-top: 30px;
-  }
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
