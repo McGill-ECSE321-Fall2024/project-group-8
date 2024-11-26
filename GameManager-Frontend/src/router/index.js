@@ -11,6 +11,7 @@ import Category from "@/components/Category.vue";
 import CreateAccount from "@/components/CreateAccountForm.vue";
 import AddRemoveGames from "@/components/AddRemoveGames.vue";
 import SearchGames from "@/components/SearchGames.vue";
+import Profile from "@/components/Profile.vue";
 
 const routes = [
   { path: '/approve-games', component: ApproveGames },
@@ -47,6 +48,11 @@ const routes = [
     path: '/payment',
     name: 'Payment',
     component: Payment,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
   },
   {
     path: '/:pathMatch(.*)*',
