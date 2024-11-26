@@ -199,20 +199,20 @@ export default {
     async loginUser() {
       this.person={
         name:'',
-            email:this.loginForm.email,
-            password:this.loginForm.password,
+        email:this.loginForm.email,
+        password:this.loginForm.password,
       };
       // Implement your login API call here
       const ownerResponse = await axios.get(`/IsOwner/${this.person.email}`)
       const employeeResponse = await axios.get(`/IsEmployee/${this.person.email}`)
-      if (ownerResponse.data) {
+      if (ownerResponse.status === 200) {
         try{
           await axios.post(`/owner/login`, this.person)
           sessionStorage.setItem('owner', JSON.stringify(this.person));
         }catch(error){
           console.error("Error encountering when logging in:", error);
         }
-      }else if(employeeResponse.data) {
+      }else if(employeeResponse.status === 200) {
         try{
           await axios.post(`/employees/login`, this.person)
           sessionStorage.setItem('employee', JSON.stringify(this.person));
@@ -221,7 +221,7 @@ export default {
         }
       }else{
         try{
-          await axios.post(`/employees/login`, this.person)
+          await axios.post(`/customers/login`, this.person)
           sessionStorage.setItem('customer', JSON.stringify(this.person));
         }catch(error){
           console.error("Error encountering when logging in:", error);
@@ -234,7 +234,22 @@ export default {
       return { success: true }; // Placeholder
     },
 
+    showSuccess(message) {
+      // Create the message container dynamically
+      const successMessage = document.createElement("div");
+      successMessage.className = "success-message";
+      successMessage.textContent = message;
 
+      // Append the message to the auth container
+      const authContainer = document.querySelector(".auth-container");
+      authContainer.appendChild(successMessage);
+
+      // Set timeout to fade out and remove the message
+      setTimeout(() => {
+        successMessage.style.opacity = 0; // Start fading out
+        setTimeout(() => successMessage.remove(), 1000); // Remove after fade-out
+      }, 3000); // Display for 3 seconds before fading out
+    },
 
     forgotPassword() {
       // Implement forgot password flow

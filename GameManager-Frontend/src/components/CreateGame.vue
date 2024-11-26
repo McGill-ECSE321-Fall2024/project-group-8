@@ -5,11 +5,20 @@
     <input type="text" placeholder="Genre" v-model="newGame.genre" />
     <input type="number" placeholder="Price" v-model="newGame.price" />
     <input type="number" placeholder="Stock" v-model="newGame.stock" />
+    <!-- Dropdown Menu -->
+    <label for="gameStatus">Request Status:</label>
+    <select v-model="newGame.requestStatus" id="requestStatus">
+      <option value="PendingApproval">Create Request</option>
+<!--      <option value="Approved">Approved</option>-->
+      <option value="PendingArchived">Archive Request</option>
+<!--      <option value="Archived">Archived</option>-->
+    </select>
+    <!-- Display the Selected Value -->
+    <p>Selected Request Type: {{ newGame.requestStatus }}</p>
     <button @click="createGame" :disabled="!isGameValid()">Create Game</button>
     <button @click="clearInputs">Clear</button>
   </div>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -27,6 +36,7 @@ export default {
         genre: "",
         price: 0.0,
         stock: 0,
+        requestStatus: "PendingApproval", // Default selected value
       },
     };
   },
@@ -47,6 +57,7 @@ export default {
         genre: "",
         price: 0.0,
         stock: 0,
+        requestStatus: "PendingApproval"
       };
     },
     isGameValid() {
@@ -61,3 +72,17 @@ export default {
   },
 };
 </script>
+
+<style>
+select {
+  padding: 5px 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+</style>
