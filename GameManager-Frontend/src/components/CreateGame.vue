@@ -6,15 +6,15 @@
     <input type="number" placeholder="Price" v-model="newGame.price" />
     <input type="number" placeholder="Stock" v-model="newGame.stock" />
     <!-- Dropdown Menu -->
-    <label for="gameStatus">Game Status:</label>
-    <select v-model="gameStatus" id="gameStatus">
-      <option value="Onsale">Onsale</option>
-      <option value="Available">Available</option>
-      <option value="Archived">Archived</option>
-      <option value="PendingOrder">PendingOrder</option>
+    <label for="gameStatus">Request Status:</label>
+    <select v-model="newGame.requestStatus" id="requestStatus">
+      <option value="PendingApproval">Create Request</option>
+<!--      <option value="Approved">Approved</option>-->
+      <option value="PendingArchived">Archive Request</option>
+<!--      <option value="Archived">Archived</option>-->
     </select>
     <!-- Display the Selected Value -->
-    <p>Selected Game Status: {{ gameStatus }}</p>
+    <p>Selected Request Type: {{ newGame.requestStatus }}</p>
     <button @click="createGame" :disabled="!isGameValid()">Create Game</button>
     <button @click="clearInputs">Clear</button>
   </div>
@@ -36,7 +36,7 @@ export default {
         genre: "",
         price: 0.0,
         stock: 0,
-        gameStatus: "Available", // Default selected value
+        requestStatus: "PendingApproval", // Default selected value
       },
     };
   },
@@ -57,6 +57,7 @@ export default {
         genre: "",
         price: 0.0,
         stock: 0,
+        requestStatus: "PendingApproval"
       };
     },
     isGameValid() {
