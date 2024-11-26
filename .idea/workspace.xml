@@ -7,9 +7,9 @@
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateAccountForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateAccountForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/OwnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/OwnerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateGame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateGame.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,14 +71,19 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-    &quot;lastFilter&quot;: {
+  &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
     &quot;assignee&quot;: &quot;MRJ-G&quot;
-    }
-    }</component>
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">{
-    &quot;selectedUrlAndAccountId&quot;: {
+  &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/McGill-ECSE321-Fall2024/project-group-8.git&quot;,
+<<<<<<<<< Temporary merge branch 1
+    &quot;accountId&quot;: &quot;e53ee127-8018-40af-98ec-9613811f926f&quot;
+  }
+}</component>
+=========
 <<<<<<< HEAD
 <<<<<<< HEAD
     &quot;accountId&quot;: &quot;3b75fc7b-3f7c-4431-8b5c-a0b64eebe986&quot;
@@ -95,6 +100,7 @@
     }
     }</component>
 >>>>>>> 5bc4e153fb6fec0037260931503535f94d11d23f
+>>>>>>>>> Temporary merge branch 2
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -102,8 +108,8 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-    &quot;associatedIndex&quot;: 7
-    }</component>
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2n89VUeiNtWzGKctfGLsnVUZDOn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -111,7 +117,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
-    &quot;keyToString&quot;: {
+  &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Gradle.CategoryIntegrationTests.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor&quot;: &quot;Run&quot;,
@@ -174,6 +180,8 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;E:\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+<<<<<<<<< Temporary merge branch 1
+=========
 <<<<<<< HEAD
 <<<<<<< HEAD
     }
@@ -182,6 +190,7 @@
 =======
 
 >>>>>>> 5bc4e153fb6fec0037260931503535f94d11d23f
+>>>>>>>>> Temporary merge branch 2
   },
   &quot;keyToStringList&quot;: {
     &quot;vue.recent.templates&quot;: [
@@ -189,11 +198,14 @@
     ]
   }
 }</component>
+<<<<<<<<< Temporary merge branch 1
+=========
 <<<<<<< HEAD
 >>>>>>> Ang_frontend_NOV_24
 =======
 
 >>>>>>> 5bc4e153fb6fec0037260931503535f94d11d23f
+>>>>>>>>> Temporary merge branch 2
   <component name="RunManager" selected="Gradle.EmployeeIntegrationTests">
     <configuration name="EmployeeIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
