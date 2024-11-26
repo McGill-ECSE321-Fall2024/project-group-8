@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.*;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,6 +90,17 @@ public class CustomerController {
         Customer customer = customerService.removePurchaseOrder(OrderId, email);
         return new CustomerResponseDto(customer);
     }
+    @GetMapping("/customers/allOrder/{email}")
+    public List<PurchaseOrderDto> getAllOrder(@PathVariable String email){
+        List<PurchaseOrderDto> purchaseOrderDtos = new ArrayList<>();
+        List<PurchaseOrder> orders = customerService.getPurchaseOrders(email);
+        for (PurchaseOrder order : orders) {
+            PurchaseOrderDto purchaseOrderDto = new PurchaseOrderDto(order);
+            purchaseOrderDtos.add(purchaseOrderDto);
+        }
+        return purchaseOrderDtos;
+    }
+
 
     @PostMapping("/customers/login")
     public LoginResponse login(@RequestBody CustomerRequestDto customerRequestDto) {

@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.gamemanager.service;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.dto.ReviewDto;
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
@@ -10,6 +11,7 @@ import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -67,16 +69,17 @@ public class GameService {
 
      @Transactional
      public Game createGame(String title, String description, String genre, double price, int stock,
-                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId,
-                            String categoryName, String categoryDescription) {
+                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId) {
          // Try to fetch the category by ID from the database
          Category category = categoryRepository.findCategoryByCategoryId(categoryId);
 
          // If the category doesn't exist, create and save a new one
          if (category == null) {
+             throw new GameManagerException(HttpStatus.BAD_REQUEST,"There is no category with ID " + categoryId + ".");
+             /*
              category = new Category(categoryName, categoryDescription);
              category.setCategoryId(categoryId); // Ensure the ID is set if needed
-             categoryRepository.save(category);
+             categoryRepository.save(category);*/
          }
 
          // Create the Game with the associated Category
