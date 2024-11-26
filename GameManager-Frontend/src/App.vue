@@ -22,13 +22,16 @@ export default {
   name: "NavigationBar",
   data() {
     return {
-      menuItems:["Home","Search","Log in"],
-      menuItemRef: ['/','/search','/login'],
+      // TODO: uncomment this when everything are log in function is confirmed
+      //menuItems:["Home","Search","Log in"],
+      //menuItemRef: ['/','/search','/login'],
       selectedItem: "Home", // Default selected item
 
       // Navigation menu items
-      //menuItems: ["Home", "Create Game", "Categories", "Search", "Cart", "Log in"],
-      //menuItemRef: ['/', '/create-game', '/category', '/search', '/cart', '/login'],
+
+      menuItems: ["Home", "Create Game", "Create Category", "Category List", "Search", "Cart", "Log in"],
+      menuItemRef: ['/', '/create-game', '/create-category', "/category-list", '/search', '/cart', '/login'],
+
       // Track the selected item
     };
   },
@@ -84,7 +87,7 @@ body, html {
   border-radius: 50px; /* Fully rounded edges */
   padding: 10px 20px; /* Space around the menu items */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 800px; /* Optional: Limit width for better alignment */
+  max-width: 1000px; /* Optional: Limit width for better alignment */
   margin: 20px auto; /* Center the navbar on the page */
 }
 

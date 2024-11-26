@@ -7,7 +7,11 @@ import Login from '@/components/Login.vue';
 import ApproveGames from "@/components/ApproveGames.vue";
 import Cart from "@/components/Cart.vue";
 import Payment from "@/components/Payment.vue";
-import Category from "@/components/Category.vue";
+import CreateCategory from "@/components/CreateCategory.vue";
+import CategoryList from '../components/CategoryList.vue';
+import CategoryDetails from '../components/CategoryDetails.vue';
+import UpdateCategory from '../components/UpdateCategory.vue';
+import AddRemoveCategories from "@/components/AddRemoveCategories.vue";
 import CreateAccount from "@/components/CreateAccountForm.vue";
 import AddRemoveGames from "@/components/AddRemoveGames.vue";
 import SearchGames from "@/components/SearchGames.vue";
@@ -21,6 +25,17 @@ const routes = [
     name: 'GameList',
     component: GameList,
   },
+  {
+      path: '/category-list',
+      name: 'CategoryList',
+      component: CategoryList,
+    },
+   {
+       path: '/categories/:id',
+       name: 'CategoryDetails',
+       component: CategoryDetails,
+       props: true,
+     },
   {
     path: '/games/:id',
     name: 'GameDetails',
@@ -74,10 +89,21 @@ const routes = [
     redirect: '/login',
   },
   {
-    path: '/category',
-    name: 'Categories',
-    component: Category,
+    path: '/create-category',
+    name: 'CreateCategory',
+    component: CreateCategory,
   },
+  {
+      path: '/update-category/:id',
+      name: 'UpdateCategory',
+      component: UpdateCategory,
+      props: true,
+    },
+   {
+       path: "/categories/manage",
+       name: "AddRemoveCategories",
+       component: AddRemoveCategories,
+     },
   {
     path: "/games/manage",
     name: "AddRemoveGames",

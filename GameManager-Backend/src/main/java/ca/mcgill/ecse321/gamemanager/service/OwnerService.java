@@ -33,14 +33,6 @@ public class OwnerService {
 
     }
 
-    public Boolean isOwner(String email) {
-        Owner owner = ownerRepo.findOwnerByEmail(email);
-        if(owner == null) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Owner with email " + email + " not found.");
-        }
-        return true;
-    }
-
     @Transactional
     public Owner loginOwner(String email, String password) {
         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
@@ -64,12 +56,7 @@ public class OwnerService {
         if(!owners.isEmpty()){
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Owner already exists.");
         }
-            /*
-        if (ownerRepo.findOwnerByEmail(email) != null) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST,"An owner with this email already exists.");
-        }
 
-             */
         if (password == null || password.length() < 9 || password.length() > 13) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password length must be between 9 and 13 characters.");
         }
