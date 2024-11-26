@@ -11,6 +11,7 @@
       <div class="info-row">
         <label for="username">Username:</label>
         <span>{{ user.username }}</span>
+        <input type="text" placeholder="newUserName" v-model="newUsername" />
         <button @click="updateUsername">Update Username</button>
       </div>
       <div class="info-row">
@@ -19,6 +20,7 @@
       </div>
       <div class="info-row">
         <label for="password">Password:</label>
+        <input type="text" placeholder="newPassword" v-model="newPassword" />
         <button @click="updatePassword">Update Password</button>
       </div>
     </section>
@@ -91,6 +93,8 @@ export default {
         }
       ], // Full list of orders
       displayedOrders: [], // Displayed subset of orders
+      newPassword:"",
+      newUsername: "",
       itemsToShow: 3, // Number of items to show initially
       personRole:""
 
@@ -172,6 +176,7 @@ export default {
     },
     async updateUsername() {
       try{
+        this.user.username = this.newUsername;
         if (this.personRole === "Owner") {
           await axiosClient.put(`/api/owners/${this.user.email}`, this.user);
         } else if (this.personRole === "Employee") {
@@ -188,6 +193,7 @@ export default {
     },
     async updatePassword() {
       try {
+        this.user.password = this.newPassword;
         if (this.personRole === "Owner") {
           await axiosClient.put(`/api/owners/${this.user.email}`, this.user);
         } else if (this.personRole === "Employee") {
@@ -220,12 +226,13 @@ export default {
 .user-profile {
   font-family: Arial, sans-serif;
   padding: 20px;
-  max-width: 800px;
+  max-width: 1600px;
   margin: auto;
 }
 
 h1, h2 {
   color: #333;
+  margin-bottom: 20px; /* Add space below headings */
 }
 
 .logout-button {
@@ -246,17 +253,25 @@ h1, h2 {
 .info-row {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 label {
   font-weight: bold;
   margin-right: 10px;
+  width: 150px;
+}
+
+input {
+  margin-right: 10px; /* Space between input and button */
+  padding: 8px; /* Add padding to inputs for better usability */
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
   margin-left: 10px;
-  padding: 5px 10px;
+  padding: 8px 15px;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -269,8 +284,8 @@ button:hover {
 }
 
 section {
-  margin-bottom: 30px;
-  padding: 10px;
+  margin-bottom: 40px;
+  padding: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
@@ -281,6 +296,29 @@ ul {
 }
 
 li {
+  margin: 15px 0;
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Add separation between items */
+}
+
+li:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
+
+p {
   margin: 5px 0;
 }
+
+strong {
+  color: #555;
+}
+
+.review-history ul, .orders ul {
+  margin-top: 20px; /* Add space above the list */
+}
+
+.review-history button, .orders button {
+  margin-top: 20px; /* Add space above "Show More" buttons */
+}
+
 </style>
