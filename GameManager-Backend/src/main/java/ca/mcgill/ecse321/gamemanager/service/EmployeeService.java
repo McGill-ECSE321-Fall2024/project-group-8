@@ -25,7 +25,6 @@ public class EmployeeService {
     // Retrieve a employee by email (used as ID in this case)
     public Employee findEmployeeByEmail(String email) {
         Employee employee = employeeRepo.findEmployeeByEmail(email);
-
         return employee;
     }
 
@@ -82,11 +81,7 @@ public class EmployeeService {
     // Update an existing employee by email
     @Transactional
     public Employee updateEmployee(String email, String newName, String newPassword) {
-
-        Employee employee = employeeRepo.findEmployeeByEmail(email);
-        if (employee == null) {
-            throw new GameManagerException(HttpStatus.NOT_FOUND, "Employee with this email does not exist.");
-        }
+        Employee employee = findEmployeeByEmail(email);
         
         if (newName == null || newName.isBlank()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid Employee name.");

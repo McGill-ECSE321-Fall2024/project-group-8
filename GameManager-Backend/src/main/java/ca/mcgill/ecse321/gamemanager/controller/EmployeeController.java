@@ -4,6 +4,8 @@ import ca.mcgill.ecse321.gamemanager.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.gamemanager.dto.EmployeeRequestDto;
@@ -12,6 +14,7 @@ import ca.mcgill.ecse321.gamemanager.service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -21,10 +24,17 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/{email}")
-    public EmployeeResponseDto findEmployeeByEmail(@PathVariable String email) {
-        Employee employee = employeeService.findEmployeeByEmail(email);
-        return new EmployeeResponseDto(employee);
+    public ResponseEntity<EmployeeResponseDto> findEmployeeByEmail(@PathVariable String email) {
+        Optional<Employee> employeeOptional = Optional.ofNullable(employeeService.findEmployeeByEmail(email));
+        if (employeeOptional.isPresent()) {
+            EmployeeResponseDto responseDto = new EmployeeResponseDto(employeeOptional.get());
+            return ResponseEntity.ok(responseDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // Or provide a custom error response if applicable
+        }
     }
+
 
     @PostMapping("/employees/login")
     public LoginResponse login(@RequestBody EmployeeRequestDto employeeRequestDto) {

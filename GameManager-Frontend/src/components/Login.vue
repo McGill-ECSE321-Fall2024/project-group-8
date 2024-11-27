@@ -220,8 +220,11 @@ export default {
       };
       // Implement your login API call here
       const ownerResponse = await axiosClient.get(`/api/owners`)
-      const employeeResponse = await axiosClient.get(`/api/employees/${this.person.email}`)
-      console.log("employee data:", employeeResponse.data)
+      let employeeResponse = null;
+      try { employeeResponse = await axiosClient.get(`/api/employees/${this.person.email}`)}
+      catch (e) {
+      }
+      // console.log("employee data:", employeeResponse.data)
       if (ownerResponse.data.email === this.person.email) {
         try{
           // this.person.name = ownerResponse.data.name;
@@ -230,7 +233,7 @@ export default {
         }catch(error){
           console.error("Error encountering when logging in:", error);
         }
-      }else if(employeeResponse.data.email === this.person.email) {
+      }else if(employeeResponse && employeeResponse.data.email === this.person.email) {
         try{
           // this.person.name = employeeResponse.data.name;
           await axiosClient.post(`/api/employees/employees/login`, this.person)
