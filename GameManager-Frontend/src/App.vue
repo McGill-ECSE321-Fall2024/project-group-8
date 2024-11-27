@@ -22,13 +22,19 @@ export default {
   name: "NavigationBar",
   data() {
     return {
-      menuItems:["Home","Search","Log in"],
-      menuItemRef: ['/','/search','/login'],
+      //menuItems:["Home","Search","Log in"],
+      //menuItemRef: ['/','/search','/login'],
+      // TODO: uncomment this when login function is confirmed
       selectedItem: "Home", // Default selected item
 
       // Navigation menu items
+
+      menuItems: ["Home", "Create Game", "Create Category", "Category List", "Search", "Cart", "Log in"],
+      menuItemRef: ['/', '/create-game', '/create-category', "/category-list", '/search', '/cart', '/login'],
+
       //menuItems: ["Home", "Create Game", "Categories", "Search", "Cart", "Log in"],
       //menuItemRef: ['/', '/create-game', '/category', '/search', '/cart', '/login'],
+
       // Track the selected item
     };
   },
@@ -50,8 +56,8 @@ export default {
         this.menuItems = ["Home", "Store Information","Profile", "Create Game", "Categories","Employees","Search", "Log out"];
         this.menuItemRef = ["/", "/Store-Information","/profile", "/create-game", "/category", "/employees","/", "/logout"];
       } else if(isEmployee) {
-        this.menuItems = ["Home", "Create Game", "Customer","Search", "Log out"];
-        this.menuItemRef = ["/", "/create-game", "/Customer","/", "/logout"];
+        this.menuItems = ["Home","Profile" ,"Create Game", "Customer","Search", "Log out"];
+        this.menuItemRef = ["/", "/Profile","/create-game", "/Customer","/", "/logout"];
       } else if(isCustomer) {
         this.menuItems = ["Home", "Profile", "Search", "Orders", "Cart", "WishList" ,"Log out"];
         this.menuItemRef = ["/", "/profile", "/search", "/order", "/cart" , "/Wish-list","/logout"];
@@ -84,7 +90,7 @@ body, html {
   border-radius: 50px; /* Fully rounded edges */
   padding: 10px 20px; /* Space around the menu items */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 800px; /* Optional: Limit width for better alignment */
+  max-width: 1000px; /* Optional: Limit width for better alignment */
   margin: 20px auto; /* Center the navbar on the page */
 }
 
