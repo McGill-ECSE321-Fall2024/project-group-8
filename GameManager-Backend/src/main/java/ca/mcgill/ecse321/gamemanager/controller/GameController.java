@@ -42,9 +42,7 @@ public class GameController {
                  gameRequestDto.getStock(),
                  gameRequestDto.getGameStatus(),
                  gameRequestDto.getRequestStatus(),
-                 gameRequestDto.getCategoryId(), // Use the provided category ID
-                 gameRequestDto.getCategoryName(), // Add category name
-                 gameRequestDto.getCategoryDescription() // Add category description
+                 gameRequestDto.getCategoryId() // Use the provided category ID
          );
 
         GameDto createdGameDto = new GameDto(createdGame);
@@ -179,9 +177,7 @@ public class GameController {
                 gameRequestDto.getStock(),
                 Game.GameStatus.Available,
                 Game.RequestStatus.Approved,
-                gameRequestDto.getCategoryId(),
-                gameRequestDto.getCategoryName(),
-                gameRequestDto.getCategoryDescription()
+                gameRequestDto.getCategoryId()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(new GameDto(createdGame));
     }
@@ -200,8 +196,4 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
-
-
 }

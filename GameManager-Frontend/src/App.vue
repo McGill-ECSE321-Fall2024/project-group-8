@@ -56,8 +56,8 @@ export default {
         this.menuItems = ["Home", "Store Information","Profile", "Create Game", "Categories","Employees","Search", "Log out"];
         this.menuItemRef = ["/", "/Store-Information","/profile", "/create-game", "/category", "/employees","/", "/logout"];
       } else if(isEmployee) {
-        this.menuItems = ["Home", "Create Game", "Customer","Search", "Log out"];
-        this.menuItemRef = ["/", "/create-game", "/Customer","/", "/logout"];
+        this.menuItems = ["Home","Profile" ,"Create Game", "Customer","Search", "Log out"];
+        this.menuItemRef = ["/", "/Profile","/create-game", "/Customer","/", "/logout"];
       } else if(isCustomer) {
         this.menuItems = ["Home", "Profile", "Search", "Orders", "Cart", "WishList" ,"Log out"];
         this.menuItemRef = ["/", "/profile", "/search", "/order", "/cart" , "/Wish-list","/logout"];
