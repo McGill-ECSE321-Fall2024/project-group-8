@@ -1,15 +1,10 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.CategoryDto;
-import ca.mcgill.ecse321.gamemanager.dto.GameDto;
-import ca.mcgill.ecse321.gamemanager.dto.GameRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Category;
-import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.service.CategoryService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
-@RequestMapping("/api/categories")
+@RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
@@ -38,14 +33,12 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
         Category category = new Category();
         category.setName(categoryDto.getName());
         category.setDescription(categoryDto.getDescription());
         Category createdCategory = categoryService.createCategory(category);
-        //return convertToDto(createdCategory);
-        CategoryDto createdDto = convertToDto(createdCategory);
-        return new ResponseEntity<CategoryDto>(createdDto, HttpStatus.CREATED);
+        return convertToDto(createdCategory);
     }
 
     @PutMapping("/{id}")
@@ -61,24 +54,6 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id) {
         categoryService.deleteCategory(id);
-    }
-
-    @PostMapping("/direct-add")
-    public ResponseEntity<CategoryDto> addCategoryDirectly(@RequestBody CategoryDto categoryDto) {
-        Category createdCategory = new Category(categoryDto.getName(), categoryDto.getDescription());
-        CategoryDto newDto = convertToDto(createdCategory);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(newDto);
-    }
-
-    @DeleteMapping("/direct-remove/{id}")
-    public ResponseEntity<Void> removeCategoryDirectly(@PathVariable int id) {
-        try {
-            categoryService.deleteCategory(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     private CategoryDto convertToDto(Category category) {

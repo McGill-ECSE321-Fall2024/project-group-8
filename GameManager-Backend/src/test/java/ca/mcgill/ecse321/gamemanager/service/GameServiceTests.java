@@ -61,7 +61,7 @@ public class GameServiceTests {
         when(gameRepository.save(any(Game.class))).thenReturn(game);
 
         // Act
-        Game createdGame = gameService.createGame(title, description, genre, price, stock, gameStatus, requestStatus, categoryId);
+        Game createdGame = gameService.createGame(title, description, genre, price, stock, gameStatus, requestStatus, categoryId, categoryName, categoryDescription);
 
         // Assert
         assertNotNull(createdGame);

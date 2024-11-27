@@ -28,9 +28,9 @@ export default {
   methods: {
     async createCategory() {
       try {
-        const response = await axiosClient.post("/api/categories", this.newCategory);
+        const response = await axiosClient.post("/categories", this.newCategory);
         console.log("Category created:", response.data);
-        this.$router.push({ name: "CategoryList" });
+        this.$router.push({ name: "Category" });
       } catch (e) {
         console.error("Error creating category:", e);
       }
@@ -50,17 +50,3 @@ export default {
   },
 };
 </script>
-
-<style>
-select {
-  padding: 5px 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-label {
-  margin-right: 10px;
-  font-weight: bold;
-}
-</style>
