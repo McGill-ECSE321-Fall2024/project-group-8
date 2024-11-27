@@ -74,6 +74,11 @@ export default {
         email: "",
         password: "",
       },
+      newUser: {
+        username: "",
+        email: "",
+        password: "",
+      },
       reviews: [
         {
           reviewId: 0,       // Placeholder for review ID
@@ -176,24 +181,29 @@ export default {
     },
     async updateUsername() {
       try{
-        this.user.username = this.newUsername;
+        this.newUser.username = this.newUsername;
+        this.newUser.email = this.user.email;
+        this.newUser.password = this.user.password;
         if (this.personRole === "Owner") {
-          await axiosClient.put(`/api/owners/${this.user.email}`, this.user);
+          await axiosClient.put(`/api/owners/${this.user.email}`, this.newUser);
         } else if (this.personRole === "Employee") {
-          await axiosClient.put(`/api/employees/${this.user.email}`, this.user);
+          await axiosClient.put(`/api/employees/${this.user.email}`, this.newUser);
         } else if (this.personRole === "Customer") {
-          await axiosClient.put(`/customers/${this.user.email}`, this.user);
+          await axiosClient.put(`/customers/${this.user.email}`, this.newUser);
         }
       } catch (error) {
         console.error("Error updating username:", error);
       }
 
       // TODO: In html, add an another input box to take username to be updated.
+      window.location.href = "/profile";
       console.log("Update username clicked");
     },
     async updatePassword() {
       try {
-        this.user.password = this.newPassword;
+        this.newUser.username = this.user.username;
+        this.newUser.email = this.user.email;
+        this.newUser.password = this.newPassword;
         if (this.personRole === "Owner") {
           await axiosClient.put(`/api/owners/${this.user.email}`, this.user);
         } else if (this.personRole === "Employee") {
