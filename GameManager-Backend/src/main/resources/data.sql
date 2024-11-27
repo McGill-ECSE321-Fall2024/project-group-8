@@ -1,6 +1,27 @@
-DELETE FROM customer
-WHERE email='customer6@mail.com';
-
-INSERT INTO employee(email, name, password)  VALUES
-                                                 ('employee1@mail.com','1', 09887765454312)
-
+INSERT INTO owner(email, name, password)
+SELECT 'manager@mail.com', 'manager', '1234567890'
+    WHERE NOT EXISTS (SELECT 1 FROM owner WHERE email = 'manager@mail.com');
+INSERT INTO category(name,description)
+SELECT 'Action', 'An action game is a video game genre that emphasizes physical challenges, including hand-eye coordination and reaction time.'
+    WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Action');
+INSERT INTO category(name,description)
+SELECT 'Puzzle', 'Puzzle games focus on completion, which requires players to solve a logic puzzle or navigate a challenge to progress to the next, more difficult challenge.'
+    WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Puzzle');
+INSERT INTO category(name,description)
+SELECT 'Strategy', 'A strategic game is a model of interaction in which each player chooses an action not having been informed of the other players.'
+    WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Strategy');
+INSERT INTO category(name,description)
+SELECT 'Racing', 'Racing games are a video game genre where players race to the finish line in a vehicle, either against other drivers or against the clock.'
+    WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Racing');
+INSERT INTO category(name,description)
+SELECT 'Sandbox','A sandbox game provides players a great degree of creativity to interact with, usually without any predetermined goal, or with a goal that the players set for themselves.'
+    WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Sandbox');
+INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
+SELECT 0, 'Embark on an odyssey for the Lost Ark in a vast, vibrant world: explore new lands, seek out lost treasures, and test yourself in thrilling action combat in this action-packed free-to-play RPG.', 'Available', 'action', 0, 33.99, 'PendingApproval', 100, 'Lost Ark', (SELECT category_id FROM category WHERE name = 'Action')
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 17);
+INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
+SELECT 0, 'Open your own local game store. Stock shelves with the latest booster packs, or crack them and collect the cards for yourself. Set your own prices, hire staff, host events, and expand your card shop.', 'Available', 'strategy', 0, 16.99, 'PendingApproval', 100, 'TCG Card Shop Simulator',(SELECT category_id FROM category WHERE name = 'Strategy')
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 18);
+INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
+SELECT 0, 'Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.', 'Available', 'racing', 0,29.98, 'PendingApproval', 100,'Grand Theft Auto V', (SELECT category_id FROM category WHERE name = 'Racing')
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 19);
