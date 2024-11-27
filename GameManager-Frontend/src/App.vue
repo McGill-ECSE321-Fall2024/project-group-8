@@ -22,7 +22,7 @@ export default {
   name: "NavigationBar",
   data() {
     return {
-      // TODO: uncomment this when everything are log in function is confirmed
+      // TODO: uncomment this when log in function is confirmed
       //menuItems:["Home","Search","Log in"],
       //menuItemRef: ['/','/search','/login'],
       selectedItem: "Home", // Default selected item
@@ -51,10 +51,10 @@ export default {
       const isCustomer = sessionStorage.getItem('customer') === null;
       if (isOwner) {
         this.menuItems = ["Home", "Store Information","Profile", "Create Game", "Categories","Employees","Search", "Log out"];
-        this.menuItemRef = ["/", "/Store-Information","/profile", "/create-game", "/category", "/employees","/", "/logout"];
+        this.menuItemRef = ["/", "/Store-Information","/profile", "/create-game", "/category", "/employees","/search", "/logout"];
       } else if(isEmployee) {
         this.menuItems = ["Home","Profile" ,"Create Game", "Customer","Search", "Log out"];
-        this.menuItemRef = ["/", "/Profile","/create-game", "/Customer","/", "/logout"];
+        this.menuItemRef = ["/", "/Profile","/create-game", "/Customer","/search", "/logout"];
       } else if(isCustomer) {
         this.menuItems = ["Home", "Profile", "Search", "Orders", "Cart", "WishList" ,"Log out"];
         this.menuItemRef = ["/", "/profile", "/search", "/order", "/cart" , "/Wish-list","/logout"];

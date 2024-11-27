@@ -196,4 +196,10 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PutMapping("{gId}/addReview/{rId}")
+    public GameDto addReview(@PathVariable int gId, @PathVariable int rId) {
+        Game game = gameService.addReview(gId, rId);
+        return new GameDto(game);
+    }
 }
