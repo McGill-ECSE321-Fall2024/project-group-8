@@ -6,9 +6,11 @@ import ca.mcgill.ecse321.gamemanager.dto.ReviewDto;
 import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.Review;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 
+import ca.mcgill.ecse321.gamemanager.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,8 @@ public class GameService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     /**
      * Retrieve a game by ID, throwing an exception if not found.
@@ -268,6 +272,22 @@ public class GameService {
         Game game = findByGameId(gameId);
         game.setGameStatus(newStatus);
         return gameRepository.save(game);
+    }
+
+    @Transactional
+    public Game addReview(int gameId, int reiewId) {
+        Game game = gameRepository.findByGameId(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
+        }
+        Review review = reviewRepository.findReviewByReviewId(reiewId);
+        if (review == null) {
+            throw new IllegalArgumentException("There is no review with ID " + reiewId + ".");
+        }
+        game.addReview(review);
+        game.updateAverageRating(review.getRating());
+        return gameRepository.save(game);
+
     }
 
 
