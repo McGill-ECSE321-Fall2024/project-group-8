@@ -152,12 +152,14 @@ export default {
       //this.displayedReviews = this.reviews.slice(0, this.itemsToShow);
     },
     async fetchOrders() {
-      try {
-        const response = await axiosClient.get(`/customers/allOrder/${this.user.email}`);
-        this.orders = response.data; // Assume backend returns orders
-        this.displayedOrders = this.orders.slice(0, this.itemsToShow);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
+      if (this.personRole === "Customer") {
+        try {
+          const response = await axiosClient.get(`/customers/allOrder/${this.user.email}`);
+          this.orders = response.data; // Assume backend returns orders
+          this.displayedOrders = this.orders.slice(0, this.itemsToShow);
+        } catch (error) {
+          console.error("Error fetching orders:", error);
+        }
       }
       // TODO: Fetch all orders from backend API and update 'orders'
       /*
