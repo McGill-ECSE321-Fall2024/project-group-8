@@ -21,6 +21,7 @@
         <td>{{ game.price }}</td>
         <td>{{ game.stock }}</td>
         <td>
+          <button @click="gameDetail(game.gameid)">Detail</button>
           <button @click="editGame(game.gameId)">Edit</button>
           <button @click="deleteGame(game.gameId)">Delete</button>
         </td>
@@ -58,6 +59,9 @@ export default {
     }
   },
   methods: {
+    gameDetail(gameId) {
+      this.$router.push({ name: "GameDetail", params: { id: gameId } });
+    },
     createGame() {
       this.$router.push({ name: "CreateGame" });
     },
