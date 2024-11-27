@@ -22,18 +22,46 @@ export default {
   name: "NavigationBar",
   data() {
     return {
+      //menuItems:["Home","Search","Log in"],
+      //menuItemRef: ['/','/search','/login'],
+      // TODO: uncomment this when login function is confirmed
+      selectedItem: "Home", // Default selected item
+
       // Navigation menu items
+
       menuItems: ["Home", "Create Game", "Create Category", "Category List", "Search", "Cart", "Log in"],
       menuItemRef: ['/', '/create-game', '/create-category', "/category-list", '/search', '/cart', '/login'],
+
+      //menuItems: ["Home", "Create Game", "Categories", "Search", "Cart", "Log in"],
+      //menuItemRef: ['/', '/create-game', '/category', '/search', '/cart', '/login'],
+
       // Track the selected item
-      selectedItem: "Home", // Default selected item
     };
+  },
+  mounted() {
+    this.updateMenuItems();
   },
   methods: {
     // Update the selected item
     selectItem(item, index) {
       this.selectedItem = item;
       this.$router.push(this.menuItemRef[index]);
+    },
+    // Update menu items based on session storage
+    updateMenuItems() {
+      const isOwner = sessionStorage.getItem('owner') === null;
+      const isEmployee = sessionStorage.getItem('employee') === null;
+      const isCustomer = sessionStorage.getItem('customer') === null;
+      if (isOwner) {
+        this.menuItems = ["Home", "Store Information","Profile", "Create Game", "Categories","Employees","Search", "Log out"];
+        this.menuItemRef = ["/", "/Store-Information","/profile", "/create-game", "/category", "/employees","/", "/logout"];
+      } else if(isEmployee) {
+        this.menuItems = ["Home", "Create Game", "Customer","Search", "Log out"];
+        this.menuItemRef = ["/", "/create-game", "/Customer","/", "/logout"];
+      } else if(isCustomer) {
+        this.menuItems = ["Home", "Profile", "Search", "Orders", "Cart", "WishList" ,"Log out"];
+        this.menuItemRef = ["/", "/profile", "/search", "/order", "/cart" , "/Wish-list","/logout"];
+      }
     },
   },
 };
