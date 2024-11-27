@@ -20,7 +20,7 @@ export default {
   setup() {
     const route = useRoute();
     const game = ref(null);
-
+    const isCustomer = sessionStorage.getItem('customer') !== null;
 
     const fetchGameDetails = async () => {
       try {
@@ -33,14 +33,30 @@ export default {
       }
     };
 
-    const addThisToWishList = () => {
+    const addThisToWishList = async () => {
       console.log('Adding to wishlist:', game.value);
+      if(isCustomer){
+        try{
+          const user = sessionStorage.getItem('customer')
+          await axios.put(`http://localhost:8080/api/games/addWishList/${game.value.id}`, user)
+        }catch(err){
+          console.error('Error adding wishlist:', err);
+        }
+      }
       // Add logic for adding the game to the wishlist
     };
 
-    const addThisToCart = () => {
+    const addThisToCart = async () => {
       console.log('Adding to cart:', game.value);
       // Add logic for adding the game to the cart
+      if(isCustomer){
+        try{
+          const user = sessionStorage.getItem('customer')
+          await axios.put(`http://localhost:8080/api/games/addCart/${game.value.id}`, user)
+        }catch(err){
+          console.error('Error adding cart:', err);
+        }
+      }
     };
 
     onMounted(fetchGameDetails);
