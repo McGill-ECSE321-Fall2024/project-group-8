@@ -13,6 +13,9 @@
         </li>
       </ul>
     </nav>
+    <div class="extra-line">
+      Website is still in development. Contents are not representative of the website’s final quality.
+    </div>
     <router-view />
   </div>
 </template>
@@ -53,14 +56,14 @@ export default {
       const isEmployee = sessionStorage.getItem('employee') === null;
       const isCustomer = sessionStorage.getItem('customer') === null;
       if (isOwner) {
-        this.menuItems = ["Home", "Store Information","Profile", "Create Game", "Categories","Employees","Search", "Log out"];
-        this.menuItemRef = ["/", "/Store-Information","/profile", "/create-game", "/category", "/employees","/search", "/logout"];
+        this.menuItems = ["Home", "Store Information", "Create Game", "Categories","Employees","Search", "Profile"];
+        this.menuItemRef = ["/", "/Store-Information", "/create-game", "/category", "/employees","/search", "/profile"];
       } else if(isEmployee) {
-        this.menuItems = ["Home","Profile" ,"Create Game", "Customer","Search", "Log out"];
-        this.menuItemRef = ["/", "/Profile","/create-game", "/Customer","/search", "/logout"];
+        this.menuItems = ["Home" ,"Create Game", "Customer","Search", "Profile"];
+        this.menuItemRef = ["/","/create-game", "/Customer","/search", "/profile"];
       } else if(isCustomer) {
-        this.menuItems = ["Home", "Profile", "Search", "Orders", "Cart", "WishList" ,"Log out"];
-        this.menuItemRef = ["/", "/profile", "/search", "/order", "/cart" , "/Wish-list","/logout"];
+        this.menuItems = ["Home", "Search", "Orders", "Cart", "WishList" ,"Profile"];
+        this.menuItemRef = ["/", "/search", "/order", "/cart" , "/Wish-list","/profile"];
       }
     },
   },
@@ -102,6 +105,20 @@ body, html {
   margin: 0;
   padding: 0;
 }
+
+.extra-line {
+  position: fixed; /* Fixes the position relative to the viewport */
+  bottom: 0; /* Aligns the text at the bottom of the screen */
+  left: 0; /* Aligns the text to start from the left */
+  width: 100%; /* Ensures the text spans the full width of the screen */
+  text-align: center; /* Centers the text horizontally */
+  padding: 10px 0; /* Adds some padding for spacing */
+  background-color: #f8f9fa; /* Light background to make it stand out */
+  color: #555; /* Slightly muted color */
+  font-size: 16px; /* Sets the text size */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for emphasis */
+}
+
 
 /* Navigation items */
 .nav-item a {
