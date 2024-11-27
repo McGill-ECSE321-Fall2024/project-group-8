@@ -56,8 +56,8 @@ export default {
       const isEmployee = sessionStorage.getItem('employee') === null;
       const isCustomer = sessionStorage.getItem('customer') === null;
       if (isOwner) {
-        this.menuItems = ["Home", "Store Information", "Create Game", "Categories","Employees","Search", "Profile"];
-        this.menuItemRef = ["/", "/Store-Information", "/create-game", "/category", "/employees","/search", "/profile"];
+        this.menuItems = ["Home", "Store Information", "Create Game", "Create Category","Category List","Employees","Search", "Profile"];
+        this.menuItemRef = ["/", "/Store-Information", "/create-game", '/create-category', "/category-list","/employees","/search", "/profile"];
       } else if(isEmployee) {
         this.menuItems = ["Home" ,"Create Game", "Customer","Search", "Profile"];
         this.menuItemRef = ["/","/create-game", "/Customer","/search", "/profile"];
@@ -93,7 +93,7 @@ body, html {
   border-radius: 50px; /* Fully rounded edges */
   padding: 10px 20px; /* Space around the menu items */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 1000px; /* Optional: Limit width for better alignment */
+  max-width: 1500px; /* Optional: Limit width for better alignment */
   margin: 20px auto; /* Center the navbar on the page */
 }
 
