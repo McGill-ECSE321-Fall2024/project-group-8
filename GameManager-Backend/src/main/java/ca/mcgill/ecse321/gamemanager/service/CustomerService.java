@@ -177,7 +177,7 @@ public class CustomerService {
         Customer customer = customerRepo.findCustomerByEmail(email);
 
         if(customer == null) {
-            throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
+            //throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
 
         }
 

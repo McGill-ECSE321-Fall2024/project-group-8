@@ -27,7 +27,7 @@ public class OwnerService {
     public Owner getOwner() {
         List<Owner> gotOwner = (List<Owner>) ownerRepo.findAll();
         if (gotOwner.size() != 1) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST, "There should be only one owner in the database.");
+            //throw new GameManagerException(HttpStatus.BAD_REQUEST, "There should be only one owner in the database.");
         }
         return gotOwner.getFirst();
 
