@@ -59,6 +59,8 @@ export default {
       }
     };
 
+    // TODO: add addReview function in the game detail page
+
     onMounted(fetchGameDetails);
 
     return { game, addThisToWishList, addThisToCart };

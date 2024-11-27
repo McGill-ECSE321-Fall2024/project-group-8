@@ -46,6 +46,7 @@ export default {
       console.log("isOwner",isOwner);
       console.log("isEmployee",isEmployee);
       console.log("isCustomer",isCustomer);
+      // TODO: design different homePage for staff and customer so that edit game is disable for customers.
       if (isOwner) {
         this.menuItems = [
           "Home",
