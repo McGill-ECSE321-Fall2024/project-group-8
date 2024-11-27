@@ -6,7 +6,7 @@
       <thead>
       <tr>
         <th>Title</th>
-        <th>Description</th>
+<!--        <th>Description</th>-->
         <th>Genre</th>
         <th>Price</th>
         <th>Stock</th>
@@ -16,12 +16,12 @@
       <tbody>
       <tr v-for="game in games" :key="game.gameId">
         <td>{{ game.title }}</td>
-        <td>{{ game.description }}</td>
+<!--        <td>{{ game.description }}</td>-->
         <td>{{ game.genre }}</td>
         <td>{{ game.price }}</td>
         <td>{{ game.stock }}</td>
         <td>
-          <button @click="gameDetail(game.gameid)">Detail</button>
+          <button @click="gameDetail(game.gameId)">Detail</button>
           <button @click="editGame(game.gameId)">Edit</button>
           <button @click="deleteGame(game.gameId)">Delete</button>
         </td>
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     gameDetail(gameId) {
-      this.$router.push({ name: "GameDetail", params: { id: gameId } });
+      this.$router.push({ name: "GameDetails", params: { id: gameId } });
     },
     createGame() {
       this.$router.push({ name: "CreateGame" });

@@ -94,7 +94,7 @@
       };
     },
     methods: {
-      async searchGames() {
+      async searchGamesByKeyword() {
         if (!this.searchKeyword.trim()) {
           alert("Please enter a keyword to search.");
           return;

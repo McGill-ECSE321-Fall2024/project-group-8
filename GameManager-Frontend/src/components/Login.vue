@@ -27,6 +27,18 @@
                   placeholder="Enter your email"
                   autocomplete="email"
               />
+              <label for="login-name">
+                <i class="fas fa-user"></i>
+                User Name
+              </label>
+              <input
+                  type="text"
+                  id="login-name"
+                  v-model="loginForm.name"
+                  :class="{ 'error': loginErrors.name }"
+                  placeholder="Enter your name"
+                  autocomplete="name"
+              />
             </div>
             <span class="error-message" v-if="loginErrors.email">{{ loginErrors.email }}</span>
           </div>
@@ -132,6 +144,7 @@ export default {
   data() {
     return {
       loginForm: {
+        name: '',
         email: '',
         password: '',
         rememberMe: false
@@ -201,31 +214,35 @@ export default {
 
     async loginUser() {
       this.person={
-        name:'',
+        name:this.loginForm.name,
         email:this.loginForm.email,
         password:this.loginForm.password,
       };
       // Implement your login API call here
-      const ownerResponse = await axios.get(`/api/owners`)
-      const employeeResponse = await axios.get(`/api/employees/${this.person.email}`)
+      const ownerResponse = await axiosClient.get(`/api/owners`)
+      const employeeResponse = await axiosClient.get(`/api/employees/${this.person.email}`)
+      console.log("employee data:", employeeResponse.data)
       if (ownerResponse.data.email === this.person.email) {
         try{
-          await axios.post(`/owner/login`, this.person)
+          // this.person.name = ownerResponse.data.name;
+          await axiosClient.post(`/api/owners/owner/login`, this.person)
           sessionStorage.setItem('owner', JSON.stringify(this.person));
         }catch(error){
           console.error("Error encountering when logging in:", error);
         }
       }else if(employeeResponse.data.email === this.person.email) {
         try{
-          await axios.post(`/employees/login`, this.person)
+          // this.person.name = employeeResponse.data.name;
+          await axiosClient.post(`/api/employees/employees/login`, this.person)
           sessionStorage.setItem('employee', JSON.stringify(this.person));
         }catch(error){
           console.error("Error encountering when logging in:", error);
         }
       }else{
         try{
-          await axios.post(`/customers/login`, this.person)
-          sessionStorage.setItem('customer', JSON.stringify(this.person));
+          await axiosClient.post(`/customers/login`, this.person)
+          console.log(this.person)
+          sessionStorage.setItem('customer', JSON.stringify(this.person))
         }catch(error){
           console.error("Error encountering when logging in:", error);
         }
@@ -233,7 +250,7 @@ export default {
 
 
 
-
+      window.location.href = "/";
       return { success: true }; // Placeholder
     },
 

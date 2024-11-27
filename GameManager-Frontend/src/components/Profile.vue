@@ -10,13 +10,18 @@
       <h2>Profile Information</h2>
       <div class="info-row">
         <label for="username">Username:</label>
-        <span>{{ user.username }}</span>
+        <span>{{ this.user.name }}</span>
+      </div>
+      <div class="info-row">
+        <label for="new-username">Updated Username:</label>
+        <span>{{ newUsername }}</span>
         <input type="text" placeholder="newUserName" v-model="newUsername" />
         <button @click="updateUsername">Update Username</button>
       </div>
+
       <div class="info-row">
         <label for="email">Email:</label>
-        <span>{{ user.email }}</span>
+        <span>{{ this.user.email }}</span>
       </div>
       <div class="info-row">
         <label for="password">Password:</label>
@@ -70,12 +75,12 @@ export default {
   data() {
     return {
       user: {
-        username: "",
+        name: "",
         email: "",
         password: "",
       },
       newUser: {
-        username: "",
+        name: "",
         email: "",
         password: "",
       },
@@ -121,11 +126,11 @@ export default {
     fetchUserData() {
 
       if (this.personRole === "Owner") {
-        this.user = JSON.parse(sessionStorage.getItem("Owner"));
+        this.user = JSON.parse(sessionStorage.getItem("owner"));
       } else if (this.personRole === "Employee") {
-        this.user = JSON.parse(sessionStorage.getItem("Employee"));
+        this.user = JSON.parse(sessionStorage.getItem("employee"));
       } else if (this.personRole === "Customer") {
-        this.user = JSON.parse(sessionStorage.getItem("Customer"));
+        this.user = JSON.parse(sessionStorage.getItem("customer"));
       }
     },
     async fetchReviewHistory() {
@@ -183,7 +188,7 @@ export default {
     },
     async updateUsername() {
       try{
-        this.newUser.username = this.newUsername;
+        this.newUser.name = this.newUsername;
         this.newUser.email = this.user.email;
         this.newUser.password = this.user.password;
         if (this.personRole === "Owner") {
@@ -203,7 +208,7 @@ export default {
     },
     async updatePassword() {
       try {
-        this.newUser.username = this.user.username;
+        this.newUser.name = this.user.name;
         this.newUser.email = this.user.email;
         this.newUser.password = this.newPassword;
         if (this.personRole === "Owner") {

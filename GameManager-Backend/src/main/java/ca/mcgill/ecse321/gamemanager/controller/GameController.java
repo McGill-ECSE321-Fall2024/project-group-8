@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameRequestDto;
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class GameController {
 
      @PostMapping
      public ResponseEntity<GameDto> createGame(@RequestBody GameRequestDto gameRequestDto) {
-        Game createdGame = gameService.createGame(
+         Game createdGame = gameService.createGame(
                  gameRequestDto.getTitle(),
                  gameRequestDto.getDescription(),
                  gameRequestDto.getGenre(),
