@@ -25,15 +25,15 @@ export default {
   name: "NavigationBar",
   data() {
     return {
-      //menuItems:["Home","Search","Log in"],
-      //menuItemRef: ['/','/search','/login'],
+      menuItems:["Home","Search","Log in"],
+      menuItemRef: ['/','/search','/login'],
       // TODO: uncomment this when login function is confirmed
       selectedItem: "Home", // Default selected item
 
       // Navigation menu items
 
-      menuItems: ["Home", "Create Game", "Create Category", "Category List", "Search", "Cart", "Log in"],
-      menuItemRef: ['/', '/create-game', '/create-category', "/category-list", '/search', '/cart', '/login'],
+      //menuItems: ["Home", "Create Game", "Create Category", "Category List", "Search", "Cart", "Log in"],
+      //menuItemRef: ['/', '/create-game', '/create-category', "/category-list", '/search', '/cart', '/login'],
 
       //menuItems: ["Home", "Create Game", "Categories", "Search", "Cart", "Log in"],
       //menuItemRef: ['/', '/create-game', '/category', '/search', '/cart', '/login'],

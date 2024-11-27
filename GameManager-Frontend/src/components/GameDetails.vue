@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue';
-import {useRoute} from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import axios from 'axios';
 
 export default {
@@ -21,10 +21,13 @@ export default {
     const route = useRoute();
     const game = ref(null);
 
+
     const fetchGameDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/games/${route.params.id}/details`);
-        game.value = response.data;
+        // Map only the required fields to the game object
+        const { title, description, genre, price, stock } = response.data;
+        game.value = { title, description, genre, price, stock };
       } catch (error) {
         console.error('Error fetching game details:', error);
       }
@@ -42,7 +45,7 @@ export default {
 
     onMounted(fetchGameDetails);
 
-    return {game, addThisToWishList, addThisToCart};
+    return { game, addThisToWishList, addThisToCart };
   },
 };
 </script>

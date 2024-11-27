@@ -5,7 +5,7 @@
     <input type="text" placeholder="Genre" v-model="newGame.genre" />
     <input type="number" placeholder="Price" v-model="newGame.price" />
     <input type="number" placeholder="Stock" v-model="newGame.stock" />
-    <input type="number" placeholder="Stock" v-model="newGame.categoryId" />
+    <input type="number" placeholder="CategoryId" v-model="newGame.categoryId" />
 
     <button @click="createGame" :disabled="!isGameValid()">Create Game</button>
     <button @click="clearInputs">Clear</button>

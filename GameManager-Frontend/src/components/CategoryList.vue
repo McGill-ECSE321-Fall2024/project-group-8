@@ -5,12 +5,14 @@
     <table>
       <thead>
       <tr>
+        <th>Id</th>
         <th>Name</th>
         <th>Description</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="category in categories" :key="category.categoryId">
+        <td>{{ category.categoryId }}</td>
         <td>{{ category.name }}</td>
         <td>{{ category.description }}</td>
         <td>
