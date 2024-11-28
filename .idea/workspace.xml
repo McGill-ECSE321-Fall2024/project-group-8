@@ -5,32 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7abef44-b006-4a0c-9183-5a619c1dccb1" name="Changes" comment="fix GameCopyServiceTests testCreateGameCopy_ValidGameId_WithStock">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/AddRemoveCategories.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CategoryDetails.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CategoryList.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/NavigationBar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/Profile.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/UpdateCategory.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/EmployeeResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/dto/EmployeeResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/GameService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/OwnerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/java/ca/mcgill/ecse321/gamemanager/service/OwnerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/Category.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateCategory.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateAccountForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateAccountForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/CategoryList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CategoryList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateGame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/CreateGame.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/GameDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/GameDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/GameList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/GameList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/SearchGames.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/SearchGames.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager-Frontend/src/components/NavigationBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager-Frontend/src/components/NavigationBar.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +64,7 @@
     </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Nara" />
+        <entry key="$PROJECT_DIR$" value="Sijing/NOV27" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -118,86 +96,86 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-    &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Gradle.Build GameManager-Backend.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryIntegrationTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryServiceTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoName.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryServiceTests.testDeleteCategory_InvalidId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CategoryServiceTests.testUpdateCategory_InvalidId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.EmployeeIntegrationTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.EmployeeServiceTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testCountGameCopyOfGame.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testCreateInvalidGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testCreateValidGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testDeleteGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testDeleteValidGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameCopyId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyServiceTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyServiceTests.testCreateGameCopy_ValidGameId_WithStock.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_InvalidId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameManager-Backend [:GamemanagerApplication.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameManager-Backend [:ca.mcgill.ecse321.gamemanager.GamemanagerApplication.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameServiceTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GameServiceTests.testCreateValidGame.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OwnerIntegrationTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OwnerServiceTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderIntegrationTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderIntegrationTests.testAddGameToCart.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartByValidIdValidGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_InvalidOrderId_ValidGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ReviewIntegrationTests.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.All in generated-requests.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.GamemanagerApplication.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Sijing/NOV27&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tomgusijing/Desktop/ECSE321/project-group-8&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-    },
-    &quot;keyToStringList&quot;: {
-    &quot;vue.recent.templates&quot;: [
-    &quot;Vue Composition API Component&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.Build GameManager-Backend.executor": "Run",
+    "Gradle.CategoryIntegrationTests.executor": "Run",
+    "Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor": "Run",
+    "Gradle.CategoryServiceTests.executor": "Run",
+    "Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription.executor": "Run",
+    "Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoName.executor": "Run",
+    "Gradle.CategoryServiceTests.testDeleteCategory_InvalidId.executor": "Run",
+    "Gradle.CategoryServiceTests.testUpdateCategory_InvalidId.executor": "Run",
+    "Gradle.EmployeeIntegrationTests.executor": "Run",
+    "Gradle.EmployeeServiceTests.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testCountGameCopyOfGame.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testCreateInvalidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testCreateValidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testDeleteGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testDeleteValidGameCopy.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameCopyId.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameId.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidId.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId.executor": "Run",
+    "Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameId.executor": "Run",
+    "Gradle.GameCopyServiceTests.executor": "Run",
+    "Gradle.GameCopyServiceTests.testCreateGameCopy_ValidGameId_WithStock.executor": "Run",
+    "Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor": "Run",
+    "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_InvalidId.executor": "Run",
+    "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
+    "Gradle.GameManager-Backend [:GamemanagerApplication.main()].executor": "Run",
+    "Gradle.GameManager-Backend [:ca.mcgill.ecse321.gamemanager.GamemanagerApplication.main()].executor": "Run",
+    "Gradle.GameServiceTests.executor": "Run",
+    "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
+    "Gradle.OwnerIntegrationTests.executor": "Run",
+    "Gradle.OwnerServiceTests.executor": "Run",
+    "Gradle.PurchaseOrderIntegrationTests.executor": "Run",
+    "Gradle.PurchaseOrderIntegrationTests.testAddGameToCart.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testAddGameToCartByValidIdValidGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_InvalidOrderId_ValidGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor": "Run",
+    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor": "Run",
+    "Gradle.ReviewIntegrationTests.executor": "Run",
+    "HTTP Request.All in generated-requests.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.GamemanagerApplication.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/tomgusijing/Desktop/ECSE321/project-group-8",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
-    }
-    }</component>
-  <component name="RunManager" selected="Application.GamemanagerApplication">
+  }
+}]]></component>
+  <component name="RunManager" selected="Spring Boot.GamemanagerApplication">
     <configuration name="GamemanagerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ca.mcgill.ecse321.gamemanager.GamemanagerApplication" />
       <module name="gamemanager.main" />
@@ -232,6 +210,7 @@
       <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="OwnerIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -255,6 +234,7 @@
       <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="OwnerServiceTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -278,6 +258,7 @@
       <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="ReviewIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -301,6 +282,7 @@
       <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="GamemanagerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
