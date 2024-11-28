@@ -20,7 +20,16 @@
             v-model="searchKeyword"
             placeholder="Enter keyword to search"
           />
-          <button @click="searchGames">Search</button>
+          <button @click="searchGamesByKeyword">Search</button>
+        </div>
+        <!-- Second Search Box -->
+        <div>
+          <input
+              type="text"
+              v-model="searchCategory"
+              placeholder="Enter Category to search"
+          />
+          <button @click="searchGamesByCategory">Search</button>
         </div>
 
     <!-- Sort Options -->
@@ -31,7 +40,7 @@
         </select>
         <button @click="sortGames">Sort</button>
         </div>
-    
+
         <!-- Results Section -->
         <div v-if="games.length > 0">
           <h3>Search Results:</h3>
@@ -58,7 +67,7 @@
             </tbody>
           </table>
         </div>
-    
+
         <!-- No Results Message -->
         <div v-else-if="searchPerformed">
           <p>No games found for "{{ searchKeyword }}".</p>
@@ -66,33 +75,54 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import axios from "axios";
-  
+
   const axiosClient = axios.create({
     baseURL: "http://localhost:8080",
   });
-  
+
   export default {
     data() {
       return {
         searchKeyword: "", // Keyword for searching games
+        searchCategory: "",
         games: [], // Array to hold search results
         searchPerformed: false, // Indicates if a search has been performed
         sortOption: "price",
       };
     },
     methods: {
-      async searchGames() {
+      async searchGamesByKeyword() {
         if (!this.searchKeyword.trim()) {
           alert("Please enter a keyword to search.");
           return;
         }
-  
+
         try {
           const response = await axiosClient.get("/api/games/search", {
-            params: { keyword: this.searchKeyword },
+            params: { keyword: this.searchKeyword || null,
+              category: this.searchCategory || null,
+              sortBy: this.sortOption },
+          });
+          this.games = response.data;
+          this.searchPerformed = true;
+        } catch (error) {
+          console.error("Error searching games:", error);
+          alert("An error occurred while searching for games.");
+        }
+      },
+      async searchGamesByCategory() {
+        if (!this.searchCategory.trim()) {
+          alert("Please enter a category to search.");
+          return;
+        }
+        try {
+          const response = await axiosClient.get("/api/games/search", {
+            params: { keyword: null,
+              category: this.searchCategory,
+              sortBy: this.sortOption },
           });
           this.games = response.data;
           this.searchPerformed = true;

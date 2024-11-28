@@ -457,7 +457,7 @@ export default {
     async handleSubmit() {
 
       this.customer={
-        name:this.formData.name,
+        name:this.formData.username,
         email:this.formData.email,
         password:this.formData.password,
       };

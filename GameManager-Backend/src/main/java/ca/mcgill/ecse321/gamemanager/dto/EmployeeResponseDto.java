@@ -9,8 +9,10 @@ public class EmployeeResponseDto {
     public EmployeeResponseDto() {}
 
     public EmployeeResponseDto(Employee employee) {
-        this.name = employee.getName();
-        this.email = employee.getEmail();
+        if (employee!=null) {
+            this.name = employee.getName();
+            this.email = employee.getEmail();
+        }
     }
 
     public String getName() {

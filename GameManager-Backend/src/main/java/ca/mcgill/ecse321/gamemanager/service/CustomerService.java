@@ -32,7 +32,7 @@ public class CustomerService {
             //throw new IllegalArgumentException("A customer with this email already exists.");
         }
         if (password == null || password.length() < 8) {
-           // throw new IllegalArgumentException("Password must be at least 8 characters long.");
+            // throw new IllegalArgumentException("Password must be at least 8 characters long.");
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters long.");
         }
         String encryptedPassword = SHA256Encryption.getSHA(password);
@@ -177,7 +177,7 @@ public class CustomerService {
         Customer customer = customerRepo.findCustomerByEmail(email);
 
         if(customer == null) {
-            throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
+            //throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
 
         }
 

@@ -3,13 +3,17 @@ package ca.mcgill.ecse321.gamemanager.service;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameDto;
 import ca.mcgill.ecse321.gamemanager.dto.ReviewDto;
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.Review;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
 
+import ca.mcgill.ecse321.gamemanager.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -36,6 +40,9 @@ public class GameService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     /**
      * Retrieve a game by ID, throwing an exception if not found.
@@ -65,24 +72,25 @@ public class GameService {
      * @return The created game.
      */
 
-     @Transactional
-     public Game createGame(String title, String description, String genre, double price, int stock,
-                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId,
-                            String categoryName, String categoryDescription) {
-         // Try to fetch the category by ID from the database
-         Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+    @Transactional
+    public Game createGame(String title, String description, String genre, double price, int stock,
+                           Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId) {
+        // Try to fetch the category by ID from the database
+        Category category = categoryRepository.findCategoryByCategoryId(categoryId);
 
-         // If the category doesn't exist, create and save a new one
-         if (category == null) {
+        // If the category doesn't exist, create and save a new one
+        if (category == null) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST,"There is no category with ID " + categoryId + ".");
+             /*
              category = new Category(categoryName, categoryDescription);
              category.setCategoryId(categoryId); // Ensure the ID is set if needed
-             categoryRepository.save(category);
-         }
+             categoryRepository.save(category);*/
+        }
 
-         // Create the Game with the associated Category
-         Game gameToCreate = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
-         return gameRepository.save(gameToCreate);
-     }
+        // Create the Game with the associated Category
+        Game gameToCreate = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
+        return gameRepository.save(gameToCreate);
+    }
 
     /**
      * Search games by keyword or category and sort by popularity, rating, and relevance.
@@ -266,6 +274,22 @@ public class GameService {
         game.setGameStatus(newStatus);
         return gameRepository.save(game);
     }
+
+    @Transactional
+    public Game addReview(int gameId, int reiewId) {
+        Game game = gameRepository.findByGameId(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
+        }
+        Review review = reviewRepository.findReviewByReviewId(reiewId);
+        if (review == null) {
+            throw new IllegalArgumentException("There is no review with ID " + reiewId + ".");
+        }
+        game.addReview(review);
+        game.updateAverageRating(review.getRating());
+        return gameRepository.save(game);
+    }
+
 
 
 }

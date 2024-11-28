@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameRequestDto;
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,24 +33,22 @@ public class GameController {
      * Create a new game.
      */
 
-     @PostMapping
-     public ResponseEntity<GameDto> createGame(@RequestBody GameRequestDto gameRequestDto) {
+    @PostMapping
+    public ResponseEntity<GameDto> createGame(@RequestBody GameRequestDto gameRequestDto) {
         Game createdGame = gameService.createGame(
-                 gameRequestDto.getTitle(),
-                 gameRequestDto.getDescription(),
-                 gameRequestDto.getGenre(),
-                 gameRequestDto.getPrice(),
-                 gameRequestDto.getStock(),
-                 gameRequestDto.getGameStatus(),
-                 gameRequestDto.getRequestStatus(),
-                 gameRequestDto.getCategoryId(), // Use the provided category ID
-                 gameRequestDto.getCategoryName(), // Add category name
-                 gameRequestDto.getCategoryDescription() // Add category description
-         );
+                gameRequestDto.getTitle(),
+                gameRequestDto.getDescription(),
+                gameRequestDto.getGenre(),
+                gameRequestDto.getPrice(),
+                gameRequestDto.getStock(),
+                gameRequestDto.getGameStatus(),
+                gameRequestDto.getRequestStatus(),
+                gameRequestDto.getCategoryId() // Use the provided category ID
+        );
 
         GameDto createdGameDto = new GameDto(createdGame);
         return new ResponseEntity<GameDto>(createdGameDto, HttpStatus.CREATED);
-     }
+    }
 
     /**
      * Update an existing game by ID.
@@ -57,15 +56,15 @@ public class GameController {
     @PutMapping("/{id}")
     public GameDto updateGame(@PathVariable int id, @RequestBody GameRequestDto gameRequestDto) {
         Game updatedGame = gameService.updateGame(
-            id,
-            gameRequestDto.getTitle(),
-            gameRequestDto.getDescription(),
-            gameRequestDto.getGenre(),
-            gameRequestDto.getPrice(),
-            gameRequestDto.getStock(),
-            gameRequestDto.getGameStatus(),
-            gameRequestDto.getRequestStatus(),
-            gameRequestDto.getCategoryId()  // Pass categoryId instead of the Category object
+                id,
+                gameRequestDto.getTitle(),
+                gameRequestDto.getDescription(),
+                gameRequestDto.getGenre(),
+                gameRequestDto.getPrice(),
+                gameRequestDto.getStock(),
+                gameRequestDto.getGameStatus(),
+                gameRequestDto.getRequestStatus(),
+                gameRequestDto.getCategoryId()  // Pass categoryId instead of the Category object
         );
         return new GameDto(updatedGame);
     }
@@ -116,9 +115,9 @@ public class GameController {
      */
     @GetMapping("/search")
     public List<GameDto> searchGames(
-        @RequestParam(required = false) String keyword,
-        @RequestParam(required = false) String category,
-        @RequestParam(required = false, defaultValue = "popularity") String sortBy
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false, defaultValue = "popularity") String sortBy
     ) {
         List<Game> games = gameService.searchGames(keyword, category, sortBy);
         return games.stream().map(GameDto::new).collect(Collectors.toList());
@@ -179,14 +178,12 @@ public class GameController {
                 gameRequestDto.getStock(),
                 Game.GameStatus.Available,
                 Game.RequestStatus.Approved,
-                gameRequestDto.getCategoryId(),
-                gameRequestDto.getCategoryName(),
-                gameRequestDto.getCategoryDescription()
+                gameRequestDto.getCategoryId()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(new GameDto(createdGame));
     }
 
-//    @DeleteMapping("/direct-remove/{id}")
+    //    @DeleteMapping("/direct-remove/{id}")
 //    public ResponseEntity<Void> removeGameDirectly(@PathVariable int id) {
 //        gameService.deleteGame(id);
 //        return ResponseEntity.noContent().build();
@@ -201,7 +198,9 @@ public class GameController {
         }
     }
 
-
-
-
+    @PutMapping("{gId}/addReview/{rId}")
+    public GameDto addReview(@PathVariable int gId, @PathVariable int rId) {
+        Game game = gameService.addReview(gId, rId);
+        return new GameDto(game);
+    }
 }
