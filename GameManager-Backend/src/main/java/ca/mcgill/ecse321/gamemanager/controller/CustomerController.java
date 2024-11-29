@@ -50,18 +50,18 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{email}/cartAll")
-    public GameListDto getAllInCart(@PathVariable String email){
-        List<Game> games = customerService.getInCart(email);
-        List<GameDto> gameDtos = new ArrayList<>();
+    public List<GameDto> getAllInCart(@PathVariable String email){
+        List<Game> games = customerService.getAllInCart(email);
+        List<GameDto> gameListDtos = new ArrayList<>();
         for (Game game : games) {
-            GameDto gameListDto = new GameDto(game);
-            if (gameDtos.contains(gameListDto)){
-                gameListDto.increaseQuantity();
-                continue;
+            GameDto gameDto = new GameDto(game);
+            if (!gameListDtos.contains(gameDto)){
+                gameListDtos.add(gameDto);
+            }else {
+                gameListDtos.get(gameListDtos.indexOf(gameDto)).increaseQuantity();
             }
-            gameDtos.add(gameListDto);
         }
-        return new GameListDto(gameDtos);
+        return gameListDtos;
     }
 
     @PutMapping("/customers/addWishList/{gId}")

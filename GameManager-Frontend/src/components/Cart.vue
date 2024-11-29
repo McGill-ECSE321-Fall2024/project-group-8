@@ -24,7 +24,9 @@
 <script>
 import axios from "axios";
 import Payment from "@/components/Payment.vue";
-
+const axiosClient = axios.create({
+  baseURL: "http://localhost:8080", // Backend API base URL
+});
 export default {
   name: "cart",
   data() {
@@ -39,14 +41,10 @@ export default {
   },
   async created() {
     try {
-      const routes = [
-        { path: '/payment', component: Payment },
-      ]
       this.customer = JSON.parse(sessionStorage.getItem("customer"));
       console.log(this.customer.email);
-      // axios.post()
-      axios.get(`/customers/${this.customer.email}/cartAll`) // API call to the Controller
-      .then(response => {this.cart = response.data;});
+      await axiosClient.get(`/customers/${this.customer.email}/cartAll`) // API call to the Controller
+      .then(response => {this.cart = response.data;})
     } catch (error) {
       console.error("Error fetching cart games:", error);
     }
@@ -57,24 +55,27 @@ export default {
     },
   },
   methods: {
-    increaseQuantity(game) {
+    async increaseQuantity(game) {
       try {
         game.quantity++;
-        const response = axios.put(`/customers/addCart/${game.gameId}`, this.customer, {
+        const response = await axiosClient.put(`/customers/addCart/${game.gameId}`, this.customer, {
           headers: { 'Content-Type': 'application/json'}
         });
+        console.log(response.data)
         return response.data;
       } catch (error) {
         console.error('Error removing item from cart:', error.response?.data || error.message);
         throw error; // Handle or rethrow the error
       }
     },
-    decreaseQuantity(game) {
+    async decreaseQuantity(game) {
       try {
-        if (game.quantity > 1) game.quantity--;
-        const response = axios.put(`/customers/removeInCart/${game.gameId}`, this.customer, {
-          headers: { 'Content-Type': 'application/json'}
-        });
+        game.quantity--;
+        const response = await axiosClient.put(`/customers/removeInCart/${game.gameId}`, this.customer, {
+        headers: { 'Content-Type': 'application/json'}
+        })
+        console.log(response.data)
+        location.reload()
         return response.data;
       } catch (error) {
         console.error('Error removing item from cart:', error.response?.data || error.message);

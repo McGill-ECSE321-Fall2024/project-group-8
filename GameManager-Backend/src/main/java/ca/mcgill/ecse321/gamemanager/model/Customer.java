@@ -28,10 +28,10 @@ public class Customer extends Person
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "buyer_id") // Foreign key in PurchaseOrder referencing Buyer
   private List<PurchaseOrder> purchaseOrders;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany()
   @JoinColumn(name = "wishListOwner")
   private List<Game> inWishlist;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany()
   @JoinColumn(name = "cartOwner")
   private List<Game> inCart;
 
@@ -265,11 +265,7 @@ public class Customer extends Person
   /* Code from template association_AddUnidirectionalMany */
   public boolean addInCart(Game aInCart)
   {
-    boolean wasAdded = false;
-    if (inCart.contains(aInCart)) { return false; }
-    inCart.add(aInCart);
-    wasAdded = true;
-    return wasAdded;
+    return inCart.add(aInCart);
   }
 
   public boolean removeInCart(Game aInCart)
