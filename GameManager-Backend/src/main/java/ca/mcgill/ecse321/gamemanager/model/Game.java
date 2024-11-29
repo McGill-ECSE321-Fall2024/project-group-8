@@ -31,9 +31,9 @@ public class Game
   private String genre;
   private double price;
   private int stock;
-  @Enumerated(EnumType.STRING)
+  //@Enumerated(EnumType.STRING)
   private GameStatus gameStatus;
-  @Enumerated(EnumType.STRING)
+  //@Enumerated(EnumType.STRING)
   private RequestStatus requestStatus;
   private int popularity;
   private double averageRating;

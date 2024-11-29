@@ -174,14 +174,7 @@ public class CustomerService {
     // Retrieve a customer by email (used as ID in this case)
     public Customer findCustomerByEmail(String email) {
 
-        Customer customer = customerRepo.findCustomerByEmail(email);
-
-        if(customer == null) {
-            //throw new GameManagerException(HttpStatus.NOT_FOUND,String.format("Customer with email %s not found", email));
-
-        }
-
-        return customer;
+        return customerRepo.findCustomerByEmail(email);
     }
 
     // Retrieve all customers
