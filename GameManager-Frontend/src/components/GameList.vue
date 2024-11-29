@@ -1,36 +1,25 @@
 <template>
-  <div>
-    <h1>Game List</h1>
-    <!-- Table to display games -->
-    <table>
-      <thead>
-      <tr>
-        <th>Title</th>
-<!--        <th>Description</th>-->
-        <th>Genre</th>
-        <th>Price</th>
-        <th>Stock</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="game in games" :key="game.gameId">
-        <td>{{ game.title }}</td>
-<!--        <td>{{ game.description }}</td>-->
-        <td>{{ game.genre }}</td>
-        <td>{{ game.price }}</td>
-        <td>{{ game.stock }}</td>
-        <td>
-          <button @click="gameDetail(game.gameId)">Detail</button>
-          <button @click="editGame(game.gameId)">Edit</button>
-          <button @click="deleteGame(game.gameId)">Delete</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <div class = "game-manager">
+    <header class = "header">
+        <h1>Game List</h1>
+        <!-- Button to navigate to create game -->
+            <button class = "create-button" @click="createGame">Create New Game</button>
+    </header>
 
-    <!-- Button to navigate to create game -->
-    <button @click="createGame">Create New Game</button>
+    <div class = "game-list">
+        <div class = "game-specific" v-for = "game in games" :key="game.gameId">
+            <h2> {{ game.title }} </h2>
+            <p class = "genre"> Genre: {{ game.genre }} </p>
+            <p class = "price"> Price: {{ game.price }} </p>
+            <p class = "stock"> Stock: {{ game.stock }} </p>
+
+            <div class = "actions">
+                <button class = "details-button" @click="gameDetail(game.gameId)">Detail</button>
+                <button class = "edit-button" @click="editGame(game.gameId)">Edit</button>
+                <button class = "del-button" @click="deleteGame(game.gameId)">Delete</button>
+            </div>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -87,28 +76,95 @@ export default {
 </script>
 
 <style>
-/* Add some basic styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  color: black;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
 }
 
-table th,
-table td {
+.create-button {
+  background-color: #fff;
+  color: #4CAF50;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.create-button:hover {
+  background-color: #ddd;
+}
+
+.game-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  padding: 20px;
+  max-width: 1200px;
+}
+
+.game-specific {
+  background-color: white;
   border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-table th {
-  background-color: #f2f2f2;
+.game-specific:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-specific h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.game-specific .genre,
+.game-specific .price,
+.game-specific .stock {
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.actions {
+  margin-top: 15px;
 }
 
 button {
-  margin: 5px;
-  padding: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
+
+.details-button {
+  background-color: #007BFF;
+  color: white;
+  margin-right: 5px;
+}
+
+.edit-button {
+  background-color: #007BFF;
+  color: white;
+  margin-right: 5px;
+}
+
+.del-button {
+  background-color: #007BFF;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
 </style>
