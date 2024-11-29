@@ -1,4 +1,4 @@
-/*INSERT INTO owner(email, name, password)
+INSERT INTO owner(email, name, password)
 SELECT 'manager@mail.com', 'manager', '1234567890'
     WHERE NOT EXISTS (SELECT 1 FROM owner WHERE email = 'manager@mail.com');
 INSERT INTO category(name,description)
@@ -24,4 +24,4 @@ SELECT 0, 'Open your own local game store. Stock shelves with the latest booster
     WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 18);
 INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
 SELECT 0, 'Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.', 'Available', 'racing', 0,29.98, 'PendingApproval', 100,'Grand Theft Auto V', (SELECT category_id FROM category WHERE name = 'Racing')
-    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 19);*/
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 19);
