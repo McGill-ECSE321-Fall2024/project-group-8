@@ -182,7 +182,7 @@ public class CustomerIntegrationTests {
     public void testDeleteEmailInValid(){
 
         String inValidEmail1 = "Ang12345@example.com";
-        CustomerRequestDto request = new CustomerRequestDto( aUsername,inValidEmail1,aPassword);
+        //CustomerRequestDto request = new CustomerRequestDto( aUsername,inValidEmail1,aPassword);
         String url="/customers/" + inValidEmail1;
 
         client.delete(url);

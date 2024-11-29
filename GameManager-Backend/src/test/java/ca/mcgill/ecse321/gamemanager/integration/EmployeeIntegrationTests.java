@@ -144,7 +144,7 @@ public class EmployeeIntegrationTests {
                 EmployeeResponseDto.class
         );
         assertNotNull(response);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test

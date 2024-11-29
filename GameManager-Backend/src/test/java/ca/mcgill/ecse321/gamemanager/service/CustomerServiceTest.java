@@ -203,6 +203,7 @@ public class CustomerServiceTest {
 
         GameManagerException ex = assertThrows(GameManagerException.class,()-> customerService.updateCustomer(email,name, newPassword) ) ;
         assertEquals("Failed to update customer with invalid password.",ex.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST,ex.getStatus());
 
     }
 

@@ -48,7 +48,7 @@ public class GameIntegrationTests {
 
         // Create a category for testing
         CategoryDto categoryRequest = new CategoryDto(0, "Adventure", "Adventure games", null);
-        ResponseEntity<CategoryDto> categoryResponse = client.postForEntity("/api/categories", categoryRequest, CategoryDto.class);
+        ResponseEntity<CategoryDto> categoryResponse = client.postForEntity("/categories", categoryRequest, CategoryDto.class);
         assertNotNull(categoryResponse.getBody());
         this.validCategoryId = categoryResponse.getBody().getCategoryId();
     }
