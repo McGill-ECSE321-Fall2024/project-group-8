@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -173,8 +174,8 @@ public class CustomerService {
 
     // Retrieve a customer by email (used as ID in this case)
     public Customer findCustomerByEmail(String email) {
-
-        return customerRepo.findCustomerByEmail(email);
+        Optional<Customer> optionalCustomer = Optional.ofNullable(customerRepo.findCustomerByEmail(email));
+        return optionalCustomer.orElseThrow(() -> new GameManagerException(HttpStatus.NOT_FOUND, "Invalid GameCopy ID."));
     }
 
     // Retrieve all customers
