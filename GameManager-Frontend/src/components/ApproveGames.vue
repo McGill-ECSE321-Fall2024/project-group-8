@@ -19,16 +19,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="game in pendingGames" :key="game.id">
-          <td>{{ game.id }}</td>
+        <tr v-for="game in pendingGames" :key="game.gameId">
+          <td>{{ game.gameId }}</td>
           <td>{{ game.title }}</td>
           <td>{{ game.description }}</td>
           <td>{{ game.genre }}</td>
           <td>{{ game.price }}</td>
           <td>{{ game.stock }}</td>
           <td>
-            <button @click="approveGame(game.id)" class="approve-btn">Approve</button>
-            <button @click="rejectGame(game.id)" class="reject-btn">Reject</button>
+            <button @click="approveGame(game.gameId)" class="approve-btn">Approve</button>
+            <button @click="rejectGame(game.gameId)" class="reject-btn">Reject</button>
           </td>
         </tr>
         </tbody>

@@ -66,18 +66,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "MRJ-G"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MRJ-G&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/McGill-ECSE321-Fall2024/project-group-8.git",
-    "accountId": "3b75fc7b-3f7c-4431-8b5c-a0b64eebe986"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/McGill-ECSE321-Fall2024/project-group-8.git&quot;,
+    &quot;accountId&quot;: &quot;3b75fc7b-3f7c-4431-8b5c-a0b64eebe986&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -93,96 +93,96 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Gradle.Build GameManager-Backend.executor": "Run",
-    "Gradle.CategoryIntegrationTests.executor": "Run",
-    "Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor": "Run",
-    "Gradle.CategoryServiceTests.executor": "Run",
-    "Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription.executor": "Run",
-    "Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoName.executor": "Run",
-    "Gradle.CategoryServiceTests.testDeleteCategory_InvalidId.executor": "Run",
-    "Gradle.CategoryServiceTests.testUpdateCategory_InvalidId.executor": "Run",
-    "Gradle.CustomerIntegrationTests.executor": "Run",
-    "Gradle.CustomerIntegrationTests.testDeleteEmailValid.executor": "Debug",
-    "Gradle.CustomerServiceTest.executor": "Run",
-    "Gradle.CustomerServiceTest.testDeleteCustomerWithValidEmail.executor": "Run",
-    "Gradle.CustomerServiceTest.testUpdateCustomerInvalidPassword.executor": "Run",
-    "Gradle.EmployeeIntegrationTests.executor": "Run",
-    "Gradle.EmployeeServiceTests.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testCountGameCopyOfGame.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testCreateInvalidGameCopy.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testCreateValidGameCopy.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testDeleteGameCopy.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testDeleteValidGameCopy.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameCopyId.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameId.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidId.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId.executor": "Run",
-    "Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameId.executor": "Run",
-    "Gradle.GameCopyServiceTests.executor": "Run",
-    "Gradle.GameCopyServiceTests.testCreateGameCopy_ValidGameId_WithStock.executor": "Run",
-    "Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor": "Run",
-    "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_InvalidId.executor": "Run",
-    "Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor": "Run",
-    "Gradle.GameIntegrationTests.executor": "Run",
-    "Gradle.GameIntegrationTests.testDeleteGame.executor": "Run",
-    "Gradle.GameIntegrationTests.testUpdateGame.executor": "Run",
-    "Gradle.GameManager-Backend [:GamemanagerApplication.main()].executor": "Run",
-    "Gradle.GameManager-Backend [:ca.mcgill.ecse321.gamemanager.GamemanagerApplication.main()].executor": "Run",
-    "Gradle.GameServiceTests.executor": "Run",
-    "Gradle.GameServiceTests.testCreateValidGame.executor": "Run",
-    "Gradle.OwnerIntegrationTests.executor": "Run",
-    "Gradle.OwnerServiceTests.executor": "Run",
-    "Gradle.OwnerServiceTests.testAndCreateOwnerWithExistingEmail.executor": "Run",
-    "Gradle.OwnerServiceTests.testGetOwnerWithNone.executor": "Run",
-    "Gradle.PurchaseOrderIntegrationTests.executor": "Run",
-    "Gradle.PurchaseOrderIntegrationTests.testAddGameToCart.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testAddGameToCartByValidIdValidGameCopies.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_InvalidOrderId_ValidGameCopies.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor": "Run",
-    "Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor": "Run",
-    "Gradle.ReviewIntegrationTests.executor": "Run",
-    "HTTP Request.All in generated-requests.executor": "Run",
-    "HTTP Request.generated-requests | #2.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.GamemanagerApplication.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Sijing/NOV29",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/tomgusijing/Desktop/ECSE321/project-group-8",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.Build GameManager-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryIntegrationTests.testGetCategoryByInvalidId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoDescription.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryServiceTests.testCreateCategory_InvalidCategory_NoName.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryServiceTests.testDeleteCategory_InvalidId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryServiceTests.testUpdateCategory_InvalidId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CustomerIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CustomerIntegrationTests.testDeleteEmailValid.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.CustomerServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CustomerServiceTest.testDeleteCustomerWithValidEmail.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CustomerServiceTest.testUpdateCustomerInvalidPassword.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.EmployeeIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.EmployeeServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testCountGameCopyOfGame.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testCountGameCopyOfGameWithoutGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testCreateInvalidGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testCreateValidGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testDeleteGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testDeleteInvalidGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testDeleteValidGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameCopyId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidGameId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByInvalidId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameCopyId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyIntegrationTests.testFindGameCopyByValidGameId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyServiceTests.testCreateGameCopy_ValidGameId_WithStock.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyServiceTests.testCreateValidGameCopy.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_InvalidId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameCopyServiceTests.testFindGameCopyByGameCopyId_ValidId.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameIntegrationTests.testDeleteGame.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameIntegrationTests.testUpdateGame.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameManager-Backend [:GamemanagerApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameManager-Backend [:ca.mcgill.ecse321.gamemanager.GamemanagerApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameServiceTests.testCreateValidGame.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.OwnerIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.OwnerServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.OwnerServiceTests.testAndCreateOwnerWithExistingEmail.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.OwnerServiceTests.testGetOwnerWithNone.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderIntegrationTests.testAddGameToCart.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartByValidIdValidGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_InvalidOrderId_ValidGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_EmptyGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testAddGameToCartBy_ValidOrderId_InvalidGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testCheckOutBy_InvalidOrderId_ValidGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_InvalidGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PurchaseOrderServiceTests.testCheckOutBy_ValidOrderId_ValidGameCopies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ReviewIntegrationTests.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.All in generated-requests.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.GamemanagerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Sijing/NOV29&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tomgusijing/Desktop/ECSE321/project-group-8&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  &quot;keyToStringList&quot;: {
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+  &amp;quot;keyToStringList&amp;quot;: {
+    &amp;quot;vue.recent.templates&amp;quot;: [
+      &amp;quot;Vue Composition API Component&amp;quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected="Gradle.CustomerServiceTest.testUpdateCustomerInvalidPassword">
+}</component>
+  <component name="RunManager" selected="Spring Boot.GamemanagerApplication">
     <configuration name="CustomerIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -197,30 +197,6 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameIntegrationTests&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="GameIntegrationTests.testDeleteGame" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameIntegrationTests.testDeleteGame&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -279,30 +255,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="OwnerServiceTests.testGetOwnerWithNone" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.OwnerServiceTests.testGetOwnerWithNone&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="GameIntegrationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -327,6 +279,54 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="GameIntegrationTests.testDeleteGame" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.integration.GameIntegrationTests.testDeleteGame&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="OwnerServiceTests.testGetOwnerWithNone" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/GameManager-Backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ca.mcgill.ecse321.gamemanager.service.OwnerServiceTests.testGetOwnerWithNone&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="GamemanagerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="gamemanager.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ca.mcgill.ecse321.gamemanager.GamemanagerApplication" />
@@ -336,9 +336,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.CustomerServiceTest.testUpdateCustomerInvalidPassword" />
         <item itemvalue="Gradle.CustomerServiceTest.testDeleteCustomerWithValidEmail" />
-        <item itemvalue="Gradle.CustomerIntegrationTests.testDeleteEmailValid" />
         <item itemvalue="Gradle.CustomerIntegrationTests" />
         <item itemvalue="Gradle.CustomerServiceTest" />
       </list>
