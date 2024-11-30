@@ -34,7 +34,6 @@ public class CustomerServiceTest {
     @AfterEach
     public void deleteDb(){
         customerRepository.deleteAll();
-
     }
 
 
