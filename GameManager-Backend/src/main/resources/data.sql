@@ -1,5 +1,5 @@
 INSERT INTO owner(email, name, password)
-SELECT 'manager@mail.com', 'manager', '1234567890'
+SELECT 'manager@mail.com', 'manager', 'c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646'
     WHERE NOT EXISTS (SELECT 1 FROM owner WHERE email = 'manager@mail.com');
 INSERT INTO category(name,description)
 SELECT 'Action', 'An action game is a video game genre that emphasizes physical challenges, including hand-eye coordination and reaction time.'
