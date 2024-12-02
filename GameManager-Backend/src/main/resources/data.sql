@@ -18,10 +18,10 @@ SELECT 'Sandbox','A sandbox game provides players a great degree of creativity t
     WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Sandbox');
 INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
 SELECT 1, 'Embark on an odyssey for the Lost Ark in a vast, vibrant world: explore new lands, seek out lost treasures, and test yourself in thrilling action combat in this action-packed free-to-play RPG.', 1, 'action', 0, 33.99, 0, 100, 'Lost Ark', (SELECT category_id FROM category WHERE name = 'Action')
-    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 17);
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE title = 'Lost Ark');
 INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
 SELECT 1, 'Open your own local game store. Stock shelves with the latest booster packs, or crack them and collect the cards for yourself. Set your own prices, hire staff, host events, and expand your card shop.', 1, 'strategy', 0, 16.99, 0, 100, 'TCG Card Shop Simulator',(SELECT category_id FROM category WHERE name = 'Strategy')
-    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 18);
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE title = 'TCG Card Shop Simulator');
 INSERT INTO game(average_rating, description, game_status, genre, popularity, price, request_status, stock, title, category)
 SELECT 1, 'Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.', 1, 'racing', 0,29.98, 0, 100,'Grand Theft Auto V', (SELECT category_id FROM category WHERE name = 'Racing')
-    WHERE NOT EXISTS (SELECT 1 FROM game WHERE game_id = 19);
+    WHERE NOT EXISTS (SELECT 1 FROM game WHERE title = 'Grand Theft Auto V');
