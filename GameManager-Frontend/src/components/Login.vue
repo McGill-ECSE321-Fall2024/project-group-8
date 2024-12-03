@@ -303,8 +303,24 @@ export default {
   max-width: 600px; /* Wider card for the registration form */
 }
 
+.divider span {
+    color:black;
+    font-weight:bold;
+}
+
 .form-container {
   position: relative;
+}
+
+label {
+  color: black; /* Ensures all labels are black */
+  font-weight: bold; /* Optional: makes labels bold */
+}
+
+.logo-section h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color:black;
 }
 
 .back-button {
