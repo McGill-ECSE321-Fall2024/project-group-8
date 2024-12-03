@@ -40,6 +40,15 @@
           </option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="image-url">Image URL</label>
+        <input
+          type="text"
+          id="image-url"
+          placeholder="Enter game image URL"
+          v-model="newGame.imageUrl"
+        />
+      </div>
       <div class="button-group">
         <button type="submit" class="btn btn-primary" :disabled="!isGameValid()">Create Game</button>
         <button type="button" class="btn btn-secondary" @click="clearInputs">Clear</button>
@@ -68,6 +77,7 @@ export default {
         gameStatus: "PendingApproval",
         requestStatus: "PendingApproval",
         categoryId: "",
+        imageUrl: "",
       },
     };
   },
@@ -104,6 +114,7 @@ export default {
         gameStatus: "PendingApproval",
         requestStatus: "PendingApproval",
         categoryId: "",
+        imageUrl: "",
       };
     },
     isGameValid() {
@@ -113,7 +124,8 @@ export default {
           this.newGame.genre &&
           this.newGame.price > 0 &&
           this.newGame.stock >= 0 &&
-          this.newGame.categoryId
+          this.newGame.categoryId &&
+          this.newGame.imageUrl
       );
     },
   },

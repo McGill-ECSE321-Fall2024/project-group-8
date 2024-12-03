@@ -43,7 +43,8 @@ public class GameController {
                 gameRequestDto.getStock(),
                 gameRequestDto.getGameStatus(),
                 gameRequestDto.getRequestStatus(),
-                gameRequestDto.getCategoryId() // Use the provided category ID
+                gameRequestDto.getCategoryId(), // Use the provided category ID
+                gameRequestDto.getImageUrl()
         );
 
         GameDto createdGameDto = new GameDto(createdGame);
@@ -64,7 +65,8 @@ public class GameController {
                 gameRequestDto.getStock(),
                 gameRequestDto.getGameStatus(),
                 gameRequestDto.getRequestStatus(),
-                gameRequestDto.getCategoryId()  // Pass categoryId instead of the Category object
+                gameRequestDto.getCategoryId(),  // Pass categoryId instead of the Category object
+                gameRequestDto.getImageUrl()
         );
         return new GameDto(updatedGame);
     }
@@ -178,7 +180,8 @@ public class GameController {
                 gameRequestDto.getStock(),
                 Game.GameStatus.Available,
                 Game.RequestStatus.Approved,
-                gameRequestDto.getCategoryId()
+                gameRequestDto.getCategoryId(),
+                gameRequestDto.getImageUrl()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(new GameDto(createdGame));
     }

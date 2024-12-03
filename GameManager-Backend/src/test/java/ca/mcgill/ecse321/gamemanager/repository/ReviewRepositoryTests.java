@@ -44,9 +44,13 @@ public class ReviewRepositoryTests {
         Category category = new Category("FPS","First Person Shooting Game");
         // save Category
         category = categoryRepository.save(category);
+        String imageUrl = "https://example.com/test-game-image.png";
 
         // Initialize Game
-        Game game = new Game("Test Game", "A great game", "genre", 59.99, 3, Game.GameStatus.Available,Game.RequestStatus.Approved,category);
+        Game game = new Game("Test Game", "A great game", "genre", 59.99, 3, Game.GameStatus.Available,Game.RequestStatus.Approved,category, imageUrl);
+
+        game.setImageUrl(imageUrl); 
+        
         // Save Game
         game = gameRepository.save(game);
 

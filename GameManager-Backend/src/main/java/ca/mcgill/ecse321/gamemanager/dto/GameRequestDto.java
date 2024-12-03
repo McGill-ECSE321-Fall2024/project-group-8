@@ -29,10 +29,12 @@ public class GameRequestDto {
     @NotBlank(message = "Category description is required.")
     private String categoryDescription;
 
+    private String imageUrl;
+
     // Constructor with category name and description
     public GameRequestDto(String title, String description, String genre, double price, int stock,
                           Game.GameStatus gameStatus, Game.RequestStatus requestStatus, int categoryId,
-                          String categoryName, String categoryDescription) {
+                          String categoryName, String categoryDescription, String imageUrl) {
         this.title = title;
         this.description = description;
         this.genre = genre;
@@ -43,6 +45,7 @@ public class GameRequestDto {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and setters
@@ -63,4 +66,6 @@ public class GameRequestDto {
 
     public String getCategoryDescription() { return categoryDescription; }
     public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

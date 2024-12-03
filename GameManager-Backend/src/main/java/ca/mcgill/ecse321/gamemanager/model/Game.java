@@ -31,6 +31,7 @@ public class Game
   private String genre;
   private double price;
   private int stock;
+  private String imageUrl;
   //@Enumerated(EnumType.STRING)
   private GameStatus gameStatus;
   //@Enumerated(EnumType.STRING)
@@ -54,8 +55,7 @@ public class Game
   public Game() {
   }
   
-  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, GameStatus aGameStatus, RequestStatus aRequestStatus, Category aCategory)
-  {
+  public Game(String aTitle, String aDescription, String aGenre, double aPrice, int aStock, GameStatus aGameStatus, RequestStatus aRequestStatus, Category aCategory, String aImageUrl) {
     title = aTitle;
     description = aDescription;
     genre = aGenre;
@@ -63,10 +63,10 @@ public class Game
     stock = aStock;
     gameStatus = aGameStatus;
     requestStatus = aRequestStatus;
+    imageUrl = aImageUrl; // Initialize the imageUrl
     popularity = 0;
     averageRating = 0.0;
-    if (!setCategory(aCategory))
-    {
+    if (!setCategory(aCategory)) {
       throw new RuntimeException("Unable to create Game due to aCategory. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
@@ -153,6 +153,11 @@ public class Game
     return wasSet;
   }
 
+  public boolean setImageUrl(String aImageUrl) {
+    imageUrl = aImageUrl;
+    return true;
+  }
+
   public int getGameId()
   {
     return gameId;
@@ -191,6 +196,10 @@ public class Game
   public RequestStatus getRequestStatus()
   {
     return requestStatus;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
   }
 
   public int getPopularity() {
@@ -260,7 +269,8 @@ public class Game
             "price" + ":" + getPrice() + "," +
             "stock" + ":" + getStock() + "," +
             "popularity" + ":" + getPopularity() + "," +
-            "averageRating" + ":" + getAverageRating() + "]" + 
+            "averageRating" + ":" + getAverageRating() + "," +
+            "imageUrl" + ":" + getImageUrl() + "]" + 
             System.getProperties().getProperty("line.separator") +
             "  " + "gameStatus" + "=" + (getGameStatus() != null ? getGameStatus() : "null") + 
             System.getProperties().getProperty("line.separator") +
@@ -268,6 +278,7 @@ public class Game
             System.getProperties().getProperty("line.separator") +
             "  " + "category = " + (getCategory() != null ? Integer.toHexString(System.identityHashCode(getCategory())) : "null");
   }
+
   @Override
   public boolean equals(Object other){
     if (!(other instanceof Game)) {
@@ -285,7 +296,8 @@ public class Game
             && this.getCategory() == that.getCategory()
             && this.getRequestStatus() == that.getRequestStatus()
             && this.getGameStatus() == that.getGameStatus()
-            && this.getCategory().equals(that.getCategory());
+            && this.getCategory().equals(that.getCategory())
+            && this.getImageUrl().equals(that.getImageUrl());
 
   }
 

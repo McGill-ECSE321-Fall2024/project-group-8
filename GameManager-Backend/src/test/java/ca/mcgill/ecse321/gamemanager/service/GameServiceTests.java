@@ -43,6 +43,7 @@ public class GameServiceTests {
         String genre = "Adventure";
         double price = 29.99;
         int stock = 10;
+        String imageUrl = "https://example.com/game-image.png";
         Game.GameStatus gameStatus = Game.GameStatus.Available;
         Game.RequestStatus requestStatus = Game.RequestStatus.Approved;
 
@@ -57,11 +58,12 @@ public class GameServiceTests {
         when(categoryRepository.findCategoryByCategoryId(categoryId)).thenReturn(category);
 
         // Mock the Game save operation
-        Game game = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
+        Game game = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category, imageUrl);
+        game.setImageUrl(imageUrl);
         when(gameRepository.save(any(Game.class))).thenReturn(game);
 
         // Act
-        Game createdGame = gameService.createGame(title, description, genre, price, stock, gameStatus, requestStatus, categoryId);
+        Game createdGame = gameService.createGame(title, description, genre, price, stock, gameStatus, requestStatus, categoryId, imageUrl);
 
         // Assert
         assertNotNull(createdGame);
@@ -70,6 +72,7 @@ public class GameServiceTests {
         assertEquals(genre, createdGame.getGenre());
         assertEquals(price, createdGame.getPrice());
         assertEquals(stock, createdGame.getStock());
+        assertEquals(imageUrl, createdGame.getImageUrl()); 
         assertEquals(gameStatus, createdGame.getGameStatus());
         assertEquals(requestStatus, createdGame.getRequestStatus());
         assertEquals(category, createdGame.getCategory());
@@ -83,7 +86,9 @@ public class GameServiceTests {
     public void testFindGameById_ValidId() {
         // Set up
         int gameId = 1;
-        Game game = new Game("Test Game", "Description", "Genre", 20.0, 5, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"));
+        String imageUrl = "https://example.com/game-image.png";
+        Game game = new Game("Test Game", "Description", "Genre", 20.0, 5, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"), imageUrl);
+        game.setImageUrl(imageUrl);
         when(gameRepository.findByGameId(gameId)).thenReturn(game);
 
         // Act
@@ -93,6 +98,7 @@ public class GameServiceTests {
         assertNotNull(foundGame);
         assertEquals(game.getTitle(), foundGame.getTitle());
         assertEquals(game.getDescription(), foundGame.getDescription());
+        assertEquals(imageUrl, foundGame.getImageUrl());
         verify(gameRepository, times(1)).findByGameId(gameId);
     }
 
@@ -111,8 +117,9 @@ public class GameServiceTests {
     public void testSearchGamesByKeyword() {
         // Set up
         String keyword = "Action";
-        Game game1 = new Game("Action Game 1", "Description", "Action", 20.0, 5, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"));
-        Game game2 = new Game("Action Game 2", "Another description", "Action", 30.0, 2, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"));
+        String imageUrl = "https://example.come/game-image.png";
+        Game game1 = new Game("Action Game 1", "Description", "Action", 20.0, 5, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"), imageUrl);
+        Game game2 = new Game("Action Game 2", "Another description", "Action", 30.0, 2, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"), imageUrl);
         List<Game> games = new ArrayList<>();
         games.add(game1);
         games.add(game2);
@@ -124,6 +131,8 @@ public class GameServiceTests {
         // Assert
         assertNotNull(foundGames);
         assertEquals(2, foundGames.size());
+        assertEquals(imageUrl, foundGames.get(0).getImageUrl()); // Assert imageUrl for game1
+        assertEquals(imageUrl, foundGames.get(1).getImageUrl()); // Assert imageUrl for game2
     }
 
     @Test
@@ -137,7 +146,8 @@ public class GameServiceTests {
     public void testGetGameDetails_ValidId() {
         // Set up
         int gameId = 1;
-        Game game = new Game("Test Game", "Description", "Genre", 20.0, 5, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"));
+        String imageUrl = "https://example.com/game-image.png";
+        Game game = new Game("Test Game", "Description", "Genre", 20.0, 5, Game.GameStatus.Available, Game.RequestStatus.Approved, new Category("Action", "Action-packed games"), imageUrl);
         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
 
         // Act

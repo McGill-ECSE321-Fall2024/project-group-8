@@ -69,28 +69,23 @@ public class GameService {
      * @param aGameStatus   The status of the game.
      * @param aRequestStatus The request status of the game.
      * @param aCategory     The category of the game.
+     * @param imageUrl       The URL of the game's image.
      * @return The created game.
      */
 
-    @Transactional
-    public Game createGame(String title, String description, String genre, double price, int stock,
-                           Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId) {
-        // Try to fetch the category by ID from the database
-        Category category = categoryRepository.findCategoryByCategoryId(categoryId);
-
-        // If the category doesn't exist, create and save a new one
-        if (category == null) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST,"There is no category with ID " + categoryId + ".");
-             /*
-             category = new Category(categoryName, categoryDescription);
-             category.setCategoryId(categoryId); // Ensure the ID is set if needed
-             categoryRepository.save(category);*/
-        }
-
-        // Create the Game with the associated Category
-        Game gameToCreate = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category);
-        return gameRepository.save(gameToCreate);
-    }
+     @Transactional
+     public Game createGame(String title, String description, String genre, double price, int stock,
+                            Game.GameStatus gameStatus, Game.RequestStatus requestStatus, Integer categoryId, String imageUrl) {
+         // Fetch the category by ID from the database
+         Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+         if (category == null) {
+             throw new GameManagerException(HttpStatus.BAD_REQUEST, "There is no category with ID " + categoryId + ".");
+         }
+ 
+         // Create the Game with the associated Category and imageUrl
+         Game gameToCreate = new Game(title, description, genre, price, stock, gameStatus, requestStatus, category, imageUrl);
+         return gameRepository.save(gameToCreate);
+     }
 
     /**
      * Search games by keyword or category and sort by popularity, rating, and relevance.
@@ -128,7 +123,7 @@ public class GameService {
 
     @Transactional
     public Game updateGame(int id, String title, String description, String genre, double price, int stock,
-                           Game.GameStatus gameStatus, Game.RequestStatus requestStatus, int categoryId) {
+                           Game.GameStatus gameStatus, Game.RequestStatus requestStatus, int categoryId, String imageUrl) {
         Game game = gameRepository.findByGameId(id);
         if (game == null) {
             throw new IllegalArgumentException("There is no game with ID " + id + ".");
@@ -136,6 +131,9 @@ public class GameService {
 
         // Retrieve the category using the categoryId
         Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+        if (category == null) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "There is no category with ID " + categoryId + ".");
+        }
 
         // Update the game’s attributes
         game.setTitle(title);
@@ -146,6 +144,7 @@ public class GameService {
         game.setGameStatus(gameStatus);
         game.setRequestStatus(requestStatus);
         game.setCategory(category);
+        game.setImageUrl(imageUrl); // Update the image URL
 
         return gameRepository.save(game);
     }
@@ -215,7 +214,8 @@ public class GameService {
                 game.getRequestStatus(),
                 game.getCategory() != null ? game.getCategory().getCategoryId() : 0,
                 game.getCategory() != null ? game.getCategory().getName() : null,
-                game.getCategory() != null ? game.getCategory().getDescription() : null
+                game.getCategory() != null ? game.getCategory().getDescription() : null,
+                game.getImageUrl()
         );
     }
 

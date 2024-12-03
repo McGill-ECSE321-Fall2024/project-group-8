@@ -8,6 +8,11 @@
 
     <div class = "game-list">
         <div class = "game-specific" v-for = "game in games" :key="game.gameId">
+            <img
+            :src="game.imageUrl || 'https://via.placeholder.com/150'"
+            alt="Game Image"
+            class="game-image"
+            />
             <h2> {{ game.title }} </h2>
             <p class = "genre"> Genre: {{ game.genre }} </p>
             <p class = "price"> Price: {{ game.price }} </p>
@@ -42,7 +47,10 @@ export default {
     try {
       // Fetch games when the component is created
       const response = await axiosClient.get("/api/games");
-      this.games = response.data; // Populate the games array with the response data
+      this.games = response.data.map((game) => ({
+        ...game,
+        imageUrl: game.imageUrl || "",
+      }));
     } catch (e) {
       console.error("Error fetching games:", e); // Log any errors
     }
@@ -70,12 +78,25 @@ export default {
         alert("Failed to delete game.");
       }
     },
+    addGameLocally(game) {
+      this.games.push({
+        ...game,
+        imageUrl: game.imageUrl || "https://via.placeholder.com/150", // Add default image URL
+      });
+    },
   },
 };
 
 </script>
 
 <style>
+
+.game-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
 
 .header {
   display: flex;

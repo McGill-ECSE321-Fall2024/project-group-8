@@ -40,6 +40,7 @@ public class GameIntegrationTests {
     private final String VALID_GENRE = "Adventure";
     private final double VALID_PRICE = 29.99;
     private final int VALID_STOCK = 10;
+    private final String VALID_IMAGE_URL = "https://example.com/image.png";
 
     @BeforeAll
     public void setup() {
@@ -77,7 +78,8 @@ public class GameIntegrationTests {
                 Game.RequestStatus.PendingApproval, // Request Status (match enum)
                 validCategoryId,    // Category ID
                 "Adventure",        // Category Name
-                "Adventure games"   // Category Description
+                "Adventure games",   // Category Description
+                VALID_IMAGE_URL     // Image URL
         );
 
         // Act
@@ -97,6 +99,7 @@ public class GameIntegrationTests {
         assertEquals(VALID_STOCK, createdGame.getStock());
         assertEquals(Game.GameStatus.Available, createdGame.getGameStatus());
         assertEquals(Game.RequestStatus.PendingApproval, createdGame.getRequestStatus());
+        assertEquals(VALID_IMAGE_URL, createdGame.getImageUrl());
 
         // Save the game ID for further tests
         this.validGameId = createdGame.getGameId();
@@ -119,6 +122,7 @@ public class GameIntegrationTests {
         assertNotNull(foundGame);
         assertEquals(VALID_TITLE, foundGame.getTitle());
         assertEquals(VALID_DESCRIPTION, foundGame.getDescription());
+        assertEquals(VALID_IMAGE_URL, foundGame.getImageUrl());
     }
 
     @Test
@@ -126,6 +130,7 @@ public class GameIntegrationTests {
     public void testUpdateGame() {
         // Arrange
         String url = "/api/games/" + this.validGameId;
+        String updatedImageUrl = "https://example.com/new-image.png";
         GameDto updatedRequest = new GameDto(
                 this.validGameId,
                 "Updated Game Title",
@@ -140,7 +145,8 @@ public class GameIntegrationTests {
                 Game.RequestStatus.Approved,
                 validCategoryId,
                 "Adventure",
-                "Adventure games"
+                "Adventure games",
+                updatedImageUrl 
         );
 
         // Act
@@ -162,6 +168,7 @@ public class GameIntegrationTests {
         assertEquals("RPG", updatedGame.getGenre());
         assertEquals(49.99, updatedGame.getPrice());
         assertEquals(20, updatedGame.getStock());
+        assertEquals(updatedImageUrl, updatedGame.getImageUrl());
     }
 
 

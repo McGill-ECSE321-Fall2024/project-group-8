@@ -24,6 +24,7 @@ public class GameDto {
     private int categoryId;
     private String categoryName;
     private String categoryDescription;
+    private String imageUrl; 
     private int quantity;
 
     // Default constructor
@@ -45,7 +46,8 @@ public class GameDto {
             RequestStatus requestStatus,
             int categoryId,
             String categoryName,
-            String categoryDescription
+            String categoryDescription,
+            String imageUrl
     ) {
         this.gameId = gameId;
         this.title = title;
@@ -61,6 +63,7 @@ public class GameDto {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
+        this.imageUrl = imageUrl;
     }
 
     // Constructor for Game entity
@@ -79,6 +82,7 @@ public class GameDto {
         this.categoryId = game.getCategory() != null ? game.getCategory().getCategoryId() : 0;
         this.categoryName = game.getCategory() != null ? game.getCategory().getName() : null;
         this.categoryDescription = game.getCategory() != null ? game.getCategory().getDescription() : null;
+        this.imageUrl = game.getImageUrl();
     }
 
     public GameDto(int i, String validTitle, String validDescription, String validGenre, double validPrice, int validStock, int i1, double v, Object o) {
@@ -197,6 +201,14 @@ public class GameDto {
         this.categoryDescription = categoryDescription;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public void increaseQuantity(){
         this.quantity++;
     }
@@ -224,6 +236,7 @@ public class GameDto {
                 ", categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 ", categoryDescription='" + categoryDescription + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }
