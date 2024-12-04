@@ -8,6 +8,8 @@ import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game.GameStatus;
 import ca.mcgill.ecse321.gamemanager.model.Game.RequestStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 public class GameDto {
     private int gameId;
@@ -19,7 +21,9 @@ public class GameDto {
     private int popularity;
     private double averageRating;
     private List<ReviewDto> reviews;
+    @Enumerated(EnumType.STRING)
     private GameStatus gameStatus;
+    @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
     private int categoryId;
     private String categoryName;
