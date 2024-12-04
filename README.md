@@ -65,6 +65,6 @@ The scope of this project is to create an online game website, allowing the owne
 | Cher Li       | Presentation slide, Web frontend, Integration of frontend with backend, Project report and backlog |
 | Cleo Tang     | Presentation, Web frontend, Integration of frontend with backend and Project report |
 | Nara Yun      | Presentation slide, Web frontend, Integration of frontend with backend and Project report|
-| Sijing Gu     |  |
+| Sijing Gu     | Presentation, Web frontend, Integration of frontend with backend and Project report |
 | Diane Teo     | Presentation slide, Web frontend, Integration of frontend with backend and Project report |
-| Ang Li        |  |
+| Ang Li        | Presentation, Web frontend, Integration of frontend with backend and Project report |
