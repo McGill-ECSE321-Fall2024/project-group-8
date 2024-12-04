@@ -58,3 +58,13 @@ The scope of this project is to create an online game website, allowing the owne
 | Sijing Gu     | Controller and endpoint documentation for review, DTO class, Unit testing / Service tests, Integration testing for employee, owner and reviews |
 | Diane Teo     | Controller and endpoint documentation, DTO class, Unit testing / Service tests, Integration testing |
 | Ang Li        |  Controller, DTO class,Unit testing/ Service tests, Integration testing |
+
+## Sprint 3
+| Names         | Contributions |
+| ------------- | -------------   |
+| Cher Li       |  |
+| Cleo Tang     |  |
+| Nara Yun      |  |
+| Sijing Gu     |  |
+| Diane Teo     |  |
+| Ang Li        |  |
