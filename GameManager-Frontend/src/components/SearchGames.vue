@@ -106,7 +106,7 @@
               category: this.searchCategory || null,
               sortBy: this.sortOption },
           });
-          this.games = response.data;
+          this.games = response.data.filter((game) => game.requestStatus === "Approved");
           this.searchPerformed = true;
         } catch (error) {
           console.error("Error searching games:", error);
@@ -124,7 +124,7 @@
               category: this.searchCategory,
               sortBy: this.sortOption },
           });
-          this.games = response.data;
+          this.games = response.data.filter((game) => game.requestStatus === "Approved");
           this.searchPerformed = true;
         } catch (error) {
           console.error("Error searching games:", error);
@@ -145,11 +145,7 @@
   </script>
   
   <style scoped>
-    h2 {
-    color: black; /* Set font color for headings */
-    }
-
-    h3 {
+    h2, h3, table th, table td {
     color: black; /* Set font color for headings */
     }
 

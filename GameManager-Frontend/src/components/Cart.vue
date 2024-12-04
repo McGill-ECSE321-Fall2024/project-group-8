@@ -144,11 +144,10 @@ export default {
 h1 {
   text-align: center;
   margin-bottom: 20px;
+  color:black;
 }
 
 .game-items {
-  //display: flex; /* Use flexbox only for game items */
-  //flex-wrap: wrap; /* Allow wrapping of items to the next row */
   gap: 20px; /* Add space between items */
   justify-content: flex-start; /* Align items to the left */
 }

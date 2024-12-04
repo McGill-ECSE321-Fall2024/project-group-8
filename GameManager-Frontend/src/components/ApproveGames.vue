@@ -89,6 +89,10 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+    color:black;
+}
+
 .approve-games {
   font-family: Arial, sans-serif;
   padding: 20px;
@@ -104,6 +108,7 @@ table th, table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
+  color:black;
 }
 
 table th {
