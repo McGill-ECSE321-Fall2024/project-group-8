@@ -3,10 +3,12 @@ package ca.mcgill.ecse321.gamemanager.service;
 import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
-import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
+import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 
+import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import ca.mcgill.ecse321.gamemanager.repository.PurchaseOrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepo;
     @Autowired
-    private GameRepository gameRepo;
+    private GameCopyRepository gameCopyRepo;
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepo;
 
@@ -58,19 +60,23 @@ public class CustomerService {
         return customer;
     }
     @Transactional
-    public Customer addInCart(int gameId, String email){
+    public Customer addInCart(int gameCopyId, String email){
         if (email == null || email.isEmpty()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
         }
-        Game game = gameRepo.findByGameId(gameId);
+        GameCopy game = gameCopyRepo.findGameCopyByGameCopyId(gameCopyId);
         if (game == null) {
-            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "GameCopy with id "+gameCopyId+" does not exist.");
         }
         Customer customer = customerRepo.findCustomerByEmail(email);
         if (customer == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
         }
-        customer.addInCart(game);
+        try {
+            customer.addInCart(game);
+        } catch (Exception e){
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
         return customerRepo.save(customer);
     }
     @Transactional
@@ -78,19 +84,20 @@ public class CustomerService {
         if (email == null || email.isEmpty()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
         }
-        Game game = gameRepo.findByGameId(gameId);
-        if (game == null) {
-            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
+        List<GameCopy> gameCopy = gameCopyRepo.findGameCopiesByGameId(gameId);
+        if (gameCopy == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with id "+gameId+" does not exist.");
         }
         Customer customer = customerRepo.findCustomerByEmail(email);
         if (customer == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
         }
-        customer.removeInCart(game);
+        GameCopy gameCopyRemoved = gameCopy.getLast();
+        customer.removeInCart(gameCopyRemoved);
         return customerRepo.save(customer);
     }
     @Transactional
-    public List<Game> getAllInCart(String email){
+    public List<GameCopy> getAllInCart(String email){
         if (email == null || email.isEmpty()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
         }
@@ -101,13 +108,26 @@ public class CustomerService {
         return customer.getInCart();
     }
 
+    @Transactional
+    public Customer clearCart(String email){
+        if (email == null || email.isEmpty()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid user email.");
+        }
+        Customer customer = customerRepo.findCustomerByEmail(email);
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, "Customer with this email does not exist.");
+        }
+        customer.clearCart();
+        return customerRepo.save(customer);
+    }
+
 
     @Transactional
     public Customer addInWishlist(int gameId, String email){
         if (email == null || email.isEmpty()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
         }
-        Game game = gameRepo.findByGameId(gameId);
+        GameCopy game = gameCopyRepo.findGameCopyByGameCopyId(gameId);
         if (game == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
         }
@@ -123,7 +143,7 @@ public class CustomerService {
         if (email == null || email.isEmpty()) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Email cannot be empty.");
         }
-        Game game = gameRepo.findByGameId(gameId);
+        GameCopy game = gameCopyRepo.findGameCopyByGameCopyId(gameId);
         if (game == null) {
             throw new GameManagerException(HttpStatus.NOT_FOUND, "Game with this id does not exist.");
         }
@@ -273,17 +293,17 @@ public class CustomerService {
     }
 
     @Transactional
-    public Game getInWishlist(String email, int index)
+    public GameCopy getInWishlist(String email, int index)
     {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game=customer.getInWishlist(index);
+        GameCopy game=customer.getInWishlist(index);
         return game;
     }
 
     @Transactional
-    public List<Game> getInWishlist(String email){
+    public List<GameCopy> getInWishlist(String email){
         Customer customer = customerRepo.findCustomerByEmail(email);
-        List<Game> games = customer.getInWishlist();
+        List<GameCopy> games = customer.getInWishlist();
         return games;
 
     }
@@ -301,13 +321,13 @@ public class CustomerService {
     }
 
     @Transactional
-    public Game getInCart(String email, int index){
+    public GameCopy getInCart(String email, int index){
         Customer customer = customerRepo.findCustomerByEmail(email);
         return customer.getInCart().get(index);
     }
 
     @Transactional
-    public List<Game> getInCart(String email){
+    public List<GameCopy> getInCart(String email){
         Customer customer = customerRepo.findCustomerByEmail(email);
         return customer.getInCart();
     }
@@ -344,8 +364,8 @@ public class CustomerService {
     @Transactional
     public Customer addInWishlist(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(gameId);
-        List<Game> games = customer.getInWishlist();
+        GameCopy game= gameCopyRepo.findGameCopyByGameCopyId(gameId);
+        List<GameCopy> games = customer.getInWishlist();
         games.add(game);
         return customerRepo.save(customer);
     }
@@ -353,8 +373,8 @@ public class CustomerService {
     @Transactional
     public Customer removeInWishlist(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(gameId);
-        List<Game> games = customer.getInWishlist();
+        GameCopy game= gameCopyRepo.findGameCopyByGameCopyId(gameId);
+        List<GameCopy> games = customer.getInWishlist();
         games.remove(game);
         return customerRepo.save(customer);
     }
@@ -362,16 +382,16 @@ public class CustomerService {
     @Transactional
     public Customer addInCart(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(gameId);
-        List<Game> cart = customer.getInCart();
+        GameCopy game= gameCopyRepo.findGameCopyByGameCopyId(gameId);
+        List<GameCopy> cart = customer.getInCart();
         cart.add(game);
         return customerRepo.save(customer);
     }
     @Transactional
     public Customer removeInCart(String email, int gameId) {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        Game game= gameRepo.findByGameId(gameId);
-        List<Game> cart = customer.getInCart();
+        GameCopy game= gameCopyRepo.findGameCopyByGameCopyId(gameId);
+        List<GameCopy> cart = customer.getInCart();
         cart.remove(game);
         return customerRepo.save(customer);
     }

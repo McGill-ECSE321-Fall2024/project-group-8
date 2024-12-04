@@ -24,8 +24,7 @@ public class GameDto {
     private int categoryId;
     private String categoryName;
     private String categoryDescription;
-    private String imageUrl; 
-    private int quantity;
+    private String imageUrl;
 
     // Default constructor
     public GameDto() {
@@ -207,16 +206,6 @@ public class GameDto {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public void increaseQuantity(){
-        this.quantity++;
-    }
-
-    public void decreaseQuantity(){
-        if(this.quantity>1) {
-            this.quantity--;
-        }
     }
 
     @Override

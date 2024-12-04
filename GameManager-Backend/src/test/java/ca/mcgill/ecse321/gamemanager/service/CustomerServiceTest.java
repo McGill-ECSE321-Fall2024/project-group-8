@@ -20,9 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.repository.CustomerRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 
 @SpringBootTest
+@TestPropertySource(properties = "spring.sql.init.mode=never")
 public class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepository;

@@ -50,22 +50,24 @@ export default {
       if (isOwner) {
         this.menuItems = [
           "Home",
-          "Store Information",
           "Create Game",
+          "Requests",
           "Create Category",
           "Category List",
           "Employees",
           "Search",
+          "Store Information",
           "Profile",
         ];
         this.menuItemRef = [
           "/",
-          "/store-information",
           "/create-game",
+          "/approve-games",
           "/create-category",
           "/category-list",
           "/employees",
           "/search",
+          "/store-information",
           "/profile",
         ];
       } else if (isEmployee) {

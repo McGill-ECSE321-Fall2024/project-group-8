@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.gamemanager.model.*;
 
 @SpringBootTest
+@TestPropertySource(properties = "spring.sql.init.mode=never")
 public class CustomerRepositoryTests {
     @Autowired
     private CustomerRepository customerRepository;

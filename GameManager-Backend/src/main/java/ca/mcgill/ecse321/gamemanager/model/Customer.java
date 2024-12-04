@@ -3,7 +3,6 @@
 package ca.mcgill.ecse321.gamemanager.model;
 
 import java.util.*;
-import java.sql.Date;
 import jakarta.persistence.*;
 
 // line 12 "model.ump"
@@ -30,10 +29,10 @@ public class Customer extends Person
   private List<PurchaseOrder> purchaseOrders;
   @OneToMany()
   @JoinColumn(name = "wishListOwner")
-  private List<Game> inWishlist;
+  private List<GameCopy> inWishlist;
   @OneToMany()
   @JoinColumn(name = "cartOwner")
-  private List<Game> inCart;
+  private List<GameCopy> inCart;
 
   //------------------------
   // CONSTRUCTOR
@@ -46,8 +45,8 @@ public class Customer extends Person
   {
     super(aPassword, aName, aEmail);
     purchaseOrders = new ArrayList<PurchaseOrder>();
-    inWishlist = new ArrayList<Game>();
-    inCart = new ArrayList<Game>();
+    inWishlist = new ArrayList<GameCopy>();
+    inCart = new ArrayList<GameCopy>();
   }
 
   //------------------------
@@ -84,15 +83,15 @@ public class Customer extends Person
     return index;
   }
   /* Code from template association_GetMany */
-  public Game getInWishlist(int index)
+  public GameCopy getInWishlist(int index)
   {
-    Game aInWishlist = inWishlist.get(index);
+    GameCopy aInWishlist = inWishlist.get(index);
     return aInWishlist;
   }
 
-  public List<Game> getInWishlist()
+  public List<GameCopy> getInWishlist()
   {
-    List<Game> newInWishlist = Collections.unmodifiableList(inWishlist);
+    List<GameCopy> newInWishlist = Collections.unmodifiableList(inWishlist);
     return newInWishlist;
   }
 
@@ -108,21 +107,21 @@ public class Customer extends Person
     return has;
   }
 
-  public int indexOfInWishlist(Game aInWishlist)
+  public int indexOfInWishlist(GameCopy aInWishlist)
   {
     int index = inWishlist.indexOf(aInWishlist);
     return index;
   }
   /* Code from template association_GetMany */
-  public Game getInCart(int index)
+  public GameCopy getInCart(int index)
   {
-    Game aInCart = inCart.get(index);
+    GameCopy aInCart = inCart.get(index);
     return aInCart;
   }
 
-  public List<Game> getInCart()
+  public List<GameCopy> getInCart()
   {
-    List<Game> newInCart = Collections.unmodifiableList(inCart);
+    List<GameCopy> newInCart = Collections.unmodifiableList(inCart);
     return newInCart;
   }
 
@@ -134,14 +133,20 @@ public class Customer extends Person
 
   public boolean hasInCart()
   {
-    boolean has = inCart.size() > 0;
-    return has;
+    return inCart.size() > 0;
   }
 
-  public int indexOfInCart(Game aInCart)
+  public int indexOfInCart(GameCopy aInCart)
   {
     int index = inCart.indexOf(aInCart);
     return index;
+  }
+
+  public boolean clearCart(){
+    while(!inCart.isEmpty()){
+      inCart.removeLast();
+    }
+    return inCart.isEmpty();
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPurchaseOrders()
@@ -206,7 +211,7 @@ public class Customer extends Person
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addInWishlist(Game aInWishlist)
+  public boolean addInWishlist(GameCopy aInWishlist)
   {
     boolean wasAdded = false;
     if (inWishlist.contains(aInWishlist)) { return false; }
@@ -215,7 +220,7 @@ public class Customer extends Person
     return wasAdded;
   }
 
-  public boolean removeInWishlist(Game aInWishlist)
+  public boolean removeInWishlist(GameCopy aInWishlist)
   {
     boolean wasRemoved = false;
     if (inWishlist.contains(aInWishlist))
@@ -226,7 +231,7 @@ public class Customer extends Person
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addInWishlistAt(Game aInWishlist, int index)
+  public boolean addInWishlistAt(GameCopy aInWishlist, int index)
   {
     boolean wasAdded = false;
     if(addInWishlist(aInWishlist))
@@ -240,7 +245,7 @@ public class Customer extends Person
     return wasAdded;
   }
 
-  public boolean addOrMoveInWishlistAt(Game aInWishlist, int index)
+  public boolean addOrMoveInWishlistAt(GameCopy aInWishlist, int index)
   {
     boolean wasAdded = false;
     if(inWishlist.contains(aInWishlist))
@@ -263,12 +268,12 @@ public class Customer extends Person
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addInCart(Game aInCart)
+  public boolean addInCart(GameCopy aInCart)
   {
     return inCart.add(aInCart);
   }
 
-  public boolean removeInCart(Game aInCart)
+  public boolean removeInCart(GameCopy aInCart)
   {
     boolean wasRemoved = false;
     if (inCart.contains(aInCart))
@@ -279,7 +284,7 @@ public class Customer extends Person
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addInCartAt(Game aInCart, int index)
+  public boolean addInCartAt(GameCopy aInCart, int index)
   {
     boolean wasAdded = false;
     if(addInCart(aInCart))
@@ -293,7 +298,7 @@ public class Customer extends Person
     return wasAdded;
   }
 
-  public boolean addOrMoveInCartAt(Game aInCart, int index)
+  public boolean addOrMoveInCartAt(GameCopy aInCart, int index)
   {
     boolean wasAdded = false;
     if(inCart.contains(aInCart))

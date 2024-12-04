@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gamemanager.dto;
 import ca.mcgill.ecse321.gamemanager.model.Customer;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class CustomerResponseDto {
     private String email;
     private String password;
     private List<PurchaseOrder> purchaseOrders;
-    private List<Game> inWishlist;
-    private List<Game> inCart;
+    private List<GameCopy> inWishlist;
+    private List<GameCopy> inCart;
 
     public CustomerResponseDto() {}
 
@@ -49,7 +50,7 @@ public class CustomerResponseDto {
    /* public void setPassword(String password) {this.password = password;}*/
 
     public List<PurchaseOrder> getPurchaseOrders() {return purchaseOrders;}
-    public List<Game> getInWishlist() {return inWishlist;}
-    public List<Game> getInCart() {return inCart;}
+    public List<GameCopy> getInWishlist() {return inWishlist;}
+    public List<GameCopy> getInCart() {return inCart;}
 
 }

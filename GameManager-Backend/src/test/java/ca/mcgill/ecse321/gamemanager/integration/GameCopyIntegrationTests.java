@@ -9,6 +9,7 @@ import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.repository.GameCopyRepository;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
@@ -22,6 +23,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
+@TestPropertySource(properties = "spring.sql.init.mode=never")
 public class GameCopyIntegrationTests {
     @Autowired
     private GameRepository gameRepository;
@@ -39,6 +42,12 @@ public class GameCopyIntegrationTests {
 
     @Autowired
     private TestRestTemplate client;
+    @BeforeAll
+    @AfterAll
+    public void clearDatabase() {
+        gameRepository.deleteAll();
+        gameCopyRepository.deleteAll();
+    }
 
     private final String TITLE = "MineCraft";
     private final double PRICE = 0.1;
@@ -68,8 +77,8 @@ public class GameCopyIntegrationTests {
         game.setTitle(TITLE);
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
-
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
+        System.out.println(request);
         // Act
         ResponseEntity<GameCopyResponseDto> response = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
 
@@ -98,7 +107,7 @@ public class GameCopyIntegrationTests {
         Game game = new Game();
         game.setGameId(INVALID_GAME_ID);
         GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
 
         // Act
         ResponseEntity<ErrorDto> response = client.postForEntity("/game-copy", request, ErrorDto.class);
@@ -122,7 +131,8 @@ public class GameCopyIntegrationTests {
         game.setTitle(TITLE);
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
+        int id = request.getGameId();
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
@@ -171,8 +181,7 @@ public class GameCopyIntegrationTests {
         game.setPrice(PRICE);
         game.setTitle(TITLE);
         Game savedGame = gameRepository.save(game);
-        GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
@@ -227,7 +236,7 @@ public class GameCopyIntegrationTests {
         game.setTitle(TITLE);
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();
@@ -274,7 +283,7 @@ public class GameCopyIntegrationTests {
         game.setTitle(TITLE);
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         String url = "/game-copy/" + validGameCopyId;
@@ -299,7 +308,7 @@ public class GameCopyIntegrationTests {
         game.setTitle(TITLE);
         gameRepository.save(game);
         GameDto gameDto = new GameDto(game);
-        GameCopyRequestDto request = new GameCopyRequestDto(gameDto);
+        GameCopyRequestDto request = new GameCopyRequestDto(game);
         ResponseEntity<GameCopyResponseDto> postResponse = client.postForEntity("/game-copy", request, GameCopyResponseDto.class);
         validGameCopyId = postResponse.getBody().getGameCopyId();
         validGameId = postResponse.getBody().getGameDto().getGameId();

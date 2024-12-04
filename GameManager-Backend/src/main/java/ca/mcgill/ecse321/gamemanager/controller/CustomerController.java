@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.*;
 import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +37,10 @@ public class CustomerController {
 
         return new CustomerResponseDto(updatedCustomer);
     }
-    @PutMapping("/customers/addCart/{gId}")
-    public CustomerResponseDto addCart(@PathVariable int gId, @RequestBody CustomerRequestDto customerRequestDto) {
+    @PutMapping("/customers/addCart/{gameCopyId}")
+    public CustomerResponseDto addCart(@PathVariable int gameCopyId, @RequestBody CustomerRequestDto customerRequestDto) {
         String email = customerRequestDto.getEmail();
-        Customer customer = customerService.addInCart(gId, email);
+        Customer customer = customerService.addInCart(gameCopyId, email);
         return new CustomerResponseDto(customer);
     }
     @PutMapping("/customers/removeInCart/{gId}")
@@ -49,17 +50,20 @@ public class CustomerController {
         return new CustomerResponseDto(customer);
     }
 
+    @PutMapping("/customers/clearCart")
+    public CustomerResponseDto clearCart(@RequestBody CustomerRequestDto customerRequestDto) {
+        String email = customerRequestDto.getEmail();
+        Customer customer = customerService.clearCart(email);
+        return new CustomerResponseDto(customer);
+    }
+
     @GetMapping("/customers/{email}/cartAll")
-    public List<GameDto> getAllInCart(@PathVariable String email){
-        List<Game> games = customerService.getAllInCart(email);
-        List<GameDto> gameListDtos = new ArrayList<>();
-        for (Game game : games) {
-            GameDto gameDto = new GameDto(game);
-            if (!gameListDtos.contains(gameDto)){
-                gameListDtos.add(gameDto);
-            }else {
-                gameListDtos.get(gameListDtos.indexOf(gameDto)).increaseQuantity();
-            }
+    public List<GameCopyResponseDto> getAllInCart(@PathVariable String email){
+        List<GameCopy> games = customerService.getAllInCart(email);
+        List<GameCopyResponseDto> gameListDtos = new ArrayList<>();
+        for (GameCopy game : games) {
+            GameCopyResponseDto gameDto = new GameCopyResponseDto(game);
+            gameListDtos.add(gameDto);
         }
         return gameListDtos;
     }

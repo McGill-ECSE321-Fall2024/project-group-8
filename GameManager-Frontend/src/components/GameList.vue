@@ -47,6 +47,7 @@ export default {
     try {
       // Fetch games when the component is created
       const response = await axiosClient.get("/api/games");
+      this.games = response.data.filter((game) => game.requestStatus === "Approved"); // Populate the games array with the response data
       this.games = response.data.map((game) => ({
         ...game,
         imageUrl: game.imageUrl || "",

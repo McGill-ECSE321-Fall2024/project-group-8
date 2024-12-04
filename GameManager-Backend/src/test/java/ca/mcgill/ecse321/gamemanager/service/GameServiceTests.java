@@ -22,8 +22,10 @@ import ca.mcgill.ecse321.gamemanager.model.Category;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.repository.GameRepository;
 import ca.mcgill.ecse321.gamemanager.repository.CategoryRepository;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
+@TestPropertySource(properties = "spring.sql.init.mode=never")
 public class GameServiceTests {
 
     @Mock

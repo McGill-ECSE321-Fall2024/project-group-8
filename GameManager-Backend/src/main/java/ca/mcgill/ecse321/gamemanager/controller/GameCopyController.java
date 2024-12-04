@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.GameCopyRequestDto;
 import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.service.GameCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class GameCopyController {
     @Autowired
     private GameCopyService gameCopyService;
@@ -48,7 +50,7 @@ public class GameCopyController {
     @PostMapping("/game-copy")
     @ResponseStatus(HttpStatus.CREATED)
     public GameCopyResponseDto createGameCopy(@RequestBody GameCopyRequestDto gameCopyRequestDto) {
-        GameCopy savedGameCopy = gameCopyService.createGameCopy(gameCopyRequestDto.getGame().getGameId());
+        GameCopy savedGameCopy = gameCopyService.createGameCopy(gameCopyRequestDto.getGameId());
         return new GameCopyResponseDto(savedGameCopy);
     }
 

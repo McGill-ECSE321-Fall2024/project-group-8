@@ -1,22 +1,36 @@
 <template>
   <div class="cart-page">
     <h1>My Cart</h1>
-    <div v-for="game in cart" :key="game.gameId" class="game-box">
-      <div class="game-details">
-        <h2>{{ game.title }}</h2>
-        <p>Price: ${{ game.price }}</p>
-        <div class="quantity-controls">
-          <button @click="decreaseQuantity(game)">-</button>
-          <span>{{ game.quantity }}</span>
-          <button @click="increaseQuantity(game)">+</button>
+    <!-- Game Items Container -->
+    <div class="game-items">
+      <div v-for="game in cart" :key="game.gameId" class="game-box">
+        <!-- Game Details -->
+        <div class="game-details">
+          <!-- Left Section: Title -->
+          <div class="details-left">
+            <img
+                :src="game.imageUrl || 'https://via.placeholder.com/150'"
+                alt="Game Image"
+                class="game-image"
+            />
+          </div>
+          <!-- Right Section: Price, Quantity, and Controls -->
+          <div class="details-right">
+            <h1>{{ game.title }}</h1>
+            <div class="quantity-controls">
+              <button @click="decreaseQuantity(game)">-</button>
+              <span>{{ game.quantity }}</span>
+              <button @click="increaseQuantity(game)">+</button>
+            </div>
+            <p>Total: ${{ (game.quantity * game.price).toFixed(2) }}</p>
+          </div>
         </div>
-        <p>${{ (game.quantity * game.price).toFixed(2) }}</p>
       </div>
     </div>
+    <!-- Checkout Box -->
     <div class="checkout-box">
-      <h2>Checkout</h2>
-      <p>Total Price: ${{ totalCartPrice }}</p>
       <button @click="checkout">Proceed to Checkout</button>
+      <p>Total Price: ${{ totalCartPrice }}</p>
     </div>
   </div>
 </template>
@@ -42,9 +56,20 @@ export default {
   async created() {
     try {
       this.customer = JSON.parse(sessionStorage.getItem("customer"));
-      console.log(this.customer.email);
-      await axiosClient.get(`/customers/${this.customer.email}/cartAll`) // API call to the Controller
-      .then(response => {this.cart = response.data;})
+      await axiosClient.get(`/customers/${this.customer.email}/cartAll`)
+          .then(response => {
+            console.log(response.data)
+            // Group games by ID and compute quantities
+            const gameCounts = response.data.reduce((acc, gameCopy) => {
+              if (!acc.find(g => g.gameId === gameCopy.gameDto.gameId)) {
+                acc.push({ ...gameCopy.gameDto, quantity: 1 });
+              } else {
+                acc.find(g => g.gameId === gameCopy.gameDto.gameId).quantity++;
+              }
+              return acc;
+            }, []);
+            this.cart = gameCounts;
+          });
     } catch (error) {
       console.error("Error fetching cart games:", error);
     }
@@ -57,29 +82,33 @@ export default {
   methods: {
     async increaseQuantity(game) {
       try {
-        game.quantity++;
-        const response = await axiosClient.put(`/customers/addCart/${game.gameId}`, this.customer, {
-          headers: { 'Content-Type': 'application/json'}
-        });
-        console.log(response.data)
-        return response.data;
+        const gameCopyResponse = await axiosClient.post(`/game-copy`, game);
+        console.log('GameCopy created:', gameCopyResponse.data);
+        await axiosClient.put(`/customers/addCart/${gameCopyResponse.data.gameCopyId}`, this.customer);
+        game.quantity++; // Update the local quantity
       } catch (error) {
-        console.error('Error removing item from cart:', error.response?.data || error.message);
-        throw error; // Handle or rethrow the error
+        console.error('Error increasing item quantity:', error.response?.data || error.message);
+        throw error;
       }
     },
     async decreaseQuantity(game) {
       try {
-        game.quantity--;
-        const response = await axiosClient.put(`/customers/removeInCart/${game.gameId}`, this.customer, {
-        headers: { 'Content-Type': 'application/json'}
-        })
-        console.log(response.data)
-        location.reload()
-        return response.data;
+        if (game.quantity > 1) {
+          const response = await axiosClient.put(`/customers/removeInCart/${game.gameId}`, this.customer, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+          game.quantity--; // Update the local quantity
+          return response.data;
+        } else {
+          // If quantity reaches zero, remove the game from cart
+          this.cart = this.cart.filter((item) => item.gameId !== game.gameId);
+          await axiosClient.put(`/customers/removeInCart/${game.gameId}`, this.customer, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
       } catch (error) {
-        console.error('Error removing item from cart:', error.response?.data || error.message);
-        throw error; // Handle or rethrow the error
+        console.error('Error decreasing item quantity:', error.response?.data || error.message);
+        throw error;
       }
     },
     checkout() {
@@ -87,12 +116,15 @@ export default {
       const paymentDetails = JSON.parse(localStorage.getItem("paymentDetails"));
 
       // Check if payment details exist
-      if (paymentDetails && paymentDetails.customer === this.customer.email) {
+      if (paymentDetails && paymentDetails.customer_email === this.customer.email) {
         if (this.totalCartPrice > 0) {
           alert("Proceeding to checkout with total: $" + this.totalCartPrice);
+          axiosClient.put("/customers/clearCart", this.customer);
+          window.location.reload();
         } else {
           alert("The price is zero. Please add items to your cart.");
         }
+        // localStorage.clear();
       } else {
         this.$router.push("/payment");
       }
@@ -105,35 +137,95 @@ export default {
 <style scoped>
 .cart-page {
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto; /* Center the cart page */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-items {
+  //display: flex; /* Use flexbox only for game items */
+  //flex-wrap: wrap; /* Allow wrapping of items to the next row */
+  gap: 20px; /* Add space between items */
+  justify-content: flex-start; /* Align items to the left */
 }
 
 .game-box {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  display: flex; /* Horizontal layout for the game-box */
+  flex-direction: column; /* Ensure items are aligned in a row */
+  align-items: flex-start; /* Vertically align all items in the game-box */
+  width: 100%; /* Full width for the container */
   border: 1px solid #ccc;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 20px; /* Add padding for spacing */
+  background-color: #f9f9f9;
+  margin-bottom: 20px; /* Space between rows */
+}
+
+.game-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover; /* Ensure the image scales properly */
+  border-radius: 8px;
+  margin-right: 20px; /* Space between the image and the details */
 }
 
 .game-details {
-  flex-grow: 1;
+  flex: 1; /* Allow the details section to grow */
+  display: flex; /* Use flexbox to structure the details */
+  flex-direction: row; /* Keep title and controls side-by-side */
+  align-items: center; /* Vertically align all content */
+  justify-content: space-between; /* Space between title and controls */
+}
+
+.details-left {
+  flex: 1; /* Allow the left section (title) to grow */
+}
+
+.details-left h2 {
+  font-size: 18px;
+  margin: 0; /* Remove extra margins for clean alignment */
+}
+
+.details-right {
+  display: flex; /* Use flexbox for stacking */
+  flex-direction: column; /* Stack price, quantity, and total vertically */
+  align-items: flex-start; /* Center-align content in this column */
+  justify-content: flex-start; /* Center-align vertically */
 }
 
 .quantity-controls {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
+  display: flex; /* Horizontal layout for buttons and quantity */
+  align-items: center; /* Vertically align buttons with quantity */
+  gap: 10px; /* Add spacing between buttons and quantity */
+  margin-top: 10px; /* Add spacing above controls */
 }
 
 .quantity-controls button {
-  margin: 0 5px;
   padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quantity-controls button:hover {
+  background-color: #0056b3;
+}
+
+.quantity-controls span {
+  font-size: 16px;
 }
 
 .checkout-box {
   border-top: 2px solid #ccc;
   padding-top: 20px;
   margin-top: 20px;
+  text-align: center; /* Center the checkout box */
 }
 
 .checkout-box button {
@@ -141,10 +233,13 @@ export default {
   background-color: #007bff;
   color: #fff;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .checkout-box button:hover {
   background-color: #0056b3;
 }
 </style>
+

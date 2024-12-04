@@ -21,12 +21,14 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
+@TestPropertySource(properties = "spring.sql.init.mode=never")
 public class PurchaseOrderIntegrationTests {
     @Autowired
     private TestRestTemplate client;
@@ -39,6 +41,7 @@ public class PurchaseOrderIntegrationTests {
 
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
+
 
     private int orderId;
     private final OrderStatus VALID_STATUS = OrderStatus.ShoppingCart;

@@ -45,6 +45,7 @@ export default {
         try{
           let user = sessionStorage.getItem('customer')
           await axiosClient.put(`/customers/addWishList/${game.value.gameId}`, user)
+          showNotification()
         }catch(err){
           console.error('Error adding wishlist:', err);
         }
@@ -57,8 +58,9 @@ export default {
       if(isCustomer){
         try{
           let user = sessionStorage.getItem('customer')
-          const response = await axiosClient.put(`/customers/addCart/${game.value.gameId}`, user)
-          console.log(response.data)
+          const gameCopyResponse = await axiosClient.post(`/game-copy`, game.value);
+          console.log('GameCopy created:', gameCopyResponse.data);
+          await axiosClient.put(`/customers/addCart/${gameCopyResponse.data.gameCopyId}`, user)
         }catch(err){
           console.error('Error adding cart:', err);
         }

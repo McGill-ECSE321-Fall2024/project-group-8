@@ -75,7 +75,7 @@ export default {
     return {
       customer: null, // Customer details
       paymentDetails: {
-        customer:"",
+        customer_email :"",
         name: "",
         city: "",
         cardNumber: "",
@@ -122,7 +122,8 @@ export default {
         }
 
         // Save payment details to localStorage
-        this.paymentDetails.customer = sessionStorage.getItem("email");
+        this.paymentDetails.customer_email = JSON.parse(sessionStorage.getItem("customer")).email;
+        console.log(this.paymentDetails.customer_email)
         localStorage.setItem("paymentDetails", JSON.stringify(this.paymentDetails));
         console.log("Payment details saved to localStorage.");
 

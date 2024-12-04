@@ -61,15 +61,15 @@ public class GameService {
     /**
      * Create a new game with the provided attributes and save it in the repository.
      *
-     * @param aTitle        The title of the game.
-     * @param aDescription  The description of the game.
-     * @param aGenre        The genre of the game.
-     * @param aPrice        The price of the game.
-     * @param aStock        The stock of the game.
-     * @param aGameStatus   The status of the game.
-     * @param aRequestStatus The request status of the game.
-     * @param aCategory     The category of the game.
-     * @param imageUrl       The URL of the game's image.
+     * @param title        The title of the game.
+     * @param description  The description of the game.
+     * @param genre        The genre of the game.
+     * @param price        The price of the game.
+     * @param stock        The stock of the game.
+     * @param gameStatus   The status of the game.
+     * @param requestStatus The request status of the game.
+     * @param categoryId    The category of the game.
+     * @param imageUrl      The URL of the game's image.
      * @return The created game.
      */
 
