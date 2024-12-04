@@ -22,21 +22,21 @@ The scope of this project is to create an online game website, allowing the owne
 
 | Names         | Sprint 1 roles | Sprint 2 roles | Sprint 3 roles | 
 | ------------- | -------------|-------------|-------------|
-| Cher Li       | Software Developer, Project Manager | Software Developer, Documentation Manager ||
-| Cleo Tang     | Software Developer, QA Tester | Software Developer, QA Tester ||
-| Nara Yun      | Software Developer, Documentation Manager | Software Developer, Project Manager ||
-| Sijing Gu     | Software Developer, QA Tester | Software Developer, QA Tester ||
-| Diane Teo     | Software Developer, QA Tester | Software Developer, Project Manager ||
-| Ang Li        | Software Developer, QA Tester | Software Developer, QA Tester ||
+| Cher Li       | Software Developer, Project Manager | Software Developer, Documentation Manager | Software Developer |
+| Cleo Tang     | Software Developer, QA Tester | Software Developer, QA Tester | Software Developer, Documentation Manager |
+| Nara Yun      | Software Developer, Documentation Manager | Software Developer, Project Manager | Software Developer |
+| Sijing Gu     | Software Developer, QA Tester | Software Developer, QA Tester | Software Developer |
+| Diane Teo     | Software Developer, QA Tester | Software Developer, Project Manager | Software Developer |
+| Ang Li        | Software Developer, QA Tester | Software Developer, QA Tester | Software Developer, Project Manager |
 
 | Names         | Sprint 1 efforts | Sprint 2 efforts | Sprint 3 efforts | 
 | ------------- | -------------|-------------|-------------|
-| Cher Li       | 35 | 38 ||
-| Cleo Tang     | 32 | 43 ||
-| Nara Yun      | 32 | 41 ||
-| Sijing Gu     | 35 | 44 ||
-| Diane Teo     | 38 | 44 ||
-| Ang Li        | 34 | 39 ||
+| Cher Li       | 35 | 38 | 35 |
+| Cleo Tang     | 32 | 43 | 41 |
+| Nara Yun      | 32 | 41 | 40 |
+| Sijing Gu     | 35 | 44 | 41 |
+| Diane Teo     | 38 | 44 | 35 |
+| Ang Li        | 34 | 39 | 34 |
 
 # Sprint efforts
 ## Sprint 1
@@ -62,7 +62,7 @@ The scope of this project is to create an online game website, allowing the owne
 ## Sprint 3
 | Names         | Contributions |
 | ------------- | -------------   |
-| Cher Li       |  |
+| Cher Li       | Presentation slide, Web frontend, Integration of frontend with backend, Project report and backlog |
 | Cleo Tang     |  |
 | Nara Yun      |  |
 | Sijing Gu     |  |
