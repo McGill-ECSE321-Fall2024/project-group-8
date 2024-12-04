@@ -16,6 +16,9 @@ import CreateAccount from "@/components/CreateAccountForm.vue";
 import AddRemoveGames from "@/components/AddRemoveGames.vue";
 import SearchGames from "@/components/SearchGames.vue";
 import Profile from "@/components/Profile.vue";
+import Orders from "@/components/Orders.vue";
+import Wishlist from "@/components/Wishlist.vue";
+
 const routes = [
   { path: '/approve-games',
     component: ApproveGames
@@ -121,6 +124,16 @@ const routes = [
     name: 'SearchGames',
     component: SearchGames
   },
+  {
+      path: '/orders',
+      name: 'Orders',
+      component: Orders
+    },
+  {
+        path: '/wishlist',
+        name: 'Wishlist',
+        component: Wishlist
+      },
 ];
 
 const router = createRouter({
