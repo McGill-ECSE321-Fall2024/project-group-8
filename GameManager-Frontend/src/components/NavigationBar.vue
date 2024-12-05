@@ -120,9 +120,9 @@ html {
 .rounded-navbar {
   position: fixed;
   top: 0;
-  left: 250px; /* Align to the left */
+  left: 200px; /* Align to the left */
   z-index: 1000; /* Ensures it appears above other content */
-  width: 70%;
+  width: 80%;
   display: flex;
   justify-content: center;
   background-color: #f8f9fa; /* Light gray background */

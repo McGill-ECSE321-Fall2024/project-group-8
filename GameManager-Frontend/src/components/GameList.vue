@@ -91,6 +91,14 @@ export default {
 </script>
 
 <style>
+.game-manager {
+  margin-top: 100px; /* Adjust this value to match the height of your navigation bar */
+  padding: 20px; /* Optional: Add padding for extra spacing */
+}
+
+.header {
+  z-index: 1; /* Ensure the header stays above the main content if needed */
+}
 
 .game-image {
   width: 100%;

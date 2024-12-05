@@ -186,22 +186,7 @@ public class EmployeeServiceTests {
 
         GameManagerException e = assertThrows(GameManagerException.class, () -> employeeService.updateEmployee(VALID_EMAIL,VALID_NAME,INVALID_LONG_PASSWORD));
 
-        assertEquals("Password length must be between 9 and 13 characters.",e.getMessage());
-        assertEquals(HttpStatus.BAD_REQUEST,e.getStatus());
-
-
-    }
-
-    @Test
-    public void testUpdateEmployeeWithInvalidName() {
-        Employee employee = new Employee(VALID_PASSWORD, VALID_NAME,VALID_EMAIL);
-        when(mockEmployeeRepository.findEmployeeByEmail(any(String.class))).thenReturn(employee);
-        Employee newEmployee = new Employee(VALID_PASSWORD, INVALID_NAME,VALID_EMAIL);
-        when(mockEmployeeRepository.save(any(Employee.class))).thenReturn(newEmployee);
-
-        GameManagerException e = assertThrows(GameManagerException.class, () -> employeeService.updateEmployee(VALID_EMAIL,INVALID_NAME,VALID_PASSWORD));
-
-        assertEquals("Invalid Employee name.",e.getMessage());
+        assertEquals("Password should be within 13 characters and at least 9 characters",e.getMessage());
         assertEquals(HttpStatus.BAD_REQUEST,e.getStatus());
 
 

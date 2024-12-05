@@ -18,6 +18,7 @@ import SearchGames from "@/components/SearchGames.vue";
 import Profile from "@/components/Profile.vue";
 import Orders from "@/components/Orders.vue";
 import Wishlist from "@/components/Wishlist.vue";
+import Employees from "@/components/Employees.vue";
 
 const routes = [
   { path: '/approve-games',
@@ -128,12 +129,17 @@ const routes = [
       path: '/orders',
       name: 'Orders',
       component: Orders
-    },
+  },
   {
         path: '/wishlist',
         name: 'Wishlist',
         component: Wishlist
-      },
+  },
+    {
+        path: '/employees',
+        name: 'Employees',
+        component: Employees
+    },
 ];
 
 const router = createRouter({

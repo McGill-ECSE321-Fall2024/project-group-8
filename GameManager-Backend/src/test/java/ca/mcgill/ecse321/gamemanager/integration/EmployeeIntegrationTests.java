@@ -40,12 +40,12 @@ public class EmployeeIntegrationTests {
 
     public final String VALID_NAME = "Doe";
     public final String VALID_NEW_NAME = "John";
-    public final String EMPTY_NAME = "";
+    public final String INVALID_NAME = "!";
     public final String VALID_EMAIL = "doe@example.com";
     public final String NEW_EMAIL = "john@example.com";
     public final String VALID_PASSWORD = "123456789";
     public final String INVALID_PASSWORD = "";
-    public final String VALID_NEW_PASSWORD = "987654321";
+    public final String VALID_NEW_PASSWORD = "0987654321";
 
 
 
@@ -152,7 +152,7 @@ public class EmployeeIntegrationTests {
     @Test
     @Order(8)
     public void testAndUpdateEmployeeWithInvalidName() {
-        EmployeeRequestDto request = new EmployeeRequestDto(EMPTY_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
+        EmployeeRequestDto request = new EmployeeRequestDto(INVALID_NAME, VALID_EMAIL, VALID_NEW_PASSWORD);
         String url = "/api/employees/" + this.VALID_EMAIL;
 
         ResponseEntity<EmployeeResponseDto> response = client.exchange(

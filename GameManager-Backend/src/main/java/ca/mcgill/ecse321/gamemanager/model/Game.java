@@ -27,10 +27,12 @@ public class Game
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int gameId;
   private String title;
+  @Column(length = 500)
   private String description;
   private String genre;
   private double price;
   private int stock;
+  @Column(length = 500)
   private String imageUrl;
   //@Enumerated(EnumType.STRING)
   private GameStatus gameStatus;

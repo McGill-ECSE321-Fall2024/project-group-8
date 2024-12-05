@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class EmployeeService {
@@ -87,16 +88,19 @@ public class EmployeeService {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Employee with this email does not exist.");
         }
 
-        if (newName == null || newName.isBlank()) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Invalid Employee name.");
+        String regex = "^(?!.*[-_]{2})[a-zA-Z0-9](?![-_])[a-zA-Z0-9-_]{1,18}[a-zA-Z0-9]$";
+        Pattern pattern = Pattern.compile(regex);
+        if (newName != null && !newName.isBlank() && pattern.matcher(newName).matches()) {
+            employee.setName(newName);
+        } else if (newName != null && !newName.isBlank()) {
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "New name contains illegal characters");
         }
-        employee.setName(newName);
 
-        if(newPassword == null || newPassword.length() < 9 || newPassword.length() > 13) {
-            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password length must be between 9 and 13 characters.");
+        if(newPassword != null && newPassword.length() > 9 && newPassword.length() < 13) {
+            employee.setPassword(newPassword);
+        } else if (newPassword != null){
+            throw new GameManagerException(HttpStatus.BAD_REQUEST, "Password should be within 13 characters and at least 9 characters");
         }
-        employee.setPassword(newPassword);
-
 
         return employeeRepo.save(employee);
     }

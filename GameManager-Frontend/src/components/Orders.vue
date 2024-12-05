@@ -10,6 +10,23 @@
       </div>
     </div>
     <p v-else class="no-orders">No orders available.</p>
+
+    <!-- Order Detail Modal -->
+    <div v-if="selectedOrder" class="modal">
+      <div class="modal-content">
+        <h2>Order Detail</h2>
+        <p><strong>Order ID:</strong> {{ selectedOrder.orderId }}</p>
+        <p><strong>Price:</strong> ${{ selectedOrder.price.toFixed(2) }}</p>
+        <p><strong>Date:</strong> {{ formatDate(selectedOrder.date) }}</p>
+        <p><strong>Items:</strong></p>
+        <ul>
+          <li v-for="item in selectedOrder.items" :key="item.id">
+            {{ item.name }} - ${{ item.price.toFixed(2) }} (x{{ item.quantity }})
+          </li>
+        </ul>
+        <button class="close-modal" @click="closeModal">Close</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,14 +47,13 @@ export default {
         password: "",
       },
       orders: [], // Array to store fetched orders
+      selectedOrder: null, // The selected order to display in the modal
     };
   },
   async created() {
     this.customer = JSON.parse(sessionStorage.getItem("customer"));
-    console.log(this.customer.email);
     try {
       const response = await axiosClient.get(`/customers/getAllOrders/${this.customer.email}`);
-      console.log("fetching data: ", response.data);
       this.orders = response.data;
     } catch (e) {
       console.error("Error getting the orders:", e.response?.data || e.message);
@@ -51,8 +67,11 @@ export default {
     },
     // Handle "View Details" button click
     viewOrderDetails(order) {
-      alert(`Viewing details for Order #${order.orderId}`);
-      // Logic to navigate to or display order details can be added here
+      this.selectedOrder = order;
+    },
+    // Close the modal
+    closeModal() {
+      this.selectedOrder = null;
     },
   },
 };
@@ -138,4 +157,41 @@ export default {
   color: #888;
   margin-top: 20px;
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  text-align: left;
+}
+
+.modal-content .close-modal {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-content .close-modal:hover {
+  background-color: #d32f2f;
+}
+
 </style>
