@@ -8,7 +8,7 @@ public class GameCopyResponseDto {
     private GameDto gameDto;
 
     @SuppressWarnings("unused")
-    private GameCopyResponseDto(){}
+    public GameCopyResponseDto(){}
 
     public GameCopyResponseDto(GameCopy gameCopy) {
         this.gameCopyId = gameCopy.getGameCopyId();

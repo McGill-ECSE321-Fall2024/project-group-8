@@ -1,9 +1,12 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
 import ca.mcgill.ecse321.gamemanager.dto.*;
+import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.Game;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
+import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.gamemanager.model.Customer;
@@ -79,6 +82,20 @@ public class CustomerController {
         String email = customerRequestDto.getEmail();
         Customer customer = customerService.addInWishlist(gId, email);
         return new CustomerResponseDto(customer);
+    }
+
+    @GetMapping("/customers/getAllOrders/{email}")
+    public List<PurchaseOrderDto> getAllOrders(@PathVariable String email) {
+        List<PurchaseOrder> purchaseOrders = customerService.getAllPurchaseOrders(email);
+        List<PurchaseOrderDto> purchaseOrderDtoList = new ArrayList<>();
+        for (PurchaseOrder order : purchaseOrders) {
+            try {
+                purchaseOrderDtoList.add(new PurchaseOrderDto(order));
+            } catch (Exception error) {
+                throw new GameManagerException(HttpStatus.BAD_REQUEST, "cannot initialize purchaseOrder");
+            }
+        }
+        return purchaseOrderDtoList;
     }
 
     @PutMapping("/customers/addOrder/{OrderId}")

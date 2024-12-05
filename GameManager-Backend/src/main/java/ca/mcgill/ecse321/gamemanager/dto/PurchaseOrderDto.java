@@ -31,9 +31,11 @@ public class PurchaseOrderDto {
         this.orderStatus = purchaseOrder.getOrderStatus();
         this.price = purchaseOrder.getTotalPrice();
         this.date = purchaseOrder.getDate();
-        this.gameCopies = purchaseOrder.getGameCopies().stream()
-                .map(GameCopyResponseDto::new) // Assuming a constructor in GameCopyResponseDto
-                .collect(Collectors.toList());
+        if (purchaseOrder.getGameCopies()!=null) {
+            this.gameCopies = purchaseOrder.getGameCopies().stream()
+                    .map(GameCopyResponseDto::new) // Assuming a constructor in GameCopyResponseDto
+                    .collect(Collectors.toList());
+        }
     }
 
     // Getters and setters

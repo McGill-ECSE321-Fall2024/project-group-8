@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gamemanager.service;
 
+import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.exception.GameManagerException;
 import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
@@ -36,7 +37,7 @@ public class PurchaseOrderService {
 
     // Creating an order w/ validation
     @Transactional
-    public PurchaseOrder createOrder(OrderStatus aOrderStatus, double aTotalPrice) {
+    public PurchaseOrder createOrder(OrderStatus aOrderStatus, List<GameCopy> games, double aTotalPrice) {
         if (aTotalPrice < 0) {
             throw new GameManagerException(HttpStatus.BAD_REQUEST, "Price cannot be negative.");
         }
@@ -46,7 +47,7 @@ public class PurchaseOrderService {
         }
 
         Date now = Date.valueOf(LocalDate.now());
-        PurchaseOrder newOrder = new PurchaseOrder(aOrderStatus, aTotalPrice, now);
+        PurchaseOrder newOrder = new PurchaseOrder(aOrderStatus, games, aTotalPrice, now);
 
         return purchaseOrderRepository.save(newOrder);
     }

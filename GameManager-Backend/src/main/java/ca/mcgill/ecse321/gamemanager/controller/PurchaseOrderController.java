@@ -1,22 +1,31 @@
 package ca.mcgill.ecse321.gamemanager.controller;
 
+import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
+import ca.mcgill.ecse321.gamemanager.model.Game;
+import ca.mcgill.ecse321.gamemanager.model.GameCopy;
 import ca.mcgill.ecse321.gamemanager.model.PurchaseOrder;
+import ca.mcgill.ecse321.gamemanager.service.GameCopyService;
+import ca.mcgill.ecse321.gamemanager.service.GameService;
 import ca.mcgill.ecse321.gamemanager.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/orders")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PurchaseOrderController {
 
     @Autowired
     private PurchaseOrderService orderService;
+    @Autowired
+    private GameCopyService gameCopyService;
 
     // Get all orders
     @GetMapping
@@ -38,8 +47,13 @@ public class PurchaseOrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PurchaseOrderDto createOrder(@RequestBody PurchaseOrderRequestDto orderRequestDto) {
+        List<GameCopy> gameCopies = new ArrayList<>();
+        for (GameCopyResponseDto gameCopyResponseDto : orderRequestDto.getGames()) {
+            GameCopy gameCopy = gameCopyService.findGameCopyByGameCopyId(gameCopyResponseDto.getGameCopyId());
+            gameCopies.add(gameCopy);
+        }
         PurchaseOrder createdOrder =
-                orderService.createOrder(orderRequestDto.getOrderStatus(), orderRequestDto.getPrice());
+                orderService.createOrder(orderRequestDto.getOrderStatus(), gameCopies, orderRequestDto.getPrice());
         return convertToDto(createdOrder);
     }
 
@@ -73,6 +87,6 @@ public class PurchaseOrderController {
     }
 
     private PurchaseOrderDto convertToDto(PurchaseOrder order) {
-        return new PurchaseOrderDto(order.getOrderId(), order.getOrderStatus(), order.getTotalPrice(), order.getDate());
+        return new PurchaseOrderDto(order);
     }
 }

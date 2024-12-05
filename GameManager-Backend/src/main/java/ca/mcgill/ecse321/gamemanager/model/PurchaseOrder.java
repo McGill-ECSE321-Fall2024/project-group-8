@@ -49,6 +49,14 @@ public class PurchaseOrder
     gameCopies = new ArrayList<GameCopy>();
   }
 
+  public PurchaseOrder(OrderStatus aOrderStatus, List<GameCopy> games, double aTotalPrice, Date aDate)
+  {
+    orderStatus = aOrderStatus;
+    totalPrice = aTotalPrice;
+    date = aDate;
+    gameCopies = games;
+  }
+
   //------------------------
   // INTERFACE
   //------------------------

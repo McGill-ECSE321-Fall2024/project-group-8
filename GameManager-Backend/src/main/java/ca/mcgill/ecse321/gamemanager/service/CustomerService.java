@@ -263,11 +263,13 @@ public class CustomerService {
     }
 
     @Transactional
-    public List<PurchaseOrder> getPurchaseOrders(String email)
+    public List<PurchaseOrder> getAllPurchaseOrders(String email)
     {
         Customer customer = customerRepo.findCustomerByEmail(email);
-        List<PurchaseOrder> PurchaseOrders = customer.getPurchaseOrders();
-        return PurchaseOrders;
+        if (customer == null) {
+            throw new GameManagerException(HttpStatus.NOT_FOUND, String.format("Customer with email %s not found", email));
+        }
+        return customer.getPurchaseOrders();
     }
 
     @Transactional

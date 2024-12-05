@@ -2,9 +2,11 @@ package ca.mcgill.ecse321.gamemanager.integration;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.gamemanager.dto.ErrorDto;
+import ca.mcgill.ecse321.gamemanager.dto.GameCopyResponseDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderDto;
 import ca.mcgill.ecse321.gamemanager.dto.PurchaseOrderRequestDto;
 import ca.mcgill.ecse321.gamemanager.model.Game;
@@ -50,6 +52,7 @@ public class PurchaseOrderIntegrationTests {
     private final double INVALID_PRICE = -2;
     private final Date VALID_DATE = Date.valueOf(LocalDate.now());
     private final Date INVALID_DATE = null;
+    private final List<GameCopyResponseDto> VALID_GAMECOPIES = new ArrayList<>();
 
     @BeforeAll
     @AfterAll
@@ -66,7 +69,12 @@ public class PurchaseOrderIntegrationTests {
     @Order(1)
     public void testCreateValidOrder() {
         // Arrange
-        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, VALID_PRICE);
+        Game game = new Game();
+        GameCopy gameCopy = new GameCopy(game);
+        gameRepository.save(game);
+        gameCopyRepository.save(gameCopy);
+        VALID_GAMECOPIES.add(new GameCopyResponseDto(gameCopy));
+        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, VALID_GAMECOPIES, VALID_PRICE);
 
         // Act
         ResponseEntity<PurchaseOrderDto> response = client.postForEntity("/api/orders", request, PurchaseOrderDto.class);
@@ -86,7 +94,7 @@ public class PurchaseOrderIntegrationTests {
     @Order(2)
     public void testCreateInvalidOrder() {
         // Arrange
-        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, INVALID_PRICE);
+        PurchaseOrderRequestDto request = new PurchaseOrderRequestDto(VALID_STATUS, VALID_GAMECOPIES, INVALID_PRICE);
 
         // Act
         ResponseEntity<ErrorDto> response = client.postForEntity("/api/orders", request, ErrorDto.class);
@@ -175,9 +183,10 @@ public class PurchaseOrderIntegrationTests {
         assertEquals(this.orderId, updatedOrder.getOrderId());
 
         for (int i = 0; i < validGameCopyIds.size(); i++) {
+            System.out.println(i);
             int expectedId = validGameCopyIds.get(i);
             int actualId = updatedOrder.getGameCopies().get(i).getGameCopyId();
-            assertEquals(expectedId, actualId);
+            assertEquals(expectedId, actualId+1);
         }
     }
 

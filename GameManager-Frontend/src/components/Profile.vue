@@ -14,7 +14,6 @@
       </div>
       <div class="info-row">
         <label for="new-username">Updated Username:</label>
-        <span>{{ newUsername }}</span>
         <input type="text" placeholder="newUserName" v-model="newUsername" />
         <button @click="updateUsername">Update Username</button>
       </div>

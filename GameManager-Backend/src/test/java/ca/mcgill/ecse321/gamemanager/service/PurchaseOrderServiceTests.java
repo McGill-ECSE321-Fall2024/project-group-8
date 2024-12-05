@@ -50,7 +50,7 @@ public class PurchaseOrderServiceTests {
         when(repo.save(any(PurchaseOrder.class))).thenReturn(order);
 
         // Act
-        PurchaseOrder createdOrder = service.createOrder(status, totalPrice);
+        PurchaseOrder createdOrder = service.createOrder(status, null, totalPrice);
 
         // Assert
         assertNotNull(createdOrder);
@@ -68,7 +68,7 @@ public class PurchaseOrderServiceTests {
 
         // Act and assert
         GameManagerException exception = assertThrows(GameManagerException.class, () -> {
-            service.createOrder(status, totalPrice);
+            service.createOrder(status, null, totalPrice);
         });
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals("Price cannot be negative.", exception.getMessage());
@@ -82,7 +82,7 @@ public class PurchaseOrderServiceTests {
 
         // Act and assert
         GameManagerException exception = assertThrows(GameManagerException.class, () -> {
-            service.createOrder(status, totalPrice);
+            service.createOrder(status, null, totalPrice);
         });
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals("Status cannot be null.", exception.getMessage());

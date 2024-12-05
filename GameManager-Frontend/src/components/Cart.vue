@@ -111,7 +111,7 @@ export default {
         throw error;
       }
     },
-    checkout() {
+    async checkout() {
       // Get payment details from localStorage
       const paymentDetails = JSON.parse(localStorage.getItem("paymentDetails"));
 
@@ -119,8 +119,19 @@ export default {
       if (paymentDetails && paymentDetails.customer_email === this.customer.email) {
         if (this.totalCartPrice > 0) {
           alert("Proceeding to checkout with total: $" + this.totalCartPrice);
-          axiosClient.put("/customers/clearCart", this.customer);
-          window.location.reload();
+          const response = await axiosClient.get(`/customers/${this.customer.email}/cartAll`)
+          const purchaseOrder = {
+            orderStatus: "Bought",
+            price: this.totalCartPrice,
+            games: response.data
+          }
+          console.log("purchase Order content: ", purchaseOrder)
+          const postOrderResponse = await axiosClient.post("/api/orders", purchaseOrder)
+          console.log("order created: ",postOrderResponse.data)
+          await axiosClient.put(`/customers/addOrder/${postOrderResponse.data.orderId}`, this.customer);
+
+          await axiosClient.put("/customers/clearCart", this.customer);
+          this.$router.push("/orders")
         } else {
           alert("The price is zero. Please add items to your cart.");
         }
